@@ -1,0 +1,758 @@
+# -*- coding: utf-8 -*-
+
+#----------------------------------------------------------------------------
+# Name:         Encoder.py
+# Purpose:      Performs the encoding duties.
+#
+# Author:       Félix Medrano Sanz
+#
+# Created:      
+# RCS-ID:       $Id: Encoder.py $
+# Copyright:    (c) 2009 Félix Medrano Sanz
+# Licence:      GPL v3
+#----------------------------------------------------------------------------
+
+# The following code is based on the dpgconv script.
+# Thank you for all it's creators! See the README file for more details.
+
+import Globals
+import CustomProgressDialog
+
+import re
+import os
+import stat
+import subprocess
+import struct
+import wx
+import shutil
+import array
+import signal
+import sys
+import threading
+
+def encode_video(file):
+    "Encodes the video stream"
+    
+    # Init the progress variables
+    global progress
+    filename = os.path.basename(file)
+    abort = progress.doProgress(1, 
+        filename + ' - ' + _(u'Starting encoding process'))
+    # Abort the process if the user requests it
+    if abort:
+        raise Exception(_(u'Process aborted by the user.'))
+
+    # Get the aspect ratio if keepaspect selected
+    if Globals.video_keepaspect:
+        # RE to obtain the video aspect
+        aspectRE = re.compile ("\nID_VIDEO_ASPECT=([0-9.]*)\n")
+        # Get the video size from mplayer
+        mplayer_proc = subprocess.Popen(
+            ['mplayer','-frames','1','-vo','null','-ao','null','-identify',file], 
+            stdout=subprocess.PIPE,stderr=subprocess.STDOUT, 
+            universal_newlines=True)
+        mplayer_output = mplayer_proc.communicate()[0]
+        # Check the return process
+        if mplayer_proc.wait() != 0:
+            raise Exception(_(u'Error on mplayer')+': '+mplayer_output)
+        # In my tests, the video aspect can be shown more than once,
+        # being the later the best one. So I'll use info[-1]
+        info = aspectRE.findall(mplayer_output)
+        if info:
+            ratio = float(info[-1])
+            # Get the best size with the obtained ratio
+            Globals.video_width = 256
+            Globals.video_height = int(256.0/ratio)
+                
+    # Calculate the FPS if auto FPS set
+    if Globals.video_autofps:
+        # This gives 15fps for 4x3 aspect and 20fps for panoramic
+        Globals.video_fps = int(
+            737280/(Globals.video_width*Globals.video_height))
+        # With double pass FPS can't be lower than 24
+        if Globals.dpg_quality == 'doublepass':
+            if Globals.video_fps < 24:
+                Globals.video_fps = 24
+        # Don't allow values higher than 24
+        if Globals.video_fps > 24:
+            Globals.video_fps = 24
+    
+    # Prepare the pixel format string
+    # Does this really works for anyone? Not for me!
+    if Globals.video_pixel == 3:
+        v_pixelformat = "format=rgb24"
+    elif Globals.video_pixel == 2:
+        v_pixelformat = "format=rgb21"
+    elif Globals.video_pixel == 1:
+        v_pixelformat = "format=rgb18"
+    elif Globals.video_pixel == 0:
+        v_pixelformat = "format=rgb15"
+
+    # Options to process with extra high quality (double pass)
+    if Globals.dpg_quality == 'doublepass':
+        v_cmd = [file,'-v','-ofps',str(Globals.video_fps),'-sws','9','-vf',
+        v_pixelformat + ',' \
+        'scale='+str(Globals.video_width)+':'+str(Globals.video_height)+':::3,harddup',
+        '-nosound','-ovc','lavc','-lavcopts',
+        'vcodec=mpeg1video:vstrict=-2:mbd=2:trell:cbp:mv0:vmax_b_frames=2:' \
+        'cmp=6:subcmp=6:precmp=6:dia=4:predia=4:bidir_refine=4:' \
+        'mv0_threshold=0:last_pred=3:vbitrate='+str(Globals.video_bitrate),
+        '-o',Globals.TMP_VIDEO,'-of','rawvideo']
+        # Go to the directory where the divx2pass.log file will be stored
+        current_path = os.getcwd()
+        os.chdir(Globals.TMP_DIVX2PASS)
+        
+	# Options to process with high quality
+    elif Globals.dpg_quality == 'high':
+        v_cmd = [file,'-v','-ofps',str(Globals.video_fps),'-sws','9','-vf',
+        v_pixelformat + ',' \
+        'scale='+str(Globals.video_width)+':'+str(Globals.video_height)+':::3,harddup',
+        '-nosound','-ovc','lavc','-lavcopts',
+        'vcodec=mpeg1video:vstrict=-2:mbd=2:trell:cbp:mv0:cmp=6:subcmp=6:' \
+        'precmp=6:dia=3:predia=3:last_pred=3:vbitrate='+str(Globals.video_bitrate),
+        '-o',Globals.TMP_VIDEO,'-of','rawvideo']
+	# Options to process with low quality
+    elif Globals.dpg_quality == 'low':
+        v_cmd = [file,'-v','-ofps',str(Globals.video_fps),'-vf',
+        v_pixelformat + ',' \
+        'scale='+str(Globals.video_width)+':'+str(Globals.video_height)+',harddup',
+        '-nosound','-ovc','lavc','-lavcopts','vcodec=mpeg1video:vstrict=-2:vbitrate=' \
+        ''+str(Globals.video_bitrate),'-o',Globals.TMP_VIDEO,'-of','rawvideo']
+	# Options to process with normal quality
+    else :
+        v_cmd = [file,'-v','-ofps',str(Globals.video_fps),'-sws','9','-vf',
+        v_pixelformat + ',' \
+        'scale='+str(Globals.video_width)+':'+str(Globals.video_height)+':::3,harddup',
+        '-nosound','-ovc','lavc','-lavcopts',
+        'vcodec=mpeg1video:vstrict=-2:mbd=2:trell:cbp:mv0:cmp=2:subcmp=2:' \
+        'precmp=2:vbitrate='+str(Globals.video_bitrate),'-o',Globals.TMP_VIDEO,
+        '-of','rawvideo']
+	
+	# Include the subtitles
+	
+	# Select subtitles track from video
+    if Globals.subtitles_source == 'sid':
+        v_cmd = ['-sid',str(Globals.subtitles_track)] + v_cmd
+    # Select subtitles file
+    elif Globals.subtitles_source == 'file':
+        v_cmd = ['-sub',Globals.subtitles_file] + v_cmd
+    # Try to autoload a subtitles file
+    elif Globals.subtitles_source == 'auto':
+        basename = os.path.splitext ( file )[0]
+		# If .ass file available, use it
+        if os.path.exists ( basename + '.ass' ) and os.access(
+            basename + '.ass', os.R_OK):
+			v_cmd = ['-sub',basename + '.ass'] + v_cmd
+        # If .srt file available, use it
+        elif os.path.exists ( basename + '.srt' ) and os.access(
+            basename + '.srt', os.R_OK):
+            v_cmd = ['-sub',basename + '.srt'] + v_cmd
+        # If .sub file available, use it
+        elif os.path.exists ( basename + '.sub' ) and os.access(
+            basename + '.sub', os.R_OK):
+            v_cmd = ['-sub',basename + '.sub'] + v_cmd
+        # If .saa file available, use it
+        elif os.path.exists ( basename + '.ssa' ) and os.access(
+            basename + '.ssa', os.R_OK):
+            v_cmd = ['-sub',basename + '.ssa'] + v_cmd
+        # If none available, try to use the first subtitles track
+        else:
+            v_cmd = ['-sid','1'] + v_cmd
+	
+	# Set the encoding for subtitles
+    if Globals.subtitles_encoding:
+        v_cmd = ['-subcp',Globals.subtitles_encoding] + v_cmd
+    # Set the font for subtitles
+    if Globals.subtitles_font:
+        v_cmd = ['-font',Globals.subtitles_font] + v_cmd
+
+    # Prepare the double pass if very hith quality selected
+    v_cmd = ['mencoder'] + v_cmd
+    if Globals.dpg_quality == 'doublepass':
+        v_cmd_two = v_cmd[:]
+        v_cmd[19] += ':vpass=1:turbo:vb_strategy=2:vrc_maxrate=500:' \
+            'vrc_minrate=0:vrc_buf_size=327:intra_matrix=8,9,12,22,26,27,29,' \
+            '34,9,10,14,26,27,29,34,37,12,14,18,27,29,34,37,38,22,26,27,31,' \
+            '36,37,38,40,26,27,29,36,39,38,40,48,27,29,34,37,38,40,48,58,29,' \
+            '34,37,38,40,48,58,69,34,37,38,40,48,58,69,79:inter_matrix=16,18,' \
+            '20,22,24,26,28,30,18,20,22,24,26,28,30,32,20,22,24,26,28,30,32,' \
+            '34,22,24,26,30,32,32,34,36,24,26,28,32,34,34,36,38,26,28,30,32,' \
+            '34,36,38,40,28,30,32,34,36,38,42,42,30,32,34,36,38,40,42,44'
+        v_cmd_two[19] += ':vpass=2:vrc_maxrate=500:vrc_minrate=0:' \
+            'vrc_buf_size=327:keyint=60:intra_matrix=8,9,12,22,26,27,29,34,9,' \
+            '10,14,26,27,29,34,37,12,14,18,27,29,34,37,38,22,26,27,31,36,37,' \
+            '38,40,26,27,29,36,39,38,40,48,27,29,34,37,38,40,48,58,29,34,37,' \
+            '38,40,48,58,69,34,37,38,40,48,58,69,79:inter_matrix=16,18,20,22,' \
+            '24,26,28,30,18,20,22,24,26,28,30,32,20,22,24,26,28,30,32,34,22,' \
+            '24,26,30,32,32,34,36,24,26,28,32,34,34,36,38,26,28,30,32,34,36,' \
+            '38,40,28,30,32,34,36,38,42,42,30,32,34,36,38,40,42,44'
+
+    # Execute mencoder
+    Globals.debug('ENCODE VIDEO: ' + `v_cmd`)
+    proc = subprocess.Popen(v_cmd,stdout=subprocess.PIPE,
+        stderr=subprocess.STDOUT, universal_newlines=True)
+	# Show progress
+    progRE = re.compile ("f \((.*)%\)")
+    mencoder_output = ''
+    localProgress = 1
+    for line in proc.stdout:
+        mencoder_output += line
+        percent = progRE.search( line )
+        if percent:
+            # The size of the video progress will be 1X
+            shownProgress = int(percent.group(1))
+            diffProgress = int(percent.group(1)) - localProgress
+            localProgress = int(percent.group(1))
+            userProgress = str(shownProgress)
+            # If we are in doublepass mode, we have encoded only the half
+            if Globals.dpg_quality == 'doublepass':
+                userProgress = str(shownProgress/2)
+            abort = progress.doProgress(diffProgress, 
+                filename + ' - ' + _(u'Encoding in progress') + ': ' + 
+                userProgress + '%')
+            # Abort the process if the user requests it
+            if abort:
+                os.kill(proc.pid,signal.SIGTERM)
+                raise Exception(_(u'Process aborted by the user.'))
+            
+    # Check the return process
+    if proc.wait() != 0:
+        raise Exception(_(u'Error on mencoder')+': '+mencoder_output)
+    
+    # Execute the second pass if necessary
+    if Globals.dpg_quality == 'doublepass':
+        Globals.debug('ENCODE VIDEO: ' + `v_cmd_two`)
+        proc = subprocess.Popen(v_cmd_two,stdout=subprocess.PIPE,
+            stderr=subprocess.STDOUT, universal_newlines=True)
+        # Show progress
+        mencoder_output = ''
+        localProgress = 1
+        for line in proc.stdout:
+            mencoder_output += line
+            percent = progRE.search( line )
+            if percent:
+                # The size of the video progress will be 1X
+                shownProgress = int(percent.group(1))
+                diffProgress = int(percent.group(1)) - localProgress
+                localProgress = int(percent.group(1))
+                # Because we are in doublepass mode, we have encoded only the half
+                # But add a 50% because the 1st pass is done
+                userProgress = str(shownProgress/2 + 50)
+                abort = progress.doProgress(diffProgress, 
+                    filename + ' - ' + _(u'Encoding in progress') + ': ' + 
+                    userProgress + '%')
+                # Abort the process if the user requests it
+                if abort:
+                    os.kill(proc.pid,signal.SIGTERM)
+                    raise Exception(_(u'Process aborted by the user.'))
+            
+        # Check the return process
+        if proc.wait() != 0:
+            raise Exception(_(u'Error on mencoder')+': '+mencoder_output)
+        # Delete the divx2pass.log temporary file
+        os.chdir(current_path)
+        shutil.rmtree(Globals.TMP_DIVX2PASS, ignore_errors = True)
+
+class EncodeAudioThread(threading.Thread):
+    "Thread to encode the audio stream"
+    
+    def __init__(self, file):
+        "Constructor for EncodeAudioThread"
+        threading.Thread.__init__(self)
+        self.file = file
+        self.errorMessage = None
+        self.stop = False
+        
+    def getErrorMessage(self):
+        "Returns the error message"
+        return self.errorMessage
+    
+    def stopThread(self):
+        "Stop the run function"
+        self.stop = True
+    
+    def run(self):
+        "Running code for the tread"
+        
+        try:
+            file = self.file
+            
+            # Check if the encoding must continue
+            if self.stop:
+                raise Exception(_(u'Audio encoding stopped'))
+
+            # Configure the call to mencoder
+            a_cmd = ['mencoder',file,'-v','-of','rawaudio','-oac','lavc','-ovc','copy',
+                '-lavcopts','acodec='+Globals.audio_codec+':abitrate=' \
+                ''+str(Globals.audio_bitrate),'-o',Globals.TMP_AUDIO]
+
+            # Option to normalize the volume
+            if Globals.audio_normalize:
+                a_cmd = a_cmd + ['-af','volnorm']
+                
+            # Get the number of audio channels for video source
+            mplayer_proc = subprocess.Popen(
+                ['mplayer','-frames','0','-vo','null','-ao','null','-identify',file],
+                stdout=subprocess.PIPE,stderr=subprocess.STDOUT, 
+                universal_newlines=True)
+            mplayer_output = mplayer_proc.communicate()[0]
+            # Check the return process
+            if mplayer_proc.wait() != 0:
+                raise Exception(_(u'Error on mplayer')+': '+mplayer_output)
+            # Identify the info by searchinb the ID_AUDIO_NCH tag
+            nchanRE = re.compile ("\nID_AUDIO_NCH=([0-9]*)\n")
+            nchanSE = nchanRE.search(mplayer_output)
+            if nchanSE:
+                nchan = nchanSE.group(1)
+                # Use the same number of channels for input and output
+                # But do not use more than 2 channels
+                if not Globals.audio_mono:
+                    if nchan > 2:
+                        a_cmd = a_cmd + ['-af',
+                            'channels=2,resample='+str(Globals.audio_frequency)+':1:2']
+                    else:
+                        a_cmd = a_cmd + ['-af',
+                            'resample='+str(Globals.audio_frequency)+':1:2']
+                    # Update the audio_mono variable for the header process
+                    if nchan == 1:
+                        Globals.audio_mono = True
+                # If the force mono option is set, use only one
+                else:
+                    a_cmd = a_cmd + ['-af',
+                        'channels=1,resample='+str(Globals.audio_frequency)+':1:2']
+                        
+            # When error, include the output in the exception
+            else:
+                raise Exception(_(u'Error on mplayer')+': '+mplayer_output)
+
+            # Select the audio track
+            if not Globals.audio_autotrack:
+                a_cmd = a_cmd + ['-aid',str(Globals.audio_track)]
+
+            # Execute mencoder
+            Globals.debug('ENCODE AUDIO: ' + `a_cmd`)
+            proc = subprocess.Popen(a_cmd, stdout=subprocess.PIPE,
+                stderr=subprocess.STDOUT, universal_newlines=True)
+            # Monitor execution
+            mencoder_output = ''
+            for line in proc.stdout:
+                mencoder_output += line
+                # Check if the encoding must continue
+                if self.stop:
+                    raise Exception(_(u'Audio encoding stopped'))
+
+            # Check the return process
+            if proc.wait() != 0:
+                raise Exception(_(u'Error on mencoder')+': '+mencoder_output)
+
+        # Manage posible exceptions on the thread
+        except Exception, e:
+            self.errorMessage = unicode(e)
+    
+def mpeg_stat(file):
+    "Generate file with GOP offsets and calculate frames"
+    
+    # Increase progress
+    global progress
+    filename = os.path.basename(file)
+    abort = progress.doProgress(1, 
+        filename + ' - ' + _(u'Generating GOP offsets'))
+    # Abort the process if the user requests it
+    if abort:
+        raise Exception(_(u'Process aborted by the user.'))
+    
+    # RE to obtain the number of frames
+    framesRE = re.compile ("frames: ([0-9]*)\.")
+    # Execute the mpeg_stat process
+    stat_proc = subprocess.Popen(
+        ['mpeg_stat','-offset',Globals.TMP_STAT,Globals.TMP_VIDEO], 
+        stdout=subprocess.PIPE,stderr=subprocess.STDOUT, 
+        universal_newlines=True)
+    stat_output = stat_proc.communicate()[0]
+    # Check the return process
+    if stat_proc.wait() != 0:
+        raise Exception(_(u'Error on mpeg_stat')+': '+stat_output)
+    # Gather the frames information
+    info = framesRE.search(stat_output)
+    if info:
+        frames = info.group(1)
+        gopSize = 0
+        # Generate GOP offsets
+        # Only needed if dpg version >= 2
+        if Globals.dpg_version >= 2:
+            gop=open(Globals.TMP_GOP, 'wb')
+            stat=open(Globals.TMP_STAT, 'rb')
+            frame = 0
+            # Process every line generated by mpeg_stat
+            for line in stat:
+                sline = line.split()
+                if sline[0] == "picture" :
+                    frame += 1
+                elif sline[0] == "sequence":
+                    gopSize += 1 
+                    gop.write (struct.pack ( "<l" , frame ))
+                    # mpeg_stat shows bit offsets
+                    gop.write (struct.pack ( "<l" , int(sline[1])/8 ))
+            # Close files
+            gop.close()
+            stat.close()
+    # When error, include the output in the exception
+    else:
+        raise Exception(_(u'Error on mpeg_stat')+': '+stat_output)
+    return (int(frames), gopSize*8)
+
+def alternative_mpeg_stat(file):
+    "Alternate way to generate file with GOP offsets and calculate frames"
+    # The mpeg_stat method has been more tested and is faster
+    
+    # Increase progress
+    global progress
+    filename = os.path.basename(file)
+    abort = progress.doProgress(1, 
+        filename + ' - ' + _(u'Generating GOP offsets'))
+    # Abort the process if the user requests it
+    if abort:
+        raise Exception(_(u'Process aborted by the user.'))
+    
+    # These are the start codes used in the mpeg format
+    PICTURE_START_CODE = array.array('c','\x00\x00\x01\x00')
+    SEQ_START_CODE = array.array('c','\x00\x00\x01\xb3')    
+    # Open the files
+    mpgFile = open(Globals.TMP_VIDEO, 'rb')
+    # Only needed if dpg version >= 2
+    if Globals.dpg_version >= 2:
+        gopFile = open(Globals.TMP_GOP, 'wb')
+    # Init variables
+    numFrames = 0
+    gopSize = 0
+    tmpBytes = array.array('c')
+
+    try:
+        # Get the first 4 bytes
+        tmpBytes.fromfile(mpgFile, 4)
+        # Process the file until EOF reached
+        while True:             
+            # If picture start found, increase the number of frames
+            if tmpBytes == PICTURE_START_CODE:
+                numFrames += 1
+                # Get the next 4 bytes and continue
+                tmpBytes = array.array('c')
+                tmpBytes.fromfile(mpgFile, 4)
+            # If sequence start found, write to the GOP file
+            elif tmpBytes == SEQ_START_CODE:
+                # This is only needed for dpg version >= 2
+                if Globals.dpg_version >= 2:    
+                    gopSize += 1 
+                    offset = mpgFile.tell() - 4
+                    gopFile.write (struct.pack ( "<l" , numFrames))
+                    gopFile.write (struct.pack ( "<l" , offset)) 
+                # Get the next 4 bytes and continue   
+                tmpBytes = array.array('c')                                      
+                tmpBytes.fromfile(mpgFile, 4)
+            # If nothing found, get another byte and continue                                  
+            else:                                                               
+                tmpBytes.pop(0)                                                  
+                tmpBytes.fromfile(mpgFile, 1)
+    # No problem, we just found the EOF                                   
+    except EOFError:                                                                    
+        pass                                                                        
+
+    # Close files and exit
+    mpgFile.close()
+    # Only needed if dpg version >= 2
+    if Globals.dpg_version >= 2:
+        gopFile.close()
+    # mpeg_stat always gets one frame less than me
+    return ((numFrames-1), (gopSize*8)) 
+
+def conv_thumb(file, frames):
+    "Generate a video thumbnail"
+    
+    # Increase progress
+    global progress
+    filename = os.path.basename(file)
+    abort = progress.doProgress(1, 
+        filename + ' - ' + _(u'Generating thumbnail'))
+    # Abort the process if the user requests it
+    if abort:
+        raise Exception(_(u'Process aborted by the user.'))
+    
+    # Takes a PNG screenshot if no file given.
+    if not Globals.other_thumbnail:
+        # The 00000001.png is choosed by mplayer
+        shot_file = os.path.join(Globals.TMP_SHOT ,'00000001.png')
+        s_cmd = ['mplayer',Globals.TMP_VIDEO,'-nosound','-vo',
+            'png:outdir='+Globals.TMP_SHOT,'-frames','1','-ss',
+            # Skip 10% of the frames
+            str(int((int(frames)/Globals.video_fps)/10))]
+        # Execute mplayer to generate the shot
+        mplayer_proc = subprocess.Popen(s_cmd, stdout=subprocess.PIPE,
+          stderr=subprocess.STDOUT, universal_newlines=True)
+        mplayer_output = mplayer_proc.communicate()[0]
+        # Check the return process
+        if mplayer_proc.wait() != 0:
+            raise Exception(_(u'Error on mplayer')+': '+mplayer_output)
+        
+        # Some low quality encoded videos, have problems with the 10% skip
+        if not os.path.isfile(shot_file):
+            # Try again without ss
+            s_cmd = ['mplayer',Globals.TMP_VIDEO,'-nosound','-vo',
+            'png:outdir='+Globals.TMP_SHOT,'-frames','1']
+            # Execute mplayer
+            mplayer_proc = subprocess.Popen(s_cmd, stdout=subprocess.PIPE,
+              stderr=subprocess.STDOUT, universal_newlines=True)
+            mplayer_output = mplayer_proc.communicate()[0]
+            # Check the return process
+            if mplayer_proc.wait() != 0:
+                raise Exception(_(u'Error on mplayer')+': '+mplayer_output)
+        
+        thumbfile = shot_file
+    # If a file given, use it
+    else:
+        thumbfile = Globals.other_thumbnail
+	
+	# Open the image with wx
+    image = wx.Image(thumbfile)
+    width = image.GetWidth()
+    height = image.GetHeight()
+    # Size requested for the thumbnail
+    size = (256, 192)
+    dest_w, dest_h = size
+    
+    # Resize the image to the requested size
+    thumbim = image.Rescale(dest_w, dest_h, wx.IMAGE_QUALITY_HIGH)
+
+    # Convert the image to the thumbnail format
+    
+    # Process every pixel in the image
+    data = []
+    for i in range(dest_h):
+        row = []
+        for j in range(dest_w):
+            # Get the RGB values
+            red = thumbim.GetRed(j, i)
+            green = thumbim.GetGreen(j, i)
+            blue = thumbim.GetBlue(j, i)
+            # Recombine the pixel value in 16 bit mode
+            pixel = (( 1 << 15)
+                | ((blue >> 3) << 10)
+                | ((green >> 3) << 5)
+                | (red >> 3))
+            # Add the pixel to the current row
+            row.append(pixel)
+        # Append the row to the data
+        data.append(row)
+    # Join all the data with the desired format
+    row_fmt=('H'*dest_w)
+    thumb_data = ''.join(struct.pack(row_fmt, *row) for row in data)
+    # Write the data to a temporary file
+    thumb_file = open(Globals.TMP_THUMB, 'wb')
+    thumb_file.write(thumb_data)
+    thumb_file.close()
+    #to create a file readable by an image viewer:
+    #tga16_file = open('thumb.tga', 'wb')
+    #tga_header='\x00\x00\x02\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x01\xC0\x00\x10\x00'
+    #tga16_file.write(tga_header)
+    #tga16_file.write(thumb_data)
+    #tga16_file.close()
+
+    # Remove shot temporary file
+    if not Globals.other_thumbnail:
+        os.remove(shot_file)
+        
+def write_header(file, frames):
+    "Generate the DPG header"
+    
+    # Increase progress
+    global progress
+    filename = os.path.basename(file)
+    abort = progress.doProgress(1, 
+        filename + ' - ' + _(u'Generating header'))
+    # Abort the process if the user requests it
+    if abort:
+        raise Exception(_(u'Process aborted by the user.'))
+
+    # Calculate the start of the audio file
+    audiostart = 36
+    # DPG2 and DPG3 include also the GOP header
+    if (Globals.dpg_version == 2) or (Globals.dpg_version == 3):
+        audiostart += 12
+    # DPG4 includes also a thumbnail
+    elif Globals.dpg_version == 4:
+        audiostart += 98320
+    # Get size from audio file
+    audiosize = os.stat(Globals.TMP_AUDIO)[stat.ST_SIZE]
+    # Get size from video file
+    videosize = os.stat(Globals.TMP_VIDEO)[stat.ST_SIZE]
+    # Video starts on header + video stream
+    videostart = audiostart + audiosize
+    videoend = videostart + videosize
+    
+    # Open the temporary header file for writing
+    tmpHeader = open(Globals.TMP_HEADER, 'wb')
+    
+    # Write the DPG header
+    
+	# The header starts with 4 bytes with DPGX, being X the version
+    tmpHeader.write (struct.pack ( "4s" , "DPG" + str(Globals.dpg_version)))
+    # Four bytes for the number of frames in the video 
+    tmpHeader.write (struct.pack ( "<l" , frames))
+    # Two bytes for the frames per second that the video runs
+    tmpHeader.write (struct.pack ( ">h" , Globals.video_fps))
+    # 00 00
+    tmpHeader.write (struct.pack ( ">h" , 0))
+    # Four bytes for the audio sample rate
+    tmpHeader.write (struct.pack ( "<l" , Globals.audio_frequency))
+    # 00 00 00 00 (deprecated number of audio channels, has special values
+    #              for MP2 and OGG Vorbis audio)
+    if Globals.audio_codec == 'libgsm':
+        if Globals.audio_mono:
+            tmpHeader.write (struct.pack ( "<l" , 1))
+        else:
+            tmpHeader.write (struct.pack ( "<l" , 2))
+    elif Globals.audio_codec == 'mp2':
+        tmpHeader.write (struct.pack ( "<l" , 0))
+    elif Globals.audio_codec == 'vorbis':
+        tmpHeader.write (struct.pack ( "<l" , 3))
+    
+    # Four bytes for the start of the audio file
+    tmpHeader.write (struct.pack ( "<l" , audiostart))
+    # Four bytes for the length, in bytes, of the audio
+    tmpHeader.write (struct.pack ( "<l" , audiosize))
+    # Four bytes for the start of the video file
+    tmpHeader.write (struct.pack ( "<l" , videostart))
+    # Four bytes for the length, in bytes, of the video
+    tmpHeader.write (struct.pack ( "<l" , videosize))
+    
+    # For DPG >= 2, add the GOP file
+    # This information allows faster seeking
+    if Globals.dpg_version >= 2:
+        gopsize = os.stat(Globals.TMP_GOP)[stat.ST_SIZE]
+        tmpHeader.write (struct.pack ( "<l" , videoend ))
+        tmpHeader.write (struct.pack ( "<l" , gopsize))
+    # Add the pixel format
+    tmpHeader.write (struct.pack ( "<l" , Globals.video_pixel ))
+    # Thumbnail header for DPG4
+    if Globals.dpg_version == 4:
+        tmpHeader.write (struct.pack ( "4s" , "THM0"))
+    tmpHeader.close()
+
+def encode_files(files):
+    "Encode the given list of files"
+    # Create the temporary files
+    Globals.createTemporary()
+    # Calculate the length of the encoding process
+    # 100 video + 1 GOP + 1 Header + 1 to join everything
+    totalProgress = 103
+    # Add another 200 if we'll use double pass for video
+    if Globals.dpg_quality == 'doublepass':
+        totalProgress += 100
+    # Add one more if a video thumbnail will be generated
+    if Globals.dpg_version >= 4:
+        totalProgress += 1
+    # Init the progress dialog
+    global progress
+    progress = CustomProgressDialog.CustomProgressDialog(
+        Globals.mainPanel, len(files), totalProgress)
+    progress.Show()
+    # Disable the events on main frame
+    Globals.mainPanel.Enable(False)
+    try:
+        # Process the list of files
+        for file in files:
+            filename = os.path.basename(file)
+
+            # Start the audio encoding thread
+            encode_audio = EncodeAudioThread(file)
+            encode_audio.start()
+            
+            # Encode video
+            encode_video(file)
+            
+            # Wait for the audio encoding thread to finish
+            # But if it hasn't finished yet... something goes wrong
+            abort = progress.doProgress(1, 
+                filename + ' - ' + _(u'Finishing encoding process'))
+            # Abort the process if the user requests it
+            if abort:
+                raise Exception(_(u'Process aborted by the user.'))
+            encode_audio.join()
+            # Check the status of the thread
+            threadError = encode_audio.getErrorMessage()
+            if threadError:
+                raise Exception(threadError)
+            
+            # Generate GOP offsets
+            if Globals.which('mpeg_stat'):
+                frames, gopSize = mpeg_stat(file)
+            # If mpeg_stat not available, we'll try an alternate way
+            else:
+                Globals.debug(_(u'WARNING: mpeg_stat not found. The extraction' \
+                    u' of header offsets will be slower.'))
+                frames, gopSize = alternative_mpeg_stat(file)
+            # With dpg version >= 4, we can use thumbnails
+            if Globals.dpg_version >= 4:
+                conv_thumb(file, frames)
+            # Write the DPG header
+            write_header(file, frames)
+            # Get the output folder
+            outputDir = Globals.other_output
+            # Use the same as input by default
+            if not outputDir:
+                outputDir = os.path.dirname(file)
+            # Get the ouput full path
+            dpgnameBase = os.path.basename (os.path.splitext(file)[0]) + '.dpg'
+            dpgName = os.path.join(outputDir, dpgnameBase)
+            # Check if the file already exists and choose another
+            # We'll add a ~number at the end.
+            version = 1
+            while os.path.exists(dpgName):
+                if version == 1:
+                    dpgName = dpgName[:-4] + '~' + str(version) + '.dpg'
+                else:
+                    dpgName = dpgName[:dpgName.rfind('~')+1] + str(version) + '.dpg'
+                version += 1
+                
+            # Concatenate the video parts
+            
+            # Increase progress
+            filename = os.path.basename(file)
+            abort = progress.doProgress(1, 
+                filename + ' - ' + _(u'Writing video file'))
+            # Abort the process if the user requests it
+            if abort:
+                raise Exception(_(u'Process aborted by the user.'))
+            
+            # For dpg version 4
+            if Globals.dpg_version == 4:
+                Globals.concat(dpgName,Globals.TMP_HEADER,Globals.TMP_THUMB,
+                    Globals.TMP_AUDIO,Globals.TMP_VIDEO,Globals.TMP_GOP)
+            # For dpg version 2 and 3
+            elif (Globals.dpg_version == 2) | (Globals.dpg_version == 3):
+                Globals.concat(dpgName,Globals.TMP_HEADER,Globals.TMP_AUDIO,
+                    Globals.TMP_VIDEO,Globals.TMP_GOP)
+            # For dpg version 0 and 1
+            else:
+                Globals.concat(dpgName,Globals.TMP_HEADER,Globals.TMP_AUDIO,
+                    Globals.TMP_VIDEO)
+        # Delete the temporary files
+        Globals.clearTemporary()
+        # End the progress dialog
+        progress.Destroy()
+        # Enable the events on main frame
+        Globals.mainPanel.Enable(True)
+    except Exception, e:
+        # Delete the temporary files
+        Globals.clearTemporary()
+        # End the progress dialog
+        if progress:
+            progress.Destroy()
+        # Enable the events on main frame
+        Globals.mainPanel.Enable(True)
+        # Stop the audio encoding thread
+        if encode_audio:
+            encode_audio.stopThread()
+        # Send the exception to the FilesPanel
+        raise e
+
+
