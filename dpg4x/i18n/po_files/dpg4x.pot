@@ -1,0 +1,363 @@
+# Gettext message catalog for dpg4x.
+# Copyright (C) 2010
+# This file is distributed under the same license as the dpg4x package.
+# Félix Medrano Sanz <xukosky at yahoo.es> 2010
+#
+msgid ""
+msgstr ""
+"POT-Creation-Date: 2010-02-06 00:07+0100\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: ../../AudioPanel.py:66
+msgid "Audio Codec"
+msgstr ""
+
+#: ../../AudioPanel.py:73
+msgid "Select Audio Track"
+msgstr ""
+
+#: ../../AudioPanel.py:82
+msgid "Normalize Volume"
+msgstr ""
+
+#: ../../AudioPanel.py:85
+msgid "Audio Bitrate"
+msgstr ""
+
+#: ../../AudioPanel.py:92
+msgid "Audio Frequency"
+msgstr ""
+
+#: ../../AudioPanel.py:99
+msgid "Force Mono Channel"
+msgstr ""
+
+#: ../../AudioPanel.py:103
+msgid "Auto Audio Track"
+msgstr ""
+
+#: ../../ConfigurationManager.py:77
+msgid "Can't save user configuration:"
+msgstr ""
+
+#: ../../CustomProgressDialog.py:51
+msgid "ENCODING"
+msgstr ""
+
+#: ../../CustomProgressDialog.py:70
+msgid "Abort"
+msgstr ""
+
+#: ../../CustomProgressDialog.py:94 ../../Encoder.py:40
+msgid "Starting encoding process"
+msgstr ""
+
+#: ../../CustomProgressDialog.py:95 ../../CustomProgressDialog.py:115
+#, python-format
+msgid "Overall progress - %s files remain"
+msgstr ""
+
+#: ../../CustomProgressDialog.py:130
+msgid "Do you want to abort the encoding process?"
+msgstr ""
+
+#: ../../CustomProgressDialog.py:130
+msgid "QUESTION"
+msgstr ""
+
+#: ../../dpg4x.py:66
+#, python-format
+msgid "%s not found in PATH. Please install it."
+msgstr ""
+
+#: ../../dpg4x.py:68 ../../dpg4x.py:70 ../../FilesPanel.py:286
+#: ../../FilesPanel.py:288
+msgid "ERROR"
+msgstr ""
+
+#: ../../Encoder.py:43 ../../Encoder.py:216 ../../Encoder.py:247
+#: ../../Encoder.py:361 ../../Encoder.py:414 ../../Encoder.py:477
+#: ../../Encoder.py:572 ../../Encoder.py:688 ../../Encoder.py:724
+msgid "Process aborted by the user."
+msgstr ""
+
+#: ../../Encoder.py:57 ../../Encoder.py:301 ../../Encoder.py:326
+#: ../../Encoder.py:493 ../../Encoder.py:506
+msgid "Error on mplayer"
+msgstr ""
+
+#: ../../Encoder.py:211 ../../Encoder.py:242
+msgid "Encoding in progress"
+msgstr ""
+
+#: ../../Encoder.py:220 ../../Encoder.py:251 ../../Encoder.py:345
+msgid "Error on mencoder"
+msgstr ""
+
+#: ../../Encoder.py:282 ../../Encoder.py:342
+msgid "Audio encoding stopped"
+msgstr ""
+
+#: ../../Encoder.py:358 ../../Encoder.py:411
+msgid "Generating GOP offsets"
+msgstr ""
+
+#: ../../Encoder.py:373 ../../Encoder.py:400
+msgid "Error on mpeg_stat"
+msgstr ""
+
+#: ../../Encoder.py:474
+msgid "Generating thumbnail"
+msgstr ""
+
+#: ../../Encoder.py:569
+msgid "Generating header"
+msgstr ""
+
+#: ../../Encoder.py:675
+msgid ""
+"WARNING: mpeg_stat not found. The extraction of header offsets will be "
+"slower."
+msgstr ""
+
+#: ../../Encoder.py:685
+msgid "Finishing encoding process"
+msgstr ""
+
+#: ../../Encoder.py:721
+msgid "Writing video file"
+msgstr ""
+
+#: ../../FilesPanel.py:65
+msgid "Add File"
+msgstr ""
+
+#: ../../FilesPanel.py:68
+msgid "Delete File"
+msgstr ""
+
+#: ../../FilesPanel.py:71
+msgid "Preview"
+msgstr ""
+
+#: ../../FilesPanel.py:75
+msgid "Quality"
+msgstr ""
+
+#: ../../FilesPanel.py:78
+msgid "DPG Version"
+msgstr ""
+
+#: ../../FilesPanel.py:82
+msgid "Start Encoding"
+msgstr ""
+
+#: ../../FilesPanel.py:108
+msgid "Low"
+msgstr ""
+
+#: ../../FilesPanel.py:109
+msgid "Normal"
+msgstr ""
+
+#: ../../FilesPanel.py:110
+msgid "High"
+msgstr ""
+
+#: ../../FilesPanel.py:111
+msgid "Extra High"
+msgstr ""
+
+#: ../../FilesPanel.py:122
+msgid "Files to encode"
+msgstr ""
+
+#: ../../FilesPanel.py:149
+msgid "Select the files to be encoded"
+msgstr ""
+
+#: ../../FilesPanel.py:234
+msgid ""
+"With extra high quality, the video FPS can not be lower than 24. Raising "
+"video FPS to 24."
+msgstr ""
+
+#: ../../FilesPanel.py:236 ../../FilesPanel.py:238
+msgid "WARNING"
+msgstr ""
+
+#: ../../FilesPanel.py:264
+#, python-format
+msgid "Can not read file %s."
+msgstr ""
+
+#: ../../FilesPanel.py:268
+msgid "There are no files to process."
+msgstr ""
+
+#: ../../Globals.py:236
+msgid "WARNING: Temporary files were not properly deleted:"
+msgstr ""
+
+#: ../../MainFrame.py:94
+msgid "FILES"
+msgstr ""
+
+#: ../../MainFrame.py:99
+msgid "VIDEO"
+msgstr ""
+
+#: ../../MainFrame.py:104
+msgid "AUDIO"
+msgstr ""
+
+#: ../../MainFrame.py:109
+msgid "SUBTITLES"
+msgstr ""
+
+#: ../../MainFrame.py:114
+msgid "MISC"
+msgstr ""
+
+#: ../../OtherPanel.py:71
+msgid "Output Folder"
+msgstr ""
+
+#: ../../OtherPanel.py:77 ../../OtherPanel.py:87 ../../OtherPanel.py:97
+#: ../../SubtitlesPanel.py:95 ../../SubtitlesPanel.py:104
+msgid "Examine"
+msgstr ""
+
+#: ../../OtherPanel.py:81
+msgid "Temporary Folder"
+msgstr ""
+
+#: ../../OtherPanel.py:91
+msgid "Select Thumbnail"
+msgstr ""
+
+#: ../../OtherPanel.py:101
+msgid "The input folder will be used by default"
+msgstr ""
+
+#: ../../OtherPanel.py:105
+msgid "Thumbnails are autogenerated by default (DPG4 only)"
+msgstr ""
+
+#: ../../OtherPanel.py:128
+msgid "Select the ouput folder"
+msgstr ""
+
+#: ../../OtherPanel.py:140
+msgid "Select the temporary folder"
+msgstr ""
+
+#: ../../OtherPanel.py:152
+msgid "Select a thumbnail file"
+msgstr ""
+
+#: ../../OtherPanel.py:165
+msgid "The output folder can not be written. Please select another one."
+msgstr ""
+
+#: ../../OtherPanel.py:172
+#, python-format
+msgid ""
+"The folder %s can not be written. Please select an output folder in \"MISC\"."
+msgstr ""
+
+#: ../../OtherPanel.py:179
+msgid "The temporary folder can not be written. Please select another one."
+msgstr ""
+
+#: ../../OtherPanel.py:187
+msgid "The thumbnail file can not be readed."
+msgstr ""
+
+#: ../../OtherPanel.py:191
+msgid "The thumbnail file has an unknown format."
+msgstr ""
+
+#: ../../SubtitlesPanel.py:73
+msgid "Subtitles Source"
+msgstr ""
+
+#: ../../SubtitlesPanel.py:80
+msgid "Subtitles Track"
+msgstr ""
+
+#: ../../SubtitlesPanel.py:89
+msgid "Subtitles File"
+msgstr ""
+
+#: ../../SubtitlesPanel.py:99
+msgid "Font"
+msgstr ""
+
+#: ../../SubtitlesPanel.py:108
+msgid "Encoding"
+msgstr ""
+
+#: ../../SubtitlesPanel.py:122
+msgid "Auto"
+msgstr ""
+
+#: ../../SubtitlesPanel.py:123
+msgid "Get track from input video file"
+msgstr ""
+
+#: ../../SubtitlesPanel.py:124
+msgid "Use subtitles file"
+msgstr ""
+
+#: ../../SubtitlesPanel.py:125
+msgid "Disable subtitles"
+msgstr ""
+
+#: ../../SubtitlesPanel.py:168
+msgid "WARNING: iconv not found. Subtitles encoding option disabled."
+msgstr ""
+
+#: ../../SubtitlesPanel.py:216
+msgid "Select a subtitles file"
+msgstr ""
+
+#: ../../SubtitlesPanel.py:228
+msgid "Select the subtitles font"
+msgstr ""
+
+#: ../../SubtitlesPanel.py:247
+msgid "The subtitles file can not be readed."
+msgstr ""
+
+#: ../../VideoPanel.py:66
+msgid "Width"
+msgstr ""
+
+#: ../../VideoPanel.py:74
+msgid "Keep Aspect"
+msgstr ""
+
+#: ../../VideoPanel.py:77
+msgid "Height"
+msgstr ""
+
+#: ../../VideoPanel.py:85
+msgid "Video Bitrate"
+msgstr ""
+
+#: ../../VideoPanel.py:94
+msgid "Frames Per Second"
+msgstr ""
+
+#: ../../VideoPanel.py:101
+msgid "Auto FPS"
+msgstr ""
+
+#: ../../VideoPanel.py:104
+msgid "Pixel Format"
+msgstr ""

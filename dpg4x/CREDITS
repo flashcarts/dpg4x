@@ -1,0 +1,146 @@
+
+                        #
+ #####   #####    ####  #    #   #    #
+ #    #  #    #  #    # #    #    #  #
+ #    #  #    #  #      #######    ##
+ #    #  #####   #  ###      #     ##
+ #    #  #       #    #      #    #  #
+ #####   #        ####       #   #    #
+
+
+The first version of dpg4x was developed by me, Félix Medrano Sanz. But I am only
+the last contributor in the history of the DPG format in Linux. This history
+has evolved mainly over forums, with small contributions from a lot of great
+linuxers.
+
+I know I can't spread recognition as everyone deserves, please email me with 
+corrections.
+
+
+########################
+### GBADEV.ORG FORUM ###
+########################
+
+http://forum.gbadev.org/viewtopic.php?t=7897
+http://theli.is-a-geek.org/blog/static/dpgconv
+
+Special thanks to theli, for maintaining the dpgconv script. If you think dpg4x
+is just dpgconv + GUI, I can't tell you are wrong.
+
+I also want to give special acknowledgments to Jaja and juhees, they created
+the first DPG video in Linux.
+
+tepples
+brian33x51
+LunarCrisis
+WereWolf
+oofrab
+bugmenot!
+Firon
+LS5
+relaxed
+steveox28
+sinclair44
+HyperHacker
+jjlawren
+mobad
+Sigma83
+shadowofdarkness
+Mr. Pickesworth
+weux
+maya
+techforumz
+ninjalj
+nornagon
+Cartman!
+D_S
+NorQue
+gspawn
+
+
+############################
+### ELOTROLADO.NET FORUM ###
+############################
+
+http://www.elotrolado.net/hilo_dpgencoder-para-linux-version-0-0_587415
+
+Here the special acknowledgments goes to werewolf (maybe he is also WereWolf) for
+developing DpgEncoder, the first X app.
+
+B4HamuT
+David-Kun
+lemus
+Toz
+DNKROZ
+aiToRCiKi
+ozrocpablo
+kusanagi99
+esnaque
+rom_kurt
+DKnight
+Soed
+Mariner_I
+Ear3ndil
+xyrer
+jackjack
+
+
+##################################
+### THE DPG4X TRANSLATION TEAM ###
+##################################
+
+As you can see, dpg4x really needs more translators.
+
+Félix Medrano Sanz - English and Spanish
+María Luisa Castro Brylka - English and Spanish
+
+
+#############################
+### FUTUROSOFT ICON THEME ###
+#############################
+
+All the icons used by dpg4x, belong to the Futurosoft Icon Theme V 0.5.2.
+Included in kde-look under GPL license. Thank you to Sergio Sánchez López.
+
+http://www.futurosoft.es
+http://www.kde-look.org/content/show.php?content=50667
+
+
+###############
+### PEXPECT ###
+###############
+
+dpg4x includes code from the pexpect library, by Noah Spurrier.
+
+http://www.noah.org/wiki/Pexpect
+
+The pexpect library is great and I use it often. I have included the code because
+I just needed one function and I wanted to save on dependencies (there are too
+many already).
+
+
+#################################
+### ADITIONAL ACKNOWLEDGMENTS ###
+#################################
+
+I reserve a special mention to all the code that dpg4x uses behind the scenes.
+Without them, the dpg4x proyect would not be affordable with the current
+available resources.
+
+mplayer
+http://www.mplayerhq.hu
+
+python
+http://www.python.org
+
+wxWidgets
+http://wxwidgets.org
+
+boa-constructor
+http://boa-constructor.sourceforge.net
+
+and.. why not? GNU/Linux
+http://www.gnu.org
+http://www.kernel.org
+
+
