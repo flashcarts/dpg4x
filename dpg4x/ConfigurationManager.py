@@ -32,15 +32,20 @@ def saveConfiguration():
         __cp.add_section('GENERAL')
     __cp.set('GENERAL','dpg_version',str(Globals.dpg_version))
     __cp.set('GENERAL','dpg_quality',Globals.Encode(Globals.dpg_quality))
+    __cp.set('GENERAL','dpg_vcddevice',Globals.Encode(Globals.dpg_vcddevice))
+    __cp.set('GENERAL','dpg_dvddevice',Globals.Encode(Globals.dpg_dvddevice))
     __cp.set('GENERAL','other_output',Globals.Encode(Globals.other_output))
     __cp.set('GENERAL','other_temporary',Globals.Encode(Globals.other_temporary))
     __cp.set('GENERAL','other_thumbnail',Globals.Encode(Globals.other_thumbnail))
+    __cp.set('GENERAL','other_previewsize',str(Globals.other_previewsize))
     
     # Video options
     if not __cp.has_section('VIDEO'):
         __cp.add_section('VIDEO')
     __cp.set('VIDEO','video_keepaspect',str(Globals.video_keepaspect))
     __cp.set('VIDEO','video_width',str(Globals.video_width))
+    __cp.set('VIDEO','video_track',str(Globals.video_track))
+    __cp.set('VIDEO','video_autotrack',str(Globals.video_autotrack))
     __cp.set('VIDEO','video_height',str(Globals.video_height))
     __cp.set('VIDEO','video_bitrate',str(Globals.video_bitrate))
     __cp.set('VIDEO','video_fps',str(Globals.video_fps))
@@ -75,7 +80,7 @@ def saveConfiguration():
     # If it fails, we only show a warning (no fatal)
     except Exception, e:
         Globals.debug(_(u'Can\'t save user configuration:') + ' ' \
-            '' + unicode(e))
+            '' + e.message)
 
 def loadConfiguration():
 
@@ -88,13 +93,19 @@ def loadConfiguration():
     if __cp.has_option('GENERAL', 'dpg_version'):
         Globals.dpg_version = __cp.getint('GENERAL','dpg_version') 
     if __cp.has_option('GENERAL', 'dpg_quality'):
-        Globals.dpg_quality = Globals.Decode(__cp.get('GENERAL','dpg_quality')) 
+        Globals.dpg_quality = Globals.Decode(__cp.get('GENERAL','dpg_quality'))
+    if __cp.has_option('GENERAL', 'dpg_vcddevice'):
+        Globals.dpg_vcddevice = Globals.Decode(__cp.get('GENERAL','dpg_vcddevice')) 
+    if __cp.has_option('GENERAL', 'dpg_dvddevice'):
+        Globals.dpg_dvddevice = Globals.Decode(__cp.get('GENERAL','dpg_dvddevice')) 
     if __cp.has_option('GENERAL', 'other_output'):
         Globals.other_output = Globals.Decode(__cp.get('GENERAL','other_output'))
     if __cp.has_option('GENERAL', 'other_temporary'):
         Globals.other_temporary = Globals.Decode(__cp.get('GENERAL','other_temporary'))
     if __cp.has_option('GENERAL', 'other_thumbnail'):
         Globals.other_thumbnail = Globals.Decode(__cp.get('GENERAL','other_thumbnail'))
+    if __cp.has_option('GENERAL', 'other_previewsize'):
+        Globals.other_previewsize = __cp.getint('GENERAL','other_previewsize')
 
     # Video options
     if not __cp.has_section('VIDEO'):
@@ -105,6 +116,10 @@ def loadConfiguration():
         Globals.video_width = __cp.getint('VIDEO','video_width')
     if __cp.has_option('VIDEO', 'video_height'):
         Globals.video_height = __cp.getint('VIDEO','video_height')
+    if __cp.has_option('VIDEO', 'video_track'):
+        Globals.audio_track = __cp.getint('VIDEO','video_track')
+    if __cp.has_option('VIDEO', 'video_autotrack'):
+        Globals.audio_autotrack = __cp.getboolean('VIDEO','video_autotrack')
     if __cp.has_option('VIDEO', 'video_bitrate'):
         Globals.video_bitrate = __cp.getint('VIDEO','video_bitrate')
     if __cp.has_option('VIDEO', 'video_fps'):

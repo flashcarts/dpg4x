@@ -50,11 +50,16 @@ otherPanel = None
 # General options
 dpg_version = 4
 dpg_quality = 'normal'
+# Used to remember the last DVD/VCD device used
+dpg_vcddevice = '/dev/cdrom'
+dpg_dvddevice = '/dev/dvd'
 
 # Video options
 video_keepaspect = False
 video_width = 256
 video_height = 192
+video_track = 0
+video_autotrack = True
 video_bitrate = 288
 video_fps = 15
 video_autofps = True
@@ -66,7 +71,7 @@ video_pixel = 3
 
 # Audio options
 audio_codec = 'mp2'
-audio_track = 1
+audio_track = 0
 audio_autotrack = True
 audio_bitrate = 128
 audio_frequency = 32000
@@ -75,7 +80,7 @@ audio_mono = False
 
 # Subtitle options
 subtitles_source = 'auto'
-subtitles_track = 1
+subtitles_track = 0
 subtitles_file = ''
 subtitles_font = 'Sans'
 subtitles_encoding = sys.getfilesystemencoding()
@@ -84,6 +89,7 @@ subtitles_encoding = sys.getfilesystemencoding()
 other_output = ''
 other_temporary = '/tmp'
 other_thumbnail = ''
+other_previewsize = 10
 
 
 ###############
@@ -150,6 +156,15 @@ def concat(out,*files):
     for name in files:
         outfile.write( open(name).read() )
     outfile.close()
+    
+def fillString(string, length):
+    "Fills a string with spaces until length is reached"
+    stringAux = string
+    while len(stringAux) < length:
+        stringAux = ' ' + stringAux
+        if len(stringAux) < length:
+            stringAux = stringAux + ' '
+    return stringAux
     
 def createTemporary():
     "Create the temporary files needed to encode"
@@ -234,7 +249,8 @@ def clearTemporary():
     # Warn if there is a problem when deleting files
     except Exception, e:
         debug(_(u'WARNING: Temporary files were not properly deleted:') + '' \
-            u' ' + unicode(e))
+            u' ' + e.message)
+            
             
 # Load the configuration file
 ConfigurationManager.loadConfiguration()

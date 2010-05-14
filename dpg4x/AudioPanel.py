@@ -27,7 +27,7 @@ class AudioPanel(wx.Panel):
     def _init_coll_gridBagSizer1_Items(self, parent):
         # generated method, don't edit
 
-        parent.AddSpacer(wx.Size(20, 20), (0, 0), border=0, flag=0, span=(1, 1))
+        parent.AddSpacer(wx.Size(20, 40), (0, 0), border=0, flag=0, span=(1, 1))
         parent.AddSpacer(wx.Size(150, 20), (0, 1), border=0, flag=0, span=(1,2))
         parent.AddSpacer(wx.Size(40, 20), (0, 4), border=0, flag=0, span=(1, 1))
         parent.AddWindow(self.staticText1, (1, 1), border=0, 
@@ -70,12 +70,12 @@ class AudioPanel(wx.Panel):
               name='choice1', parent=self, style=0)
 
         self.staticText2 = wx.StaticText(id=wxID_PANEL1STATICTEXT2,
-              label=_(u'Select Audio Track')+' ', name='staticText2', 
+              label=_(u'Audio Track')+' ', name='staticText2', 
               parent=self, style=0)
 
         self.spinCtrl1 = wx.SpinCtrl(id=wxID_PANEL1SPINCTRL1, 
               initial=Globals.audio_track,
-              max=14, min=0, name='spinCtrl1', parent=self, 
+              max=191, min=0, name='spinCtrl1', parent=self, 
               style=wx.SP_ARROW_KEYS)
 
         self.checkBox1 = wx.CheckBox(id=wxID_PANEL1CHECKBOX1, 
@@ -168,6 +168,10 @@ class AudioPanel(wx.Panel):
         # Check mono if needed
         if Globals.audio_mono:
             self.checkBox2.SetValue(True)
+            
+        # Stereo is not available for DPG0
+        if (Globals.dpg_version == 0):
+            self.checkBox2.Enable(False)
         
         # Events
         wx.EVT_CHECKBOX(self.checkBox3, wxID_PANEL1CHECKBOX3, self.switchAutoTrack)

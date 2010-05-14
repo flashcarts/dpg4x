@@ -165,12 +165,18 @@ class OtherPanel(wx.Panel):
                 raise Exception(_(u'The output folder can not be written.' \
                     u' Please select another one.'))
         # If no output folder given, check the input folders
-        else:
+        elif files is not None:
             for file in files:
-                outDir = os.path.dirname(file)
-                if not (os.path.isdir(outDir) and os.access(outDir, os.W_OK)):
-                    raise Exception(_(u'The folder %s can not be written.' \
-                        u' Please select an output folder in "MISC".') % outDir)
+                # Check for DVD and VCD sources
+                if (file[:6] == 'vcd://') or (file[:6] == 'dvd://'):
+                    raise Exception(_(u'If you want to encode from DVD or VCD' \
+                        u' you need to select an output folder in "MISC".'))
+                # Check for normal files
+                else:
+                    outDir = os.path.dirname(file)
+                    if not (os.path.isdir(outDir) and os.access(outDir, os.W_OK)):
+                        raise Exception(_(u'The folder %s can not be written.' \
+                            u' Please select an output folder in "MISC".') % outDir)
             
         Globals.other_temporary = self.textCtrl2.GetValue()
         # Check the temporary folder exists and is writable

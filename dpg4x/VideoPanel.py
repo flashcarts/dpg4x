@@ -20,8 +20,9 @@ import wx
 [wxID_PANEL1, wxID_PANEL1CHECKBOX1, wxID_PANEL1CHECKBOX2, wxID_PANEL1CHOICE1, 
  wxID_PANEL1CHOICE2, wxID_PANEL1SPINCTRL1, wxID_PANEL1SPINCTRL2, 
  wxID_PANEL1SPINCTRL3, wxID_PANEL1STATICTEXT1, wxID_PANEL1STATICTEXT2, 
- wxID_PANEL1STATICTEXT3, wxID_PANEL1STATICTEXT4, wxID_PANEL1STATICTEXT5
-] = [wx.NewId() for _init_ctrls in range(13)]
+ wxID_PANEL1STATICTEXT3, wxID_PANEL1STATICTEXT4, wxID_PANEL1STATICTEXT5,
+ wxID_PANEL1STATICTEXT6, wxID_PANEL1SPINCTRL4, wxID_PANEL1CHECKBOX3
+] = [wx.NewId() for _init_ctrls in range(16)]
 
 class VideoPanel(wx.Panel):
     def _init_coll_gridBagSizer1_Items(self, parent):
@@ -37,16 +38,22 @@ class VideoPanel(wx.Panel):
               flag=wx.ALIGN_RIGHT | wx.ALIGN_CENTER_VERTICAL, span=(1, 2))
         parent.AddWindow(self.spinCtrl2, (3, 3), border=0, flag=0, span=(1, 1))
         parent.AddWindow(self.checkBox1, (3, 5), border=0, flag=0, span=(1, 1))
-        parent.AddWindow(self.staticText3, (6, 1), border=0, 
+        parent.AddWindow(self.staticText6, (6, 1), border=0, 
               flag=wx.ALIGN_RIGHT | wx.ALIGN_CENTER_VERTICAL, span=(1, 2))
-        parent.AddWindow(self.spinCtrl3, (8, 3), border=0, flag=0, span=(1, 1))
-        parent.AddWindow(self.staticText4, (8, 1), border=0, 
+        parent.AddWindow(self.spinCtrl4, (6, 3), border=0, flag=0, span=(1, 1))
+        parent.AddWindow(self.checkBox3, (6, 5), border=0, flag=0, span=(1, 1))
+        parent.AddWindow(self.staticText3, (9, 1), border=0, 
               flag=wx.ALIGN_RIGHT | wx.ALIGN_CENTER_VERTICAL, span=(1, 2))
-        parent.AddWindow(self.choice1, (6, 3), border=0, flag=0, span=(1, 1))
-        parent.AddWindow(self.checkBox2, (8, 5), border=0, flag=0, span=(1, 1))
-        parent.AddWindow(self.staticText5, (11, 1), border=0, 
+        parent.AddWindow(self.spinCtrl3, (11, 3), border=0, flag=0, span=(1, 1))
+        parent.AddWindow(self.staticText4, (11, 1), border=0, 
               flag=wx.ALIGN_RIGHT | wx.ALIGN_CENTER_VERTICAL, span=(1, 2))
-        parent.AddWindow(self.choice2, (11, 3), border=0, flag=0, span=(1, 1))
+        parent.AddWindow(self.choice1, (9, 3), border=0, flag=0, span=(1, 1))
+        parent.AddWindow(self.checkBox2, (11, 5), border=0, flag=0, span=(1, 1))
+        
+        # Too many objects here, pixel format hidden
+        #parent.AddWindow(self.staticText5, (11, 1), border=0, 
+        #      flag=wx.ALIGN_RIGHT | wx.ALIGN_CENTER_VERTICAL, span=(1, 2))
+        #parent.AddWindow(self.choice2, (11, 3), border=0, flag=0, span=(1, 1))
 
     def _init_sizers(self):
         # generated method, don't edit
@@ -106,6 +113,18 @@ class VideoPanel(wx.Panel):
 
         self.choice2 = wx.Choice(choices=[], id=wxID_PANEL1CHOICE2,
               name='choice2', parent=self, style=0)
+              
+        self.staticText6 = wx.StaticText(id=wxID_PANEL1STATICTEXT6,
+              label=_(u'Video Track')+' ', name='staticText6', 
+              parent=self, style=0)
+              
+        self.spinCtrl4 = wx.SpinCtrl(id=wxID_PANEL1SPINCTRL4, 
+              initial=Globals.video_track,
+              max=255, min=1, name='spinCtrl4', parent=self,
+              style=wx.SP_ARROW_KEYS)
+              
+        self.checkBox3 = wx.CheckBox(id=wxID_PANEL1CHECKBOX3, 
+              label=_(u'Auto Video Track'),name='checkBox3', parent=self, style=0)
 
         self._init_sizers()
 
@@ -157,14 +176,30 @@ class VideoPanel(wx.Panel):
         # Maybe it works for others, but I'll better disable it for now
         self.choice2.Select(3)
         self.choice2.Enable(False)
+        # Hidden also, there are too many options in the video panel
+        self.staticText5.Show(False)
+        self.choice2.Show(False)
         
         # Init the auto FPS check
         self.checkBox2.SetValue(Globals.video_autofps)
         self.switchAutoFPS(None)
+        
+        # Init the auto track check
+        if Globals.video_autotrack:
+            self.checkBox3.SetValue(True)
+        self.switchAutoTrack(None)
 
         # Events
         wx.EVT_CHECKBOX(self.checkBox1, wxID_PANEL1CHECKBOX1, self.switchSize)
         wx.EVT_CHECKBOX(self.checkBox2, wxID_PANEL1CHECKBOX2, self.switchAutoFPS)
+        wx.EVT_CHECKBOX(self.checkBox3, wxID_PANEL1CHECKBOX3, self.switchAutoTrack)
+        
+    def switchAutoTrack(self, event):
+        "Enable or disable the track selector"
+        # If None event we called it
+        if (event is not None):
+            event.StopPropagation()
+        self.spinCtrl4.Enable(not self.checkBox3.IsChecked())
               
     def switchSize(self, event):
         "Enable or disable the size controls"
@@ -186,6 +221,8 @@ class VideoPanel(wx.Panel):
         Globals.video_keepaspect = self.checkBox1.IsChecked()
         Globals.video_width = self.spinCtrl1.GetValue()
         Globals.video_height = self.spinCtrl2.GetValue()
+        Globals.video_track = self.spinCtrl4.GetValue()
+        Globals.video_autotrack = self.checkBox3.IsChecked()
         Globals.video_bitrate = self.choice1.GetClientData(
             self.choice1.GetSelection())
         Globals.video_autofps = self.checkBox2.IsChecked()

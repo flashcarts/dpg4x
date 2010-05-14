@@ -82,7 +82,7 @@ class SubtitlesPanel(wx.Panel):
 
         self.spinCtrl1 = wx.SpinCtrl(id=wxID_PANEL1SPINCTRL1, 
               initial=Globals.subtitles_track,
-              max=14, min=0, name='spinCtrl1', parent=self, 
+              max=31, min=0, name='spinCtrl1', parent=self, 
               style=wx.SP_ARROW_KEYS)
 
         self.staticText2 = wx.StaticText(id=wxID_PANEL1STATICTEXT2,

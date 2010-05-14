@@ -30,17 +30,24 @@ import signal
 import sys
 import threading
 
-def encode_video(file):
+def encode_video(file, filename, preview=False):
     "Encodes the video stream"
     
     # Init the progress variables
     global progress
-    filename = os.path.basename(file)
-    abort = progress.doProgress(1, 
-        filename + ' - ' + _(u'Starting encoding process'))
-    # Abort the process if the user requests it
-    if abort:
-        raise Exception(_(u'Process aborted by the user.'))
+    # Progress dialog disabled on preview
+    if not preview:
+        abort = progress.doProgress(1, 
+            filename + u' - ' + _(u'Starting encoding process'))
+        # Abort the process if the user requests it
+        if abort:
+            raise Exception(_(u'Process aborted by the user.'))
+        
+    # Prepare the input file to be usable by mplayer
+    if (file[:6] == 'vcd://') or (file[:6] == 'dvd://'):
+        mpFile = file.split()
+    else:
+        mpFile = [ file ]
 
     # Get the aspect ratio if keepaspect selected
     if Globals.video_keepaspect:
@@ -48,7 +55,7 @@ def encode_video(file):
         aspectRE = re.compile ("\nID_VIDEO_ASPECT=([0-9.]*)\n")
         # Get the video size from mplayer
         mplayer_proc = subprocess.Popen(
-            ['mplayer','-frames','1','-vo','null','-ao','null','-identify',file], 
+            ['mplayer','-frames','1','-vo','null','-ao','null','-identify']+mpFile, 
             stdout=subprocess.PIPE,stderr=subprocess.STDOUT, 
             universal_newlines=True)
         mplayer_output = mplayer_proc.communicate()[0]
@@ -90,7 +97,7 @@ def encode_video(file):
 
     # Options to process with extra high quality (double pass)
     if Globals.dpg_quality == 'doublepass':
-        v_cmd = [file,'-v','-ofps',str(Globals.video_fps),'-sws','9','-vf',
+        v_cmd = mpFile+['-v','-ofps',str(Globals.video_fps),'-sws','9','-vf',
         v_pixelformat + ',' \
         'scale='+str(Globals.video_width)+':'+str(Globals.video_height)+':::3,harddup',
         '-nosound','-ovc','lavc','-lavcopts',
@@ -104,7 +111,7 @@ def encode_video(file):
         
 	# Options to process with high quality
     elif Globals.dpg_quality == 'high':
-        v_cmd = [file,'-v','-ofps',str(Globals.video_fps),'-sws','9','-vf',
+        v_cmd = mpFile+['-v','-ofps',str(Globals.video_fps),'-sws','9','-vf',
         v_pixelformat + ',' \
         'scale='+str(Globals.video_width)+':'+str(Globals.video_height)+':::3,harddup',
         '-nosound','-ovc','lavc','-lavcopts',
@@ -113,21 +120,26 @@ def encode_video(file):
         '-o',Globals.TMP_VIDEO,'-of','rawvideo']
 	# Options to process with low quality
     elif Globals.dpg_quality == 'low':
-        v_cmd = [file,'-v','-ofps',str(Globals.video_fps),'-vf',
+        v_cmd = mpFile+['-v','-ofps',str(Globals.video_fps),'-vf',
         v_pixelformat + ',' \
         'scale='+str(Globals.video_width)+':'+str(Globals.video_height)+',harddup',
         '-nosound','-ovc','lavc','-lavcopts','vcodec=mpeg1video:vstrict=-2:vbitrate=' \
         ''+str(Globals.video_bitrate),'-o',Globals.TMP_VIDEO,'-of','rawvideo']
 	# Options to process with normal quality
     else :
-        v_cmd = [file,'-v','-ofps',str(Globals.video_fps),'-sws','9','-vf',
+        v_cmd = mpFile+['-v','-ofps',str(Globals.video_fps),'-sws','9','-vf',
         v_pixelformat + ',' \
         'scale='+str(Globals.video_width)+':'+str(Globals.video_height)+':::3,harddup',
         '-nosound','-ovc','lavc','-lavcopts',
         'vcodec=mpeg1video:vstrict=-2:mbd=2:trell:cbp:mv0:cmp=2:subcmp=2:' \
         'precmp=2:vbitrate='+str(Globals.video_bitrate),'-o',Globals.TMP_VIDEO,
         '-of','rawvideo']
-	
+        
+    # Select the video track
+    if not Globals.video_autotrack:
+        v_cmd = v_cmd + ['-vid',str(Globals.video_track)]
+
+
 	# Include the subtitles
 	
 	# Select subtitles track from video
@@ -136,28 +148,9 @@ def encode_video(file):
     # Select subtitles file
     elif Globals.subtitles_source == 'file':
         v_cmd = ['-sub',Globals.subtitles_file] + v_cmd
-    # Try to autoload a subtitles file
-    elif Globals.subtitles_source == 'auto':
-        basename = os.path.splitext ( file )[0]
-		# If .ass file available, use it
-        if os.path.exists ( basename + '.ass' ) and os.access(
-            basename + '.ass', os.R_OK):
-			v_cmd = ['-sub',basename + '.ass'] + v_cmd
-        # If .srt file available, use it
-        elif os.path.exists ( basename + '.srt' ) and os.access(
-            basename + '.srt', os.R_OK):
-            v_cmd = ['-sub',basename + '.srt'] + v_cmd
-        # If .sub file available, use it
-        elif os.path.exists ( basename + '.sub' ) and os.access(
-            basename + '.sub', os.R_OK):
-            v_cmd = ['-sub',basename + '.sub'] + v_cmd
-        # If .saa file available, use it
-        elif os.path.exists ( basename + '.ssa' ) and os.access(
-            basename + '.ssa', os.R_OK):
-            v_cmd = ['-sub',basename + '.ssa'] + v_cmd
-        # If none available, try to use the first subtitles track
-        else:
-            v_cmd = ['-sid','1'] + v_cmd
+    # Disable the subtitles
+    elif Globals.subtitles_source == 'disable':
+        v_cmd = ['-sid','999'] + v_cmd
 	
 	# Set the encoding for subtitles
     if Globals.subtitles_encoding:
@@ -165,6 +158,10 @@ def encode_video(file):
     # Set the font for subtitles
     if Globals.subtitles_font:
         v_cmd = ['-font',Globals.subtitles_font] + v_cmd
+        
+    # Encode only a small chunk on preview
+    if preview:
+        v_cmd = ['-endpos',str(Globals.other_previewsize)] + v_cmd
 
     # Prepare the double pass if very hith quality selected
     v_cmd = ['mencoder'] + v_cmd
@@ -207,13 +204,15 @@ def encode_video(file):
             # If we are in doublepass mode, we have encoded only the half
             if Globals.dpg_quality == 'doublepass':
                 userProgress = str(shownProgress/2)
-            abort = progress.doProgress(diffProgress, 
-                filename + ' - ' + _(u'Encoding in progress') + ': ' + 
-                userProgress + '%')
-            # Abort the process if the user requests it
-            if abort:
-                os.kill(proc.pid,signal.SIGTERM)
-                raise Exception(_(u'Process aborted by the user.'))
+            # Progress dialog disabled on preview
+            if not preview: 
+                abort = progress.doProgress(diffProgress, 
+                    filename + ' - ' + _(u'Encoding in progress') + ': ' + 
+                    userProgress + '%')
+                # Abort the process if the user requests it
+                if abort:
+                    os.kill(proc.pid,signal.SIGTERM)
+                    raise Exception(_(u'Process aborted by the user.'))
             
     # Check the return process
     if proc.wait() != 0:
@@ -238,13 +237,15 @@ def encode_video(file):
                 # Because we are in doublepass mode, we have encoded only the half
                 # But add a 50% because the 1st pass is done
                 userProgress = str(shownProgress/2 + 50)
-                abort = progress.doProgress(diffProgress, 
-                    filename + ' - ' + _(u'Encoding in progress') + ': ' + 
-                    userProgress + '%')
-                # Abort the process if the user requests it
-                if abort:
-                    os.kill(proc.pid,signal.SIGTERM)
-                    raise Exception(_(u'Process aborted by the user.'))
+                # Progress dialog disabled on preview
+                if not preview:
+                    abort = progress.doProgress(diffProgress, 
+                        filename + ' - ' + _(u'Encoding in progress') + ': ' + 
+                        userProgress + '%')
+                    # Abort the process if the user requests it
+                    if abort:
+                        os.kill(proc.pid,signal.SIGTERM)
+                        raise Exception(_(u'Process aborted by the user.'))
             
         # Check the return process
         if proc.wait() != 0:
@@ -256,12 +257,13 @@ def encode_video(file):
 class EncodeAudioThread(threading.Thread):
     "Thread to encode the audio stream"
     
-    def __init__(self, file):
+    def __init__(self, file, filename, preview=False):
         "Constructor for EncodeAudioThread"
         threading.Thread.__init__(self)
         self.file = file
         self.errorMessage = None
         self.stop = False
+        self.preview = preview
         
     def getErrorMessage(self):
         "Returns the error message"
@@ -277,12 +279,18 @@ class EncodeAudioThread(threading.Thread):
         try:
             file = self.file
             
+            # Prepare the input file to be usable by mplayer
+            if (file[:6] == 'vcd://') or (file[:6] == 'dvd://'):
+                mpFile = file.split()
+            else:
+                mpFile = [ file ]
+            
             # Check if the encoding must continue
             if self.stop:
                 raise Exception(_(u'Audio encoding stopped'))
 
             # Configure the call to mencoder
-            a_cmd = ['mencoder',file,'-v','-of','rawaudio','-oac','lavc','-ovc','copy',
+            a_cmd = ['mencoder']+mpFile+['-v','-of','rawaudio','-oac','lavc','-ovc','copy',
                 '-lavcopts','acodec='+Globals.audio_codec+':abitrate=' \
                 ''+str(Globals.audio_bitrate),'-o',Globals.TMP_AUDIO]
 
@@ -292,7 +300,7 @@ class EncodeAudioThread(threading.Thread):
                 
             # Get the number of audio channels for video source
             mplayer_proc = subprocess.Popen(
-                ['mplayer','-frames','0','-vo','null','-ao','null','-identify',file],
+                ['mplayer','-frames','0','-vo','null','-ao','null','-identify']+mpFile,
                 stdout=subprocess.PIPE,stderr=subprocess.STDOUT, 
                 universal_newlines=True)
             mplayer_output = mplayer_proc.communicate()[0]
@@ -306,7 +314,8 @@ class EncodeAudioThread(threading.Thread):
                 nchan = nchanSE.group(1)
                 # Use the same number of channels for input and output
                 # But do not use more than 2 channels
-                if not Globals.audio_mono:
+                # DPGV0 only supports mono audio
+                if (not Globals.audio_mono) and (Globals.dpg_version > 0):
                     if nchan > 2:
                         a_cmd = a_cmd + ['-af',
                             'channels=2,resample='+str(Globals.audio_frequency)+':1:2']
@@ -316,7 +325,7 @@ class EncodeAudioThread(threading.Thread):
                     # Update the audio_mono variable for the header process
                     if nchan == 1:
                         Globals.audio_mono = True
-                # If the force mono option is set, use only one
+                # If the force mono option is set (or DPG0), use only one
                 else:
                     a_cmd = a_cmd + ['-af',
                         'channels=1,resample='+str(Globals.audio_frequency)+':1:2']
@@ -328,6 +337,10 @@ class EncodeAudioThread(threading.Thread):
             # Select the audio track
             if not Globals.audio_autotrack:
                 a_cmd = a_cmd + ['-aid',str(Globals.audio_track)]
+                
+            # Encode only a small chunk on preview
+            if self.preview:
+                a_cmd = a_cmd + ['-endpos',str(Globals.other_previewsize)]
 
             # Execute mencoder
             Globals.debug('ENCODE AUDIO: ' + `a_cmd`)
@@ -343,18 +356,17 @@ class EncodeAudioThread(threading.Thread):
 
             # Check the return process
             if proc.wait() != 0:
-                raise Exception(_(u'Error on mencoder')+': '+mencoder_output)
+                raise Exception(_(u'Error on mencoder')+u': '+mencoder_output)
 
         # Manage posible exceptions on the thread
         except Exception, e:
-            self.errorMessage = unicode(e)
+            self.errorMessage = e.message
     
-def mpeg_stat(file):
+def mpeg_stat(filename):
     "Generate file with GOP offsets and calculate frames"
     
     # Increase progress
     global progress
-    filename = os.path.basename(file)
     abort = progress.doProgress(1, 
         filename + ' - ' + _(u'Generating GOP offsets'))
     # Abort the process if the user requests it
@@ -401,13 +413,12 @@ def mpeg_stat(file):
         raise Exception(_(u'Error on mpeg_stat')+': '+stat_output)
     return (int(frames), gopSize*8)
 
-def alternative_mpeg_stat(file):
+def alternative_mpeg_stat(filename):
     "Alternate way to generate file with GOP offsets and calculate frames"
     # The mpeg_stat method has been more tested and is faster
     
     # Increase progress
     global progress
-    filename = os.path.basename(file)
     abort = progress.doProgress(1, 
         filename + ' - ' + _(u'Generating GOP offsets'))
     # Abort the process if the user requests it
@@ -465,12 +476,11 @@ def alternative_mpeg_stat(file):
     # mpeg_stat always gets one frame less than me
     return ((numFrames-1), (gopSize*8)) 
 
-def conv_thumb(file, frames):
+def conv_thumb(filename, frames):
     "Generate a video thumbnail"
     
     # Increase progress
     global progress
-    filename = os.path.basename(file)
     abort = progress.doProgress(1, 
         filename + ' - ' + _(u'Generating thumbnail'))
     # Abort the process if the user requests it
@@ -560,12 +570,11 @@ def conv_thumb(file, frames):
     if not Globals.other_thumbnail:
         os.remove(shot_file)
         
-def write_header(file, frames):
+def write_header(filename, frames):
     "Generate the DPG header"
     
     # Increase progress
     global progress
-    filename = os.path.basename(file)
     abort = progress.doProgress(1, 
         filename + ' - ' + _(u'Generating header'))
     # Abort the process if the user requests it
@@ -639,12 +648,13 @@ def write_header(file, frames):
 
 def encode_files(files):
     "Encode the given list of files"
+    busy = None
     # Create the temporary files
     Globals.createTemporary()
     # Calculate the length of the encoding process
     # 100 video + 1 GOP + 1 Header + 1 to join everything
     totalProgress = 103
-    # Add another 200 if we'll use double pass for video
+    # Add another 100 if we'll use double pass for video
     if Globals.dpg_quality == 'doublepass':
         totalProgress += 100
     # Add one more if a video thumbnail will be generated
@@ -658,16 +668,22 @@ def encode_files(files):
     # Disable the events on main frame
     Globals.mainPanel.Enable(False)
     try:
+        # Set the busy cursor
+        busy = wx.BusyCursor()
         # Process the list of files
         for file in files:
-            filename = os.path.basename(file)
-
+            # Don't try to get the filename of a dvd or vcd source
+            if (file[:6] == 'vcd://') or (file[:6] == 'dvd://'):
+                filename = file
+            else:
+                filename = os.path.basename(file)
+                
             # Start the audio encoding thread
-            encode_audio = EncodeAudioThread(file)
+            encode_audio = EncodeAudioThread(file, filename)
             encode_audio.start()
             
             # Encode video
-            encode_video(file)
+            encode_video(file, filename)
             
             # Wait for the audio encoding thread to finish
             # But if it hasn't finished yet... something goes wrong
@@ -684,24 +700,32 @@ def encode_files(files):
             
             # Generate GOP offsets
             if Globals.which('mpeg_stat'):
-                frames, gopSize = mpeg_stat(file)
+                frames, gopSize = mpeg_stat(filename)
             # If mpeg_stat not available, we'll try an alternate way
             else:
                 Globals.debug(_(u'WARNING: mpeg_stat not found. The extraction' \
                     u' of header offsets will be slower.'))
-                frames, gopSize = alternative_mpeg_stat(file)
+                frames, gopSize = alternative_mpeg_stat(filename)
             # With dpg version >= 4, we can use thumbnails
             if Globals.dpg_version >= 4:
-                conv_thumb(file, frames)
+                conv_thumb(filename, frames)
             # Write the DPG header
-            write_header(file, frames)
+            write_header(filename, frames)
             # Get the output folder
             outputDir = Globals.other_output
             # Use the same as input by default
+            # It won't be allowed when VCD or DVD sources are selected
             if not outputDir:
                 outputDir = os.path.dirname(file)
             # Get the ouput full path
-            dpgnameBase = os.path.basename (os.path.splitext(file)[0]) + '.dpg'
+            if (file[:6] == 'vcd://'):
+                dpgnameBase = file.split()[0].replace('://','_') + '_' \
+                '' + file.split()[-1].replace('/','') + '.dpg'
+            elif (file[:6] == 'dvd://'):
+                dpgnameBase = file.split()[0].replace('://','_') + '_' \
+                '' + file.split()[2] + '_' + file.split()[-1].replace('/','') + '.dpg'
+            else:
+                dpgnameBase = os.path.basename (os.path.splitext(file)[0]) + '.dpg'
             dpgName = os.path.join(outputDir, dpgnameBase)
             # Check if the file already exists and choose another
             # We'll add a ~number at the end.
@@ -716,7 +740,6 @@ def encode_files(files):
             # Concatenate the video parts
             
             # Increase progress
-            filename = os.path.basename(file)
             abort = progress.doProgress(1, 
                 filename + ' - ' + _(u'Writing video file'))
             # Abort the process if the user requests it
@@ -741,7 +764,14 @@ def encode_files(files):
         progress.Destroy()
         # Enable the events on main frame
         Globals.mainPanel.Enable(True)
+        # Sets the normal cursor again
+        if busy is not None:
+            del busy
+
     except Exception, e:
+        # Sets the normal cursor again
+        if busy is not None:
+            del busy
         # Delete the temporary files
         Globals.clearTemporary()
         # End the progress dialog

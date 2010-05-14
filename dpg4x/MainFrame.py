@@ -91,26 +91,31 @@ class Frame1(wx.Frame):
         
         # Panel with files to be processed
         filesPanel = FilesPanel.FilesPanel(self.notebook1)
-        self.notebook1.AddPage(filesPanel,_(u'FILES'),imageId=0)
+        self.notebook1.AddPage(filesPanel,
+            Globals.fillString(_(u'MAIN'),16),imageId=0)
         Globals.filesPanel = filesPanel
         
         # Panel with video options
         videoPanel = VideoPanel.VideoPanel(self.notebook1)
-        self.notebook1.AddPage(videoPanel,_(u'VIDEO'),imageId=1)
+        self.notebook1.AddPage(videoPanel,
+            Globals.fillString(_(u'VIDEO'),16),imageId=1)
         Globals.videoPanel = videoPanel
         
         # Panel with audio options
         audioPanel = AudioPanel.AudioPanel(self.notebook1)
-        self.notebook1.AddPage(audioPanel,_(u'AUDIO'),imageId=2)
+        self.notebook1.AddPage(audioPanel,
+            Globals.fillString(_(u'AUDIO'),16),imageId=2)
         Globals.audioPanel = audioPanel
         
         # Panel with subtitle options
         subtitlesPanel = SubtitlesPanel.SubtitlesPanel(self.notebook1)
-        self.notebook1.AddPage(subtitlesPanel,_(u'SUBTITLES'),imageId=3)
+        self.notebook1.AddPage(subtitlesPanel,
+            Globals.fillString(_(u'SUBTITLES'),16),imageId=3)
         Globals.subtitlesPanel = subtitlesPanel
         
         # Panel with aditional options
         otherPanel = OtherPanel.OtherPanel(self.notebook1)
-        self.notebook1.AddPage(otherPanel,_(u'MISC'),imageId=4)
+        self.notebook1.AddPage(otherPanel,
+            Globals.fillString(_(u'MISC'),16),imageId=4)
         Globals.otherPanel = otherPanel
         

@@ -48,7 +48,7 @@ class CustomProgressDialog(wx.Dialog):
         # generated method, don't edit
         wx.Dialog.__init__(self, id=wxID_DIALOG1, name='', parent=prnt,
               pos=wx.Point(329, 323), size=wx.Size(543, 195),
-              style=wx.CAPTION | wx.SYSTEM_MENU, title=_(u'ENCODING'))
+              style=wx.CAPTION, title=_(u'ENCODING'))
         self.SetClientSize(wx.Size(543, 195))
 
         self.staticText1 = wx.StaticText(id=wxID_DIALOG1STATICTEXT1, label='',

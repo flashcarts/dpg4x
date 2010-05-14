@@ -33,7 +33,10 @@ if not gettext.find('dpg4x', os.getenv('DPG4X_I18N')):
 else:
     gettext.translation('dpg4x', os.getenv('DPG4X_I18N')).install(unicode=True)
 
-modules ={u'AudioPanel': [0, u'Panel with audio options.', u'AudioPanel.py'],
+modules ={u'AddVcdDialog': [0,
+                   u'A dialog to add Vcd media sources.',
+                   u'AddVcdDialog.py'],
+ u'AudioPanel': [0, u'Panel with audio options.', u'AudioPanel.py'],
  u'ConfigurationManager': [0,
                            u'Manages the configuration variables.',
                            u'ConfigurationManager.py'],
@@ -50,6 +53,7 @@ modules ={u'AudioPanel': [0, u'Panel with audio options.', u'AudioPanel.py'],
               u'Globals.py'],
  u'MainFrame': [1, u'Main frame of Application.', u'MainFrame.py'],
  u'OtherPanel': [0, u'Panel with aditional options.', u'OtherPanel.py'],
+ u'Previewer': [0, u'Allows advanced preview options.', u'Previewer.py'],
  u'SubtitlesPanel': [0, u'Panel with subtitle options.', u'SubtitlesPanel.py'],
  u'TreeCtrlComboPopup': [0,
                          u'Popup control containing a TreeCtrl.',
