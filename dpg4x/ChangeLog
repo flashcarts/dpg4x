@@ -12,4 +12,16 @@
 
     * dpg4x 1.0. First public release.
 
+2010-04-08 Félix Medrano Sanz <xukosky at yahoo.es>
+
+    * dpg4x 1.1.
+    * You can now use Dvd and Vcd as media sources. 
+    * The preview button now plays a real preview of the encoded file.
+      You can setup the preview's size from the misc settings.
+    * If sox is available, you can now encode the audio stream in ogg or gsm.
+      Ogg is only available for DPG version greater or equal than 3.
+    * Fixed some bugs in the localization and subtitle's code.
+    * Track values adjusted based on mplayer's documentation.
+    * Added a new track setup for video.
+    * DPG version 0 now only supports mono audio.
 

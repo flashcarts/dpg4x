@@ -31,14 +31,17 @@ FEATURES
 - Drag and drop support from your favourite file manager.
 - Easily portable to any POSIX like OS.
 - Multilanguage.
+- Subtitles support.
+- You can preview your settings before encoding.
+- Can use DVD and VCD as media sources.
 
 
 USAGE
 
-If you run dpg4x, the first thing that you will see is the FILES section. You can
+If you run dpg4x, the first thing that you will see is the MAIN section. You can
 switch from one section to another with the icon-buttons at the top.
 
-The FILES section includes a list, with all the files that you want to encode. To
+The MAIN section includes a list, with all the files that you want to encode. To
 add a file to the list, use the "Add File" button. To delete a file from the list,
 select the file and use the "Delete File" button. You can also preview the files
 with mplayer, by selecting them and using the "Preview" button.
