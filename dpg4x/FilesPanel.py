@@ -18,6 +18,7 @@ import Encoder
 import ConfigurationManager
 import Previewer
 import AddVcdDialog
+import AddDvdDialog
 
 import wx
 import os
@@ -25,8 +26,9 @@ import os
 [wxID_PANEL1, wxID_PANEL1BUTTON1, wxID_PANEL1BUTTON2, wxID_PANEL1BUTTON3, 
  wxID_PANEL1CHOICE1, wxID_PANEL1LISTCTRL1, wxID_PANEL1STATICTEXT1, 
  wxID_PANEL1STATICTEXT2, wxID_PANEL1BUTTON4, wxID_PANEL1CHOICE2,
- wxID_PANEL1BUTTON5, wxID_PANEL1BUTTON6, wxID_PANEL1BUTTON7
-] = [wx.NewId() for _init_ctrls in range(13)]
+ wxID_PANEL1BUTTON5, wxID_PANEL1BUTTON6, wxID_PANEL1BUTTON7, 
+ wxID_PANEL1BUTTON8, wxID_PANEL1BUTTON9
+] = [wx.NewId() for _init_ctrls in range(15)]
 
 class FilesPanel(wx.Panel):
     def _init_coll_gridBagSizer1_Items(self, parent):
@@ -36,7 +38,8 @@ class FilesPanel(wx.Panel):
               span=(5, 6))
         parent.AddWindow(self.button1, (1, 8), border=0, flag=wx.EXPAND, span=(1, 1))
         parent.AddWindow(self.button2, (2, 8), border=0, flag=wx.EXPAND, span=(1, 1))
-        parent.AddWindow(self.button4, (3, 8), border=0, flag=wx.EXPAND, span=(1, 1))
+        parent.AddWindow(self.button8, (3, 8), border=0, flag=wx.EXPAND, span=(1, 1))
+        parent.AddWindow(self.button4, (4, 8), border=0, flag=wx.EXPAND, span=(1, 1))
         parent.AddWindow(self.staticText1, (7, 5), border=0, 
               flag=wx.ALIGN_RIGHT | wx.ALIGN_CENTER_VERTICAL, span=(1, 1))
         parent.AddWindow(self.staticText2, (7, 2), border=0, 
@@ -98,6 +101,12 @@ class FilesPanel(wx.Panel):
               
         self.button7 = wx.Button(id=wxID_PANEL1BUTTON7, label=_(u'Add VCD'),
               name='button7', parent=self, style=0, size=(130, 35))
+              
+        self.button8 = wx.Button(id=wxID_PANEL1BUTTON8, label=_(u'Play Media'),
+              name='button8', parent=self, style=0, size=(130, 35))
+              
+        self.button9 = wx.Button(id=wxID_PANEL1BUTTON9, label=_(u'Cancel'),
+              name='button9', parent=self, style=0, size=(130, 35))
 
         self._init_sizers()
 
@@ -137,6 +146,7 @@ class FilesPanel(wx.Panel):
         self.button5.Show(False)
         self.button6.Show(False)
         self.button7.Show(False)
+        self.button9.Show(False)
         
         # Events
         wx.EVT_BUTTON(self.button1, wxID_PANEL1BUTTON1, self.addMedia)
@@ -148,6 +158,8 @@ class FilesPanel(wx.Panel):
         wx.EVT_BUTTON(self.button5, wxID_PANEL1BUTTON5, self.addFile)
         wx.EVT_BUTTON(self.button6, wxID_PANEL1BUTTON6, self.addDvd)
         wx.EVT_BUTTON(self.button7, wxID_PANEL1BUTTON7, self.addVcd)
+        wx.EVT_BUTTON(self.button8, wxID_PANEL1BUTTON8, self.playMedia)
+        wx.EVT_BUTTON(self.button9, wxID_PANEL1BUTTON9, self.restoreMenu)
         
         # Drop files
         class FileDropTarget(wx.FileDropTarget):
@@ -168,14 +180,17 @@ class FilesPanel(wx.Panel):
         self.button1.Show(False)
         self.button2.Show(False)
         self.button4.Show(False)
+        self.button8.Show(False)
         # Show the add-media buttons
         self.button5.Show(True)
         self.button6.Show(True)
         self.button7.Show(True)
+        self.button9.Show(True)
         # Replace the buttons in the layout
         self.gridBagSizer1.Replace(self.button1, self.button5)
         self.gridBagSizer1.Replace(self.button2, self.button6)
-        self.gridBagSizer1.Replace(self.button4, self.button7)
+        self.gridBagSizer1.Replace(self.button4, self.button9)
+        self.gridBagSizer1.Replace(self.button8, self.button7)
         self.gridBagSizer1.Layout()
         
     def restoreMenu(self, event):
@@ -187,14 +202,17 @@ class FilesPanel(wx.Panel):
         self.button5.Show(False)
         self.button6.Show(False)
         self.button7.Show(False)
+        self.button9.Show(False)
         # Show the main buttons
         self.button1.Show(True)
         self.button2.Show(True)
         self.button4.Show(True)
+        self.button8.Show(True)
         # Replace the buttons in the layout
         self.gridBagSizer1.Replace(self.button5, self.button1)
         self.gridBagSizer1.Replace(self.button6, self.button2)
-        self.gridBagSizer1.Replace(self.button7, self.button4)
+        self.gridBagSizer1.Replace(self.button9, self.button4)
+        self.gridBagSizer1.Replace(self.button7, self.button8)
         self.gridBagSizer1.Layout()
 
     def addFile(self, event):
@@ -227,7 +245,23 @@ class FilesPanel(wx.Panel):
         # If None event we called it
         if (event is not None):
             event.StopPropagation()
-        
+        # Show the Vcd Dialog
+        dialog = AddDvdDialog.AddDvdDialog(self)
+        value = dialog.ShowModal()
+        if value == wx.ID_OK:
+            device = dialog.getDevice()
+            track = dialog.getTrack()
+            chapter = dialog.getChapter()
+            url = 'dvd://' + track + ' -dvd-device ' + device
+            if chapter:
+                url += ' -chapter ' + chapter
+            # Add the media source to the list
+            # Avoid duplicated items
+            if self.listCtrl1.FindItem(-1, url) == -1:
+                index = self.listCtrl1.GetItemCount()
+                self.listCtrl1.InsertStringItem(index, url)
+                self.listCtrl1.SetColumnWidth(0, wx.LIST_AUTOSIZE)
+        dialog.Destroy()
         # Restore the menu
         self.restoreMenu(None)
         
@@ -258,6 +292,13 @@ class FilesPanel(wx.Panel):
         # If None event we called it
         if (event is not None):
             event.StopPropagation()
+        # Check if there are media sources selected
+        if self.listCtrl1.GetSelectedItemCount() == 0:
+            message = _(u'No media sources selected.')
+            dialog = wx.MessageDialog(self, message, _(u'ERROR'), 
+                style=wx.ICON_ERROR)
+            dialog.ShowModal()
+            return
         # Get the selected items
         selItems = []
         item = self.listCtrl1.GetFirstSelected()
@@ -269,6 +310,31 @@ class FilesPanel(wx.Panel):
         for item in selItems:
             self.listCtrl1.DeleteItem(item)
             
+    def playMedia(self, event):
+        "Just play the selected media source"
+        # If None event we called it
+        if (event is not None):
+            event.StopPropagation()
+        try:
+            # Allow only one file
+            if self.listCtrl1.GetSelectedItemCount() != 1:
+                message = _(u'Select one media source.')
+                dialog = wx.MessageDialog(self, message, _(u'ERROR'), 
+                    style=wx.ICON_ERROR)
+                dialog.ShowModal()
+                return
+            # Play the file
+            item = self.listCtrl1.GetItemText(self.listCtrl1.GetFirstSelected())
+            Previewer.play_files(item)       
+        # On error, warn the user
+        except Exception, e:
+            message = e.message
+            Globals.debug(_(u'ERROR') + ': ' + message)
+            # Show a dialog to the user
+            dialog = wx.MessageDialog(self, message, _(u'ERROR'), 
+                style=wx.ICON_ERROR)
+            dialog.ShowModal()
+            
     def previewMedia(self, event):
         "Encode and play a preview of the selected media"
         # If None event we called it
@@ -277,17 +343,18 @@ class FilesPanel(wx.Panel):
         try:
             # Allow only one file
             if self.listCtrl1.GetSelectedItemCount() != 1:
-                if self.listCtrl1.GetSelectedItemCount() > 1:
-                    message = _(u'Select only one media source.')
-                    dialog = wx.MessageDialog(self, message, _(u'ERROR'), 
-                        style=wx.ICON_ERROR)
-                    dialog.ShowModal()
+                message = _(u'Select one media source.')
+                dialog = wx.MessageDialog(self, message, _(u'ERROR'), 
+                    style=wx.ICON_ERROR)
+                dialog.ShowModal()
                 return
             # Get the options from the panels
             Globals.videoPanel.loadOptions()
             Globals.audioPanel.loadOptions()
             Globals.subtitlesPanel.loadOptions()
             Globals.otherPanel.loadOptions(None)
+            # Save the options to the config file
+            ConfigurationManager.saveConfiguration()
             # Preview the file
             item = self.listCtrl1.GetItemText(self.listCtrl1.GetFirstSelected())
             Previewer.preview_files(item)       

@@ -52,9 +52,8 @@ class AddVcdDialog(wx.Dialog):
     def _init_ctrls(self, prnt):
         # generated method, don't edit
         wx.Dialog.__init__(self, id=wxID_DIALOG1, name='', parent=prnt,
-              pos=wx.Point(290, 170), size=wx.Size(290, 170),
               style=wx.DEFAULT_DIALOG_STYLE, title=_(u'Add VCD'))
-        self.SetClientSize(wx.Size(290, 170))
+        self.SetClientSize(wx.Size(300, 178))
 
         self.staticText1 = wx.StaticText(id=wxID_DIALOG1STATICTEXT1,
               label=_(u'Device'), name='staticText1', parent=self, style=0)

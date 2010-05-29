@@ -18,6 +18,7 @@
     * You can now use Dvd and Vcd as media sources. 
     * The preview button now plays a real preview of the encoded file.
       You can setup the preview's size from the misc settings.
+      The old behaviour is still available via the play button.
     * Fixed some bugs in the localization and subtitle's code.
     * Track values adjusted based on mplayer's documentation.
     * Added a new track setup for video.

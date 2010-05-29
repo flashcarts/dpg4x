@@ -30,8 +30,6 @@ def preview_files(file):
         # Set the busy cursor
         busy = wx.BusyCursor()
         
-        filename = os.path.basename(file)
-
         # Start the audio encoding thread
         encode_audio = Encoder.EncodeAudioThread(file, file, preview=True)
         encode_audio.start()
@@ -84,5 +82,34 @@ def preview_files(file):
         # Stop the audio encoding thread
         if encode_audio:
             encode_audio.stopThread()
+        # Send the exception to the FilesPanel
+        raise e
+    
+def play_files(file):
+    "Play the selected file without encoding it"
+    # Disable the events on main frame
+    Globals.mainPanel.Enable(False)
+    try:
+        # Prepare the input file to be usable by mplayer
+        if (file[:6] == 'vcd://') or (file[:6] == 'dvd://'):
+            mpFile = file.split()
+        else:
+            mpFile = [ file ]
+        
+        # Play the file with mplayer
+        mplayer_proc = subprocess.Popen(
+            ['mplayer']+mpFile, 
+            stdout=subprocess.PIPE,stderr=subprocess.STDOUT, 
+            universal_newlines=True)
+        mplayer_output = mplayer_proc.communicate()[0]
+        # Check the return process
+        if mplayer_proc.wait() != 0:
+            raise Exception(_(u'Error on mplayer')+': '+mplayer_output)
+        
+        # Enable the events on main frame
+        Globals.mainPanel.Enable(True)
+    except Exception, e:
+        # Enable the events on main frame
+        Globals.mainPanel.Enable(True)
         # Send the exception to the FilesPanel
         raise e

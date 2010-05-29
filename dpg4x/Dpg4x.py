@@ -33,7 +33,10 @@ if not gettext.find('dpg4x', os.getenv('DPG4X_I18N')):
 else:
     gettext.translation('dpg4x', os.getenv('DPG4X_I18N')).install(unicode=True)
 
-modules ={u'AddVcdDialog': [0,
+modules ={u'AddDvdDialog': [0,
+                   u'A dialog to add Dvd media sources.',
+                   u'AddDvdDialog.py'],
+ u'AddVcdDialog': [0,
                    u'A dialog to add Vcd media sources.',
                    u'AddVcdDialog.py'],
  u'AudioPanel': [0, u'Panel with audio options.', u'AudioPanel.py'],
