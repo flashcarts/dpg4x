@@ -32,8 +32,9 @@ FEATURES
 - Easily portable to any POSIX like OS.
 - Multilanguage.
 - Subtitles support.
-- You can preview your settings before encoding.
-- Can use DVD and VCD as media sources.
+- Ability to preview the encoding settings.
+- Encode your DVD and VCD directly.
+- Batch processing.
 
 
 USAGE
