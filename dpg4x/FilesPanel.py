@@ -452,7 +452,7 @@ class FilesPanel(wx.Panel):
                 item = self.listCtrl1.GetNextItem(item)
             # Show a dialog to the user
             if len(files) < 1:
-                raise Exception(_(u'There are no files to process.'))
+                raise Exception(_(u'There are no media sources to process.'))
             # Get the options from the files panel
             Globals.dpg_version = self.choice2.GetClientData(
                 self.choice2.GetSelection())

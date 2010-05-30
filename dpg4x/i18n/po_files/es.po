@@ -6,24 +6,63 @@
 # , 2010.
 msgid ""
 msgstr ""
-"POT-Creation-Date: 2010-02-06 00:07+0100\n"
-"PO-Revision-Date: 2010-02-06 00:16+0100\n"
+"Project-Id-Version: \n"
+"POT-Creation-Date: 2010-05-30 11:47+0200\n"
+"PO-Revision-Date: 2010-05-30 12:24+0200\n"
 "Last-Translator: \n"
+"Language-Team: Spanish <kde-i18n-doc@kde.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Lokalize 1.0\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"Project-Id-Version: \n"
-"Language-Team: Spanish <kde-i18n-doc@kde.org>\n"
+
+#: ../../AddDvdDialog.py:62 ../../AddVcdDialog.py:55 ../../FilesPanel.py:102
+msgid "Add VCD"
+msgstr "Añadir VCD"
+
+#: ../../AddDvdDialog.py:66 ../../AddVcdDialog.py:59
+msgid "Device"
+msgstr "Dispositivo"
+
+#: ../../AddDvdDialog.py:72 ../../AddVcdDialog.py:65
+msgid "Track"
+msgstr "Pista"
+
+#: ../../AddDvdDialog.py:79
+msgid "Filter chapters"
+msgstr "Filtrar por capítulos"
+
+#: ../../AddDvdDialog.py:82
+msgid "First"
+msgstr "Primero"
+
+#: ../../AddDvdDialog.py:89
+msgid "Last"
+msgstr "Último"
+
+#: ../../AddDvdDialog.py:143
+msgid "The last chapter can not be lower than the first."
+msgstr "El último capítulo no puede ser inferior al primero."
+
+#: ../../AddDvdDialog.py:144 ../../Dpg4x.py:75 ../../Dpg4x.py:77
+#: ../../FilesPanel.py:298 ../../FilesPanel.py:322 ../../FilesPanel.py:332
+#: ../../FilesPanel.py:334 ../../FilesPanel.py:347 ../../FilesPanel.py:364
+#: ../../FilesPanel.py:366 ../../FilesPanel.py:473 ../../FilesPanel.py:475
+msgid "ERROR"
+msgstr "ERROR"
+
+#: ../../AddVcdDialog.py:72
+msgid "Track 1 does not contain video"
+msgstr "La pista 1 no contiene video"
 
 #: ../../AudioPanel.py:66
 msgid "Audio Codec"
 msgstr "Códec de sonido"
 
 #: ../../AudioPanel.py:73
-msgid "Select Audio Track"
-msgstr "Seleccione pista de sonido"
+msgid "Audio Track"
+msgstr "Pista de audio"
 
 #: ../../AudioPanel.py:82
 msgid "Normalize Volume"
@@ -45,7 +84,7 @@ msgstr "Forzar canal mono"
 msgid "Auto Audio Track"
 msgstr "Pista de audio automática"
 
-#: ../../ConfigurationManager.py:77
+#: ../../ConfigurationManager.py:82
 msgid "Can't save user configuration:"
 msgstr "No se puede guardar la configuración de usuario:"
 
@@ -57,7 +96,7 @@ msgstr "CODIFICANDO"
 msgid "Abort"
 msgstr "Abortar"
 
-#: ../../CustomProgressDialog.py:94 ../../Encoder.py:40
+#: ../../CustomProgressDialog.py:94 ../../Encoder.py:41
 msgid "Starting encoding process"
 msgstr "Comenzando proceso de codificación"
 
@@ -74,56 +113,57 @@ msgstr "¿Quiere abortar el proceso de codificación?"
 msgid "QUESTION"
 msgstr "PREGUNTA"
 
-#: ../../dpg4x.py:66
+#: ../../Dpg4x.py:73
 #, python-format
 msgid "%s not found in PATH. Please install it."
 msgstr "%s no se encuentra en el PATH. Por favor instálelo."
 
-#: ../../dpg4x.py:68 ../../dpg4x.py:70 ../../FilesPanel.py:286
-#: ../../FilesPanel.py:288
-msgid "ERROR"
-msgstr "ERROR"
-
-#: ../../Encoder.py:43 ../../Encoder.py:216 ../../Encoder.py:247
-#: ../../Encoder.py:361 ../../Encoder.py:414 ../../Encoder.py:477
-#: ../../Encoder.py:572 ../../Encoder.py:688 ../../Encoder.py:724
+#: ../../Encoder.py:44 ../../Encoder.py:215 ../../Encoder.py:248
+#: ../../Encoder.py:374 ../../Encoder.py:426 ../../Encoder.py:488
+#: ../../Encoder.py:582 ../../Encoder.py:694 ../../Encoder.py:747
 msgid "Process aborted by the user."
 msgstr "Proceso abortado por el usuario."
 
-#: ../../Encoder.py:57 ../../Encoder.py:301 ../../Encoder.py:326
-#: ../../Encoder.py:493 ../../Encoder.py:506
+#: ../../Encoder.py:64 ../../Encoder.py:309 ../../Encoder.py:335
+#: ../../Encoder.py:504 ../../Encoder.py:517 ../../Previewer.py:67
+#: ../../Previewer.py:107
 msgid "Error on mplayer"
 msgstr "Error en mplayer"
 
-#: ../../Encoder.py:211 ../../Encoder.py:242
+#: ../../Encoder.py:210 ../../Encoder.py:243
 msgid "Encoding in progress"
 msgstr "Codificación en progreso"
 
-#: ../../Encoder.py:220 ../../Encoder.py:251 ../../Encoder.py:345
+#: ../../Encoder.py:219 ../../Encoder.py:252 ../../Encoder.py:359
+#: ../../Previewer.py:53
 msgid "Error on mencoder"
 msgstr "Error en mencoder"
 
-#: ../../Encoder.py:282 ../../Encoder.py:342
+#: ../../Encoder.py:290 ../../Encoder.py:355
 msgid "Audio encoding stopped"
 msgstr "Codificación de sonido detenida"
 
-#: ../../Encoder.py:358 ../../Encoder.py:411
+#: ../../Encoder.py:371 ../../Encoder.py:423
 msgid "Generating GOP offsets"
 msgstr "Generando cabecera GOP"
 
-#: ../../Encoder.py:373 ../../Encoder.py:400
+#: ../../Encoder.py:386 ../../Encoder.py:413
 msgid "Error on mpeg_stat"
 msgstr "Error en mpeg_stat"
 
-#: ../../Encoder.py:474
+#: ../../Encoder.py:485
 msgid "Generating thumbnail"
 msgstr "Generando miniatura"
 
-#: ../../Encoder.py:569
+#: ../../Encoder.py:579
 msgid "Generating header"
 msgstr "Generando cabecera"
 
-#: ../../Encoder.py:675
+#: ../../Encoder.py:691
+msgid "Finishing encoding process"
+msgstr "Terminando proceso de codificación"
+
+#: ../../Encoder.py:706
 msgid ""
 "WARNING: mpeg_stat not found. The extraction of header offsets will be "
 "slower."
@@ -131,63 +171,83 @@ msgstr ""
 "AVISO: no se encuentra mpeg_stat. La extracción de la cabecera GOP será más "
 "lenta."
 
-#: ../../Encoder.py:685
-msgid "Finishing encoding process"
-msgstr "Terminando proceso de codificación"
-
-#: ../../Encoder.py:721
+#: ../../Encoder.py:744
 msgid "Writing video file"
 msgstr "Escribiendo archivo de video"
 
-#: ../../FilesPanel.py:65
-msgid "Add File"
-msgstr "Añadir archivo"
+#: ../../FilesPanel.py:70
+msgid "Add Media"
+msgstr "Añadir vídeo"
 
-#: ../../FilesPanel.py:68
-msgid "Delete File"
-msgstr "Borrar archivo"
+#: ../../FilesPanel.py:73
+msgid "Delete Media"
+msgstr "Borrar video"
 
-#: ../../FilesPanel.py:71
+#: ../../FilesPanel.py:76
 msgid "Preview"
 msgstr "Previsualizar"
 
-#: ../../FilesPanel.py:75
+#: ../../FilesPanel.py:80
 msgid "Quality"
 msgstr "Calidad"
 
-#: ../../FilesPanel.py:78
+#: ../../FilesPanel.py:83
 msgid "DPG Version"
 msgstr "Versión DPG"
 
-#: ../../FilesPanel.py:82
+#: ../../FilesPanel.py:87
 msgid "Start Encoding"
 msgstr "Empezar codificación"
 
+#: ../../FilesPanel.py:96
+msgid "Add File"
+msgstr "Añadir archivo"
+
+#: ../../FilesPanel.py:99
+msgid "Add DVD"
+msgstr "Añadir DVD"
+
+#: ../../FilesPanel.py:105
+msgid "Play Media"
+msgstr "Reproducir"
+
 #: ../../FilesPanel.py:108
+msgid "Cancel"
+msgstr "Cancelar"
+
+#: ../../FilesPanel.py:128
 msgid "Low"
 msgstr "Baja"
 
-#: ../../FilesPanel.py:109
+#: ../../FilesPanel.py:129
 msgid "Normal"
 msgstr "Normal"
 
-#: ../../FilesPanel.py:110
+#: ../../FilesPanel.py:130
 msgid "High"
 msgstr "Alta"
 
-#: ../../FilesPanel.py:111
+#: ../../FilesPanel.py:131
 msgid "Extra High"
 msgstr "Muy alta"
 
-#: ../../FilesPanel.py:122
-msgid "Files to encode"
-msgstr "Archivos a codificar"
+#: ../../FilesPanel.py:142
+msgid "Media sources to encode"
+msgstr "Orígenes de video que se van a codificar"
 
-#: ../../FilesPanel.py:149
+#: ../../FilesPanel.py:224
 msgid "Select the files to be encoded"
 msgstr "Seleccione los archivos que se van a codificar"
 
-#: ../../FilesPanel.py:234
+#: ../../FilesPanel.py:297
+msgid "No media sources selected."
+msgstr "No hay orígenes de vídeo seleccionados."
+
+#: ../../FilesPanel.py:321 ../../FilesPanel.py:346
+msgid "Select one media source."
+msgstr "Seleccione un origen de vídeo."
+
+#: ../../FilesPanel.py:413
 msgid ""
 "With extra high quality, the video FPS can not be lower than 24. Raising "
 "video FPS to 24."
@@ -195,86 +255,98 @@ msgstr ""
 "Con calidad muy alta, las imágenes por segundo no pueden ser menos de 24. Se "
 "elevará la tasa hasta 24."
 
-#: ../../FilesPanel.py:236 ../../FilesPanel.py:238
+#: ../../FilesPanel.py:415 ../../FilesPanel.py:417
 msgid "WARNING"
 msgstr "AVISO"
 
-#: ../../FilesPanel.py:264
+#: ../../FilesPanel.py:448
 #, python-format
 msgid "Can not read file %s."
 msgstr "No se puede leer el archivo %s."
 
-#: ../../FilesPanel.py:268
-msgid "There are no files to process."
-msgstr "No hay archivos que procesar."
+#: ../../FilesPanel.py:455
+msgid "There are no media sources to process."
+msgstr "No hay orígenes de vídeo para procesar."
 
-#: ../../Globals.py:236
+#: ../../Globals.py:251
 msgid "WARNING: Temporary files were not properly deleted:"
 msgstr "AVISO: No se pudieron borrar los archivos temporales:"
 
-#: ../../MainFrame.py:94
-msgid "FILES"
-msgstr "ARCHIVOS"
+#: ../../MainFrame.py:95
+msgid "MAIN"
+msgstr "PRINCIPAL"
 
-#: ../../MainFrame.py:99
+#: ../../MainFrame.py:101
 msgid "VIDEO"
 msgstr "IMAGEN"
 
-#: ../../MainFrame.py:104
+#: ../../MainFrame.py:107
 msgid "AUDIO"
 msgstr "SONIDO"
 
-#: ../../MainFrame.py:109
+#: ../../MainFrame.py:113
 msgid "SUBTITLES"
 msgstr "SUBTÍTULOS"
 
-#: ../../MainFrame.py:114
+#: ../../MainFrame.py:119
 msgid "MISC"
 msgstr "VARIOS"
 
-#: ../../OtherPanel.py:71
+#: ../../OtherPanel.py:76
 msgid "Output Folder"
 msgstr "Directorio de salida"
 
-#: ../../OtherPanel.py:77 ../../OtherPanel.py:87 ../../OtherPanel.py:97
+#: ../../OtherPanel.py:82 ../../OtherPanel.py:92 ../../OtherPanel.py:102
 #: ../../SubtitlesPanel.py:95 ../../SubtitlesPanel.py:104
 msgid "Examine"
 msgstr "Examinar"
 
-#: ../../OtherPanel.py:81
+#: ../../OtherPanel.py:86
 msgid "Temporary Folder"
 msgstr "Directorio temporal"
 
-#: ../../OtherPanel.py:91
+#: ../../OtherPanel.py:96
 msgid "Select Thumbnail"
 msgstr "Seleccionar miniatura"
 
-#: ../../OtherPanel.py:101
+#: ../../OtherPanel.py:106
 msgid "The input folder will be used by default"
 msgstr "Se utilizará por defecto el directorio de entrada"
 
-#: ../../OtherPanel.py:105
+#: ../../OtherPanel.py:110
 msgid "Thumbnails are autogenerated by default (DPG4 only)"
 msgstr "Las miniaturas se generan automáticamente (solo DPG4)"
 
-#: ../../OtherPanel.py:128
+#: ../../OtherPanel.py:114
+msgid "Preview size (seconds)"
+msgstr "Tamaño de previsualización (segundos)"
+
+#: ../../OtherPanel.py:141
 msgid "Select the ouput folder"
 msgstr "Seleccione el directorio de salida"
 
-#: ../../OtherPanel.py:140
+#: ../../OtherPanel.py:153
 msgid "Select the temporary folder"
 msgstr "Seleccione el directorio temporal"
 
-#: ../../OtherPanel.py:152
+#: ../../OtherPanel.py:165
 msgid "Select a thumbnail file"
 msgstr "Seleccione un archivo de imagen"
 
-#: ../../OtherPanel.py:165
+#: ../../OtherPanel.py:178
 msgid "The output folder can not be written. Please select another one."
 msgstr ""
 "No se puede escribir en el directorio de salida. Por favor seleccione otro."
 
-#: ../../OtherPanel.py:172
+#: ../../OtherPanel.py:185
+msgid ""
+"If you want to encode from DVD or VCD you need to select an output folder in "
+"\"MISC\"."
+msgstr ""
+"Para poder codificar un DVD o un VCD tiene que seleccionar un directorio "
+"de salida en «VARIOS»."
+
+#: ../../OtherPanel.py:191
 #, python-format
 msgid ""
 "The folder %s can not be written. Please select an output folder in \"MISC\"."
@@ -282,16 +354,16 @@ msgstr ""
 "No se puede escribir en el directorio %s. Por favor seleccione un directorio "
 "de salida en «VARIOS»."
 
-#: ../../OtherPanel.py:179
+#: ../../OtherPanel.py:198
 msgid "The temporary folder can not be written. Please select another one."
 msgstr ""
 "No se puede escribir en el directorio temporal. Por favor seleccione otro."
 
-#: ../../OtherPanel.py:187
+#: ../../OtherPanel.py:206
 msgid "The thumbnail file can not be readed."
 msgstr "No se puede leer el archivo con la miniatura."
 
-#: ../../OtherPanel.py:191
+#: ../../OtherPanel.py:210
 msgid "The thumbnail file has an unknown format."
 msgstr "El archivo con la miniatura tiene un formato desconocido."
 
@@ -349,32 +421,44 @@ msgstr "Seleccione la tipografía de subtítulos"
 msgid "The subtitles file can not be readed."
 msgstr "No se puede leer el archivo de subtítulos."
 
-#: ../../VideoPanel.py:66
+#: ../../VideoPanel.py:73
 msgid "Width"
 msgstr "Ancho"
 
-#: ../../VideoPanel.py:74
+#: ../../VideoPanel.py:81
 msgid "Keep Aspect"
 msgstr "Mantener aspecto"
 
-#: ../../VideoPanel.py:77
+#: ../../VideoPanel.py:84
 msgid "Height"
 msgstr "Alto"
 
-#: ../../VideoPanel.py:85
+#: ../../VideoPanel.py:92
 msgid "Video Bitrate"
 msgstr "Tasa de bits de imagen"
 
-#: ../../VideoPanel.py:94
+#: ../../VideoPanel.py:101
 msgid "Frames Per Second"
 msgstr "Nº de imágenes por segundo"
 
-#: ../../VideoPanel.py:101
+#: ../../VideoPanel.py:108
 msgid "Auto FPS"
 msgstr "Tasa automática"
 
-#: ../../VideoPanel.py:104
+#: ../../VideoPanel.py:111
 msgid "Pixel Format"
 msgstr "Formato de píxel"
 
+#: ../../VideoPanel.py:118
+msgid "Video Track"
+msgstr "Pista de vídeo"
 
+#: ../../VideoPanel.py:127
+msgid "Auto Video Track"
+msgstr "Pista de vídeo automática"
+
+#~ msgid "Select Audio Track"
+#~ msgstr "Seleccione pista de sonido"
+
+#~ msgid "FILES"
+#~ msgstr "ARCHIVOS"
