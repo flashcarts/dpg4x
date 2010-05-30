@@ -119,6 +119,10 @@ class CustomProgressDialog(wx.Dialog):
         wx.Yield()
         # Return the abort flag
         return self.abortFlag
+    
+    def getCurrentProgress(self):
+        "Returns the current progress"
+        return self.currProgress
         
     def abort(self, event):
         "Stop encoding NOW!"

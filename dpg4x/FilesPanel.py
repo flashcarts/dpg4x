@@ -252,9 +252,10 @@ class FilesPanel(wx.Panel):
             device = dialog.getDevice()
             track = dialog.getTrack()
             chapter = dialog.getChapter()
-            url = 'dvd://' + track + ' -dvd-device ' + device
             if chapter:
-                url += ' -chapter ' + chapter
+                url = 'dvd://' + track + ' -chapter ' + chapter + ' -dvd-device ' + device
+            else:
+                url = 'dvd://' + track + ' -dvd-device ' + device
             # Add the media source to the list
             # Avoid duplicated items
             if self.listCtrl1.FindItem(-1, url) == -1:

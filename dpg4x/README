@@ -41,10 +41,15 @@ USAGE
 If you run dpg4x, the first thing that you will see is the MAIN section. You can
 switch from one section to another with the icon-buttons at the top.
 
-The MAIN section includes a list, with all the files that you want to encode. To
-add a file to the list, use the "Add File" button. To delete a file from the list,
-select the file and use the "Delete File" button. You can also preview the files
-with mplayer, by selecting them and using the "Preview" button.
+The MAIN section includes a list, with all the media sources that you want to
+encode. To add a media source to the list, use the "Add Media" button. This will
+enable the "Add File", "Add DVD" and "Add VCD" buttons. To delete a media source
+from the list, select the media and use the "Delete Media" button. You can also
+play the madia sources and preview the encoding settings.
+
+To add a file, just browse your file system and select it. To add a DVD or a VCD
+you need to select the track and the disc reader device. When adding a DVD, you
+can filter by a range of chapters.
 
 Need more? Now you can also add files with drag-and-drop from your favourite file
 manager!
@@ -53,7 +58,7 @@ When you have completed the list, just use the "Start Encoding" button. If you
 want to setup the options for the encoding, you can select the DPG Version and
 the quality that you want to use. The DPG videos will be stored in the same
 folder than the original video files, but you can change this behaviour in the
-MISC section.
+MISC section. This is a must when you are using DVD or VCD sources.
 
 For advanced setup, you can switch to another section. Remember that all the
 sections are always available via the icon-buttons at the top.

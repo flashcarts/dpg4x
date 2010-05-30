@@ -698,6 +698,21 @@ def encode_files(files):
             if threadError:
                 raise Exception(threadError)
             
+            # Check the progress status
+            # It's neccesary to fix it when filtering by chapters
+            calculatedProg = 100
+            if Globals.dpg_quality == 'doublepass':
+                calculatedProg += 100
+            realProg = progress.getCurrentProgress()
+            # Increase progress when neccesary
+            if realProg < calculatedProg:
+                diffProgress = calculatedProg-realProg
+                abort = progress.doProgress(diffProgress, 
+                        filename + ' - ' + _(u'Encoding in progress') + ': 100%')
+                # Abort the process if the user requests it
+                if abort:
+                    raise Exception(_(u'Process aborted by the user.'))
+                
             # Generate GOP offsets
             if Globals.which('mpeg_stat'):
                 frames, gopSize = mpeg_stat(filename)
@@ -722,8 +737,14 @@ def encode_files(files):
                 dpgnameBase = file.split()[0].replace('://','_') + '_' \
                 '' + file.split()[-1].replace('/','') + '.dpg'
             elif (file[:6] == 'dvd://'):
-                dpgnameBase = file.split()[0].replace('://','_') + '_' \
-                '' + file.split()[2] + '_' + file.split()[-1].replace('/','') + '.dpg'
+                # Filter by chapter
+                if len(file.split()) == 5:
+                    dpgnameBase = file.split()[0].replace('://','_') + '_' \
+                        '' + file.split()[2] + '_' + file.split()[-1].replace('/','') + '.dpg'
+                # Don't filter by chapter
+                else:
+                    dpgnameBase = file.split()[0].replace('://','_') + '_' \
+                        '' + file.split()[-1].replace('/','') + '.dpg'
             else:
                 dpgnameBase = os.path.basename (os.path.splitext(file)[0]) + '.dpg'
             dpgName = os.path.join(outputDir, dpgnameBase)
@@ -784,5 +805,4 @@ def encode_files(files):
             encode_audio.stopThread()
         # Send the exception to the FilesPanel
         raise e
-
 
