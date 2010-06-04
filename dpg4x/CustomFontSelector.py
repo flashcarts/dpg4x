@@ -21,7 +21,8 @@ class CustomFontSelector(wx.Dialog):
         "Creates a font selector dialog"
         
         # Call the panel constructor
-        wx.Dialog.__init__(self, parent, size=wx.Size(500,240), title=title)
+        wx.Dialog.__init__(self, parent, title=title, 
+            style=wx.DEFAULT_DIALOG_STYLE)
 
         # The font enumerator can return a list with the available fonts
         e = wx.FontEnumerator()
@@ -65,6 +66,12 @@ class CustomFontSelector(wx.Dialog):
     
         # Events
         self.Bind(wx.EVT_LISTBOX, self.OnSelect, id=self.listBox1.GetId())
+        
+        # Set the window size
+        width = self.GetBestSize().x + 20
+        height = self.GetBestSize().y + 20
+        self.SetMinSize(wx.Size(width, height))
+        self.SetClientSize(wx.Size(width, height))
 
     def OnSelect(self, evt):
         "Change the current font when selected by the user"

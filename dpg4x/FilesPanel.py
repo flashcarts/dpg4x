@@ -36,6 +36,7 @@ class FilesPanel(wx.Panel):
 
         parent.AddWindow(self.listCtrl1, (1, 1), border=0, flag=wx.EXPAND,
               span=(5, 6))
+        parent.AddSpacer(wx.Size(130, 35), (0, 8), border=0, flag=0, span=(1,1))
         parent.AddWindow(self.button1, (1, 8), border=0, flag=wx.EXPAND, span=(1, 1))
         parent.AddWindow(self.button2, (2, 8), border=0, flag=wx.EXPAND, span=(1, 1))
         parent.AddWindow(self.button8, (3, 8), border=0, flag=wx.EXPAND, span=(1, 1))
@@ -68,13 +69,13 @@ class FilesPanel(wx.Panel):
               parent=self, style=wx.LC_REPORT, size=(350, 130))
 
         self.button1 = wx.Button(id=wxID_PANEL1BUTTON1, label=_(u'Add Media'),
-              name='button1', parent=self, style=0, size=(130, 35))
+              name='button1', parent=self, style=0)
 
         self.button2 = wx.Button(id=wxID_PANEL1BUTTON2, label=_(u'Delete Media'),
-              name='button2', parent=self, style=0, size=(130, 35))
+              name='button2', parent=self, style=0)
               
         self.button4 = wx.Button(id=wxID_PANEL1BUTTON4, label=_(u'Preview'),
-              name='button4', parent=self, style=0, size=(130, 35))
+              name='button4', parent=self, style=0)
 
         self.staticText1 = wx.StaticText(id=wxID_PANEL1STATICTEXT1,
               label=_(u'Quality')+' ', name='staticText1', parent=self, style=0)
@@ -94,19 +95,19 @@ class FilesPanel(wx.Panel):
               name='choice2', parent=self, style=0)
               
         self.button5 = wx.Button(id=wxID_PANEL1BUTTON5, label=_(u'Add File'),
-              name='button5', parent=self, style=0, size=(130, 35))
+              name='button5', parent=self, style=0)
               
         self.button6 = wx.Button(id=wxID_PANEL1BUTTON6, label=_(u'Add DVD'),
-              name='button6', parent=self, style=0, size=(130, 35))
+              name='button6', parent=self, style=0)
               
         self.button7 = wx.Button(id=wxID_PANEL1BUTTON7, label=_(u'Add VCD'),
-              name='button7', parent=self, style=0, size=(130, 35))
+              name='button7', parent=self, style=0)
               
         self.button8 = wx.Button(id=wxID_PANEL1BUTTON8, label=_(u'Play Media'),
-              name='button8', parent=self, style=0, size=(130, 35))
+              name='button8', parent=self, style=0)
               
         self.button9 = wx.Button(id=wxID_PANEL1BUTTON9, label=_(u'Cancel'),
-              name='button9', parent=self, style=0, size=(130, 35))
+              name='button9', parent=self, style=0)
 
         self._init_sizers()
 

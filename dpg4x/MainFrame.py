@@ -48,9 +48,8 @@ class Frame1(wx.Frame):
         # generated method, don't edit
         wx.Frame.__init__(self, id=wxID_FRAME1, name='', parent=prnt,
               style=wx.MINIMIZE_BOX | wx.SYSTEM_MENU | wx.CAPTION | 
-                    wx.CLOSE_BOX | wx.CLIP_CHILDREN, 
+                    wx.CLOSE_BOX | wx.CLIP_CHILDREN,
               title='DPG4X')
-        self.SetClientSize(wx.Size(565, 365))
 
         self.notebook1 = wx.Toolbook(id=wxID_FRAME1NOTEBOOK1, name='notebook1',
               parent=self, style=wx.BK_TOP)
@@ -92,30 +91,36 @@ class Frame1(wx.Frame):
         # Panel with files to be processed
         filesPanel = FilesPanel.FilesPanel(self.notebook1)
         self.notebook1.AddPage(filesPanel,
-            Globals.fillString(_(u'MAIN'),16),imageId=0)
+            Globals.fillString(_(u'MAIN'),10),imageId=0)
         Globals.filesPanel = filesPanel
         
         # Panel with video options
         videoPanel = VideoPanel.VideoPanel(self.notebook1)
         self.notebook1.AddPage(videoPanel,
-            Globals.fillString(_(u'VIDEO'),16),imageId=1)
+            Globals.fillString(_(u'VIDEO'),10),imageId=1)
         Globals.videoPanel = videoPanel
         
         # Panel with audio options
         audioPanel = AudioPanel.AudioPanel(self.notebook1)
         self.notebook1.AddPage(audioPanel,
-            Globals.fillString(_(u'AUDIO'),16),imageId=2)
+            Globals.fillString(_(u'AUDIO'),10),imageId=2)
         Globals.audioPanel = audioPanel
         
         # Panel with subtitle options
         subtitlesPanel = SubtitlesPanel.SubtitlesPanel(self.notebook1)
         self.notebook1.AddPage(subtitlesPanel,
-            Globals.fillString(_(u'SUBTITLES'),16),imageId=3)
+            Globals.fillString(_(u'SUBTITLES'),10),imageId=3)
         Globals.subtitlesPanel = subtitlesPanel
         
         # Panel with aditional options
         otherPanel = OtherPanel.OtherPanel(self.notebook1)
         self.notebook1.AddPage(otherPanel,
-            Globals.fillString(_(u'MISC'),16),imageId=4)
+            Globals.fillString(_(u'MISC'),10),imageId=4)
         Globals.otherPanel = otherPanel
+        
+        # Set the window size
+        width = self.GetBestSize().x + 20
+        height = self.GetBestSize().y + 20
+        self.SetMinSize(wx.Size(width, height))
+        self.SetClientSize(wx.Size(width, height))
         

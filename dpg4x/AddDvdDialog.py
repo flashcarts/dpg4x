@@ -60,7 +60,6 @@ class AddDvdDialog(wx.Dialog):
         # generated method, don't edit
         wx.Dialog.__init__(self, id=wxID_DIALOG1, name='', parent=prnt,
               style=wx.DEFAULT_DIALOG_STYLE, title=_(u'Add VCD'))
-        self.SetClientSize(wx.Size(305, 244))
 
         self.staticText1 = wx.StaticText(id=wxID_DIALOG1STATICTEXT1,
               label=_(u'Device'), name='staticText1', parent=self, style=0)
@@ -108,7 +107,12 @@ class AddDvdDialog(wx.Dialog):
         # Events
         wx.EVT_BUTTON(self.button1, wx.ID_OK, self.OnOK)
         wx.EVT_CHECKBOX(self.checkBox1, wxID_PANEL1CHECKBOX1, self.switchChapters)
-
+        
+        # Set the window size
+        width = self.GetBestSize().x + 20
+        height = self.GetBestSize().y + 20
+        self.SetMinSize(wx.Size(width, height))
+        self.SetClientSize(wx.Size(width, height))
         
     def getDevice(self):
         "Returns the selected media device"

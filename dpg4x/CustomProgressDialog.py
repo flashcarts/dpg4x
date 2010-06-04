@@ -47,13 +47,11 @@ class CustomProgressDialog(wx.Dialog):
     def _init_ctrls(self, prnt):
         # generated method, don't edit
         wx.Dialog.__init__(self, id=wxID_DIALOG1, name='', parent=prnt,
-              pos=wx.Point(329, 323), size=wx.Size(543, 195),
               style=wx.CAPTION, title=_(u'ENCODING'))
-        self.SetClientSize(wx.Size(543, 195))
 
         self.staticText1 = wx.StaticText(id=wxID_DIALOG1STATICTEXT1, label='',
               name='staticText1', parent=self, pos=wx.Point(20, 20),
-              size=wx.Size(500, 15), style=0)
+              style=0)
 
         self.gauge1 = wx.Gauge(id=wxID_DIALOG1GAUGE1, name='gauge1',
               parent=self, pos=wx.Point(20, 35), range=100, size=wx.Size(500,
@@ -61,7 +59,7 @@ class CustomProgressDialog(wx.Dialog):
 
         self.staticText2 = wx.StaticText(id=wxID_DIALOG1STATICTEXT2,
               label='', name='staticText2', parent=self,
-              pos=wx.Point(20, 83), size=wx.Size(500, 15), style=0)
+              pos=wx.Point(20, 83), style=0)
 
         self.gauge2 = wx.Gauge(id=wxID_DIALOG1GAUGE2, name='gauge2',
               parent=self, pos=wx.Point(20, 98), range=100, size=wx.Size(500,
@@ -69,7 +67,7 @@ class CustomProgressDialog(wx.Dialog):
 
         self.button1 = wx.Button(id=wxID_DIALOG1BUTTON1, label=_(u'Abort'),
               name='button1', parent=self, pos=wx.Point(233, 146),
-              size=wx.Size(89, 32), style=0)
+              style=0)
 
         self._init_sizers()
 
@@ -97,6 +95,12 @@ class CustomProgressDialog(wx.Dialog):
             
         # Events
         wx.EVT_BUTTON(self.button1, wxID_DIALOG1BUTTON1, self.abort)
+        
+        # Set the window size
+        width = self.GetBestSize().x + 20
+        height = self.GetBestSize().y + 20
+        self.SetMinSize(wx.Size(width, height))
+        self.SetClientSize(wx.Size(width, height))
         
     def doProgress(self, amount, message):
         "Advance the progress dialog in 1 step"
