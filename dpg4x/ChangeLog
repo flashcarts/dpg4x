@@ -24,3 +24,8 @@
     * Added a new track setup for video.
     * DPG version 0 now only supports mono audio.
 
+2010-06-20 Félix Medrano Sanz <xukosky at yahoo.es>
+
+    * dpg4x 1.1.1
+    * Fixed bug 3011287 - GUI does not scale.
+
