@@ -29,3 +29,8 @@
     * dpg4x 1.1.1
     * Fixed bug 3011287 - GUI does not scale.
 
+2010-08-22 Félix Medrano Sanz <xukosky at yahoo.es>
+
+    * dpg4x 1.2
+    * The new dpg2avi script can convert DPG files to AVI format.
+

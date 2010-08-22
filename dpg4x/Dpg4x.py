@@ -3,13 +3,13 @@
 #Boa:App:BoaApp
 
 #----------------------------------------------------------------------------
-# Name:         dpg4x.py
+# Name:         Dpg4x.py
 # Purpose:      A dpg encoder for Linux (and maybe others).
 #
 # Author:       Félix Medrano Sanz
 #
 # Created:      
-# RCS-ID:       $Id: dpg4x.py $
+# RCS-ID:       $Id: Dpg4x.py $
 # Copyright:    (c) 2009 Félix Medrano Sanz
 # Licence:      GPL v3
 #----------------------------------------------------------------------------
@@ -49,6 +49,7 @@ modules ={u'AddDvdDialog': [0,
  u'CustomProgressDialog': [0,
                            u'Dialog to show the progress of the encoding.',
                            u'CustomProgressDialog.py'],
+ u'Dpg2Avi': [0, u'Converts DPG videos into AVI videos.', u'Dpg2Avi.py'],
  u'Encoder': [0, u'Performs the encoding duties.', u'Encoder.py'],
  u'FilesPanel': [0, u'Panel with files to be encoded.', u'FilesPanel.py'],
  u'Globals': [0,

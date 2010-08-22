@@ -587,7 +587,7 @@ def write_header(filename, frames):
     if (Globals.dpg_version == 2) or (Globals.dpg_version == 3):
         audiostart += 12
     # DPG4 includes also a thumbnail
-    elif Globals.dpg_version == 4:
+    elif Globals.dpg_version >= 4:
         audiostart += 98320
     # Get size from audio file
     audiosize = os.stat(Globals.TMP_AUDIO)[stat.ST_SIZE]

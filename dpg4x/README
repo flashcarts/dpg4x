@@ -35,6 +35,7 @@ FEATURES
 - Ability to preview the encoding settings.
 - Encode your DVD and VCD directly.
 - Batch processing.
+- The dpg2avi script can convert DPG files to AVI format.
 
 
 USAGE
@@ -79,6 +80,17 @@ the "Preview" button). As the last step, don't forget to switch to the SUBTITLES
 section and select "Auto" as the subtitles source.
 
 
+DPG2AVI
+
+Since version 1.2, you can encode the DPG video files to AVI format with the
+dpg2avi script. To use the dpg2avi script, just set the DPG and AVI files as
+parameters. For example: dpg2avi input_file.dpg output_file.avi
+
+The dpg2avi script does not re-enconde the video or the audio streams in the DPG
+file. It only performs changes in the container, so all the properties like
+framerate, video size, bitrates, quality, etc. will be the same.
+
+
 CONFIGURATION
 
 When you use dpg4x, it stores the current configuration in your home folder. The
@@ -88,6 +100,9 @@ full path of the configuration file is:
 The next time dpg4x is opened, it will restore the last saved configuration. You
 can delete the configuration file to reset to the default values again. But you
 should not edit the configuration file by hand.
+
+The dpg2avi does not read the dpg4x configuration files. It stores the temporary
+files in the output directory.
 
 
 CONTACT US
