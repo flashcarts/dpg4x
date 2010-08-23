@@ -27,8 +27,8 @@ import os
  wxID_PANEL1CHOICE1, wxID_PANEL1LISTCTRL1, wxID_PANEL1STATICTEXT1, 
  wxID_PANEL1STATICTEXT2, wxID_PANEL1BUTTON4, wxID_PANEL1CHOICE2,
  wxID_PANEL1BUTTON5, wxID_PANEL1BUTTON6, wxID_PANEL1BUTTON7, 
- wxID_PANEL1BUTTON8, wxID_PANEL1BUTTON9
-] = [wx.NewId() for _init_ctrls in range(15)]
+ wxID_PANEL1BUTTON8, wxID_PANEL1BUTTON9, wxID_PANEL1BUTTON10
+] = [wx.NewId() for _init_ctrls in range(16)]
 
 class FilesPanel(wx.Panel):
     def _init_coll_gridBagSizer1_Items(self, parent):
@@ -40,7 +40,8 @@ class FilesPanel(wx.Panel):
         parent.AddWindow(self.button1, (1, 8), border=0, flag=wx.EXPAND, span=(1, 1))
         parent.AddWindow(self.button2, (2, 8), border=0, flag=wx.EXPAND, span=(1, 1))
         parent.AddWindow(self.button8, (3, 8), border=0, flag=wx.EXPAND, span=(1, 1))
-        parent.AddWindow(self.button4, (4, 8), border=0, flag=wx.EXPAND, span=(1, 1))
+        parent.AddWindow(self.button4, (5, 8), border=0, flag=wx.EXPAND, span=(1, 1))
+        parent.AddWindow(self.button10, (4, 8), border=0, flag=wx.EXPAND, span=(1, 1))
         parent.AddWindow(self.staticText1, (7, 5), border=0, 
               flag=wx.ALIGN_RIGHT | wx.ALIGN_CENTER_VERTICAL, span=(1, 1))
         parent.AddWindow(self.staticText2, (7, 2), border=0, 
@@ -74,7 +75,7 @@ class FilesPanel(wx.Panel):
         self.button2 = wx.Button(id=wxID_PANEL1BUTTON2, label=_(u'Delete Media'),
               name='button2', parent=self, style=0)
               
-        self.button4 = wx.Button(id=wxID_PANEL1BUTTON4, label=_(u'Preview'),
+        self.button4 = wx.Button(id=wxID_PANEL1BUTTON4, label=_(u'DPG Preview'),
               name='button4', parent=self, style=0)
 
         self.staticText1 = wx.StaticText(id=wxID_PANEL1STATICTEXT1,
@@ -108,6 +109,9 @@ class FilesPanel(wx.Panel):
               
         self.button9 = wx.Button(id=wxID_PANEL1BUTTON9, label=_(u'Cancel'),
               name='button9', parent=self, style=0)
+              
+        self.button10 = wx.Button(id=wxID_PANEL1BUTTON10, label=_(u'Media Info'),
+              name='button10', parent=self, style=0)
 
         self._init_sizers()
 
@@ -161,6 +165,7 @@ class FilesPanel(wx.Panel):
         wx.EVT_BUTTON(self.button7, wxID_PANEL1BUTTON7, self.addVcd)
         wx.EVT_BUTTON(self.button8, wxID_PANEL1BUTTON8, self.playMedia)
         wx.EVT_BUTTON(self.button9, wxID_PANEL1BUTTON9, self.restoreMenu)
+        wx.EVT_BUTTON(self.button10, wxID_PANEL1BUTTON10, self.showMediaInfo)
         
         # Drop files
         class FileDropTarget(wx.FileDropTarget):
@@ -182,6 +187,7 @@ class FilesPanel(wx.Panel):
         self.button2.Show(False)
         self.button4.Show(False)
         self.button8.Show(False)
+        self.button10.Show(False)
         # Show the add-media buttons
         self.button5.Show(True)
         self.button6.Show(True)
@@ -209,6 +215,7 @@ class FilesPanel(wx.Panel):
         self.button2.Show(True)
         self.button4.Show(True)
         self.button8.Show(True)
+        self.button10.Show(True)
         # Replace the buttons in the layout
         self.gridBagSizer1.Replace(self.button5, self.button1)
         self.gridBagSizer1.Replace(self.button6, self.button2)
@@ -360,6 +367,31 @@ class FilesPanel(wx.Panel):
             # Preview the file
             item = self.listCtrl1.GetItemText(self.listCtrl1.GetFirstSelected())
             Previewer.preview_files(item)       
+        # On error, warn the user
+        except Exception, e:
+            message = e.message
+            Globals.debug(_(u'ERROR') + ': ' + message)
+            # Show a dialog to the user
+            dialog = wx.MessageDialog(self, message, _(u'ERROR'), 
+                style=wx.ICON_ERROR)
+            dialog.ShowModal()
+            
+    def showMediaInfo(self, event):
+        "Displays information about a media source"
+        # If None event we called it
+        if (event is not None):
+            event.StopPropagation()
+        try:
+            # Allow only one file
+            if self.listCtrl1.GetSelectedItemCount() != 1:
+                message = _(u'Select one media source.')
+                dialog = wx.MessageDialog(self, message, _(u'ERROR'), 
+                    style=wx.ICON_ERROR)
+                dialog.ShowModal()
+                return
+            # Preview the file
+            item = self.listCtrl1.GetItemText(self.listCtrl1.GetFirstSelected())
+            Previewer.show_information(item, self)       
         # On error, warn the user
         except Exception, e:
             message = e.message

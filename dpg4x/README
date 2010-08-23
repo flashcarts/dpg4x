@@ -47,7 +47,8 @@ The MAIN section includes a list, with all the media sources that you want to
 encode. To add a media source to the list, use the "Add Media" button. This will
 enable the "Add File", "Add DVD" and "Add VCD" buttons. To delete a media source
 from the list, select the media and use the "Delete Media" button. You can also
-play the madia sources and preview the encoding settings.
+play the madia sources, preview the encoding settings and gather information
+about the media sources.
 
 To add a file, just browse your file system and select it. To add a DVD or a VCD
 you need to select the track and the disc reader device. When adding a DVD, you

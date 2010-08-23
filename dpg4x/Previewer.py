@@ -14,6 +14,7 @@
 
 import Globals
 import Encoder
+from moreControls.OutputTextDialog import OutputTextDialog
 
 import subprocess
 import os
@@ -113,3 +114,21 @@ def play_files(file):
         Globals.mainPanel.Enable(True)
         # Send the exception to the FilesPanel
         raise e
+    
+def show_information(file, parent):
+    "Displays information about a media source"
+    
+    # Get the media information from mplayer
+    mplayer_proc = subprocess.Popen(
+        ['mplayer','-frames','0','-vo','null','-ao','null','-identify',file],
+        stdout=subprocess.PIPE,stderr=subprocess.STDOUT, 
+        universal_newlines=True)
+    mplayer_output = mplayer_proc.communicate()[0]
+    # Check the return process
+    if mplayer_proc.wait() != 0:
+        raise Exception(_(u'Error on mplayer')+': '+mplayer_output)
+    
+    # Show a dialog to the user
+    dialog = OutputTextDialog(parent, mplayer_output, 
+        _(u'Information about %s') % os.path.basename(file))
+    dialog.ShowModal()
