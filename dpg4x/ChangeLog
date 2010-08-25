@@ -35,4 +35,5 @@
     * The new dpg2avi script can convert DPG files to AVI format.
     * Added a "Media Info" button to gather information about sources.
     * Experimental OGG and GSM audio support. Disabled by default.
+    * Various bug fixes.
 

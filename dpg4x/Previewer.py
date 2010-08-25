@@ -51,7 +51,7 @@ def preview_files(file):
         mencoder_output = mencoder_proc.communicate()[0]
         # Check the return process
         if mencoder_proc.wait() != 0:
-            raise Exception(_(u'Error on mencoder')+': '+mencoder_output)
+            raise Exception(_(u'ERROR ON MENCODER')+'\n\n'+mencoder_output)
         
         # Sets the normal cursor again
         if busy is not None:
@@ -65,7 +65,7 @@ def preview_files(file):
         mplayer_output = mplayer_proc.communicate()[0]
         # Check the return process
         if mplayer_proc.wait() != 0:
-            raise Exception(_(u'Error on mplayer')+': '+mplayer_output)
+            raise Exception(_(u'ERROR ON MPLAYER')+'\n\n'+mplayer_output)
         
         # Delete the temporary files
         os.remove(Globals.TMP_VIDEO+'.avi')
@@ -105,7 +105,7 @@ def play_files(file):
         mplayer_output = mplayer_proc.communicate()[0]
         # Check the return process
         if mplayer_proc.wait() != 0:
-            raise Exception(_(u'Error on mplayer')+': '+mplayer_output)
+            raise Exception(_(u'ERROR ON MPLAYER')+'\n\n'+mplayer_output)
         
         # Enable the events on main frame
         Globals.mainPanel.Enable(True)
@@ -126,7 +126,7 @@ def show_information(file, parent):
     mplayer_output = mplayer_proc.communicate()[0]
     # Check the return process
     if mplayer_proc.wait() != 0:
-        raise Exception(_(u'Error on mplayer')+': '+mplayer_output)
+        raise Exception(_(u'ERROR ON MPLAYER')+'\n\n'+mplayer_output)
     
     # Show a dialog to the user
     dialog = OutputTextDialog(parent, mplayer_output, 

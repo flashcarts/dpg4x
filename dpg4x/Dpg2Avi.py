@@ -147,7 +147,7 @@ if __name__ == '__main__':
         mencoder_output = mencoder_proc.communicate()[0]
         # Check the return process
         if mencoder_proc.wait() != 0:
-            raise Exception(_(u'Error on mencoder')+': '+mencoder_output)
+            raise Exception(_(u'ERROR ON MENCODER')+'\n\n'+mencoder_output)
 
         # Close the files
         if fdInput:
