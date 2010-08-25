@@ -31,6 +31,7 @@ USERFILECONFIG = FILECONFIG[0]
 
 # Temporary files
 TMP_AUDIO = None
+TMP_FIFO = None
 TMP_VIDEO = None
 TMP_HEADER = None
 TMP_GOP = None
@@ -73,7 +74,8 @@ video_pixel = 3
 audio_codec = 'mp2'
 audio_track = 0
 audio_autotrack = True
-audio_bitrate = 128
+audio_bitrate_mp2 = 128
+audio_bitrate_vorbis = 128
 audio_frequency = 32000
 audio_normalize = False
 audio_mono = False
@@ -177,6 +179,12 @@ def createTemporary():
     global TMP_AUDIO
     fd,TMP_AUDIO = tempfile.mkstemp(dir=tmpDir)
     os.close(fd)
+    # Audio temporary fifo - maybe there is a better way to do it...
+    global TMP_FIFO
+    fd,TMP_FIFO = tempfile.mkstemp(dir=tmpDir)
+    os.close(fd)
+    os.remove(TMP_FIFO)
+    os.mkfifo(TMP_FIFO,0600)
 	# Video temporary file
     global TMP_VIDEO
     fd,TMP_VIDEO = tempfile.mkstemp(dir=tmpDir)
@@ -213,11 +221,16 @@ def createTemporary():
         
 def clearTemporary():
     "Delete the temporary files"
+    return
     try:
         # Audio temporary file
         global TMP_AUDIO
         if TMP_AUDIO and os.path.isfile(TMP_AUDIO):
             os.remove(TMP_AUDIO)
+        # Audio temporary fifo
+        global TMP_FIFO
+        if TMP_FIFO and os.path.exists(TMP_FIFO):
+            os.remove(TMP_FIFO)
         # Video temporary file
         global TMP_VIDEO
         if TMP_VIDEO and os.path.isfile(TMP_VIDEO):

@@ -58,7 +58,8 @@ def saveConfiguration():
     __cp.set('AUDIO','audio_codec',Globals.Encode(Globals.audio_codec))
     __cp.set('AUDIO','audio_track',str(Globals.audio_track))
     __cp.set('AUDIO','audio_autotrack',str(Globals.audio_autotrack))
-    __cp.set('AUDIO','audio_bitrate',str(Globals.audio_bitrate))
+    __cp.set('AUDIO','audio_bitrate_mp2',str(Globals.audio_bitrate_mp2))
+    __cp.set('AUDIO','audio_bitrate_vorbis',str(Globals.audio_bitrate_vorbis))
     __cp.set('AUDIO','audio_frequency',str(Globals.audio_frequency))
     __cp.set('AUDIO','audio_normalize',str(Globals.audio_normalize))
     __cp.set('AUDIO','audio_mono',str(Globals.audio_mono))
@@ -138,8 +139,10 @@ def loadConfiguration():
         Globals.audio_track = __cp.getint('AUDIO','audio_track')
     if __cp.has_option('AUDIO', 'audio_autotrack'):
         Globals.audio_autotrack = __cp.getboolean('AUDIO','audio_autotrack')
-    if __cp.has_option('AUDIO', 'audio_bitrate'):
-        Globals.audio_bitrate = __cp.getint('AUDIO','audio_bitrate')  
+    if __cp.has_option('AUDIO', 'audio_bitrate_mp2'):
+        Globals.audio_bitrate_mp2 = __cp.getint('AUDIO','audio_bitrate_mp2')
+    if __cp.has_option('AUDIO', 'audio_bitrate_vorbis'):
+        Globals.audio_bitrate_vorbis = __cp.getint('AUDIO','audio_bitrate_vorbis')
     if __cp.has_option('AUDIO', 'audio_frequency'):
         Globals.audio_frequency = __cp.getint('AUDIO','audio_frequency')
     if __cp.has_option('AUDIO', 'audio_normalize'):

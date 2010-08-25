@@ -121,30 +121,17 @@ class AudioPanel(wx.Panel):
             self.choice1.Select(1)
         elif Globals.audio_codec == 'vorbis':
             self.choice1.Select(2)
-            
-        # We are having lots of problems with the way mencoder manages
-        # gms and ogg, so it'll be disabled until a solution is found
-        # I think adding more dependencies is not worth it
-        self.choice1.Select(1)
+         
+        # OGG and GSM support is in alpha status
         self.choice1.Enable(False)
             
-        # Init the audio bitrate choice
-        self.choice2.Append(u'32',32)
-        self.choice2.Append(u'48',48)
-        self.choice2.Append(u'64',64)
-        self.choice2.Append(u'80',80)
-        self.choice2.Append(u'96',96)
-        self.choice2.Append(u'112',112)
-        self.choice2.Append(u'128',128)
-        self.choice2.Append(u'144',144)
-        self.choice2.Append(u'160',160)
-        self.choice2.Append(u'176',176)
-        self.choice2.Append(u'192',192)
-        self.choice2.Append(u'208',208)
-        self.choice2.Append(u'224',224)
-        self.choice2.Append(u'240',240)
-        self.choice2.Append(u'256',256)
-        self.choice2.SetStringSelection(str(Globals.audio_bitrate))
+        # Check if sox is available
+        #if not Globals.which('sox'):
+        #    self.choice1.Enable(False)
+        #    Globals.debug(_(u'WARNING: sox not found. OGG and GSM audio ' \
+        #        u'support disabled.'))
+            
+        self.changeAudioCodec(None)
         
         # Init the audio frequency choice
         self.choice3.Append(u'22050',22050)
@@ -175,6 +162,7 @@ class AudioPanel(wx.Panel):
         
         # Events
         wx.EVT_CHECKBOX(self.checkBox3, wxID_PANEL1CHECKBOX3, self.switchAutoTrack)
+        wx.EVT_CHOICE(self.choice1, wxID_PANEL1CHOICE1, self.changeAudioCodec)
         
     def switchAutoTrack(self, event):
         "Enable or disable the track selector"
@@ -188,11 +176,75 @@ class AudioPanel(wx.Panel):
         Globals.audio_codec = self.choice1.GetClientData(
             self.choice1.GetSelection())
         Globals.audio_track = self.spinCtrl1.GetValue()
-        Globals.audio_autotrack = self.checkBox3.IsChecked() 
-        Globals.audio_bitrate = self.choice2.GetClientData(
-            self.choice2.GetSelection())
+        Globals.audio_autotrack = self.checkBox3.IsChecked()
+        # The bitrate depends on the codec
+        if Globals.audio_codec == 'mp2':
+            Globals.audio_bitrate_mp2 = self.choice2.GetClientData(
+                self.choice2.GetSelection())
+        elif Globals.audio_codec == 'vorbis':
+            Globals.audio_bitrate_vorbis = self.choice2.GetClientData(
+                self.choice2.GetSelection())
         Globals.audio_frequency = self.choice3.GetClientData(
             self.choice3.GetSelection())
         Globals.audio_normalize = self.checkBox1.IsChecked()
         Globals.audio_mono = self.checkBox2.IsChecked()
-
+        
+    def changeAudioCodec(self, event):
+        "Used to adapt the options to the new audio codec"
+        # If None event we called it
+        if (event is not None):
+            event.StopPropagation()
+            codec = event.GetClientData()
+        else:
+            codec = self.choice1.GetClientData(self.choice1.GetSelection())
+        
+        # Sox supports GSM at full rate 13kbps
+        if codec == 'libgsm':
+            self.choice2.Clear()
+            # The spaces behind 13 avoid the choice to be too small
+            self.choice2.Append(u'13  ','')
+            self.choice2.SetSelection(0)
+            # GSM only supports mono audio
+            self.checkBox2.Enable(False)
+            
+        # Ogg vorbis - these are official Xiph.org values, but they are
+        #              orientative only
+        elif codec == 'vorbis':
+            self.choice2.Clear()
+            self.choice2.Append(u'45',45)   # -1
+            self.choice2.Append(u'64',64)   #  0
+            self.choice2.Append(u'80',80)   #  1
+            self.choice2.Append(u'96',96)   #  2
+            self.choice2.Append(u'112',112) #  3
+            self.choice2.Append(u'128',128) #  4
+            self.choice2.Append(u'160',160) #  5
+            self.choice2.Append(u'192',192) #  6
+            self.choice2.Append(u'224',224) #  7
+            self.choice2.Append(u'256',256) #  8
+            self.choice2.Append(u'320',320) #  9
+            self.choice2.Append(u'500',500) # 10
+            self.choice2.SetStringSelection(str(Globals.audio_bitrate_vorbis))
+            # GSM only supports mono audio
+            self.checkBox2.Enable(True)
+            
+        # Default mp2 codec
+        else:
+            self.choice2.Clear()
+            self.choice2.Append(u'32',32)
+            self.choice2.Append(u'48',48)
+            self.choice2.Append(u'56',56)
+            self.choice2.Append(u'64',64)
+            self.choice2.Append(u'80',80)
+            self.choice2.Append(u'96',96)
+            self.choice2.Append(u'112',112)
+            self.choice2.Append(u'128',128)
+            self.choice2.Append(u'160',160)
+            self.choice2.Append(u'192',192)
+            self.choice2.Append(u'224',224)
+            self.choice2.Append(u'256',256)
+            self.choice2.Append(u'320',320)
+            self.choice2.Append(u'384',384)
+            self.choice2.SetStringSelection(str(Globals.audio_bitrate_mp2))
+            # GSM only supports mono audio
+            self.checkBox2.Enable(True)
+            

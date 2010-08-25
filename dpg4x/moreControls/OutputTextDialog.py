@@ -38,7 +38,7 @@ class OutputTextDialog(wx.Dialog):
         # generated method, don't edit
         wx.Dialog.__init__(self, id=wxID_DIALOG1, name='', parent=prnt,
               pos=wx.Point(271, 143), size=wx.Size(683, 445),
-              style=wx.CAPTION, title=titl)
+              style=wx.CAPTION | wx.RESIZE_BORDER, title=titl)
         self.SetClientSize(wx.Size(683, 445))
 
         self.panel1 = wx.Panel(id=wxID_DIALOG1PANEL1, name='panel1',
@@ -57,6 +57,7 @@ class OutputTextDialog(wx.Dialog):
         self._init_ctrls(parent, title)
         # Show the text
         self.textCtrl1.AppendText(text)
+        self.textCtrl1.ShowPosition(0)
         # Events
         wx.EVT_BUTTON(self.button1, wx.ID_CLOSE, self.OnClose)
         

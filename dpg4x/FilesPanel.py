@@ -19,6 +19,7 @@ import ConfigurationManager
 import Previewer
 import AddVcdDialog
 import AddDvdDialog
+from moreControls.OutputTextDialog import OutputTextDialog
 
 import wx
 import os
@@ -340,8 +341,9 @@ class FilesPanel(wx.Panel):
             message = e.message
             Globals.debug(_(u'ERROR') + ': ' + message)
             # Show a dialog to the user
-            dialog = wx.MessageDialog(self, message, _(u'ERROR'), 
-                style=wx.ICON_ERROR)
+            #dialog = wx.MessageDialog(self, message, _(u'ERROR'), 
+            #    style=wx.ICON_ERROR)
+            dialog = OutputTextDialog(self, message, _(u'ERROR'))
             dialog.ShowModal()
             
     def previewMedia(self, event):
@@ -372,8 +374,9 @@ class FilesPanel(wx.Panel):
             message = e.message
             Globals.debug(_(u'ERROR') + ': ' + message)
             # Show a dialog to the user
-            dialog = wx.MessageDialog(self, message, _(u'ERROR'), 
-                style=wx.ICON_ERROR)
+            #dialog = wx.MessageDialog(self, message, _(u'ERROR'), 
+            #    style=wx.ICON_ERROR)
+            dialog = OutputTextDialog(self, message, _(u'ERROR'))
             dialog.ShowModal()
             
     def showMediaInfo(self, event):
@@ -397,8 +400,9 @@ class FilesPanel(wx.Panel):
             message = e.message
             Globals.debug(_(u'ERROR') + ': ' + message)
             # Show a dialog to the user
-            dialog = wx.MessageDialog(self, message, _(u'ERROR'), 
-                style=wx.ICON_ERROR)
+            #dialog = wx.MessageDialog(self, message, _(u'ERROR'), 
+            #    style=wx.ICON_ERROR)
+            dialog = OutputTextDialog(self, message, _(u'ERROR'))
             dialog.ShowModal()
         
     def changeDPGLevel(self, event):
@@ -432,6 +436,7 @@ class FilesPanel(wx.Panel):
                 Globals.audioPanel.choice1.SetSelection(oldSelection)
             else:
                 Globals.audioPanel.choice1.SetSelection(1)
+        Globals.audioPanel.changeAudioCodec(None)
         
     def changeQuality(self, event):
         "Update the GUI when the quality level changes"
@@ -506,8 +511,9 @@ class FilesPanel(wx.Panel):
             message = e.message
             Globals.debug(_(u'ERROR') + ': ' + message)
             # Show a dialog to the user
-            dialog = wx.MessageDialog(self, message, _(u'ERROR'), 
-                style=wx.ICON_ERROR)
+            #dialog = wx.MessageDialog(self, message, _(u'ERROR'), 
+            #    style=wx.ICON_ERROR)
+            dialog = OutputTextDialog(self, message, _(u'ERROR'))
             dialog.ShowModal()
         
     def dropFiles(self, filenames):

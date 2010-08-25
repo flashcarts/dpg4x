@@ -61,7 +61,7 @@ def encode_video(file, filename, preview=False):
         mplayer_output = mplayer_proc.communicate()[0]
         # Check the return process
         if mplayer_proc.wait() != 0:
-            raise Exception(_(u'Error on mplayer')+': '+mplayer_output)
+            raise Exception(_(u'ERROR ON MPLAYER')+'\n\n'+mplayer_output)
         # In my tests, the video aspect can be shown more than once,
         # being the later the best one. So I'll use info[-1]
         info = aspectRE.findall(mplayer_output)
@@ -216,7 +216,7 @@ def encode_video(file, filename, preview=False):
             
     # Check the return process
     if proc.wait() != 0:
-        raise Exception(_(u'Error on mencoder')+': '+mencoder_output)
+        raise Exception(_(u'ERROR ON MENCODER')+'\n\n'+mencoder_output)
     
     # Execute the second pass if necessary
     if Globals.dpg_quality == 'doublepass':
@@ -249,10 +249,52 @@ def encode_video(file, filename, preview=False):
             
         # Check the return process
         if proc.wait() != 0:
-            raise Exception(_(u'Error on mencoder')+': '+mencoder_output)
+            raise Exception(_(u'ERROR ON MENCODER')+'\n\n'+mencoder_output)
         # Delete the divx2pass.log temporary file
         os.chdir(current_path)
         shutil.rmtree(Globals.TMP_DIVX2PASS, ignore_errors = True)
+
+class SoxThread(threading.Thread):
+    "Thread to execute the sox process"
+    # This is neccesary because if we execute mplayer and sox at the same
+    # time and use a pipe, we don't need aditional temporary space and
+    # the process may be faster
+    
+    def __init__(self, params):
+        "Constructor for SoxThread"
+        threading.Thread.__init__(self)
+        self.params = params
+        self.errorMessage = None
+        self.stop = False
+        
+    def stopThread(self):
+        "Stop the run function"
+        self.stop = True
+    
+    def getErrorMessage(self):
+        "Returns the error message"
+        return self.errorMessage
+    
+    def run(self):
+        "Running code for the tread"
+        
+        try:
+            proc_sox = subprocess.Popen(self.params, stdout=subprocess.PIPE,
+                stderr=subprocess.STDOUT, universal_newlines=True) 
+            # Monitor execution
+            sox_output = ''
+            for line in proc_sox.stdout:
+                sox_output += line
+                # Check if the encoding must continue
+                if self.stop:
+                    proc_sox.terminate()
+                    raise Exception(_(u'Audio encoding stopped'))
+            # Check the return process
+            if proc_sox.wait() != 0:
+                raise Exception(_(u'ERROR ON SOX')+'\n\n'+sox_output)
+        # Manage posible exceptions on the thread
+        except Exception, e:
+            self.errorMessage = e.message
 
 class EncodeAudioThread(threading.Thread):
     "Thread to encode the audio stream"
@@ -277,6 +319,7 @@ class EncodeAudioThread(threading.Thread):
         "Running code for the tread"
         
         try:
+            sox_thread = None
             file = self.file
             
             # Prepare the input file to be usable by mplayer
@@ -288,16 +331,24 @@ class EncodeAudioThread(threading.Thread):
             # Check if the encoding must continue
             if self.stop:
                 raise Exception(_(u'Audio encoding stopped'))
-
-            # Configure the call to mencoder
-            a_cmd = ['mencoder']+mpFile+['-v','-of','rawaudio','-oac','lavc','-ovc','copy',
-                '-lavcopts','acodec='+Globals.audio_codec+':abitrate=' \
-                ''+str(Globals.audio_bitrate),'-o',Globals.TMP_AUDIO]
-
+            
+            # When mp2 audio codec is selected, we use mencoder to perform
+            # all the process
+            a_cmd = ['mencoder']+mpFile+['-v','-of','rawaudio','-oac',
+                'lavc','-ovc','copy','-lavcopts',
+                'acodec=mp2:abitrate='+str(Globals.audio_bitrate_mp2),
+                '-o',Globals.TMP_AUDIO]
+                
+            # When gms or ogg is selected, we use mplayer+sox
+            m_cmd = ['mplayer']+mpFile+['-v','-vo','null','-ao',
+                'pcm:fast:file='+Globals.TMP_FIFO]
+            s_cmd = ['sox','-V3','-S',Globals.TMP_FIFO]
+                
             # Option to normalize the volume
             if Globals.audio_normalize:
                 a_cmd = a_cmd + ['-af','volnorm']
-                
+                s_cmd = s_cmd + ['--norm']
+                         
             # Get the number of audio channels for video source
             mplayer_proc = subprocess.Popen(
                 ['mplayer','-frames','0','-vo','null','-ao','null','-identify']+mpFile,
@@ -306,12 +357,13 @@ class EncodeAudioThread(threading.Thread):
             mplayer_output = mplayer_proc.communicate()[0]
             # Check the return process
             if mplayer_proc.wait() != 0:
-                raise Exception(_(u'Error on mplayer')+': '+mplayer_output)
+                raise Exception(_(u'ERROR ON MPLAYER')+'\n\n'+mplayer_output)
             # Identify the info by searchinb the ID_AUDIO_NCH tag
             nchanRE = re.compile ("\nID_AUDIO_NCH=([0-9]*)\n")
             nchanSE = nchanRE.search(mplayer_output)
             if nchanSE:
                 nchan = nchanSE.group(1)
+                
                 # Use the same number of channels for input and output
                 # But do not use more than 2 channels
                 # DPGV0 only supports mono audio
@@ -319,9 +371,11 @@ class EncodeAudioThread(threading.Thread):
                     if nchan > 2:
                         a_cmd = a_cmd + ['-af',
                             'channels=2,resample='+str(Globals.audio_frequency)+':1:2']
+                        s_cmd = s_cmd + ['-c','2','-r',str(Globals.audio_frequency)]
                     else:
                         a_cmd = a_cmd + ['-af',
                             'resample='+str(Globals.audio_frequency)+':1:2']
+                        s_cmd = s_cmd + ['-r',str(Globals.audio_frequency)]
                     # Update the audio_mono variable for the header process
                     if nchan == 1:
                         Globals.audio_mono = True
@@ -329,38 +383,105 @@ class EncodeAudioThread(threading.Thread):
                 else:
                     a_cmd = a_cmd + ['-af',
                         'channels=1,resample='+str(Globals.audio_frequency)+':1:2']
+                    s_cmd = s_cmd + ['-c','1','-r',str(Globals.audio_frequency)]
                         
             # When error, include the output in the exception
             else:
-                raise Exception(_(u'Error on mplayer')+': '+mplayer_output)
+                raise Exception(_(u'ERROR ON MPLAYER')+'\n\n'+mplayer_output)
 
             # Select the audio track
             if not Globals.audio_autotrack:
                 a_cmd = a_cmd + ['-aid',str(Globals.audio_track)]
+                m_cmd = m_cmd + ['-aid',str(Globals.audio_track)]
                 
             # Encode only a small chunk on preview
             if self.preview:
                 a_cmd = a_cmd + ['-endpos',str(Globals.other_previewsize)]
+                m_cmd = m_cmd + ['-endpos',str(Globals.other_previewsize)]
 
-            # Execute mencoder
-            Globals.debug('ENCODE AUDIO: ' + `a_cmd`)
-            proc = subprocess.Popen(a_cmd, stdout=subprocess.PIPE,
-                stderr=subprocess.STDOUT, universal_newlines=True)
-            # Monitor execution
-            mencoder_output = ''
-            for line in proc.stdout:
-                mencoder_output += line
-                # Check if the encoding must continue
-                if self.stop:
-                    raise Exception(_(u'Audio encoding stopped'))
-
-            # Check the return process
-            if proc.wait() != 0:
-                raise Exception(_(u'Error on mencoder')+u': '+mencoder_output)
+            # If mp2 codec is selected, execute mencoder
+            if Globals.audio_codec == 'mp2':
+                Globals.debug('ENCODE AUDIO: ' + `a_cmd`)
+                proc = subprocess.Popen(a_cmd, stdout=subprocess.PIPE,
+                    stderr=subprocess.STDOUT, universal_newlines=True)
+                # Monitor execution
+                mencoder_output = ''
+                for line in proc.stdout:
+                    mencoder_output += line
+                    # Check if the encoding must continue
+                    if self.stop:
+                        raise Exception(_(u'Audio encoding stopped'))
+                # Check the return process
+                if proc.wait() != 0:
+                    raise Exception(_(u'ERROR ON MENCODER')+'\n\n'+mencoder_output)
+                
+            # If gsm or ogg is selected, execute mplayer and sox
+            else:
+                
+                # SOX
+                # Add the format options
+                if Globals.audio_codec == 'vorbis':
+                    format = ['-t','ogg','-C']
+                    if Globals.audio_bitrate_vorbis == 45:
+                        format = format + ['-1']
+                    if Globals.audio_bitrate_vorbis == 64:
+                        format = format + ['0']
+                    if Globals.audio_bitrate_vorbis == 80:
+                        format = format + ['1']
+                    if Globals.audio_bitrate_vorbis == 96:
+                        format = format + ['2']
+                    if Globals.audio_bitrate_vorbis == 112:
+                        format = format + ['3']
+                    if Globals.audio_bitrate_vorbis == 128:
+                        format = format + ['4']
+                    if Globals.audio_bitrate_vorbis == 160:
+                        format = format + ['5']
+                    if Globals.audio_bitrate_vorbis == 192:
+                        format = format + ['6']
+                    if Globals.audio_bitrate_vorbis == 224:
+                        format = format + ['7']
+                    if Globals.audio_bitrate_vorbis == 256:
+                        format = format + ['8']
+                    if Globals.audio_bitrate_vorbis == 320:
+                        format = format + ['9']
+                    if Globals.audio_bitrate_vorbis == 500:
+                        format = format + ['10']
+                else:
+                    format = ['-t','wav','-e','gsm-full-rate']
+                s_cmd = s_cmd + format + [Globals.TMP_AUDIO]
+                # Execute sox through a trhead
+                Globals.debug('ENCODE AUDIO: ' + `s_cmd`)
+                sox_thread = SoxThread(s_cmd)
+                sox_thread.start()
+                
+                # MPLAYER
+                Globals.debug('ENCODE AUDIO: ' + `m_cmd`)
+                proc = subprocess.Popen(m_cmd, stdout=subprocess.PIPE,
+                    stderr=subprocess.STDOUT, universal_newlines=True)
+                # Monitor execution
+                mplayer_output = ''
+                for line in proc.stdout:
+                    mplayer_output += line
+                    # Check if the encoding must continue
+                    if self.stop:
+                        proc.terminate()
+                        raise Exception(_(u'Audio encoding stopped'))
+                # Check the return process
+                if proc.wait() != 0:
+                    raise Exception(_(u'ERROR ON MPLAYER')+'\n\n'+mplayer_output)
+                
+                # Check for errors in SOX
+                sox_thread.join()
+                threadError = sox_thread.getErrorMessage()
+                if threadError:
+                    raise Exception(threadError)
 
         # Manage posible exceptions on the thread
         except Exception, e:
             self.errorMessage = e.message
+            # Stop the sox thread
+            if sox_thread:
+                sox_thread.stopThread()
     
 def mpeg_stat(filename):
     "Generate file with GOP offsets and calculate frames"
@@ -383,7 +504,7 @@ def mpeg_stat(filename):
     stat_output = stat_proc.communicate()[0]
     # Check the return process
     if stat_proc.wait() != 0:
-        raise Exception(_(u'Error on mpeg_stat')+': '+stat_output)
+        raise Exception(_(u'ERROR ON MPEG_STAT')+'\n\n'+stat_output)
     # Gather the frames information
     info = framesRE.search(stat_output)
     if info:
@@ -410,7 +531,7 @@ def mpeg_stat(filename):
             stat.close()
     # When error, include the output in the exception
     else:
-        raise Exception(_(u'Error on mpeg_stat')+': '+stat_output)
+        raise Exception(_(u'ERROR ON MPEG_STAT')+'\n\n'+stat_output)
     return (int(frames), gopSize*8)
 
 def alternative_mpeg_stat(filename):
@@ -501,7 +622,7 @@ def conv_thumb(filename, frames):
         mplayer_output = mplayer_proc.communicate()[0]
         # Check the return process
         if mplayer_proc.wait() != 0:
-            raise Exception(_(u'Error on mplayer')+': '+mplayer_output)
+            raise Exception(_(u'ERROR ON MPLAYER')+'\n\n'+mplayer_output)
         
         # Some low quality encoded videos, have problems with the 10% skip
         if not os.path.isfile(shot_file):
@@ -514,7 +635,7 @@ def conv_thumb(filename, frames):
             mplayer_output = mplayer_proc.communicate()[0]
             # Check the return process
             if mplayer_proc.wait() != 0:
-                raise Exception(_(u'Error on mplayer')+': '+mplayer_output)
+                raise Exception(_(u'ERROR ON MPLAYER')+'\n\n'+mplayer_output)
         
         thumbfile = shot_file
     # If a file given, use it
@@ -604,33 +725,30 @@ def write_header(filename, frames):
     
 	# The header starts with 4 bytes with DPGX, being X the version
     tmpHeader.write (struct.pack ( "4s" , "DPG" + str(Globals.dpg_version)))
-    # Four bytes for the number of frames in the video 
+    # Number of frames in the video 
     tmpHeader.write (struct.pack ( "<l" , frames))
-    # Two bytes for the frames per second that the video runs
-    tmpHeader.write (struct.pack ( ">h" , Globals.video_fps))
-    # 00 00
-    tmpHeader.write (struct.pack ( ">h" , 0))
-    # Four bytes for the audio sample rate
+    # Frames per second that the video runs
+    tmpHeader.write (struct.pack ( "<b" , 0))
+    tmpHeader.write (struct.pack ( "<b" , Globals.video_fps))
+    tmpHeader.write (struct.pack ( "<h" , 0))
+    # Audio sample rate
     tmpHeader.write (struct.pack ( "<l" , Globals.audio_frequency))
-    # 00 00 00 00 (deprecated number of audio channels, has special values
-    #              for MP2 and OGG Vorbis audio)
+    # Number of audio channels, has special values for MP2 and OGG Vorbis
     if Globals.audio_codec == 'libgsm':
-        if Globals.audio_mono:
-            tmpHeader.write (struct.pack ( "<l" , 1))
-        else:
-            tmpHeader.write (struct.pack ( "<l" , 2))
+        # Yes, always mono audio. I was not able to encode stereo GSM
+        tmpHeader.write (struct.pack ( "<l" , 1))
     elif Globals.audio_codec == 'mp2':
         tmpHeader.write (struct.pack ( "<l" , 0))
     elif Globals.audio_codec == 'vorbis':
         tmpHeader.write (struct.pack ( "<l" , 3))
     
-    # Four bytes for the start of the audio file
+    # Start of the audio file
     tmpHeader.write (struct.pack ( "<l" , audiostart))
-    # Four bytes for the length, in bytes, of the audio
+    # Length, in bytes, of the audio
     tmpHeader.write (struct.pack ( "<l" , audiosize))
-    # Four bytes for the start of the video file
+    # Start of the video file
     tmpHeader.write (struct.pack ( "<l" , videostart))
-    # Four bytes for the length, in bytes, of the video
+    # Length, in bytes, of the video
     tmpHeader.write (struct.pack ( "<l" , videosize))
     
     # For DPG >= 2, add the GOP file
@@ -640,7 +758,10 @@ def write_header(filename, frames):
         tmpHeader.write (struct.pack ( "<l" , videoend ))
         tmpHeader.write (struct.pack ( "<l" , gopsize))
     # Add the pixel format
-    tmpHeader.write (struct.pack ( "<l" , Globals.video_pixel ))
+    # DPG0 only supports the RGB24 pixel format and does not have this
+    # I have problems with other pixel formats and mencoder anyway
+    if Globals.dpg_version > 0:
+        tmpHeader.write (struct.pack ( "<l" , Globals.video_pixel ))
     # Thumbnail header for DPG4
     if Globals.dpg_version == 4:
         tmpHeader.write (struct.pack ( "4s" , "THM0"))
@@ -692,8 +813,8 @@ def encode_files(files):
             # Abort the process if the user requests it
             if abort:
                 raise Exception(_(u'Process aborted by the user.'))
-            encode_audio.join()
             # Check the status of the thread
+            encode_audio.join()
             threadError = encode_audio.getErrorMessage()
             if threadError:
                 raise Exception(threadError)
