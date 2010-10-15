@@ -70,6 +70,22 @@ def encode_video(file, filename, preview=False):
             # Get the best size with the obtained ratio
             Globals.video_width = 256
             Globals.video_height = int(256.0/ratio)
+            
+    # The height must be between 16 and 192
+    if Globals.video_height < 16:
+        Globals.video_height = 16
+    if Globals.video_height > 192:
+        Globals.video_height = 192
+            
+    # Track 3085578 by Marc P. Davignon
+    # Force video height to be an integer multiple of 16
+    modVideo_height = Globals.video_height % 16
+    # Round up
+    if modVideo_height >= 8:
+        Globals.video_height = Globals.video_height + 16 - modVideo_height
+    # Round down
+    elif modVideo_height > 0:
+        Globals.video_height = Globals.video_height - modVideo_height
                 
     # Calculate the FPS if auto FPS set
     if Globals.video_autofps:
@@ -85,7 +101,7 @@ def encode_video(file, filename, preview=False):
             Globals.video_fps = 24
     
     # Prepare the pixel format string
-    # Does this really works for anyone? Not for me!
+    # Does this really work for anyone? Not for me!
     if Globals.video_pixel == 3:
         v_pixelformat = "format=rgb24"
     elif Globals.video_pixel == 2:

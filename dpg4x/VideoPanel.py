@@ -85,7 +85,7 @@ class VideoPanel(wx.Panel):
 
         self.spinCtrl2 = wx.SpinCtrl(id=wxID_PANEL1SPINCTRL2, 
               initial=Globals.video_height,
-              max=256, min=1, name='spinCtrl2', parent=self,
+              max=192, min=16, name='spinCtrl2', parent=self,
               style=wx.SP_ARROW_KEYS)
 
         self.staticText3 = wx.StaticText(id=wxID_PANEL1STATICTEXT3,
@@ -188,11 +188,17 @@ class VideoPanel(wx.Panel):
         if Globals.video_autotrack:
             self.checkBox3.SetValue(True)
         self.switchAutoTrack(None)
-
+        
+        # Hack to detect when the spin buttons are pressed
+        self.aux_flag_text = 0
+        
         # Events
         wx.EVT_CHECKBOX(self.checkBox1, wxID_PANEL1CHECKBOX1, self.switchSize)
         wx.EVT_CHECKBOX(self.checkBox2, wxID_PANEL1CHECKBOX2, self.switchAutoFPS)
         wx.EVT_CHECKBOX(self.checkBox3, wxID_PANEL1CHECKBOX3, self.switchAutoTrack)
+        wx.EVT_SPINCTRL(self.spinCtrl2, wxID_PANEL1SPINCTRL2, self.spinHeight)
+        wx.EVT_TEXT(self.spinCtrl2, wxID_PANEL1SPINCTRL2, self.spinHeightText)
+
         
     def switchAutoTrack(self, event):
         "Enable or disable the track selector"
@@ -215,6 +221,54 @@ class VideoPanel(wx.Panel):
         if (event is not None):
             event.StopPropagation()
         self.spinCtrl3.Enable(not self.checkBox2.IsChecked())
+        
+    def spinHeight(self, event):
+        "Force video height to be an integer multiple of 16"
+        # See track 3085578
+        # If None event we called it
+        if (event is not None):
+            event.StopPropagation()
+        newValue = self.spinCtrl2.GetValue()
+        modNewValue = newValue % 16
+        
+        # Exit if the value is a multiple of 16
+        if modNewValue == 0:
+            # Reset the flag
+            self.aux_flag_text = 0
+            return
+        
+        # A spin button has been pressed
+        if self.aux_flag_text < 2:
+            # Round up
+            if modNewValue == 1:
+                self.spinCtrl2.SetValue(newValue + 16 - modNewValue)
+            # Round down
+            elif modNewValue == 15:
+                self.spinCtrl2.SetValue(newValue - modNewValue)
+            # Manage errors - ie. you select 192 and delete the 2
+            # This is only one text event
+            else:
+                self.aux_flag_text = 2
+        
+        # The inner text control has been edited (or error on spin)
+        if self.aux_flag_text >= 2:
+            # Round up
+            if modNewValue >= 8:
+                self.spinCtrl2.SetValue(newValue + 16 - modNewValue)
+            # Round down
+            else:
+                self.spinCtrl2.SetValue(newValue - modNewValue)
+                
+        # Reset the flag
+        self.aux_flag_text = 0
+            
+    def spinHeightText(self, event):
+        "Auxiliar funcion to detect when the spin button are (not) pressed"
+        # This is a dirty hack... for the previous function
+        # If None event we called it
+        if (event is not None):
+            event.StopPropagation()
+        self.aux_flag_text += 1
         
     def loadOptions(self):
         "Load the video options as global variables"
