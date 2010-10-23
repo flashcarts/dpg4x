@@ -102,7 +102,7 @@ if __name__ == '__main__':
             
         # An exception in this code means the file is not DPG
         except Exception, e:
-            print(e.message)
+            print(str(e.args[0]))
             isDPGFile = False
             raise Exception(_(u'%s is not a valid DPG file') % inputN)
                 
@@ -159,7 +159,7 @@ if __name__ == '__main__':
             
     # Capture exceptions
     except Exception, e:
-            Syserr(_(u'ERROR') + ': ' + e.message)
+            Syserr(_(u'ERROR') + ': ' + str(e.args[0]))
             # Close the files
             if fdInput:
                 fdInput.close()

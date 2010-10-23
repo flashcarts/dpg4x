@@ -81,7 +81,7 @@ def saveConfiguration():
     # If it fails, we only show a warning (no fatal)
     except Exception, e:
         Globals.debug(_(u'Can\'t save user configuration:') + ' ' \
-            '' + e.message)
+            '' + str(e.args[0]))
 
 def loadConfiguration():
 

@@ -338,7 +338,7 @@ class FilesPanel(wx.Panel):
             Previewer.play_files(item)       
         # On error, warn the user
         except Exception, e:
-            message = e.message
+            message = str(e.args[0])
             Globals.debug(_(u'ERROR') + ': ' + message)
             # Show a dialog to the user
             #dialog = wx.MessageDialog(self, message, _(u'ERROR'), 
@@ -371,7 +371,7 @@ class FilesPanel(wx.Panel):
             Previewer.preview_files(item)       
         # On error, warn the user
         except Exception, e:
-            message = e.message
+            message = str(e.args[0])
             Globals.debug(_(u'ERROR') + ': ' + message)
             # Show a dialog to the user
             #dialog = wx.MessageDialog(self, message, _(u'ERROR'), 
@@ -397,7 +397,7 @@ class FilesPanel(wx.Panel):
             Previewer.show_information(item, self)       
         # On error, warn the user
         except Exception, e:
-            message = e.message
+            message = str(e.args[0])
             Globals.debug(_(u'ERROR') + ': ' + message)
             # Show a dialog to the user
             #dialog = wx.MessageDialog(self, message, _(u'ERROR'), 
@@ -508,7 +508,7 @@ class FilesPanel(wx.Panel):
             Encoder.encode_files(files)
         # On error, warn the user
         except Exception, e:
-            message = e.message
+            message = str(e.args[0])
             Globals.debug(_(u'ERROR') + ': ' + message)
             # Show a dialog to the user
             #dialog = wx.MessageDialog(self, message, _(u'ERROR'), 

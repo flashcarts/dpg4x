@@ -1,4 +1,4 @@
-#/bin/sh
+#!/bin/sh
 
 # This file configures the paths used by dpg4x.
 # You can modify to suit your needs. 
@@ -20,5 +20,5 @@ export DPG4X_SOURCE=$DPG4X_BASE
 export DPG4X_I18N=$DPG4X_BASE/i18n
 
 # Execute the python interpreter
-/usr/bin/env python2.5 "$DPG4X_SOURCE/Dpg2Avi.py" "$@"
+/usr/bin/env python "$DPG4X_SOURCE/Dpg2Avi.py" "$@"
 
