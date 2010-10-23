@@ -141,7 +141,7 @@ if __name__ == '__main__':
         # Join audio and video with mencoder
         mencoder_proc = subprocess.Popen(
             ['mencoder',fdVideo.name,'-audiofile',fdAudio.name,
-            '-ovc','copy','-oac','copy','-o',outputN],
+            '-ffourcc','mpg1','-ovc','copy','-oac','copy','-o',outputN],
             stdout=subprocess.PIPE,stderr=subprocess.STDOUT, 
             universal_newlines=True)
         mencoder_output = mencoder_proc.communicate()[0]

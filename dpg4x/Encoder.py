@@ -122,7 +122,11 @@ def encode_video(file, filename, preview=False):
         'mv0_threshold=0:last_pred=3:vbitrate='+str(Globals.video_bitrate),
         '-o',Globals.TMP_VIDEO,'-of','rawvideo']
         # Go to the directory where the divx2pass.log file will be stored
+        # When encoding more than one doublepass file, make sure the path
+        # exists to avoid error. See shutil.rmtree at the end of this function
         current_path = os.getcwd()
+        if not (os.path.exists(Globals.TMP_DIVX2PASS)):
+            os.makedirs(Globals.TMP_DIVX2PASS)
         os.chdir(Globals.TMP_DIVX2PASS)
         
 	# Options to process with high quality
@@ -131,7 +135,7 @@ def encode_video(file, filename, preview=False):
         v_pixelformat + ',' \
         'scale='+str(Globals.video_width)+':'+str(Globals.video_height)+':::3,harddup',
         '-nosound','-ovc','lavc','-lavcopts',
-        'vcodec=mpeg1video:vstrict=-2:mbd=2:trell:cbp:mv0:cmp=6:subcmp=6:' \
+        'vcodec=mpeg1video:vstrict=-2:mbd=2:trell:cbp:mv0:keyint=15:cmp=6:subcmp=6:' \
         'precmp=6:dia=3:predia=3:last_pred=3:vbitrate='+str(Globals.video_bitrate),
         '-o',Globals.TMP_VIDEO,'-of','rawvideo']
 	# Options to process with low quality
@@ -139,7 +143,8 @@ def encode_video(file, filename, preview=False):
         v_cmd = mpFile+['-v','-ofps',str(Globals.video_fps),'-vf',
         v_pixelformat + ',' \
         'scale='+str(Globals.video_width)+':'+str(Globals.video_height)+',harddup',
-        '-nosound','-ovc','lavc','-lavcopts','vcodec=mpeg1video:vstrict=-2:vbitrate=' \
+        '-nosound','-ovc','lavc','-lavcopts',
+        'vcodec=mpeg1video:vstrict=-2:keyint=15:vbitrate=' \
         ''+str(Globals.video_bitrate),'-o',Globals.TMP_VIDEO,'-of','rawvideo']
 	# Options to process with normal quality
     else :
@@ -147,7 +152,7 @@ def encode_video(file, filename, preview=False):
         v_pixelformat + ',' \
         'scale='+str(Globals.video_width)+':'+str(Globals.video_height)+':::3,harddup',
         '-nosound','-ovc','lavc','-lavcopts',
-        'vcodec=mpeg1video:vstrict=-2:mbd=2:trell:cbp:mv0:cmp=2:subcmp=2:' \
+        'vcodec=mpeg1video:vstrict=-2:mbd=2:trell:cbp:mv0:keyint=15:cmp=2:subcmp=2:' \
         'precmp=2:vbitrate='+str(Globals.video_bitrate),'-o',Globals.TMP_VIDEO,
         '-of','rawvideo']
         
@@ -179,11 +184,14 @@ def encode_video(file, filename, preview=False):
     if preview:
         v_cmd = ['-endpos',str(Globals.other_previewsize)] + v_cmd
 
-    # Prepare the double pass if very hith quality selected
+    # Prepare the double pass if extra high quality selected
     v_cmd = ['mencoder'] + v_cmd
     if Globals.dpg_quality == 'doublepass':
+        # List size can vary, be sure option parameters follow the proper option
+        lavc_opt_index = v_cmd.index('-lavcopts')
+        lavc_opt_index += 1
         v_cmd_two = v_cmd[:]
-        v_cmd[19] += ':vpass=1:turbo:vb_strategy=2:vrc_maxrate=500:' \
+        v_cmd[lavc_opt_index] += ':vpass=1:turbo:vb_strategy=2:vrc_maxrate=500:' \
             'vrc_minrate=0:vrc_buf_size=327:intra_matrix=8,9,12,22,26,27,29,' \
             '34,9,10,14,26,27,29,34,37,12,14,18,27,29,34,37,38,22,26,27,31,' \
             '36,37,38,40,26,27,29,36,39,38,40,48,27,29,34,37,38,40,48,58,29,' \
@@ -191,8 +199,8 @@ def encode_video(file, filename, preview=False):
             '20,22,24,26,28,30,18,20,22,24,26,28,30,32,20,22,24,26,28,30,32,' \
             '34,22,24,26,30,32,32,34,36,24,26,28,32,34,34,36,38,26,28,30,32,' \
             '34,36,38,40,28,30,32,34,36,38,42,42,30,32,34,36,38,40,42,44'
-        v_cmd_two[19] += ':vpass=2:vrc_maxrate=500:vrc_minrate=0:' \
-            'vrc_buf_size=327:keyint=60:intra_matrix=8,9,12,22,26,27,29,34,9,' \
+        v_cmd_two[lavc_opt_index] += ':vpass=2:vrc_maxrate=500:vrc_minrate=0:' \
+            'vrc_buf_size=327:keyint=15:intra_matrix=8,9,12,22,26,27,29,34,9,' \
             '10,14,26,27,29,34,37,12,14,18,27,29,34,37,38,22,26,27,31,36,37,' \
             '38,40,26,27,29,36,39,38,40,48,27,29,34,37,38,40,48,58,29,34,37,' \
             '38,40,48,58,69,34,37,38,40,48,58,69,79:inter_matrix=16,18,20,22,' \

@@ -45,7 +45,8 @@ def preview_files(file):
         # Join audio and video with mencoder
         mencoder_proc = subprocess.Popen(
             ['mencoder',Globals.TMP_VIDEO,'-audiofile',Globals.TMP_AUDIO,
-            '-ovc','copy','-oac','copy','-o',Globals.TMP_VIDEO+'.avi'],
+            '-ffourcc','mpg1','-ovc','copy','-oac','copy','-o',
+            Globals.TMP_VIDEO+'.avi'],
             stdout=subprocess.PIPE,stderr=subprocess.STDOUT, 
             universal_newlines=True)
         mencoder_output = mencoder_proc.communicate()[0]

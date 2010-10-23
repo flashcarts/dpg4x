@@ -214,7 +214,7 @@ def createTemporary():
     if not other_thumbnail:
         TMP_SHOT = tempfile.mkdtemp(dir=tmpDir)
     # Divx 2-pass log file
-    # Only needes for very high quality encode
+    # Only needed for very high quality encode
     global TMP_DIVX2PASS
     if dpg_quality == 'doublepass':
         TMP_DIVX2PASS = tempfile.mkdtemp(dir=tmpDir)
