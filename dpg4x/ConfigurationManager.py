@@ -15,6 +15,7 @@
 import Globals
 
 import ConfigParser
+import re
 import os
 
 # Private configuration manager
@@ -24,8 +25,21 @@ __cp = ConfigParser.SafeConfigParser()
 ## FUNCTIONS ##
 ###############
 
-def saveConfiguration():
-    "Stores the configuration in disk"
+def saveConfiguration(filename=''):
+    "Stores the configuration on disk"
+    
+    # General configuration
+    if filename == '':
+        configfile = Globals.USERFILECONFIG
+    # Per-media configuration
+    else:
+        # Clean up the .ini config filename by removing special characters (re.sub)
+        # This may not be necessary but I'd hate for things to break over a
+        # stupid special character.
+        configfile = os.path.join(
+            os.path.dirname(Globals.USERFILECONFIG),
+            re.sub("_{2,}", "_", re.sub("[^a-zA-Z_\-0-9]", "_", 
+            os.path.basename(filename) ) ) + '.ini')
 
     # General options
     if not __cp.has_section('GENERAL'):
@@ -74,8 +88,8 @@ def saveConfiguration():
     __cp.set('SUBTITLES','subtitles_encoding',Globals.Encode(Globals.subtitles_encoding))
     
     try:
-        Globals.CreateFolder(os.path.dirname(Globals.USERFILECONFIG))
-        userConfig = open(Globals.USERFILECONFIG,'w')
+        Globals.CreateFolder(os.path.dirname(configfile))
+        userConfig = open(configfile,'w')
         __cp.write(userConfig)
         userConfig.close()
     # If it fails, we only show a warning (no fatal)
@@ -83,10 +97,24 @@ def saveConfiguration():
         Globals.debug(_(u'Can\'t save user configuration:') + ' ' \
             '' + str(e.args[0]))
 
-def loadConfiguration():
+def loadConfiguration(filename=''):
+    "Reads the user configuration from disk"
+    
+    # General configuration
+    if filename == '':
+        configfile = Globals.FILECONFIG
+    # Per-media configuration
+    else:
+        configfile = [os.path.join(
+        os.path.dirname(Globals.USERFILECONFIG),
+        re.sub("_{2,}", "_", re.sub("[^a-zA-Z_\-0-9]", "_", 
+        os.path.basename(filename) ) ) + '.ini')]
+        # If a media specific configuration file does not exist, use the default
+        if not os.path.isfile(configfile[0]):
+            configfile = Globals.FILECONFIG
 
     # Read the configuration file
-    __cp.read(Globals.FILECONFIG)
+    __cp.read(configfile)
         
     # General options
     if not __cp.has_section('GENERAL'):

@@ -48,6 +48,13 @@ audioPanel = None
 subtitlesPanel = None
 otherPanel = None
 
+# Media Option panels
+mediaMainPanel = None
+mediaVideoPanel = None
+mediaAudioPanel = None
+mediaSubtitlesPanel = None
+mediaOtherPanel = None
+
 # General options
 dpg_version = 4
 dpg_quality = 'normal'

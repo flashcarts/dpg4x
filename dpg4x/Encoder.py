@@ -16,6 +16,7 @@
 # Thank you for all it's creators! See the README file for more details.
 
 import Globals
+import ConfigurationManager
 import CustomProgressDialog
 
 import re
@@ -28,6 +29,7 @@ import shutil
 import array
 import signal
 import sys
+import tempfile
 import threading
 
 def encode_video(file, filename, preview=False):
@@ -122,9 +124,13 @@ def encode_video(file, filename, preview=False):
         'mv0_threshold=0:last_pred=3:vbitrate='+str(Globals.video_bitrate),
         '-o',Globals.TMP_VIDEO,'-of','rawvideo']
         # Go to the directory where the divx2pass.log file will be stored
+        current_path = os.getcwd()
+        # Handle when Globals.createTemporary() has already been called and
+        # the first file was not doublepass.
+        if Globals.TMP_DIVX2PASS is None:
+            Globals.TMP_DIVX2PASS = tempfile.mkdtemp(dir=Globals.other_temporary)
         # When encoding more than one doublepass file, make sure the path
         # exists to avoid error. See shutil.rmtree at the end of this function
-        current_path = os.getcwd()
         if not (os.path.exists(Globals.TMP_DIVX2PASS)):
             os.makedirs(Globals.TMP_DIVX2PASS)
         os.chdir(Globals.TMP_DIVX2PASS)
@@ -817,6 +823,9 @@ def encode_files(files):
         busy = wx.BusyCursor()
         # Process the list of files
         for file in files:
+            # Read options from the media specific config file (if one exists)
+            ConfigurationManager.loadConfiguration(file)
+            
             # Don't try to get the filename of a dvd or vcd source
             if (file[:6] == 'vcd://') or (file[:6] == 'dvd://'):
                 filename = file
