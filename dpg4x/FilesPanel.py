@@ -23,6 +23,7 @@ import AddDvdDialog
 from moreControls.OutputTextDialog import OutputTextDialog
 
 import wx
+from wx.lib.mixins.listctrl import ListCtrlAutoWidthMixin
 import os
 
 [wxID_PANEL1, wxID_PANEL1BUTTON1, wxID_PANEL1BUTTON2, wxID_PANEL1BUTTON3, 
@@ -30,57 +31,81 @@ import os
  wxID_PANEL1STATICTEXT2, wxID_PANEL1BUTTON4, wxID_PANEL1CHOICE2,
  wxID_PANEL1BUTTON5, wxID_PANEL1BUTTON6, wxID_PANEL1BUTTON7, 
  wxID_PANEL1BUTTON8, wxID_PANEL1BUTTON9, wxID_PANEL1BUTTON10,
- wxID_PANEL1BUTTON11
-] = [wx.NewId() for _init_ctrls in range(17)]
+ wxID_PANEL1BUTTON11, wxID_PANEL1BUTTON12, wxID_PANEL2,
+ wxID_PANEL1STATICTEXT3
+] = [wx.NewId() for _init_ctrls in range(20)]
+
+class CustomListCtrl(wx.ListCtrl, ListCtrlAutoWidthMixin):
+    def __init__(self, parent, id, pos=wx.DefaultPosition,
+                 size=wx.DefaultSize, style=0):
+        wx.ListCtrl.__init__(self, parent, id, pos, size, style)
+        ListCtrlAutoWidthMixin.__init__(self)
 
 class FilesPanel(wx.Panel):
     def _init_coll_gridBagSizer1_Items(self, parent):
         # generated method, don't edit
 
+        parent.AddSpacer(wx.Size(20, 1), (0, 0), border=0, flag=0, span=(1, 1))
         parent.AddWindow(self.listCtrl1, (1, 1), border=0, flag=wx.EXPAND,
-              span=(5, 6))
-        parent.AddSpacer(wx.Size(130, 35), (0, 8), border=0, flag=0, span=(1,1))
-        parent.AddWindow(self.button1, (1, 8), border=0, flag=wx.EXPAND, span=(1, 1))
-        parent.AddWindow(self.button2, (2, 8), border=0, flag=wx.EXPAND, span=(1, 1))
-        parent.AddWindow(self.button8, (3, 8), border=0, flag=wx.EXPAND, span=(1, 1))
-        parent.AddWindow(self.button10, (4, 8), border=0, flag=wx.EXPAND, span=(1, 1))
-        parent.AddWindow(self.button11, (5, 8), border=0, flag=wx.EXPAND, span=(1, 1))
-        parent.AddWindow(self.button4, (6, 8), border=0, flag=wx.EXPAND, span=(1, 1))
-        parent.AddWindow(self.staticText1, (7, 5), border=0, 
+              span=(6, 6))
+        parent.AddWindow(self.panel2, (0, 8), border=0, flag=wx.EXPAND, 
+              span=(11, 1))
+        parent.AddWindow(self.staticText1, (8, 4), border=0, 
               flag=wx.ALIGN_RIGHT | wx.ALIGN_CENTER_VERTICAL, span=(1, 1))
-        parent.AddWindow(self.staticText2, (7, 2), border=0, 
+        parent.AddWindow(self.staticText2, (8, 1), border=0, 
               flag=wx.ALIGN_RIGHT | wx.ALIGN_CENTER_VERTICAL, span=(1, 1))
-        parent.AddWindow(self.button3, (9, 1), border=0, flag=wx.EXPAND,
+        parent.AddWindow(self.button3, (10, 1), border=0, flag=0,
               span=(1, 6))
-        parent.AddWindow(self.choice1, (7, 6), border=0, flag=0, span=(1, 1))
-        parent.AddWindow(self.choice2, (7, 3), border=0, flag=0, span=(1, 1))
-        parent.AddSpacer(wx.Size(20, 20), (0, 0), border=0, flag=0, span=(1, 1))
+        parent.AddWindow(self.choice1, (8, 5), border=0, flag=0, span=(1, 1))
+        parent.AddWindow(self.choice2, (8, 2), border=0, flag=0, span=(1, 1))
+        
+    def _init_coll_gridBagSizer2_Items(self, parent):
+        # generated method, don't edit
+        
+        parent.AddWindow(self.button1, (1, 1), border=0, flag=wx.EXPAND, span=(1, 1))
+        parent.AddWindow(self.button2, (2, 1), border=0, flag=wx.EXPAND, span=(1, 1))
+        parent.AddWindow(self.button10, (3, 1), border=0, flag=wx.EXPAND, span=(1, 1))
+        
+        parent.AddWindow(self.button8, (5, 1), border=0, flag=wx.EXPAND, span=(1, 1))
+        parent.AddWindow(self.button4, (6, 1), border=0, flag=wx.EXPAND, span=(1, 1))
+        
+        parent.AddWindow(self.staticText3, (8, 1), border=0, 
+              flag=wx.ALIGN_CENTER, span=(1, 1))
+        parent.AddSpacer(wx.Size(5, 5), (9, 1), border=0, flag=0, span=(1, 1))
+        parent.AddWindow(self.button11, (10, 1), border=0, flag=wx.EXPAND, span=(1, 1))
+        parent.AddWindow(self.button12, (11, 1), border=0, flag=wx.EXPAND, span=(1, 1))
+        
 
     def _init_sizers(self):
         # generated method, don't edit
         self.gridBagSizer1 = wx.GridBagSizer(hgap=0, vgap=0)
+        self.gridBagSizer2 = wx.GridBagSizer(hgap=0, vgap=0)
 
         self._init_coll_gridBagSizer1_Items(self.gridBagSizer1)
+        self._init_coll_gridBagSizer2_Items(self.gridBagSizer2)
 
         self.SetSizer(self.gridBagSizer1)
+        self.panel2.SetSizer(self.gridBagSizer2)
 
     def _init_ctrls(self, prnt):
         # generated method, don't edit
         wx.Panel.__init__(self, id=wxID_PANEL1, name='', parent=prnt,
               style=wx.TAB_TRAVERSAL)
-        self.SetClientSize(wx.Size(565, 300))
+        
+        self.panel2 = wx.Panel(id=wxID_PANEL2, name='', parent=self)
 
-        self.listCtrl1 = wx.ListCtrl(id=wxID_PANEL1LISTCTRL1, name='listCtrl1',
-              parent=self, style=wx.LC_REPORT, size=(350, 130))
+        self.listCtrl1 = CustomListCtrl(id=wxID_PANEL1LISTCTRL1, 
+              style= wx.LC_REPORT|wx.BORDER_NONE|wx.LC_HRULES|wx.LC_VRULES,
+              parent=self, size=(380, 150))
 
         self.button1 = wx.Button(id=wxID_PANEL1BUTTON1, label=_(u'Add Media'),
-              name='button1', parent=self, style=0)
+              name='button1', parent=self.panel2, style=0)
 
         self.button2 = wx.Button(id=wxID_PANEL1BUTTON2, label=_(u'Delete Media'),
-              name='button2', parent=self, style=0)
+              name='button2', parent=self.panel2, style=0)
               
         self.button4 = wx.Button(id=wxID_PANEL1BUTTON4, label=_(u'DPG Preview'),
-              name='button4', parent=self, style=0)
+              name='button4', parent=self.panel2, style=0)
 
         self.staticText1 = wx.StaticText(id=wxID_PANEL1STATICTEXT1,
               label=_(u'Quality')+' ', name='staticText1', parent=self, style=0)
@@ -88,6 +113,10 @@ class FilesPanel(wx.Panel):
         self.staticText2 = wx.StaticText(id=wxID_PANEL1STATICTEXT2,
               label=_(u'DPG Version')+' ', name='staticText2', parent=self, 
               style=0)
+              
+        self.staticText3 = wx.StaticText(id=wxID_PANEL1STATICTEXT3,
+              label=_(u'Individual Settings'), name='staticText3', 
+              parent=self.panel2, style=0)
 
         self.button3 = wx.Button(id=wxID_PANEL1BUTTON3, 
               label=_(u'Start Encoding'), name='button3', parent=self, 
@@ -100,25 +129,28 @@ class FilesPanel(wx.Panel):
               name='choice2', parent=self, style=0)
               
         self.button5 = wx.Button(id=wxID_PANEL1BUTTON5, label=_(u'Add File'),
-              name='button5', parent=self, style=0)
+              name='button5', parent=self.panel2, style=0)
               
         self.button6 = wx.Button(id=wxID_PANEL1BUTTON6, label=_(u'Add DVD'),
-              name='button6', parent=self, style=0)
+              name='button6', parent=self.panel2, style=0)
               
         self.button7 = wx.Button(id=wxID_PANEL1BUTTON7, label=_(u'Add VCD'),
-              name='button7', parent=self, style=0)
+              name='button7', parent=self.panel2, style=0)
               
         self.button8 = wx.Button(id=wxID_PANEL1BUTTON8, label=_(u'Play Media'),
-              name='button8', parent=self, style=0)
+              name='button8', parent=self.panel2, style=0)
               
         self.button9 = wx.Button(id=wxID_PANEL1BUTTON9, label=_(u'Cancel'),
-              name='button9', parent=self, style=0)
+              name='button9', parent=self.panel2, style=0)
               
         self.button10 = wx.Button(id=wxID_PANEL1BUTTON10, label=_(u'Media Info'),
-              name='button10', parent=self, style=0)
+              name='button10', parent=self.panel2, style=0)
               
-        self.button11 = wx.Button(id=wxID_PANEL1BUTTON11, label=_(u'Media Settings'),
-              name='button11', parent=self, style=0)
+        self.button11 = wx.Button(id=wxID_PANEL1BUTTON11, label=_(u'Set'),
+              name='button11', parent=self.panel2, style=0)
+              
+        self.button12 = wx.Button(id=wxID_PANEL1BUTTON12, label=_(u'Delete'),
+              name='button12', parent=self.panel2, style=0)
 
         self._init_sizers()
 
@@ -152,7 +184,9 @@ class FilesPanel(wx.Panel):
         
         # Init list control
         self.listCtrl1.InsertColumn(0,_(u'Media sources to encode'))
-        self.listCtrl1.SetColumnWidth(0, wx.LIST_AUTOSIZE_USEHEADER)
+        self.listCtrl1.InsertColumn(1,_(u'Indv Settings'), wx.LIST_FORMAT_CENTRE)
+        self.listCtrl1.SetColumnWidth(1,wx.LIST_AUTOSIZE_USEHEADER)
+        self.listCtrl1.setResizeColumn(1)
         
         # Hide the add-media buttons (will be shown later)
         self.button5.Show(False)
@@ -174,6 +208,7 @@ class FilesPanel(wx.Panel):
         wx.EVT_BUTTON(self.button9, wxID_PANEL1BUTTON9, self.restoreMenu)
         wx.EVT_BUTTON(self.button10, wxID_PANEL1BUTTON10, self.showMediaInfo)
         wx.EVT_BUTTON(self.button11, wxID_PANEL1BUTTON11, self.showMediaSettings)
+        wx.EVT_BUTTON(self.button12, wxID_PANEL1BUTTON12, self.deleteMediaSettings)
         
         # Drop files
         class FileDropTarget(wx.FileDropTarget):
@@ -197,17 +232,20 @@ class FilesPanel(wx.Panel):
         self.button8.Show(False)
         self.button10.Show(False)
         self.button11.Show(False)
+        self.button12.Show(False)
+        self.staticText3.Show(False)
         # Show the add-media buttons
         self.button5.Show(True)
         self.button6.Show(True)
         self.button7.Show(True)
         self.button9.Show(True)
         # Replace the buttons in the layout
-        self.gridBagSizer1.Replace(self.button1, self.button5)
-        self.gridBagSizer1.Replace(self.button2, self.button6)
-        self.gridBagSizer1.Replace(self.button4, self.button9)
-        self.gridBagSizer1.Replace(self.button8, self.button7)
-        self.gridBagSizer1.Layout()
+        self.gridBagSizer2.Replace(self.button1, self.button5)
+        self.gridBagSizer2.Replace(self.button2, self.button6)
+        self.gridBagSizer2.Replace(self.button10, self.button7)
+        self.gridBagSizer2.Replace(self.button8, self.button9)
+        # Do not layout the full window to avoid resize
+        self.gridBagSizer2.Layout()
         
     def restoreMenu(self, event):
         "Restores the changes made by the addMedia button"
@@ -226,12 +264,14 @@ class FilesPanel(wx.Panel):
         self.button8.Show(True)
         self.button10.Show(True)
         self.button11.Show(True)
+        self.button12.Show(True)
+        self.staticText3.Show(True)
         # Replace the buttons in the layout
-        self.gridBagSizer1.Replace(self.button5, self.button1)
-        self.gridBagSizer1.Replace(self.button6, self.button2)
-        self.gridBagSizer1.Replace(self.button9, self.button4)
-        self.gridBagSizer1.Replace(self.button7, self.button8)
-        self.gridBagSizer1.Layout()
+        self.gridBagSizer2.Replace(self.button5, self.button1)
+        self.gridBagSizer2.Replace(self.button6, self.button2)
+        self.gridBagSizer2.Replace(self.button7, self.button10)
+        self.gridBagSizer2.Replace(self.button9, self.button8)
+        self.Layout()
 
     def addFile(self, event):
         "Add a file (or more) to the input media list"
@@ -251,7 +291,12 @@ class FilesPanel(wx.Panel):
                 if self.listCtrl1.FindItem(-1, file) == -1:
                     index = self.listCtrl1.GetItemCount()
                     self.listCtrl1.InsertStringItem(index, file)
-                    self.listCtrl1.SetColumnWidth(0, wx.LIST_AUTOSIZE)
+                    # Check if a media configuration exists for the file
+                    configfile = ConfigurationManager.getMediaConfiguration(file)
+                    if os.path.isfile(configfile):
+                        self.listCtrl1.SetStringItem(index, 1, _("YES"))
+                    else:
+                        self.listCtrl1.SetStringItem(index, 1, _("NO"))
                 # Remember the last path
                 self.lastFilePath = os.path.dirname(file)
         fileDialog.Destroy()
@@ -279,7 +324,12 @@ class FilesPanel(wx.Panel):
             if self.listCtrl1.FindItem(-1, url) == -1:
                 index = self.listCtrl1.GetItemCount()
                 self.listCtrl1.InsertStringItem(index, url)
-                self.listCtrl1.SetColumnWidth(0, wx.LIST_AUTOSIZE)
+                # Check if a media configuration exists for the file
+                configfile = ConfigurationManager.getMediaConfiguration(url)
+                if os.path.isfile(configfile):
+                    self.listCtrl1.SetStringItem(index, 1, _("YES"))
+                else:
+                    self.listCtrl1.SetStringItem(index, 1, _("NO"))
         dialog.Destroy()
         # Restore the menu
         self.restoreMenu(None)
@@ -301,7 +351,12 @@ class FilesPanel(wx.Panel):
             if self.listCtrl1.FindItem(-1, url) == -1:
                 index = self.listCtrl1.GetItemCount()
                 self.listCtrl1.InsertStringItem(index, url)
-                self.listCtrl1.SetColumnWidth(0, wx.LIST_AUTOSIZE)
+                # Check if a media configuration exists for the file
+                configfile = ConfigurationManager.getMediaConfiguration(url)
+                if os.path.isfile(configfile):
+                    self.listCtrl1.SetStringItem(index, 1, _("YES"))
+                else:
+                    self.listCtrl1.SetStringItem(index, 1, _("NO"))
         dialog.Destroy()
         # Restore the menu
         self.restoreMenu(None)
@@ -433,8 +488,15 @@ class FilesPanel(wx.Panel):
                 dialog.ShowModal()
                 return
             # Show file settings
-            item = self.listCtrl1.GetItemText(self.listCtrl1.GetFirstSelected())
-            MediaMainFrame.show_settings(item, self)
+            item = self.listCtrl1.GetFirstSelected()
+            name = self.listCtrl1.GetItemText(item)
+            MediaMainFrame.show_settings(name, self)
+            # Check if a media configuration exists for the file
+            configfile = ConfigurationManager.getMediaConfiguration(name)
+            if os.path.isfile(configfile):
+                self.listCtrl1.SetStringItem(item, 1, _("YES"))
+            else:
+                self.listCtrl1.SetStringItem(item, 1, _("NO"))
         # On error, warn the user
         except Exception, e:
             message = str(e.args[0])
@@ -442,6 +504,31 @@ class FilesPanel(wx.Panel):
             # Show a dialog to the user
             dialog = wx.MessageDialog(self, message, _(u'ERROR'),
                 style=wx.ICON_ERROR)
+                
+    def deleteMediaSettings(self, event):
+        "Delete the individual settings for a media file"
+        # If None event we called it
+        if (event is not None):
+            event.StopPropagation()
+        # Check if there are media sources selected
+        if self.listCtrl1.GetSelectedItemCount() == 0:
+            message = _(u'No media sources selected.')
+            dialog = wx.MessageDialog(self, message, _(u'ERROR'), 
+                style=wx.ICON_ERROR)
+            dialog.ShowModal()
+            return
+        # Get the selected items
+        selItems = []
+        item = self.listCtrl1.GetFirstSelected()
+        while item >= 0:
+            selItems.append(item)
+            item = self.listCtrl1.GetNextSelected(item)
+        # Delete the configuration files
+        for item in selItems:
+            filename = self.listCtrl1.GetItemText(item)
+            ConfigurationManager.deleteConfiguration(filename)
+            self.listCtrl1.SetStringItem(item, 1, _("NO"))
+            
         
     def changeDPGLevel(self, event):
         "Update the GUI when the dpg level changes"

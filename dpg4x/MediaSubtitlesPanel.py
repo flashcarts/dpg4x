@@ -70,7 +70,6 @@ class MediaSubtitlesPanel(wx.Panel):
         # generated method, don't edit
         wx.Panel.__init__(self, id=wxID_PANEL1, name='', parent=prnt,
               style=wx.TAB_TRAVERSAL)
-        self.SetClientSize(wx.Size(565, 300))
 
         self.staticText5 = wx.StaticText(id=wxID_PANEL1STATICTEXT5,
               label=_(u'Subtitles Source')+' ', name='staticText5', parent=self,

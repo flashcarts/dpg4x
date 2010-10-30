@@ -1,4 +1,4 @@
-#Boa:Frame:Frame2
+#Boa:Dialog:MediaMain
 # -*- coding: utf-8 -*-
 
 #----------------------------------------------------------------------------
@@ -25,14 +25,19 @@ import os
 
 def show_settings(file, parent):
     "Allows individual media settings which override global defaults"
-    mediaMainFrame = Frame2(file, parent)
-    mediaMainFrame.Show()
+    mediaMainFrame = MediaMain(file, parent)
     Globals.mediaMainPanel = mediaMainFrame
+    try:
+        Globals.mainPanel.Enable(False)
+        mediaMainFrame.ShowModal()
+    finally:
+        Globals.mainPanel.Enable(True)
+        mediaMainFrame.Destroy()
 
-[wxID_FRAME2, wxID_FRAME2NOTEBOOK1,
+[wxID_DIALOG1, wxID_FRAME2NOTEBOOK1,
 ] = [wx.NewId() for _init_ctrls in range(2)]
 
-class Frame2(wx.Frame):
+class MediaMain(wx.Dialog):
     def _init_sizers(self):
         # generated method, don't edit
         self.boxSizer1 = wx.BoxSizer(orient=wx.VERTICAL)
@@ -49,10 +54,10 @@ class Frame2(wx.Frame):
 
     def _init_ctrls(self, prnt):
         # generated method, don't edit
-        wx.Frame.__init__(self, id=wxID_FRAME2, name='', parent=prnt,
+        wx.Dialog.__init__(self, id=wxID_DIALOG1, name='', parent=prnt,
               style=wx.MINIMIZE_BOX | wx.SYSTEM_MENU | wx.CAPTION |
                     wx.CLIP_CHILDREN,
-              title=os.path.basename(self.file))
+              title=self.file)
 
         self.notebook1 = wx.Toolbook(id=wxID_FRAME2NOTEBOOK1, name='notebook1',
               parent=self, style=wx.BK_TOP)
@@ -60,15 +65,19 @@ class Frame2(wx.Frame):
         self._init_sizers()
 
     def __init__(self, file, parent):
-        # Disable the events on main frame
-        Globals.mainPanel.Enable(False)
-
-        self.file = file
+        
+        # Do not try to remove the path from dvd or vcd
+        if (file[:6] == 'vcd://') or (file[:6] == 'dvd://'):
+            basename = file
+        else:
+            basename = os.path.basename(file)
+        self.file = basename
         # Read options from the media specific config file (if one exists)
         # This allows media specific options to be saved between sessions
         ConfigurationManager.loadConfiguration(self.file)
+        # Create the dialog
         self._init_ctrls(parent)
-
+        
         # Set the icons for the main window
         bundle = wx.IconBundle()
         icon_dir = os.getenv('DPG4X_ICONS')
@@ -137,11 +146,9 @@ class Frame2(wx.Frame):
         Globals.mediaOtherPanel.loadOptions(None)
         # Save options to the media specific config file
         ConfigurationManager.saveConfiguration(self.file)
-
         self.closeFrame(event)
 
     def closeFrame(self, event):
         "Do not save, just close the media settings window"
         # Enable the events on main frame
-        Globals.mainPanel.Enable(True)
         self.Close()

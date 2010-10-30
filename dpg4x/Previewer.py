@@ -119,9 +119,15 @@ def play_files(file):
 def show_information(file, parent):
     "Displays information about a media source"
     
+    # Prepare the input file to be usable by mplayer
+    if (file[:6] == 'vcd://') or (file[:6] == 'dvd://'):
+        mpFile = file.split()
+    else:
+        mpFile = [ file ]
+            
     # Get the media information from mplayer
     mplayer_proc = subprocess.Popen(
-        ['mplayer','-frames','0','-vo','null','-ao','null','-identify',file],
+        ['mplayer','-frames','0','-vo','null','-ao','null','-identify']+mpFile,
         stdout=subprocess.PIPE,stderr=subprocess.STDOUT, 
         universal_newlines=True)
     mplayer_output = mplayer_proc.communicate()[0]

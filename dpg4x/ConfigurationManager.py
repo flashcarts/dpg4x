@@ -25,6 +25,28 @@ __cp = ConfigParser.SafeConfigParser()
 ## FUNCTIONS ##
 ###############
 
+def getMediaConfiguration(filename):
+    "Returns the configuration file for the media"
+    # Do not try to remove the path from dvd or vcd
+    if (filename[:6] == 'vcd://') or (filename[:6] == 'dvd://'):
+        basename = filename
+    else:
+        basename = os.path.basename(filename)
+    # Clean up the .ini config filename by removing special characters (re.sub)
+    # This may not be necessary but I'd hate for things to break over a
+    # stupid special character.
+    return os.path.join(
+        os.path.dirname(Globals.USERFILECONFIG),
+        re.sub("_{2,}", "_", re.sub("[^a-zA-Z_\-0-9]", "_", 
+        basename ) ) + '.ini')
+        
+def deleteConfiguration(filename):
+    "Delete the configuration file for the media"
+    configfile = getMediaConfiguration(filename)
+    # If a media specific configuration file does not exist, use the default
+    if os.path.isfile(configfile):
+        os.remove(configfile)
+
 def saveConfiguration(filename=''):
     "Stores the configuration on disk"
     
@@ -33,13 +55,7 @@ def saveConfiguration(filename=''):
         configfile = Globals.USERFILECONFIG
     # Per-media configuration
     else:
-        # Clean up the .ini config filename by removing special characters (re.sub)
-        # This may not be necessary but I'd hate for things to break over a
-        # stupid special character.
-        configfile = os.path.join(
-            os.path.dirname(Globals.USERFILECONFIG),
-            re.sub("_{2,}", "_", re.sub("[^a-zA-Z_\-0-9]", "_", 
-            os.path.basename(filename) ) ) + '.ini')
+        configfile = getMediaConfiguration(filename)
 
     # General options
     if not __cp.has_section('GENERAL'):
@@ -96,7 +112,7 @@ def saveConfiguration(filename=''):
     except Exception, e:
         Globals.debug(_(u'Can\'t save user configuration:') + ' ' \
             '' + str(e.args[0]))
-
+    
 def loadConfiguration(filename=''):
     "Reads the user configuration from disk"
     
@@ -105,10 +121,7 @@ def loadConfiguration(filename=''):
         configfile = Globals.FILECONFIG
     # Per-media configuration
     else:
-        configfile = [os.path.join(
-        os.path.dirname(Globals.USERFILECONFIG),
-        re.sub("_{2,}", "_", re.sub("[^a-zA-Z_\-0-9]", "_", 
-        os.path.basename(filename) ) ) + '.ini')]
+        configfile = [getMediaConfiguration(filename)]
         # If a media specific configuration file does not exist, use the default
         if not os.path.isfile(configfile[0]):
             configfile = Globals.FILECONFIG

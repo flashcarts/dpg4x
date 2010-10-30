@@ -31,7 +31,7 @@ class OtherPanel(wx.Panel):
     def _init_coll_gridBagSizer1_Items(self, parent):
         # generated method, don't edit
 
-        parent.AddSpacer(wx.Size(20, 30), (0, 0), border=0, flag=0, span=(1, 1))
+        parent.AddSpacer(wx.Size(20, 40), (0, 0), border=0, flag=0, span=(1, 1))
         parent.AddSpacer(wx.Size(100, 8), (0, 1), border=0, flag=0, span=(1, 2))
         parent.AddSpacer(wx.Size(280, 8), (0, 3), border=0, flag=0, span=(1, 3))
         parent.AddWindow(self.staticText1, (1, 1), border=0, 
@@ -70,7 +70,6 @@ class OtherPanel(wx.Panel):
         # generated method, don't edit
         wx.Panel.__init__(self, id=wxID_PANEL1, name='', parent=prnt,
               style=wx.TAB_TRAVERSAL)
-        self.SetClientSize(wx.Size(565, 300))
 
         self.staticText1 = wx.StaticText(id=wxID_PANEL1STATICTEXT1,
               label=_(u'Output Folder')+' ', name='staticText1', 
