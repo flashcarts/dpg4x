@@ -24,65 +24,71 @@ import os
  wxID_PANEL1STATICTEXT1, wxID_PANEL1STATICTEXT2, wxID_PANEL1STATICTEXT3,
  wxID_PANEL1TEXTCTRL1, wxID_PANEL1TEXTCTRL2, wxID_PANEL1TEXTCTRL3,
  wxID_PANEL1STATICTEXT4, wxID_PANEL1STATICTEXT5, wxID_PANEL1STATICTEXT6,
- wxID_DIALOG1SPINCTRL1, wxID_PANEL1BUTTON7, wxID_PANEL1BUTTON8,
- wxID_PANEL1STATICTEXT7, wxID_PANEL1STATICTEXT8, wxID_PANEL1CHOICE1,
- wxID_PANEL1CHOICE2
-] = [wx.NewId() for _init_ctrls in range(20)]
+ wxID_DIALOG1SPINCTRL1, wxID_PANEL1STATICTEXT7, wxID_PANEL1STATICTEXT8, 
+ wxID_PANEL1CHOICE1, wxID_PANEL1CHOICE2, wxID_PANEL2
+] = [wx.NewId() for _init_ctrls in range(19)]
 
 class MediaOtherPanel(wx.Panel):
     def _init_coll_gridBagSizer1_Items(self, parent):
         # generated method, don't edit
 
-        parent.AddSpacer(wx.Size(20, 30), (0, 0), border=0, flag=0, span=(1, 1))
+        parent.AddSpacer(wx.Size(20, 20), (0, 0), border=0, flag=0, span=(1, 1))
         parent.AddSpacer(wx.Size(100, 8), (0, 1), border=0, flag=0, span=(1, 2))
         parent.AddSpacer(wx.Size(280, 8), (0, 3), border=0, flag=0, span=(1, 3))
-        parent.AddWindow(self.staticText1, (1, 1), border=0,
+        parent.AddWindow(self.staticText7, (1, 4), border=0,
+              flag=wx.ALIGN_RIGHT | wx.ALIGN_CENTER_VERTICAL, span=(1, 1))
+        parent.AddWindow(self.staticText8, (1, 2), border=0,
+              flag=wx.ALIGN_RIGHT | wx.ALIGN_CENTER_VERTICAL, span=(1, 1))
+        parent.AddWindow(self.choice1, (1, 5), border=0, flag=0, span=(1, 1))
+        parent.AddWindow(self.choice2, (1, 3), border=0, flag=0, span=(1, 1)) 
+        parent.AddWindow(self.staticText1, (3, 1), border=0,
               flag=wx.ALIGN_RIGHT | wx.ALIGN_CENTER_VERTICAL, span=(1, 2))
-        parent.AddWindow(self.textCtrl1, (1, 3), border=0, flag=wx.EXPAND,
+        parent.AddWindow(self.textCtrl1, (3, 3), border=0, flag=wx.EXPAND,
               span=(1, 3))
-        parent.AddWindow(self.button1, (1, 6), border=0, flag=0, span=(1, 1))
-        parent.AddWindow(self.staticText4, (2, 1), border=0,
+        parent.AddWindow(self.button1, (3, 6), border=0, flag=0, span=(1, 1))
+        parent.AddWindow(self.staticText4, (4, 1), border=0,
               flag=wx.ALIGN_CENTER, span=(1,7))
-        parent.AddWindow(self.staticText2, (4, 1), border=0,
+        parent.AddWindow(self.staticText2, (6, 1), border=0,
               flag=wx.ALIGN_RIGHT | wx.ALIGN_CENTER_VERTICAL, span=(1,2))
-        parent.AddWindow(self.textCtrl2, (4, 3), border=0, flag=wx.EXPAND,
+        parent.AddWindow(self.textCtrl2, (6, 3), border=0, flag=wx.EXPAND,
               span=(1, 3))
-        parent.AddWindow(self.button2, (4, 6), border=0, flag=0, span=(1, 1))
-        parent.AddWindow(self.staticText3, (6, 1), border=0,
+        parent.AddWindow(self.button2, (6, 6), border=0, flag=0, span=(1, 1))
+        parent.AddWindow(self.staticText3, (8, 1), border=0,
               flag=wx.ALIGN_RIGHT | wx.ALIGN_CENTER_VERTICAL, span=(1, 2))
-        parent.AddWindow(self.textCtrl3, (6, 3), border=0, flag=wx.EXPAND,
+        parent.AddWindow(self.textCtrl3, (8, 3), border=0, flag=wx.EXPAND,
               span=(1, 3))
-        parent.AddWindow(self.button3, (6, 6), border=0, flag=0, span=(1, 1))
-        parent.AddWindow(self.staticText5, (7, 1), border=0,
+        parent.AddWindow(self.button3, (8, 6), border=0, flag=0, span=(1, 1))
+        parent.AddWindow(self.staticText5, (9, 1), border=0,
               flag=wx.ALIGN_CENTER, span=(1,7))
-        parent.AddWindow(self.staticText6, (9, 1), border=0,
+        parent.AddWindow(self.staticText6, (11, 1), border=0,
               flag=wx.ALIGN_RIGHT | wx.ALIGN_CENTER_VERTICAL, span=(1, 3))
-        parent.AddWindow(self.spinCtrl1, (9, 4), border=0, flag=0,
-              span=(1, 1))
-
-        parent.AddWindow(self.staticText7, (11, 5), border=0,
-              flag=wx.ALIGN_RIGHT | wx.ALIGN_CENTER_VERTICAL, span=(1, 1))
-        parent.AddWindow(self.staticText8, (11, 3), border=0,
-              flag=wx.ALIGN_RIGHT | wx.ALIGN_CENTER_VERTICAL, span=(1, 1))
-
-        parent.AddWindow(self.choice1, (11, 6), border=0, flag=0, span=(1, 1))
-        parent.AddWindow(self.choice2, (11, 4), border=0, flag=0, span=(1, 1))
-
-        parent.AddWindow(self.button7, (13, 4), border=0, flag=wx.ALIGN_RIGHT, span=(1, 2))
-        parent.AddWindow(self.button8, (13, 6), border=0, flag=wx.ALIGN_LEFT, span=(1, 1))
+        parent.AddWindow(self.spinCtrl1, (11, 4), border=0, flag=0,
+              span=(1, 1))   
+        parent.AddWindow(self.panel2, (13, 1), border=0, flag=0, span=(1, 4))
+        
+    def _init_coll_boxSizer1_Items(self, parent):
+        # generated method, don't edit
+        
+        parent.Add(self.button7, 1, border=0, flag=0)
+        parent.Add(self.button8, 1, border=0, flag=0)
 
     def _init_sizers(self):
         # generated method, don't edit
         self.gridBagSizer1 = wx.GridBagSizer(hgap=0, vgap=0)
+        self.boxSizer1 = wx.BoxSizer(wx.HORIZONTAL)
 
         self._init_coll_gridBagSizer1_Items(self.gridBagSizer1)
+        self._init_coll_boxSizer1_Items(self.boxSizer1)
 
         self.SetSizer(self.gridBagSizer1)
+        self.panel2.SetSizer(self.boxSizer1)
 
     def _init_ctrls(self, prnt):
         # generated method, don't edit
         wx.Panel.__init__(self, id=wxID_PANEL1, name='', parent=prnt,
               style=wx.TAB_TRAVERSAL)
+              
+        self.panel2 = wx.Panel(id=wxID_PANEL2, name='', parent=self)
 
         self.staticText1 = wx.StaticText(id=wxID_PANEL1STATICTEXT1,
               label=_(u'Output Folder')+' ', name='staticText1',
@@ -143,11 +149,11 @@ class MediaOtherPanel(wx.Panel):
         self.choice2 = wx.Choice(choices=[], id=wxID_PANEL1CHOICE2,
               name='choice2', parent=self, style=0)
 
-        self.button7 = wx.Button(id=wxID_PANEL1BUTTON7, label=_(u'Save'),
-              name='button7', parent=self, style=0)
+        self.button7 = wx.Button(id=wx.ID_SAVE,
+              name='button7', parent=self.panel2, style=0)
 
-        self.button8 = wx.Button(id=wxID_PANEL1BUTTON8, label=_(u'Cancel'),
-              name='button8', parent=self, style=0)
+        self.button8 = wx.Button(id=wx.ID_CANCEL,
+              name='button8', parent=self.panel2, style=0)
 
         self._init_sizers()
 
@@ -189,8 +195,7 @@ class MediaOtherPanel(wx.Panel):
         wx.EVT_CHOICE(self.choice2, wxID_PANEL1CHOICE2, self.changeDPGLevel)
         wx.EVT_CHOICE(self.choice1, wxID_PANEL1CHOICE1, self.changeQuality)
 
-        wx.EVT_BUTTON(self.button7, wxID_PANEL1BUTTON7, self.saveAndCloseFrame)
-        wx.EVT_BUTTON(self.button8, wxID_PANEL1BUTTON8, self.closeFrame)
+        wx.EVT_BUTTON(self.button7, wx.ID_SAVE, self.saveAndCloseFrame)
 
     def selectOuputDir(self, event):
         "Dialog to select the output folder"
@@ -340,7 +345,19 @@ class MediaOtherPanel(wx.Panel):
     def saveAndCloseFrame(self, event):
         "Save and close the media settings window"
         Globals.mediaMainPanel.saveAndCloseFrame(event)
-
-    def closeFrame(self, event):
-        "Do not save, just close the media settings window"
-        Globals.mediaMainPanel.closeFrame(event)
+        
+    def getPanelButtonsHeigh(self):
+        "Return the current buttons position"
+        x, y = self.panel2.GetPositionTuple()
+        return y
+        
+    def setPanelButtonsHeigh(self, height):
+        "Set the height for the save and close buttons"
+        # Calculate the difference between max and current
+        currentPosition = self.getPanelButtonsHeigh()
+        difference = height - currentPosition
+        # Add the current empty space
+        difference += self.gridBagSizer1.GetEmptyCellSize().GetHeight()
+        # Resize the space up to the buttons
+        self.gridBagSizer1.AddSpacer(wx.Size(1, difference), (12, 0), border=0, 
+            flag=0, span=(1, 1))

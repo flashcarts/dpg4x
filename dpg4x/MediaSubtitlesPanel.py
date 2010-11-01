@@ -25,14 +25,14 @@ import os
  wxID_PANEL1TREECTRLCOMBO1, wxID_PANEL1SPINCTRL1, wxID_PANEL1STATICTEXT1,
  wxID_PANEL1STATICTEXT2, wxID_PANEL1STATICTEXT3, wxID_PANEL1STATICTEXT4,
  wxID_PANEL1TEXTCTRL1, wxID_PANEL1TEXTCTRL2, wxID_PANEL1STATICTEXT5,
- wxID_PANEL1CHOICE2, wxID_PANEL1BUTTON7, wxID_PANEL1BUTTON8
-] = [wx.NewId() for _init_ctrls in range(15)]
+ wxID_PANEL1CHOICE2, wxID_PANEL1BUTTON7, wxID_PANEL1BUTTON8, wxID_PANEL2
+] = [wx.NewId() for _init_ctrls in range(16)]
 
 class MediaSubtitlesPanel(wx.Panel):
     def _init_coll_gridBagSizer1_Items(self, parent):
         # generated method, don't edit
 
-        parent.AddSpacer(wx.Size(30, 20), (0, 0), border=0, flag=0, span=(1, 1))
+        parent.AddSpacer(wx.Size(20, 20), (0, 0), border=0, flag=0, span=(1, 1))
         parent.AddSpacer(wx.Size(100, 8), (0, 1), border=0, flag=0, span=(1, 2))
         #parent.AddSpacer(wx.Size(200, 8), (0, 3), border=0, flag=0, span=(1, 3))
         parent.AddWindow(self.staticText5, (1, 1), border=0,
@@ -54,22 +54,31 @@ class MediaSubtitlesPanel(wx.Panel):
         parent.AddWindow(self.staticText4, (10, 1), border=0,
               flag=wx.ALIGN_RIGHT | wx.ALIGN_CENTER_VERTICAL, span=(1, 2))
         parent.AddWindow(self.choice1, (10, 3), border=0, flag=0, span=(1, 3))
+        parent.AddWindow(self.panel2, (12, 1), border=0, flag=0, span=(1, 4))
 
-        parent.AddWindow(self.button7, (12, 4), border=0, flag=wx.ALIGN_RIGHT, span=(1, 2))
-        parent.AddWindow(self.button8, (12, 6), border=0, flag=wx.ALIGN_LEFT, span=(1, 1))
+    def _init_coll_boxSizer1_Items(self, parent):
+        # generated method, don't edit
+        
+        parent.Add(self.button7, 1, border=0, flag=0)
+        parent.Add(self.button8, 1, border=0, flag=0)
 
     def _init_sizers(self):
         # generated method, don't edit
         self.gridBagSizer1 = wx.GridBagSizer(hgap=0, vgap=0)
+        self.boxSizer1 = wx.BoxSizer(wx.HORIZONTAL)
 
         self._init_coll_gridBagSizer1_Items(self.gridBagSizer1)
+        self._init_coll_boxSizer1_Items(self.boxSizer1)
 
         self.SetSizer(self.gridBagSizer1)
+        self.panel2.SetSizer(self.boxSizer1)
 
     def _init_ctrls(self, prnt):
         # generated method, don't edit
         wx.Panel.__init__(self, id=wxID_PANEL1, name='', parent=prnt,
               style=wx.TAB_TRAVERSAL)
+              
+        self.panel2 = wx.Panel(id=wxID_PANEL2, name='', parent=self)
 
         self.staticText5 = wx.StaticText(id=wxID_PANEL1STATICTEXT5,
               label=_(u'Subtitles Source')+' ', name='staticText5', parent=self,
@@ -115,11 +124,11 @@ class MediaSubtitlesPanel(wx.Panel):
         self.treeCtrlCombo = TreeCtrlComboPopup.TreeCtrlComboPopup()
         self.choice1.SetPopupControl(self.treeCtrlCombo)
 
-        self.button7 = wx.Button(id=wxID_PANEL1BUTTON7, label=_(u'Save'),
-              name='button7', parent=self, style=0)
+        self.button7 = wx.Button(id=wx.ID_SAVE,
+              name='button7', parent=self.panel2, style=0)
 
-        self.button8 = wx.Button(id=wxID_PANEL1BUTTON8, label=_(u'Cancel'),
-              name='button8', parent=self, style=0)
+        self.button8 = wx.Button(id=wx.ID_CANCEL,
+              name='button8', parent=self.panel2, style=0)
 
         self._init_sizers()
 
@@ -181,8 +190,7 @@ class MediaSubtitlesPanel(wx.Panel):
         wx.EVT_BUTTON(self.button2, wxID_PANEL1BUTTON2, self.selectSubsFont)
         wx.EVT_CHOICE(self.choice2, wxID_PANEL1CHOICE2, self.changeSubsSource)
 
-        wx.EVT_BUTTON(self.button7, wxID_PANEL1BUTTON7, self.saveAndCloseFrame)
-        wx.EVT_BUTTON(self.button8, wxID_PANEL1BUTTON8, self.closeFrame)
+        wx.EVT_BUTTON(self.button7, wx.ID_SAVE, self.saveAndCloseFrame)
 
     def changeSubsSource(self, event):
         "Change the source for the subtitles"
@@ -263,7 +271,20 @@ class MediaSubtitlesPanel(wx.Panel):
     def saveAndCloseFrame(self, event):
         "Save and close the media settings window"
         Globals.mediaMainPanel.saveAndCloseFrame(event)
+        
+    def getPanelButtonsHeigh(self):
+        "Return the current buttons position"
+        x, y = self.panel2.GetPositionTuple()
+        return y
+        
+    def setPanelButtonsHeigh(self, height):
+        "Set the height for the save and close buttons"
+        # Calculate the difference between max and current
+        currentPosition = self.getPanelButtonsHeigh()
+        difference = height - currentPosition
+        # Add the current empty space
+        difference += self.gridBagSizer1.GetEmptyCellSize().GetHeight()
+        # Resize the space up to the buttons
+        self.gridBagSizer1.AddSpacer(wx.Size(1, difference), (11, 0), border=0, 
+            flag=0, span=(1, 1))
 
-    def closeFrame(self, event):
-        "Do not save, just close the media settings window"
-        Globals.mediaMainPanel.closeFrame(event)

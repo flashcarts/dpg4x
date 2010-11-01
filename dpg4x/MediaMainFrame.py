@@ -130,12 +130,31 @@ class MediaMain(wx.Dialog):
         self.notebook1.AddPage(mediaOtherPanel,
             Globals.fillString(_(u'MISC'),10),imageId=4)
         Globals.mediaOtherPanel = mediaOtherPanel
+        
+        # Help to set the buttons at the same height
+        
+        # Get the max buttons heigh
+        height = mediaVideoPanel.getPanelButtonsHeigh()
+        if mediaAudioPanel.getPanelButtonsHeigh() > height:
+            height = mediaAudioPanel.getPanelButtonsHeigh()
+        if mediaSubtitlesPanel.getPanelButtonsHeigh() > height:
+            height = mediaSubtitlesPanel.getPanelButtonsHeigh()
+        if mediaOtherPanel.getPanelButtonsHeigh() > height:
+            height = mediaOtherPanel.getPanelButtonsHeigh()
+        # Set the same heigh for all the panels
+        mediaVideoPanel.setPanelButtonsHeigh(height)
+        mediaAudioPanel.setPanelButtonsHeigh(height)
+        mediaSubtitlesPanel.setPanelButtonsHeigh(height)
+        mediaOtherPanel.setPanelButtonsHeigh(height)
 
         # Set the window size
         width = self.GetBestSize().x + 20
         height = self.GetBestSize().y + 20
         self.SetMinSize(wx.Size(width, height))
         self.SetClientSize(wx.Size(width, height))
+        
+        # Go to the misc page by default
+        self.notebook1.ChangeSelection(3)
 
     def saveAndCloseFrame(self, event):
         "Save and close the media settings window"
@@ -146,9 +165,5 @@ class MediaMain(wx.Dialog):
         Globals.mediaOtherPanel.loadOptions(None)
         # Save options to the media specific config file
         ConfigurationManager.saveConfiguration(self.file)
-        self.closeFrame(event)
-
-    def closeFrame(self, event):
-        "Do not save, just close the media settings window"
-        # Enable the events on main frame
         self.Close()
+

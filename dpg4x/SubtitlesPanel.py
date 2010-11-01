@@ -32,7 +32,7 @@ class SubtitlesPanel(wx.Panel):
     def _init_coll_gridBagSizer1_Items(self, parent):
         # generated method, don't edit
 
-        parent.AddSpacer(wx.Size(30, 20), (0, 0), border=0, flag=0, span=(1, 1))
+        parent.AddSpacer(wx.Size(20, 20), (0, 0), border=0, flag=0, span=(1, 1))
         parent.AddSpacer(wx.Size(100, 8), (0, 1), border=0, flag=0, span=(1, 2))
         #parent.AddSpacer(wx.Size(200, 8), (0, 3), border=0, flag=0, span=(1, 3))
         parent.AddWindow(self.staticText5, (1, 1), border=0, 

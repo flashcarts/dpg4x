@@ -84,7 +84,7 @@ class VideoPanel(wx.Panel):
 
         self.spinCtrl2 = wx.SpinCtrl(id=wxID_PANEL1SPINCTRL2, 
               initial=Globals.video_height,
-              max=192, min=16, name='spinCtrl2', parent=self,
+              max=192, min=32, name='spinCtrl2', parent=self,
               style=wx.SP_ARROW_KEYS)
 
         self.staticText3 = wx.StaticText(id=wxID_PANEL1STATICTEXT3,
