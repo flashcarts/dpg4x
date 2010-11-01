@@ -228,7 +228,7 @@ def createTemporary():
         
 def clearTemporary():
     "Delete the temporary files"
-    return
+
     try:
         # Audio temporary file
         global TMP_AUDIO
