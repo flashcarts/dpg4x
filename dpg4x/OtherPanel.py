@@ -114,7 +114,7 @@ class OtherPanel(wx.Panel):
               name='staticText6', parent=self, style=0)
               
         self.spinCtrl1 = wx.SpinCtrl(id=wxID_DIALOG1SPINCTRL1, 
-              initial=Globals.other_previewsize, max=9999, min=1, 
+              value=str(Globals.other_previewsize), max=9999, min=1,
               name='spinCtrl1', parent=self, style=wx.SP_ARROW_KEYS)
 
         self._init_sizers()
@@ -209,4 +209,3 @@ class OtherPanel(wx.Panel):
                 raise Exception(_(u'The thumbnail file has an unknown format.'))
             
         Globals.other_previewsize = self.spinCtrl1.GetValue()
-

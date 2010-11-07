@@ -86,7 +86,7 @@ class MediaVideoPanel(wx.Panel):
               label=_(u'Width')+' ', name='staticText1', parent=self, style=0)
 
         self.spinCtrl1 = wx.SpinCtrl(id=wxID_PANEL1SPINCTRL1,
-              initial=Globals.video_width,
+              value=str(Globals.video_width),
               max=256, min=256, name='spinCtrl1', parent=self,
               style=wx.SP_ARROW_KEYS)
 
@@ -97,7 +97,7 @@ class MediaVideoPanel(wx.Panel):
               label=_(u'Height')+' ', name='staticText2', parent=self, style=0)
 
         self.spinCtrl2 = wx.SpinCtrl(id=wxID_PANEL1SPINCTRL2,
-              initial=Globals.video_height,
+              value=str(Globals.video_height),
               max=192, min=32, name='spinCtrl2', parent=self,
               style=wx.SP_ARROW_KEYS)
 
@@ -106,7 +106,7 @@ class MediaVideoPanel(wx.Panel):
               style=0)
 
         self.spinCtrl3 = wx.SpinCtrl(id=wxID_PANEL1SPINCTRL3,
-              initial=Globals.video_fps,
+              value=str(Globals.video_fps),
               max=24, min=1, name='spinCtrl3', parent=self,
               style=wx.SP_ARROW_KEYS)
 
@@ -132,7 +132,7 @@ class MediaVideoPanel(wx.Panel):
               parent=self, style=0)
 
         self.spinCtrl4 = wx.SpinCtrl(id=wxID_PANEL1SPINCTRL4,
-              initial=Globals.video_track,
+              value=str(Globals.video_track),
               max=255, min=1, name='spinCtrl4', parent=self,
               style=wx.SP_ARROW_KEYS)
 
@@ -216,7 +216,7 @@ class MediaVideoPanel(wx.Panel):
         wx.EVT_CHECKBOX(self.checkBox2, wxID_PANEL1CHECKBOX2, self.switchAutoFPS)
         wx.EVT_CHECKBOX(self.checkBox3, wxID_PANEL1CHECKBOX3, self.switchAutoTrack)
         wx.EVT_SPINCTRL(self.spinCtrl2, wxID_PANEL1SPINCTRL2, self.spinHeight)
-        wx.EVT_TEXT(self.spinCtrl2, wxID_PANEL1SPINCTRL2, self.spinHeightText)
+        #wx.EVT_TEXT(self.spinCtrl2, wxID_PANEL1SPINCTRL2, self.spinHeightText)
 
         wx.EVT_BUTTON(self.button7, wx.ID_SAVE, self.saveAndCloseFrame)
 

@@ -86,7 +86,7 @@ class MediaAudioPanel(wx.Panel):
               parent=self, style=0)
 
         self.spinCtrl1 = wx.SpinCtrl(id=wxID_PANEL1SPINCTRL1,
-              initial=Globals.audio_track,
+              value=str(Globals.audio_track),
               max=191, min=0, name='spinCtrl1', parent=self,
               style=wx.SP_ARROW_KEYS)
 

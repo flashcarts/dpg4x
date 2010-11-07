@@ -15,6 +15,7 @@
 import ConfigurationManager
 
 import os
+import stat
 import sys
 import string
 import tempfile
@@ -138,6 +139,11 @@ def which (filename):
     then checks if it is executable. This returns the full path to the filename
     if found and executable. Otherwise this returns None."""
 
+    # On Windows, we need to make sure we add the .exe extension otherwise
+    # this test always fails.
+    if sys.platform == 'win32':
+        filename = filename + '.exe'
+
     # Special case where filename already contains a path.
     if os.path.dirname(filename) != '':
         if os.access (filename, os.X_OK):
@@ -161,9 +167,11 @@ def which (filename):
 
 def concat(out,*files):
     "Concatenate a list of files"
-    outfile = open(out,'w')
+    # Be sure to use 'b' or Windows just destroys binary files and the final
+    # .dpg output is junk.
+    outfile = open(out,'wb')
     for name in files:
-        outfile.write( open(name).read() )
+        outfile.write( open(name,'rb').read() )
     outfile.close()
     
 def fillString(string, length):
@@ -191,17 +199,20 @@ def createTemporary():
     fd,TMP_FIFO = tempfile.mkstemp(dir=tmpDir)
     os.close(fd)
     os.remove(TMP_FIFO)
-    os.mkfifo(TMP_FIFO,0600)
-	# Video temporary file
+    # os.mkfifo does not work on Windows and causes the script to fail.
+    # Should use os.pipe() instead. I never need this though.
+    if sys.platform != 'win32':
+        os.mkfifo(TMP_FIFO,0600)
+    # Video temporary file
     global TMP_VIDEO
     fd,TMP_VIDEO = tempfile.mkstemp(dir=tmpDir)
     os.close(fd)
-	# Header temporary file
+    # Header temporary file
     global TMP_HEADER
     fd,TMP_HEADER = tempfile.mkstemp(dir=tmpDir)
     os.close(fd)
-	# GOP offsets temporaries
-	# Only needed with dpg_version >= 2
+    # GOP offsets temporaries
+    # Only needed with dpg_version >= 2
     global dpg_version
     global TMP_GOP
     global TMP_STAT
@@ -219,12 +230,24 @@ def createTemporary():
     os.close(fd)
     # Only needed on autogenerate
     if not other_thumbnail:
-        TMP_SHOT = tempfile.mkdtemp(dir=tmpDir)
+        # On Windows tempfile.mkdtemp() creates a path like:
+        # /tmp\tmpyr6x2v
+        # While tempfile.mkstemp() creates a path like:
+        # C:\tmp\tmpyr6x2v
+        # If we do not use tempfile.mkstemp(), wx.Image() fails later
+        # http://bugs.python.org/issue7325
+        fd,TMP_SHOT = tempfile.mkstemp(dir=tmpDir)
+        os.close(fd)
+        os.remove(TMP_SHOT)
+        os.makedirs(TMP_SHOT)
     # Divx 2-pass log file
     # Only needed for very high quality encode
     global TMP_DIVX2PASS
     if dpg_quality == 'doublepass':
-        TMP_DIVX2PASS = tempfile.mkdtemp(dir=tmpDir)
+        fd,TMP_DIVX2PASS = tempfile.mkstemp(dir=tmpDir)
+        os.close(fd)
+        os.remove(TMP_DIVX2PASS)
+        os.makedirs(TMP_DIVX2PASS)
         
 def clearTemporary():
     "Delete the temporary files"
@@ -260,10 +283,15 @@ def clearTemporary():
             os.remove(TMP_THUMB)
         # Note that TMP_SHOT is a folder, not a file
         if TMP_SHOT and os.path.isdir(TMP_SHOT):
+            # On Windows shutil.rmtree() fails on read-only directories
+            if sys.platform == 'win32':
+                os.chmod(TMP_SHOT, stat.S_IWUSR)
             shutil.rmtree(TMP_SHOT, ignore_errors = True)
         # Same with TMP_DIVX2PASS
         global TMP_DIVX2PASS
         if TMP_DIVX2PASS and os.path.isdir(TMP_DIVX2PASS):
+            if sys.platform == 'win32':
+                os.chmod(TMP_SHOT, stat.S_IWUSR)
             shutil.rmtree(TMP_DIVX2PASS, ignore_errors = True)
             
     # Warn if there is a problem when deleting files
@@ -274,4 +302,3 @@ def clearTemporary():
             
 # Load the configuration file
 ConfigurationManager.loadConfiguration()
-

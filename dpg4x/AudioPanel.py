@@ -73,7 +73,14 @@ class AudioPanel(wx.Panel):
               parent=self, style=0)
 
         self.spinCtrl1 = wx.SpinCtrl(id=wxID_PANEL1SPINCTRL1, 
-              initial=Globals.audio_track,
+              # MacOSX issue, initial= results in empty SpinCtrl values.
+              # Using value= (which requires a string) fixes this.
+              # This certainly seems like a bug however since we use .SetValue
+              # later on so this does seem like a more appropriate option.
+              # Works fine on Windows and Linux as well.
+              # Tested with Python 2.6.1 (ships with OS) and wxPython 2.8.8.1
+              # (ships with OS), 2.8.11.0, and 2.9.1.1 with the same result.
+              value=str(Globals.audio_track),
               max=191, min=0, name='spinCtrl1', parent=self, 
               style=wx.SP_ARROW_KEYS)
 
@@ -246,4 +253,3 @@ class AudioPanel(wx.Panel):
             self.choice2.SetStringSelection(str(Globals.audio_bitrate_mp2))
             # GSM only supports mono audio
             self.checkBox2.Enable(True)
-            

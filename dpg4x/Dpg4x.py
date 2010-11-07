@@ -15,7 +15,10 @@
 #----------------------------------------------------------------------------
 
 import wxversion
-wxversion.select('2.8')
+# On Windows wxPython 2.9.1.1 works better than 2.8.11.0.
+# In particuliar OutputTextDialog() is unreadable and unusable. You can only
+# see the first couple of letters of the text and the close button is missing.
+wxversion.select(['2.8','2.9'])
 import wx
 
 import os
@@ -27,7 +30,10 @@ import Globals
 
 # Check if a gettext resource is available for the current LANG
 if not gettext.find('dpg4x', os.getenv('DPG4X_I18N')):
-    Globals.debug(u'WARNING: dpg4x is not available in your languaje, ' \
+    # On Windows this fails every time but defaults to English.
+    # locale.getdefaultlocale() returns ('en_US', 'cp1252') which could be
+    # useful.
+    Globals.debug(u'WARNING: dpg4x is not available in your language, ' \
                 u'please help us to translate it.')
     gettext.install('dpg4x', os.getenv('DPG4X_I18N'), unicode=True)
 else:
@@ -107,4 +113,3 @@ if __name__ == '__main__':
     application.SetTopWindow(mainFrame)
     application.MainLoop()
     sys.exit(0)
-        

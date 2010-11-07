@@ -68,6 +68,9 @@ def encode_video(file, filename, preview=False):
         # being the later the best one. So I'll use info[-1]
         info = aspectRE.findall(mplayer_output)
         if info:
+            # On MacOSX an older version of mplayer dev-CVS-060307-04:23-4.0.1
+            # failed to return anything but 0.0000. MacOSX Fink mplayer
+            # 1.0rc2-4.2.1 did not have this issue.
             ratio = float(info[-1])
             # Get the best size with the obtained ratio
             Globals.video_width = 256
@@ -113,14 +116,22 @@ def encode_video(file, filename, preview=False):
     elif Globals.video_pixel == 0:
         v_pixelformat = "format=rgb15"
 
+    # MacOSX mencoder 1.0rc2-4.2.1 segment faults when cmp=x:subcmp=x:precmp=x
+    # is set above 0. Compared a couple videos created using Linux set to 6
+    # and although the file sizes differed <1MB the video quality appeared to
+    # be equal.
+    defcmp='0'
+
     # Options to process with extra high quality (double pass)
     if Globals.dpg_quality == 'doublepass':
+        if sys.platform != 'darwin':
+            defcmp='6'
         v_cmd = mpFile+['-v','-ofps',str(Globals.video_fps),'-sws','9','-vf',
         v_pixelformat + ',' \
         'scale='+str(Globals.video_width)+':'+str(Globals.video_height)+':::3,harddup',
         '-nosound','-ovc','lavc','-lavcopts',
         'vcodec=mpeg1video:vstrict=-2:mbd=2:trell:cbp:mv0:vmax_b_frames=2:' \
-        'cmp=6:subcmp=6:precmp=6:dia=4:predia=4:bidir_refine=4:' \
+        'cmp='+defcmp+':subcmp='+defcmp+':precmp='+defcmp+':dia=4:predia=4:bidir_refine=4:' \
         'mv0_threshold=0:last_pred=3:vbitrate='+str(Globals.video_bitrate),
         '-o',Globals.TMP_VIDEO,'-of','rawvideo']
         # Go to the directory where the divx2pass.log file will be stored
@@ -137,12 +148,14 @@ def encode_video(file, filename, preview=False):
         
 	# Options to process with high quality
     elif Globals.dpg_quality == 'high':
+        if sys.platform != 'darwin':
+            defcmp='6'
         v_cmd = mpFile+['-v','-ofps',str(Globals.video_fps),'-sws','9','-vf',
         v_pixelformat + ',' \
         'scale='+str(Globals.video_width)+':'+str(Globals.video_height)+':::3,harddup',
         '-nosound','-ovc','lavc','-lavcopts',
-        'vcodec=mpeg1video:vstrict=-2:mbd=2:trell:cbp:mv0:keyint=15:cmp=6:subcmp=6:' \
-        'precmp=6:dia=3:predia=3:last_pred=3:vbitrate='+str(Globals.video_bitrate),
+        'vcodec=mpeg1video:vstrict=-2:mbd=2:trell:cbp:mv0:keyint=15:cmp='+defcmp+':subcmp='+defcmp+':' \
+        'precmp='+defcmp+':dia=3:predia=3:last_pred=3:vbitrate='+str(Globals.video_bitrate),
         '-o',Globals.TMP_VIDEO,'-of','rawvideo']
 	# Options to process with low quality
     elif Globals.dpg_quality == 'low':
@@ -154,12 +167,14 @@ def encode_video(file, filename, preview=False):
         ''+str(Globals.video_bitrate),'-o',Globals.TMP_VIDEO,'-of','rawvideo']
 	# Options to process with normal quality
     else :
+        if sys.platform != 'darwin':
+            defcmp='2'
         v_cmd = mpFile+['-v','-ofps',str(Globals.video_fps),'-sws','9','-vf',
         v_pixelformat + ',' \
         'scale='+str(Globals.video_width)+':'+str(Globals.video_height)+':::3,harddup',
         '-nosound','-ovc','lavc','-lavcopts',
-        'vcodec=mpeg1video:vstrict=-2:mbd=2:trell:cbp:mv0:keyint=15:cmp=2:subcmp=2:' \
-        'precmp=2:vbitrate='+str(Globals.video_bitrate),'-o',Globals.TMP_VIDEO,
+        'vcodec=mpeg1video:vstrict=-2:mbd=2:trell:cbp:mv0:keyint=15:cmp='+defcmp+':subcmp='+defcmp+':' \
+        'precmp='+defcmp+':vbitrate='+str(Globals.video_bitrate),'-o',Globals.TMP_VIDEO,
         '-of','rawvideo']
         
     # Select the video track
@@ -241,7 +256,13 @@ def encode_video(file, filename, preview=False):
                     userProgress + '%')
                 # Abort the process if the user requests it
                 if abort:
-                    os.kill(proc.pid,signal.SIGTERM)
+                    # os.kill() only works on Windows using Python 2.7 and
+                    # greater. Not critical to creating DPG files so this
+                    # could be left out.
+                    if sys.platform == 'win32' and sys.version_info < (2, 7):
+                        subprocess.Popen("taskkill /F /T /PID %i"%proc.pid , shell=True)
+                    else:
+                        os.kill(proc.pid,signal.SIGTERM)
                     raise Exception(_(u'Process aborted by the user.'))
             
     # Check the return process
@@ -274,7 +295,10 @@ def encode_video(file, filename, preview=False):
                         userProgress + '%')
                     # Abort the process if the user requests it
                     if abort:
-                        os.kill(proc.pid,signal.SIGTERM)
+                        if sys.platform == 'win32' and sys.version_info < (2, 7):
+                            subprocess.Popen("taskkill /F /T /PID %i"%proc.pid , shell=True)
+                        else:
+                            os.kill(proc.pid,signal.SIGTERM)
                         raise Exception(_(u'Process aborted by the user.'))
             
         # Check the return process
@@ -640,10 +664,17 @@ def conv_thumb(filename, frames):
     
     # Takes a PNG screenshot if no file given.
     if not Globals.other_thumbnail:
+        # png:outdir= is pretty new, the latest Windows (1.0rc2-4.2.1) and
+        # Mac Fink (1.0rc2-4.2.1) binaries do not include this option.
+        # While Fedora 13 (SVN-r32421-snapshot-4.4.4) does. Best to avoid it
+        # for now.
+        current_path = os.getcwd()
+        os.chdir(Globals.TMP_SHOT)
+
         # The 00000001.png is choosed by mplayer
         shot_file = os.path.join(Globals.TMP_SHOT ,'00000001.png')
         s_cmd = ['mplayer',Globals.TMP_VIDEO,'-nosound','-vo',
-            'png:outdir='+Globals.TMP_SHOT,'-frames','1','-ss',
+            'png','-frames','1','-ss',
             # Skip 10% of the frames
             str(int((int(frames)/Globals.video_fps)/10))]
         # Execute mplayer to generate the shot
@@ -658,7 +689,7 @@ def conv_thumb(filename, frames):
         if not os.path.isfile(shot_file):
             # Try again without ss
             s_cmd = ['mplayer',Globals.TMP_VIDEO,'-nosound','-vo',
-            'png:outdir='+Globals.TMP_SHOT,'-frames','1']
+            'png''-frames','1']
             # Execute mplayer
             mplayer_proc = subprocess.Popen(s_cmd, stdout=subprocess.PIPE,
               stderr=subprocess.STDOUT, universal_newlines=True)
@@ -668,11 +699,12 @@ def conv_thumb(filename, frames):
                 raise Exception(_(u'ERROR ON MPLAYER')+'\n\n'+mplayer_output)
         
         thumbfile = shot_file
+        os.chdir(current_path)
     # If a file given, use it
     else:
         thumbfile = Globals.other_thumbnail
 	
-	# Open the image with wx
+    # Open the image with wx
     image = wx.Image(thumbfile)
     width = image.GetWidth()
     height = image.GetHeight()
@@ -959,4 +991,3 @@ def encode_files(files):
             encode_audio.stopThread()
         # Send the exception to the FilesPanel
         raise e
-

@@ -80,7 +80,7 @@ class SubtitlesPanel(wx.Panel):
               parent=self, style=0)
 
         self.spinCtrl1 = wx.SpinCtrl(id=wxID_PANEL1SPINCTRL1, 
-              initial=Globals.subtitles_track,
+              value=str(Globals.subtitles_track),
               max=31, min=0, name='spinCtrl1', parent=self, 
               style=wx.SP_ARROW_KEYS)
 
@@ -247,5 +247,3 @@ class SubtitlesPanel(wx.Panel):
         # Get also fonts and encoding
         Globals.subtitles_font = self.textCtrl2.GetValue()
         Globals.subtitles_encoding = self.choice1.GetValue()
-
-
