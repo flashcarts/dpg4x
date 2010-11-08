@@ -185,8 +185,11 @@ class FilesPanel(wx.Panel):
         # Init list control
         self.listCtrl1.InsertColumn(0,_(u'Media sources to encode'))
         self.listCtrl1.InsertColumn(1,_(u'Indv Settings'), wx.LIST_FORMAT_CENTRE)
-        self.listCtrl1.SetColumnWidth(1,wx.LIST_AUTOSIZE_USEHEADER)
-        self.listCtrl1.setResizeColumn(1)
+        self.listCtrl1.SetColumnWidth(0,300)
+        # wx.LIST_AUTOSIZE_USEHEADER defaults to 80 pixels on all platforms
+        # but Win32, better to be explicit. setResizeColumn() actually breaks
+        # manual resizing on Windows.
+        self.listCtrl1.SetColumnWidth(1,80)
         
         # Hide the add-media buttons (will be shown later)
         self.button5.Show(False)
@@ -605,7 +608,7 @@ class FilesPanel(wx.Panel):
                 file = self.listCtrl1.GetItemText(item)
                 # Can't check DVD and VCD sources
                 if not ((file[:6] == 'vcd://') or (file[:6] == 'dvd://')):
-                    if os.path.isfile(file) and os.access(file, os.W_OK):
+                    if os.path.isfile(file) and os.access(file, os.R_OK):
                         files.append(file)
                     # If can not be readed, show error message and exit
                     else:
@@ -651,6 +654,3 @@ class FilesPanel(wx.Panel):
                 index = self.listCtrl1.GetItemCount()
                 self.listCtrl1.InsertStringItem(index, file)
                 self.listCtrl1.SetColumnWidth(0, wx.LIST_AUTOSIZE)
-
-       
-
