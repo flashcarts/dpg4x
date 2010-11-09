@@ -92,7 +92,7 @@ class MediaSubtitlesPanel(wx.Panel):
               parent=self, style=0)
 
         self.spinCtrl1 = wx.SpinCtrl(id=wxID_PANEL1SPINCTRL1,
-              initial=Globals.subtitles_track,
+              value=str(Globals.subtitles_track),
               max=31, min=0, name='spinCtrl1', parent=self,
               style=wx.SP_ARROW_KEYS)
 
@@ -287,4 +287,3 @@ class MediaSubtitlesPanel(wx.Panel):
         # Resize the space up to the buttons
         self.gridBagSizer1.AddSpacer(wx.Size(1, difference), (11, 0), border=0, 
             flag=0, span=(1, 1))
-

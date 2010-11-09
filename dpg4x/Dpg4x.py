@@ -99,7 +99,7 @@ def checkDependencies():
             # Show an error in the console
             Globals.debug(_(u'ERROR') + ': ' + message)
             # Show a dialog to the user
-            dialog = wx.MessageDialog(None, message, _(u'ERROR'), style=wx.ICON_ERROR)
+            dialog = wx.MessageDialog(None, message, _(u'ERROR'), style=wx.OK|wx.ICON_ERROR)
             dialog.ShowModal()
             sys.exit(1)
 

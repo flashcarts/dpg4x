@@ -63,7 +63,7 @@ class AddVcdDialog(wx.Dialog):
         self.staticText2 = wx.StaticText(id=wxID_DIALOG1STATICTEXT2,
               label=_(u'Track'), name='staticText2', parent=self, style=0)
 
-        self.spinCtrl1 = wx.SpinCtrl(id=wxID_DIALOG1SPINCTRL1, initial=2,
+        self.spinCtrl1 = wx.SpinCtrl(id=wxID_DIALOG1SPINCTRL1, value=str(2),
               max=99, min=1, name='spinCtrl1', parent=self, 
               style=wx.SP_ARROW_KEYS)
 
@@ -103,4 +103,3 @@ class AddVcdDialog(wx.Dialog):
         # Update the Globals.dpg_vcddevice value
         Globals.dpg_vcddevice = self.textCtrl1.GetValue()
         self.EndModal(wx.ID_OK)
-

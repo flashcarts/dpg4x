@@ -59,7 +59,7 @@ class AddDvdDialog(wx.Dialog):
     def _init_ctrls(self, prnt):
         # generated method, don't edit
         wx.Dialog.__init__(self, id=wxID_DIALOG1, name='', parent=prnt,
-              style=wx.DEFAULT_DIALOG_STYLE, title=_(u'Add VCD'))
+              style=wx.DEFAULT_DIALOG_STYLE, title=_(u'Add DVD'))
 
         self.staticText1 = wx.StaticText(id=wxID_DIALOG1STATICTEXT1,
               label=_(u'Device'), name='staticText1', parent=self, style=0)
@@ -70,7 +70,7 @@ class AddDvdDialog(wx.Dialog):
         self.staticText2 = wx.StaticText(id=wxID_DIALOG1STATICTEXT2,
               label=_(u'Track'), name='staticText2', parent=self, style=0)
 
-        self.spinCtrl1 = wx.SpinCtrl(id=wxID_DIALOG1SPINCTRL1, initial=1,
+        self.spinCtrl1 = wx.SpinCtrl(id=wxID_DIALOG1SPINCTRL1, value=str(1),
               max=99, min=1, name='spinCtrl1', parent=self, 
               style=wx.SP_ARROW_KEYS)
 
@@ -80,14 +80,14 @@ class AddDvdDialog(wx.Dialog):
         self.staticText3 = wx.StaticText(id=wxID_DIALOG1STATICTEXT3,
               label=_(u'First'), name='staticText3', parent=self, style=0)
               
-        self.spinCtrl2 = wx.SpinCtrl(id=wxID_DIALOG1SPINCTRL2, initial=1,
+        self.spinCtrl2 = wx.SpinCtrl(id=wxID_DIALOG1SPINCTRL2, value=str(1),
               max=99, min=1, name='spinCtrl2', parent=self, 
               style=wx.SP_ARROW_KEYS)
               
         self.staticText4 = wx.StaticText(id=wxID_DIALOG1STATICTEXT4,
               label=_(u'Last'), name='staticText4', parent=self, style=0)
               
-        self.spinCtrl3 = wx.SpinCtrl(id=wxID_DIALOG1SPINCTRL3, initial=10,
+        self.spinCtrl3 = wx.SpinCtrl(id=wxID_DIALOG1SPINCTRL3, value=str(10),
               max=99, min=1, name='spinCtrl3', parent=self, 
               style=wx.SP_ARROW_KEYS)
 
@@ -146,10 +146,9 @@ class AddDvdDialog(wx.Dialog):
             if self.spinCtrl2.GetValue() > self.spinCtrl3.GetValue():
                 message = _(u'The last chapter can not be lower than the first.')
                 dialog = wx.MessageDialog(self, message, _(u'ERROR'), 
-                    style=wx.ICON_ERROR)
+                    style=wx.OK|wx.ICON_ERROR)
                 dialog.ShowModal()
                 return
         # Update the Globals.dpg_vcddevice value
         Globals.dpg_dvddevice = self.textCtrl1.GetValue()
         self.EndModal(wx.ID_OK)
-

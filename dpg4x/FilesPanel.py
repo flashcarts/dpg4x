@@ -373,7 +373,7 @@ class FilesPanel(wx.Panel):
         if self.listCtrl1.GetSelectedItemCount() == 0:
             message = _(u'No media sources selected.')
             dialog = wx.MessageDialog(self, message, _(u'ERROR'), 
-                style=wx.ICON_ERROR)
+                style=wx.OK|wx.ICON_ERROR)
             dialog.ShowModal()
             return
         # Get the selected items
@@ -397,7 +397,7 @@ class FilesPanel(wx.Panel):
             if self.listCtrl1.GetSelectedItemCount() != 1:
                 message = _(u'Select one media source.')
                 dialog = wx.MessageDialog(self, message, _(u'ERROR'), 
-                    style=wx.ICON_ERROR)
+                    style=wx.OK|wx.ICON_ERROR)
                 dialog.ShowModal()
                 return
             # Play the file
@@ -409,7 +409,7 @@ class FilesPanel(wx.Panel):
             Globals.debug(_(u'ERROR') + ': ' + message)
             # Show a dialog to the user
             #dialog = wx.MessageDialog(self, message, _(u'ERROR'), 
-            #    style=wx.ICON_ERROR)
+            #    style=wx.OK|wx.ICON_ERROR)
             dialog = OutputTextDialog(self, message, _(u'ERROR'))
             dialog.ShowModal()
             
@@ -423,7 +423,7 @@ class FilesPanel(wx.Panel):
             if self.listCtrl1.GetSelectedItemCount() != 1:
                 message = _(u'Select one media source.')
                 dialog = wx.MessageDialog(self, message, _(u'ERROR'), 
-                    style=wx.ICON_ERROR)
+                    style=wx.OK|wx.ICON_ERROR)
                 dialog.ShowModal()
                 return
             # Get the options from the panels
@@ -447,7 +447,7 @@ class FilesPanel(wx.Panel):
             Globals.debug(_(u'ERROR') + ': ' + message)
             # Show a dialog to the user
             #dialog = wx.MessageDialog(self, message, _(u'ERROR'), 
-            #    style=wx.ICON_ERROR)
+            #    style=wx.OK|wx.ICON_ERROR)
             dialog = OutputTextDialog(self, message, _(u'ERROR'))
             dialog.ShowModal()
             
@@ -461,7 +461,7 @@ class FilesPanel(wx.Panel):
             if self.listCtrl1.GetSelectedItemCount() != 1:
                 message = _(u'Select one media source.')
                 dialog = wx.MessageDialog(self, message, _(u'ERROR'), 
-                    style=wx.ICON_ERROR)
+                    style=wx.OK|wx.ICON_ERROR)
                 dialog.ShowModal()
                 return
             # Preview the file
@@ -473,7 +473,7 @@ class FilesPanel(wx.Panel):
             Globals.debug(_(u'ERROR') + ': ' + message)
             # Show a dialog to the user
             #dialog = wx.MessageDialog(self, message, _(u'ERROR'), 
-            #    style=wx.ICON_ERROR)
+            #    style=wx.OK|wx.ICON_ERROR)
             dialog = OutputTextDialog(self, message, _(u'ERROR'))
             dialog.ShowModal()
             
@@ -487,7 +487,7 @@ class FilesPanel(wx.Panel):
             if self.listCtrl1.GetSelectedItemCount() != 1:
                 message = _(u'Select one media source.')
                 dialog = wx.MessageDialog(self, message, _(u'ERROR'),
-                    style=wx.ICON_ERROR)
+                    style=wx.OK|wx.ICON_ERROR)
                 dialog.ShowModal()
                 return
             # Show file settings
@@ -506,7 +506,7 @@ class FilesPanel(wx.Panel):
             Globals.debug(_(u'ERROR') + ': ' + message)
             # Show a dialog to the user
             dialog = wx.MessageDialog(self, message, _(u'ERROR'),
-                style=wx.ICON_ERROR)
+                style=wx.OK|wx.ICON_ERROR)
                 
     def deleteMediaSettings(self, event):
         "Delete the individual settings for a media file"
@@ -517,7 +517,7 @@ class FilesPanel(wx.Panel):
         if self.listCtrl1.GetSelectedItemCount() == 0:
             message = _(u'No media sources selected.')
             dialog = wx.MessageDialog(self, message, _(u'ERROR'), 
-                style=wx.ICON_ERROR)
+                style=wx.OK|wx.ICON_ERROR)
             dialog.ShowModal()
             return
         # Get the selected items
@@ -642,7 +642,7 @@ class FilesPanel(wx.Panel):
             Globals.debug(_(u'ENCODING ERROR') + ': ' + message)
             # Show a dialog to the user
             #dialog = wx.MessageDialog(self, message, _(u'ERROR'), 
-            #    style=wx.ICON_ERROR)
+            #    style=wx.OK|wx.ICON_ERROR)
             dialog = OutputTextDialog(self, message, _(u'ERROR'))
             dialog.ShowModal()
         
