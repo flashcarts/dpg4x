@@ -90,6 +90,9 @@ class Frame1(wx.Frame):
         
         # Panel with files to be processed
         filesPanel = FilesPanel.FilesPanel(self.notebook1)
+        # wx.Toolbook is buggy on MacOSX. wxPython 2.8 and 2.9 will not display
+        # the AddPage() caption text and icons disappear after being clicked
+        # with 2.9. Problem is evident in the wxPython demo as well as dpg4x.
         self.notebook1.AddPage(filesPanel,
             Globals.fillString(_(u'MAIN'),10),imageId=0)
         Globals.filesPanel = filesPanel
@@ -123,4 +126,3 @@ class Frame1(wx.Frame):
         height = self.GetBestSize().y + 20
         self.SetMinSize(wx.Size(width, height))
         self.SetClientSize(wx.Size(width, height))
-        
