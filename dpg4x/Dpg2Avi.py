@@ -19,12 +19,15 @@ import Globals
 
 import os
 import sys
+import locale
 import gettext
 import tempfile
 import struct
 import subprocess
 
 # Check if a gettext resource is available for the current LANG
+if not gettext.find('dpg4x', os.getenv('DPG4X_I18N')) and sys.platform == 'win32':
+    os.environ['LANG']=locale.getdefaultlocale()[0]
 if not gettext.find('dpg4x', os.getenv('DPG4X_I18N')):
     gettext.install('dpg4x', os.getenv('DPG4X_I18N'), unicode=True)
 else:
@@ -171,4 +174,3 @@ if __name__ == '__main__':
     
     # Clean exit
     sys.exit(0)
-        

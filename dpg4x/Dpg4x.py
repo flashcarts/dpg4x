@@ -23,16 +23,19 @@ import wx
 
 import os
 import sys
+import locale
 import gettext
 
 import MainFrame
 import Globals
 
 # Check if a gettext resource is available for the current LANG
+if not gettext.find('dpg4x', os.getenv('DPG4X_I18N')) and sys.platform == 'win32':
+    # On Windows this fails every time, no default Language environment
+    # variables, but defaults to English.
+    # locale.getdefaultlocale() returns ('en_US', 'cp1252') could be useful.
+    os.environ['LANG']=locale.getdefaultlocale()[0]
 if not gettext.find('dpg4x', os.getenv('DPG4X_I18N')):
-    # On Windows this fails every time but defaults to English.
-    # locale.getdefaultlocale() returns ('en_US', 'cp1252') which could be
-    # useful.
     Globals.debug(u'WARNING: dpg4x is not available in your language, ' \
                 u'please help us to translate it.')
     gettext.install('dpg4x', os.getenv('DPG4X_I18N'), unicode=True)
