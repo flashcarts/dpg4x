@@ -185,11 +185,15 @@ class FilesPanel(wx.Panel):
         # Init list control
         self.listCtrl1.InsertColumn(0,_(u'Media sources to encode'))
         self.listCtrl1.InsertColumn(1,_(u'Indv Settings'), wx.LIST_FORMAT_CENTRE)
+        # setResizeColumn() breaks manual resizing on Windows so instead make
+        # the first column as large as possible, auto size the second column,
+        # then make both fit within the 380 pixels of space.
+        # Win32 hack: InsertColumn() defaults to 80 pixels so force the first
+        # column to use the remaining space, 300 pixels (Linux/Mac's default
+        # behavior). Otherwise, the second column uses all the space.
         self.listCtrl1.SetColumnWidth(0,300)
-        # wx.LIST_AUTOSIZE_USEHEADER defaults to 80 pixels on all platforms
-        # but Win32, better to be explicit. setResizeColumn() actually breaks
-        # manual resizing on Windows.
-        self.listCtrl1.SetColumnWidth(1,80)
+        self.listCtrl1.SetColumnWidth(1,wx.LIST_AUTOSIZE_USEHEADER)
+        self.listCtrl1.SetColumnWidth(0,380 - self.listCtrl1.GetColumnWidth(1))
         
         # Hide the add-media buttons (will be shown later)
         self.button5.Show(False)
@@ -654,3 +658,8 @@ class FilesPanel(wx.Panel):
                 index = self.listCtrl1.GetItemCount()
                 self.listCtrl1.InsertStringItem(index, file)
                 self.listCtrl1.SetColumnWidth(0, wx.LIST_AUTOSIZE)
+                configfile = ConfigurationManager.getMediaConfiguration(file)
+                if os.path.isfile(configfile):
+                    self.listCtrl1.SetStringItem(index, 1, _("YES"))
+                else:
+                    self.listCtrl1.SetStringItem(index, 1, _("NO"))
