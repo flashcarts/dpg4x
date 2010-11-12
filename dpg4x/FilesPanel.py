@@ -657,7 +657,7 @@ class FilesPanel(wx.Panel):
             if self.listCtrl1.FindItem(-1, file) == -1:
                 index = self.listCtrl1.GetItemCount()
                 self.listCtrl1.InsertStringItem(index, file)
-                self.listCtrl1.SetColumnWidth(0, wx.LIST_AUTOSIZE)
+                # Check if a media configuration exists for the file
                 configfile = ConfigurationManager.getMediaConfiguration(file)
                 if os.path.isfile(configfile):
                     self.listCtrl1.SetStringItem(index, 1, _("YES"))

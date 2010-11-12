@@ -8,37 +8,40 @@
  #####   #        ####       #   #    #
 
 
-INTRODUCTION
+1. INTRODUCTION
 
-dpg4x is a program that tries to make the DPG video creation as easy as posible
-on Linux.
+Dpg4x is a program that tries to make the DPG video creation as easy as possible
+on Linux. Since version 2.0 it also runs on Windows and OS X.
 
-If you are reading this, I supose you already know what a DPG video is, so I'll
-be brief. A DPG video is the video format that you need if you want to play movies
-in your Nintendo DS.
+If you are reading this, I suppose you already know what a DPG video is, so I'll
+be brief. A DPG video is the video format that you need if you want to play
+movies on your Nintendo DS.
 
-dpg4x relies on mplayer/mencoder to do it's work, so any video file playable with
-mplayer can be converted to DPG. Check the INSTALL file for more details about
-dependencies and installation.
+Dpg4x relies on mplayer/mencoder to do it's work, so any video file playable
+with mplayer can be converted to DPG. Check the INSTALL file for more details
+about dependencies and installation.
 
 
-FEATURES
+2. FEATURES
 
 - Simple GUI suitable for beginners.
-- It also includes a lots of options for the advanced user.
+- Includes lots of options for the advanced user.
+- Supports individual per-media settings when needed.
 - Multiple DPG version support, from DPG0 to DPG4.
 - Can process any video file playable by mplayer.
-- Drag and drop support from your favourite file manager.
-- Easily portable to any POSIX like OS.
-- Multilanguage.
-- Subtitles support.
+- Encodes your DVD and VCD directly.
+- Includes subtitles support.
 - Ability to preview the encoding settings.
-- Encode your DVD and VCD directly.
+- Drag and drop support from your favourite file manager.
 - Batch processing.
+- Multiplatform.
+- Multilanguage.
 - The dpg2avi script can convert DPG files to AVI format.
 
 
-USAGE
+3. USAGE
+
+3.1. Media Sources List
 
 If you run dpg4x, the first thing that you will see is the MAIN section. You can
 switch from one section to another with the icon-buttons at the top.
@@ -46,25 +49,43 @@ switch from one section to another with the icon-buttons at the top.
 The MAIN section includes a list, with all the media sources that you want to
 encode. To add a media source to the list, use the "Add Media" button. This will
 enable the "Add File", "Add DVD" and "Add VCD" buttons. To delete a media source
-from the list, select the media and use the "Delete Media" button. You can also
-play the madia sources, preview the encoding settings and gather information
-about the media sources.
+from the list, select the media and use the "Delete Media" button. 
 
 To add a file, just browse your file system and select it. To add a DVD or a VCD
 you need to select the track and the disc reader device. When adding a DVD, you
 can filter by a range of chapters.
 
-Need more? Now you can also add files with drag-and-drop from your favourite file
-manager!
+Need more? Now you can also add files with drag-and-drop from your favourite
+file manager!
+
+3.2. Start Encoding
 
 When you have completed the list, just use the "Start Encoding" button. If you
 want to setup the options for the encoding, you can select the DPG Version and
 the quality that you want to use. The DPG videos will be stored in the same
-folder than the original video files, but you can change this behaviour in the
+folder as the original video files, but you can change this behaviour in the
 MISC section. This is a must when you are using DVD or VCD sources.
 
-For advanced setup, you can switch to another section. Remember that all the
-sections are always available via the icon-buttons at the top.
+3.3. Preview Modes
+
+With the "Play Media" and "DPG Preview" buttons at the MAIN section you can
+play the media sources before encoding.
+
+However, they work in a different way, while on the one hand "Play Media" just
+plays the media source "as is" using mplayer, the "DPG Preview" button encodes
+the beginning of the video, using the encoding settings you have selected, and
+then plays it as a DPG-like video. This is specially useful for testing your
+settings and seeing how your video would like. You can setup the length of the
+preview from the MISC section.
+
+3.4. Default Settings
+
+When you need to adjust the encoding process to your needs, dpg4x offers two
+ways to configure it.
+
+If you want your settings to be applied to all the videos you encode, you just
+need to switch to another section and adjust the default settings. Remember that
+all the sections are always available via the icon-buttons at the top.
 
 The VIDEO section includes advanced video options. e.g. You can change the video
 bitrate, and the FPS. In the AUDIO section you can select the audio track to
@@ -72,6 +93,23 @@ encode and adjust the audio quality. The SUBTITLES section includes all the
 options you need to add subtitles to the videos, and the MISC section includes
 the options that didn't fit in the other sections, like the tmp folder that
 dpg4x uses.
+
+3.5. Individual Settings
+
+If you want to set default settings for only one video (e.g. you may want to set
+a specific thumbnail or subtitles file), you can select the media source and
+press the "Set" button in the "Individual Settings" menu, at the bottom-right of
+the MAIN section. A popup window will be opened, showing the same options
+available in the default configuration sections, just perform the changes and
+press save. The default settings will no longer be used for that media source,
+only the settings you just set.
+
+You can press "Set" again to perform another change or press "Delete" to delete
+the individual configuration for that media source. If you are not sure about
+if a media source will use individual or default settings you can check it in
+the media sources list, in the MAIN section (second column).
+
+3.6. Default Subtitles
 
 If you have problems when adding subtitles to your videos, just include a
 subtitles file in the folder where the original video file is. The name of the
@@ -81,7 +119,7 @@ the "Preview" button). As the last step, don't forget to switch to the SUBTITLES
 section and select "Auto" as the subtitles source.
 
 
-DPG2AVI
+4. DPG2AVI
 
 Since version 1.2, you can encode the DPG video files to AVI format with the
 dpg2avi script. To use the dpg2avi script, just set the DPG and AVI files as
@@ -92,23 +130,27 @@ file. It only performs changes in the container, so all the properties like
 framerate, video size, bitrates, quality, etc. will be the same.
 
 
-CONFIGURATION
+5. CONFIGURATION
 
 When you use dpg4x, it stores the current configuration in your home folder. The
-full path of the configuration file is:
-~/.config/dpg4x/config.ini
+full path of the configuration directory is:
+~/.config/dpg4x/
 
 The next time dpg4x is opened, it will restore the last saved configuration. You
-can delete the configuration file to reset to the default values again. But you
-should not edit the configuration file by hand.
+can delete the configuration files to reset the default or the individual media
+settings. But you should not edit the configuration file by hand. The default
+settings are stored in a file named config.ini
 
 The dpg2avi does not read the dpg4x configuration files. It stores the temporary
 files in the output directory.
 
 
-CONTACT US
+6. BUGS
 
-https://sourceforge.net/projects/dpg4x
-xukosky at yahoo.es
+If you find a bug in dpg4x, please report it via the tracker:
 
+http://sourceforge.net/projects/dpg4x/support
+
+Or email to a maintainer in order to get support. See the CREDITS file for
+details. 
 
