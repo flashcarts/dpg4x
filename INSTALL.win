@@ -1,0 +1,40 @@
+
+                        #
+ #####   #####    ####  #    #   #    #
+ #    #  #    #  #    # #    #    #  #
+ #    #  #    #  #      #######    ##
+ #    #  #####   #  ###      #     ##
+ #    #  #       #    #      #    #  #
+ #####   #        ####       #   #    #
+
+
+NOTE: This file only includes information that is specific for Windows, please
+refer to the INSTALL file for general information about installing dpg4x.
+
+
+To get dpg4x up and running on Windows you will need to install the following
+dependencies:
+
+a. ActivePython-2.7.0.2-win32-x86.msi or ActivePython-2.6.6.15-win32-x86.msi, I
+recommend Python 2.7 since it supports os.kill() on Windows.
+http://www.activestate.com/activepython/downloads
+
+b. wxPython2.9-win32-2.9.1.1-py27.exe or
+wxPython2.8-win32-unicode-2.8.11.0-py27.exe, I recommend wxPython 2.9 since
+OutputTextDialog() works correctly.
+http://wxpython.org/download.php
+
+c. MPlayer-mingw32-1.0rc2.zip from
+http://www.mplayerhq.hu/MPlayer/releases/win32/ unzip it to "C:\Program
+Files" and add "C:\Program Files\MPlayer-1.0rc2" to the system PATH.
+
+d. Download windows-essential-20071007.zip from
+http://www.mplayerhq.hu/MPlayer/releases/codecs/ unzip and place the contents in
+"C:\Program Files\MPlayer-1.0rc2\codecs" removing the windows-essential-20071007
+directory.
+
+e. Get the latest version of dpg4x (you need at least the version 2.0) and unzip
+it to your desktop or "C:\Program Files" and optionally add
+"C:\Program Files\dpg4x" to the system PATH and run dpg4x.bat.
+
+
