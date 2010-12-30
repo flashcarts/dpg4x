@@ -25,6 +25,9 @@ import shutil
 ## VARIABLES ##
 ###############
 
+# Variable used to restart the program
+restart = False
+
 # Configuration files
 FILECONFIG = [os.path.expanduser("~/.config/dpg4x/config.ini")]
 # User config file
@@ -301,4 +304,5 @@ def clearTemporary():
             
             
 # Load the configuration file
+reload(ConfigurationManager)
 ConfigurationManager.loadConfiguration()

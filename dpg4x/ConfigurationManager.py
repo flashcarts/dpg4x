@@ -17,6 +17,7 @@ import Globals
 import ConfigParser
 import re
 import os
+import shutil
 
 # Private configuration manager
 __cp = ConfigParser.SafeConfigParser()
@@ -204,4 +205,9 @@ def loadConfiguration(filename=''):
         Globals.subtitles_font = Globals.Decode(__cp.get('SUBTITLES','subtitles_font'))
     if __cp.has_option('SUBTITLES', 'subtitles_encoding'):
         Globals.subtitles_encoding = Globals.Decode(__cp.get('SUBTITLES','subtitles_encoding'))
+
+def resetAllConfiguration():
+    "Deletes all the configuration files"
+    if os.path.isdir(os.path.dirname(Globals.USERFILECONFIG)):
+        shutil.rmtree(os.path.dirname(Globals.USERFILECONFIG))
 

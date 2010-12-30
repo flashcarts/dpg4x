@@ -121,9 +121,9 @@ section and select "Auto" as the subtitles source.
 
 4. DPG2AVI
 
-Since version 1.2, you can encode the DPG video files to AVI format with the
-dpg2avi script. To use the dpg2avi script, just set the DPG and AVI files as
-parameters. For example: dpg2avi input_file.dpg output_file.avi
+You can encode the DPG video files to AVI format with the dpg2avi script. To use
+the dpg2avi script, just set the DPG and AVI files as parameters. For example:
+dpg2avi input_file.dpg output_file.avi
 
 The dpg2avi script does not re-enconde the video or the audio streams in the DPG
 file. It only performs changes in the container, so all the properties like
@@ -140,6 +140,9 @@ The next time dpg4x is opened, it will restore the last saved configuration. You
 can delete the configuration files to reset the default or the individual media
 settings. But you should not edit the configuration file by hand. The default
 settings are stored in a file named config.ini
+
+You can also reset all the configuration to the default values by pressing the
+"Reset to default" button in the MISC section.
 
 The dpg2avi does not read the dpg4x configuration files. It stores the temporary
 files in the output directory.

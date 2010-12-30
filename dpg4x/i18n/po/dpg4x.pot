@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-11-07 13:21+0100\n"
+"POT-Creation-Date: 2010-12-30 18:31+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,8 +17,8 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: AddDvdDialog.py:62 AddVcdDialog.py:55 FilesPanel.py:137
-msgid "Add VCD"
+#: AddDvdDialog.py:62 FilesPanel.py:134
+msgid "Add DVD"
 msgstr ""
 
 #: AddDvdDialog.py:65 AddVcdDialog.py:58
@@ -45,12 +45,16 @@ msgstr ""
 msgid "The last chapter can not be lower than the first."
 msgstr ""
 
-#: AddDvdDialog.py:148 Dpg2Avi.py:57 Dpg2Avi.py:162 Dpg4x.py:100 Dpg4x.py:102
-#: FilesPanel.py:372 FilesPanel.py:396 FilesPanel.py:406 FilesPanel.py:410
-#: FilesPanel.py:422 FilesPanel.py:444 FilesPanel.py:448 FilesPanel.py:460
-#: FilesPanel.py:470 FilesPanel.py:474 FilesPanel.py:486 FilesPanel.py:503
-#: FilesPanel.py:505 FilesPanel.py:516 FilesPanel.py:643
+#: AddDvdDialog.py:148 Dpg2Avi.py:60 Dpg2Avi.py:165 Dpg4x.py:103 Dpg4x.py:105
+#: FilesPanel.py:379 FilesPanel.py:403 FilesPanel.py:413 FilesPanel.py:417
+#: FilesPanel.py:429 FilesPanel.py:451 FilesPanel.py:455 FilesPanel.py:467
+#: FilesPanel.py:477 FilesPanel.py:481 FilesPanel.py:493 FilesPanel.py:510
+#: FilesPanel.py:512 FilesPanel.py:523 FilesPanel.py:650
 msgid "ERROR"
+msgstr ""
+
+#: AddVcdDialog.py:55 FilesPanel.py:137
+msgid "Add VCD"
 msgstr ""
 
 #: AddVcdDialog.py:71
@@ -85,7 +89,7 @@ msgstr ""
 msgid "Auto Audio Track"
 msgstr ""
 
-#: ConfigurationManager.py:113
+#: ConfigurationManager.py:114
 msgid "Can't save user configuration:"
 msgstr ""
 
@@ -110,44 +114,44 @@ msgstr ""
 msgid "Do you want to abort the encoding process?"
 msgstr ""
 
-#: CustomProgressDialog.py:138
+#: CustomProgressDialog.py:138 OtherPanel.py:230
 msgid "QUESTION"
 msgstr ""
 
-#: Dpg2Avi.py:55 Dpg4x.py:98
+#: Dpg2Avi.py:58 Dpg4x.py:101
 #, python-format
 msgid "%s not found in PATH. Please install it."
 msgstr ""
 
-#: Dpg2Avi.py:62
+#: Dpg2Avi.py:65
 msgid "ERROR: Incorrect number of parameters"
 msgstr ""
 
-#: Dpg2Avi.py:63
+#: Dpg2Avi.py:66
 msgid "USAGE: dpg2avi input.dpg output.avi"
 msgstr ""
 
-#: Dpg2Avi.py:69
+#: Dpg2Avi.py:72
 #, python-format
 msgid "ERROR: The file %s can not be read"
 msgstr ""
 
-#: Dpg2Avi.py:77
+#: Dpg2Avi.py:80
 #, python-format
 msgid "ERROR: The file %s already exists"
 msgstr ""
 
-#: Dpg2Avi.py:80
+#: Dpg2Avi.py:83
 #, python-format
 msgid "ERROR: The folder %s can not be written"
 msgstr ""
 
-#: Dpg2Avi.py:107
+#: Dpg2Avi.py:110
 #, python-format
 msgid "%s is not a valid DPG file"
 msgstr ""
 
-#: Dpg2Avi.py:150 Encoder.py:270 Encoder.py:306 Encoder.py:470 Previewer.py:55
+#: Dpg2Avi.py:153 Encoder.py:270 Encoder.py:306 Encoder.py:470 Previewer.py:55
 msgid "ERROR ON MENCODER"
 msgstr ""
 
@@ -235,10 +239,6 @@ msgstr ""
 msgid "Add File"
 msgstr ""
 
-#: FilesPanel.py:134
-msgid "Add DVD"
-msgstr ""
-
 #: FilesPanel.py:140
 msgid "Play Media"
 msgstr ""
@@ -283,143 +283,144 @@ msgstr ""
 msgid "Indv Settings"
 msgstr ""
 
-#: FilesPanel.py:282
+#: FilesPanel.py:289
 msgid "Select the files to be encoded"
 msgstr ""
 
-#: FilesPanel.py:297 FilesPanel.py:330 FilesPanel.py:357 FilesPanel.py:497
+#: FilesPanel.py:304 FilesPanel.py:337 FilesPanel.py:364 FilesPanel.py:504
+#: FilesPanel.py:663
 msgid "YES"
 msgstr ""
 
-#: FilesPanel.py:299 FilesPanel.py:332 FilesPanel.py:359 FilesPanel.py:499
-#: FilesPanel.py:530
+#: FilesPanel.py:306 FilesPanel.py:339 FilesPanel.py:366 FilesPanel.py:506
+#: FilesPanel.py:537 FilesPanel.py:665
 msgid "NO"
 msgstr ""
 
-#: FilesPanel.py:371 FilesPanel.py:515
+#: FilesPanel.py:378 FilesPanel.py:522
 msgid "No media sources selected."
 msgstr ""
 
-#: FilesPanel.py:395 FilesPanel.py:421 FilesPanel.py:459 FilesPanel.py:485
+#: FilesPanel.py:402 FilesPanel.py:428 FilesPanel.py:466 FilesPanel.py:492
 msgid "Select one media source."
 msgstr ""
 
-#: FilesPanel.py:577 MediaOtherPanel.py:279
+#: FilesPanel.py:584 MediaOtherPanel.py:279
 msgid ""
 "With extra high quality, the video FPS can not be lower than 24. Raising "
 "video FPS to 24."
 msgstr ""
 
-#: FilesPanel.py:579 FilesPanel.py:581 MediaOtherPanel.py:281
+#: FilesPanel.py:586 FilesPanel.py:588 MediaOtherPanel.py:281
 #: MediaOtherPanel.py:283
 msgid "WARNING"
 msgstr ""
 
-#: FilesPanel.py:612
+#: FilesPanel.py:619
 #, python-format
 msgid "Can not read file %s."
 msgstr ""
 
-#: FilesPanel.py:619
+#: FilesPanel.py:626
 msgid "There are no media sources to process."
 msgstr ""
 
-#: FilesPanel.py:639
+#: FilesPanel.py:646
 msgid "ENCODING ERROR"
 msgstr ""
 
-#: Globals.py:299
+#: Globals.py:302
 msgid "WARNING: Temporary files were not properly deleted:"
 msgstr ""
 
-#: MainFrame.py:94
+#: MainFrame.py:97
 msgid "MAIN"
 msgstr ""
 
-#: MainFrame.py:100 MediaMainFrame.py:113
+#: MainFrame.py:103 MediaMainFrame.py:113
 msgid "VIDEO"
 msgstr ""
 
-#: MainFrame.py:106 MediaMainFrame.py:119
+#: MainFrame.py:109 MediaMainFrame.py:119
 msgid "AUDIO"
 msgstr ""
 
-#: MainFrame.py:112 MediaMainFrame.py:125
+#: MainFrame.py:115 MediaMainFrame.py:125
 msgid "SUBTITLES"
 msgstr ""
 
-#: MainFrame.py:118 MediaMainFrame.py:131
+#: MainFrame.py:121 MediaMainFrame.py:131
 msgid "MISC"
 msgstr ""
 
-#: MediaOtherPanel.py:94 OtherPanel.py:75
+#: MediaOtherPanel.py:94 OtherPanel.py:78
 msgid "Output Folder"
 msgstr ""
 
 #: MediaOtherPanel.py:100 MediaOtherPanel.py:110 MediaOtherPanel.py:120
-#: MediaSubtitlesPanel.py:106 MediaSubtitlesPanel.py:115 OtherPanel.py:81
-#: OtherPanel.py:91 OtherPanel.py:101 SubtitlesPanel.py:94
+#: MediaSubtitlesPanel.py:106 MediaSubtitlesPanel.py:115 OtherPanel.py:84
+#: OtherPanel.py:94 OtherPanel.py:104 SubtitlesPanel.py:94
 #: SubtitlesPanel.py:103
 msgid "Examine"
 msgstr ""
 
-#: MediaOtherPanel.py:104 OtherPanel.py:85
+#: MediaOtherPanel.py:104 OtherPanel.py:88
 msgid "Temporary Folder"
 msgstr ""
 
-#: MediaOtherPanel.py:114 OtherPanel.py:95
+#: MediaOtherPanel.py:114 OtherPanel.py:98
 msgid "Select Thumbnail"
 msgstr ""
 
-#: MediaOtherPanel.py:124 OtherPanel.py:105
+#: MediaOtherPanel.py:124 OtherPanel.py:108
 msgid "The input folder will be used by default"
 msgstr ""
 
-#: MediaOtherPanel.py:128 OtherPanel.py:109
+#: MediaOtherPanel.py:128 OtherPanel.py:112
 msgid "Thumbnails are autogenerated by default (DPG4 only)"
 msgstr ""
 
-#: MediaOtherPanel.py:132 OtherPanel.py:113
+#: MediaOtherPanel.py:132 OtherPanel.py:116
 msgid "Preview size (seconds)"
 msgstr ""
 
-#: MediaOtherPanel.py:205 OtherPanel.py:140
+#: MediaOtherPanel.py:205 OtherPanel.py:148
 msgid "Select the ouput folder"
 msgstr ""
 
-#: MediaOtherPanel.py:217 OtherPanel.py:152
+#: MediaOtherPanel.py:217 OtherPanel.py:160
 msgid "Select the temporary folder"
 msgstr ""
 
-#: MediaOtherPanel.py:229 OtherPanel.py:164
+#: MediaOtherPanel.py:229 OtherPanel.py:172
 msgid "Select a thumbnail file"
 msgstr ""
 
-#: MediaOtherPanel.py:304 OtherPanel.py:177
+#: MediaOtherPanel.py:304 OtherPanel.py:185
 msgid "The output folder can not be written. Please select another one."
 msgstr ""
 
-#: MediaOtherPanel.py:311 OtherPanel.py:184
+#: MediaOtherPanel.py:311 OtherPanel.py:192
 msgid ""
 "If you want to encode from DVD or VCD you need to select an output folder in "
 "\"MISC\"."
 msgstr ""
 
-#: MediaOtherPanel.py:317 OtherPanel.py:190
+#: MediaOtherPanel.py:317 OtherPanel.py:198
 #, python-format
 msgid ""
 "The folder %s can not be written. Please select an output folder in \"MISC\"."
 msgstr ""
 
-#: MediaOtherPanel.py:324 OtherPanel.py:197
+#: MediaOtherPanel.py:324 OtherPanel.py:205
 msgid "The temporary folder can not be written. Please select another one."
 msgstr ""
 
-#: MediaOtherPanel.py:332 OtherPanel.py:205
+#: MediaOtherPanel.py:332 OtherPanel.py:213
 msgid "The thumbnail file can not be readed."
 msgstr ""
 
-#: MediaOtherPanel.py:336 OtherPanel.py:209
+#: MediaOtherPanel.py:336 OtherPanel.py:217
 msgid "The thumbnail file has an unknown format."
 msgstr ""
 
@@ -509,6 +510,16 @@ msgstr ""
 
 #: MediaVideoPanel.py:140 VideoPanel.py:126
 msgid "Auto Video Track"
+msgstr ""
+
+#: OtherPanel.py:124
+msgid "Reset all the configuration to the default values"
+msgstr ""
+
+#: OtherPanel.py:228
+msgid ""
+"The configuration files will be deleted and dpg4x will be restarted using "
+"the default settings. Do you want to continue?"
 msgstr ""
 
 #: Previewer.py:140

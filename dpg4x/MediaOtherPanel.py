@@ -239,12 +239,6 @@ class MediaOtherPanel(wx.Panel):
             event.StopPropagation()
         version = event.GetClientData()
 
-        # Only mono audio for DPG0
-        if (version == 0):
-            Globals.mediaAudioPanel.checkBox2.Enable(False)
-        else:
-            Globals.mediaAudioPanel.checkBox2.Enable(True)
-
         # Only DPG4 uses thumbnails
         if (version == 4):
             Globals.mediaOtherPanel.textCtrl3.Enable(True)
@@ -264,6 +258,12 @@ class MediaOtherPanel(wx.Panel):
             else:
                 Globals.mediaAudioPanel.choice1.SetSelection(1)
         Globals.mediaAudioPanel.changeAudioCodec(None)
+        
+        # Only mono audio for DPG0
+        if (version == 0):
+            Globals.mediaAudioPanel.checkBox2.Enable(False)
+        else:
+            Globals.mediaAudioPanel.checkBox2.Enable(True)
 
     def changeQuality(self, event):
         "Update the GUI when the quality level changes"

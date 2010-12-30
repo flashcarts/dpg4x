@@ -108,11 +108,17 @@ def checkDependencies():
 
 # Main function
 if __name__ == '__main__':
-    application = wx.App(redirect=False,clearSigInt=False)
     checkDependencies()
-    mainFrame = MainFrame.create(None)
-    mainFrame.Show()
-    Globals.mainPanel = mainFrame
-    application.SetTopWindow(mainFrame)
-    application.MainLoop()
+    firstExec = True
+    application = wx.App(redirect=False,clearSigInt=False)
+    while firstExec or Globals.restart:
+        # Reload the Globals module on restart
+        if Globals.restart:
+            reload(Globals)
+        firstExec = False
+        mainFrame = MainFrame.create(None)
+        mainFrame.Show()
+        Globals.mainPanel = mainFrame
+        application.SetTopWindow(mainFrame)
+        application.MainLoop()
     sys.exit(0)
