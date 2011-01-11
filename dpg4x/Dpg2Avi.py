@@ -46,12 +46,16 @@ def Syserr(message):
 # Main function
 if __name__ == '__main__':
     
+    # Variables used on error handling, they need to be declared
+    fdInput = None
+    fdAudio = None
+    fdVideo = None
+    fdAudio_name = ""
+    fdVideo_name = ""
+    retval = 0
+
     try:
         
-        # Variables used on error handling, they need to be declared
-        fdInput = None
-        fdAudio = None
-        fdVideo = None
         
         # Check if mplayer is available
         if not Globals.which('mencoder'):
@@ -110,7 +114,7 @@ if __name__ == '__main__':
             raise Exception(_(u'%s is not a valid DPG file') % inputN)
                 
         # Extract the audio data
-        fdAudio = tempfile.NamedTemporaryFile(prefix='.dpg2avi', dir=outPath)
+        fdAudio = tempfile.NamedTemporaryFile(prefix='.dpg2avi', dir=outPath, delete=False)
         fdInput.seek(audioStart, os.SEEK_SET)
         readed = 0
         while readed < audioLenght:
@@ -124,9 +128,12 @@ if __name__ == '__main__':
             fdAudio.write(buffer)
             readed += bufferLenght
         fdAudio.flush()
-        
+		# Windows won't let mencoder open the file twice -> close it
+        fdAudio_name = fdAudio.name
+        fdAudio.close()
+
         # Extract the video data
-        fdVideo = tempfile.NamedTemporaryFile(prefix='.dpg2avi', dir=outPath)
+        fdVideo = tempfile.NamedTemporaryFile(prefix='.dpg2avi', dir=outPath, delete=False)
         fdInput.seek(videoStart, os.SEEK_SET)
         readed = 0
         while readed < videoLenght:
@@ -140,37 +147,37 @@ if __name__ == '__main__':
             fdVideo.write(buffer)
             readed += bufferLenght
         fdVideo.flush()
-
-        # Join audio and video with mencoder
+		# Windows won't let mencoder open the file twice -> close it
+        fdVideo_name = fdVideo.name
+        fdVideo.close()
+ 
+	    # Join audio and video with mencoder
         mencoder_proc = subprocess.Popen(
-            ['mencoder',fdVideo.name,'-audiofile',fdAudio.name,
+            ['mencoder',fdVideo_name,'-audiofile',fdAudio_name,
             '-ffourcc','mpg1','-ovc','copy','-oac','copy','-o',outputN],
             stdout=subprocess.PIPE,stderr=subprocess.STDOUT, 
             universal_newlines=True)
         mencoder_output = mencoder_proc.communicate()[0]
         # Check the return process
         if mencoder_proc.wait() != 0:
-            raise Exception(_(u'ERROR ON MENCODER')+'\n\n'+mencoder_output)
-
-        # Close the files
-        if fdInput:
-            fdInput.close()
-        if fdAudio:
-            fdAudio.close()
-        if fdVideo:
-            fdVideo.close()
+			raise Exception(_(u'ERROR ON MENCODER')+'\n\n'+mencoder_output)
             
     # Capture exceptions
     except Exception, e:
             Syserr(_(u'ERROR') + ': ' + str(e.args[0]))
-            # Close the files
-            if fdInput:
-                fdInput.close()
-            if fdAudio:
-                fdAudio.close()
-            if fdVideo:
-                fdVideo.close()
-            sys.exit(1)
+            retval = 1
+    finally:
+    # Close all the files, delete temporary ones
+        if fdInput:
+            fdInput.close()
+        if fdAudio:
+            fdAudio.close()
+        if os.path.exists(fdAudio_name):
+            os.unlink(fdAudio_name)
+        if fdVideo:
+            fdVideo.close()
+        if os.path.exists(fdVideo_name):
+            os.unlink(fdVideo_name)
     
-    # Clean exit
-    sys.exit(0)
+    # Exit
+    sys.exit(retval)

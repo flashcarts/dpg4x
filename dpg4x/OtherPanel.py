@@ -131,7 +131,7 @@ class OtherPanel(wx.Panel):
               name='spinCtrl1', parent=self, style=wx.SP_ARROW_KEYS)
               
         self.button4 = wx.Button(id=wxID_PANEL1BUTTON4, 
-              label=_(u'Reset all the configuration to the default values'),
+              label=_(u'Reset all configurations to the default values'),
               name='button4', parent=self.panel2, style=0)
 
         self._init_sizers()
@@ -237,7 +237,7 @@ class OtherPanel(wx.Panel):
         dialog = wx.MessageDialog(self, 
             _(u'The configuration files will be deleted and dpg4x will be ' \
             'restarted using the default settings. Do you want to continue?'),
-            _(u'QUESTION'), style=wx.YES_NO | wx.NO_DEFAULT | wx.ICON_QUESTION)
+            _(u'QUESTION'), style=wx.YES_NO | wx.NO_DEFAULT | wx.ICON_WARNING)
         confirmation = dialog.ShowModal()
         if confirmation == wx.ID_YES:
             # Delete the configuration files
