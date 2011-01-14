@@ -1,0 +1,13 @@
+dpg4x (2.1-1) unstable; urgency=low
+
+  * Changes in the folder structure
+  * Manpage and desktop file moved to the common folder
+
+ -- Félix Medrano <xukosky@yahoo.es>  Wed,  05 Jan 2011 18:07:28 +0100
+
+dpg4x (2.0-1) unstable; urgency=low
+
+  * Initial Release
+
+ -- Félix Medrano <xukosky@yahoo.es>  Wed,  29 Dec 2010 10:15:35 +0100
+

@@ -1,0 +1,15 @@
+[Desktop Entry]
+Name=DPG4X Video Encoder
+Name[es]=Codificador de vídeo DPG4X
+Name[sv]=Videokodaren DPG4X
+Comment=DPG encoder GUI - encodes videos for the Nintendo DS player moonshell
+Comment[es]=Codificador de vídeos DPG - crea vídeos para el reproductor de Nintendo DS moonshell
+Comment[sv]=Kodar om video till DPG - ett format som spelas av Nintendo DS mediaspelare moonshell
+GenericName=Video Encoder
+GenericName[es]=Codificador de vídeo
+GenericName[sv]=Videokodare
+Icon=dpg4x
+Exec=dpg4x
+Terminal=false
+Type=Application
+Categories=AudioVideo;AudioVideoEditing;
