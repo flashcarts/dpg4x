@@ -30,17 +30,26 @@ import MainFrame
 import Globals
 
 # Check if a gettext resource is available for the current LANG
-if not gettext.find('dpg4x', os.getenv('DPG4X_I18N')) and sys.platform == 'win32':
+
+# If no env variable defined, assume that i18n files are located below the top directory
+i18n_dir = os.getenv('DPG4X_I18N')
+if not(i18n_dir):
+    i18n_dir = os.path.join(os.path.dirname(sys.argv[0]), "i18n")
+# gettext will search in default directories if no other path given
+if not os.path.isdir(i18n_dir):
+    i18n_dir = None
+                    
+if not gettext.find('dpg4x', i18n_dir) and sys.platform == 'win32':
     # On Windows this fails every time, no default Language environment
     # variables, but defaults to English.
     # locale.getdefaultlocale() returns ('en_US', 'cp1252') could be useful.
     os.environ['LANG']=locale.getdefaultlocale()[0]
-if not gettext.find('dpg4x', os.getenv('DPG4X_I18N')):
+if not gettext.find('dpg4x', i18n_dir):
     Globals.debug(u'WARNING: dpg4x is not available in your language, ' \
                 u'please help us to translate it.')
-    gettext.install('dpg4x', os.getenv('DPG4X_I18N'), unicode=True)
+    gettext.install('dpg4x', i18n_dir, unicode=True)
 else:
-    gettext.translation('dpg4x', os.getenv('DPG4X_I18N')).install(unicode=True)
+    gettext.translation('dpg4x', i18n_dir).install(unicode=True)
 
 modules ={u'AddDvdDialog': [0,
                    u'A dialog to add Dvd media sources.',
@@ -106,17 +115,25 @@ def checkDependencies():
             dialog.ShowModal()
             sys.exit(1)
 
+def getIconDir():
+    "Returns the path to the icon files"
+    icon_dir = os.getenv('DPG4X_ICONS')
+    # If no env variable defined, assume that icons are located below the top directory
+    if not(icon_dir):
+        icon_dir = os.path.join(os.path.dirname(sys.argv[0]), "icons")
+    return icon_dir
+
 # Main function
 if __name__ == '__main__':
-    checkDependencies()
     firstExec = True
     application = wx.App(redirect=False,clearSigInt=False)
+    checkDependencies()
     while firstExec or Globals.restart:
         # Reload the Globals module on restart
         if Globals.restart:
             reload(Globals)
         firstExec = False
-        mainFrame = MainFrame.create(None)
+        mainFrame = MainFrame.create(None, getIconDir())
         mainFrame.Show()
         Globals.mainPanel = mainFrame
         application.SetTopWindow(mainFrame)

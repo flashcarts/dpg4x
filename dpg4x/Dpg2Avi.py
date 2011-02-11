@@ -26,12 +26,21 @@ import struct
 import subprocess
 
 # Check if a gettext resource is available for the current LANG
-if not gettext.find('dpg4x', os.getenv('DPG4X_I18N')) and sys.platform == 'win32':
+# If no env variable defined, assume that i18n files are located below the top directory
+i18n_dir = os.getenv('DPG4X_I18N')
+if not(i18n_dir):
+    i18n_dir = os.path.join(os.path.dirname(sys.argv[0]), "i18n")
+# gettext will search in default directories if no other path given
+if not os.path.isdir(i18n_dir):
+    i18n_dir = None
+                    
+if not gettext.find('dpg4x', i18n_dir) and sys.platform == 'win32':
     os.environ['LANG']=locale.getdefaultlocale()[0]
-if not gettext.find('dpg4x', os.getenv('DPG4X_I18N')):
-    gettext.install('dpg4x', os.getenv('DPG4X_I18N'), unicode=True)
+if not gettext.find('dpg4x', i18n_dir):
+    gettext.install('dpg4x', i18n_dir, unicode=True)
 else:
-    gettext.translation('dpg4x', os.getenv('DPG4X_I18N')).install(unicode=True)
+    gettext.translation('dpg4x', i18n_dir).install(unicode=True)
+
 
 def Sysout(message):
     "Shows a message in the standart output"

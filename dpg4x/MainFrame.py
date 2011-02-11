@@ -23,8 +23,8 @@ import OtherPanel
 import wx
 import os
 
-def create(parent):
-    return Frame1(parent)
+def create(parent, icon_dir):
+    return Frame1(parent, icon_dir)
 
 [wxID_FRAME1, wxID_FRAME1NOTEBOOK1, 
 ] = [wx.NewId() for _init_ctrls in range(2)]
@@ -56,12 +56,11 @@ class Frame1(wx.Frame):
 
         self._init_sizers()
 
-    def __init__(self, parent):
+    def __init__(self, parent, icon_dir):
         self._init_ctrls(parent)
         
         # Set the icons for the main window
         bundle = wx.IconBundle()
-        icon_dir = os.getenv('DPG4X_ICONS')
         bundle.AddIconFromFile(icon_dir+'/dpg4x_64.png',
             wx.BITMAP_TYPE_PNG)
         bundle.AddIconFromFile(icon_dir+'/dpg4x_48.png',

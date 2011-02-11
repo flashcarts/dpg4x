@@ -5,7 +5,7 @@ i18n/ca					/usr/share/locale/
 i18n/en					/usr/share/locale/
 i18n/es					/usr/share/locale/
 i18n/sv					/usr/share/locale/
-debian/wrappers/dpg4x			/usr/bin/
-debian/wrappers/dpg2avi			/usr/bin/
+pkg_common/dpg4x			/usr/bin/
+pkg_common/dpg2avi			/usr/bin/
 pkg_common/dpg4x.xpm			/usr/share/pixmaps/
 pkg_common/dpg4x.desktop		/usr/share/applications/

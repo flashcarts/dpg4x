@@ -8,7 +8,7 @@ setup(name='dpg4x',
       description='GUI to encode files into the DPG video format',
       py_modules=[f.replace(".py","") for f in glob.glob("*.py")],
       packages=['moreControls'],
-      scripts=[os.path.join('rpm', 'dpg4x'),
-               os.path.join('rpm', 'dpg2avi')],
+      scripts=[os.path.join('pkg_common', 'dpg4x'),
+               os.path.join('pkg_common', 'dpg2avi')],
       data_files=[('icons', glob.glob(os.path.join('icons', '*.png')))]
       )

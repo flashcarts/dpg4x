@@ -41,3 +41,10 @@
     * New language available: Catalan.
     * Lots and lots of other minor enhancements and bug fixes.
 
+2011-01-22 dpg4x 2.1
+
+    * New language available: Swedish.
+    * Project sources adapted for an easier package creation.
+    * New button to reset all configurations to the default values.
+    * Bugs fixed in dpg2avi and audio settings.
+
