@@ -300,7 +300,7 @@ def clearTemporary():
     # Warn if there is a problem when deleting files
     except Exception, e:
         debug(_(u'WARNING: Temporary files were not properly deleted:') + '' \
-            u' ' + str(e.args[0]))
+            u' ' + unicode(e.args[0]))
             
             
 # Load the configuration file

@@ -348,7 +348,7 @@ class SoxThread(threading.Thread):
                 raise Exception(_(u'ERROR ON SOX')+'\n\n'+sox_output)
         # Manage posible exceptions on the thread
         except Exception, e:
-            self.errorMessage = str(e.args[0])
+            self.errorMessage = unicode(e.args[0])
 
 class EncodeAudioThread(threading.Thread):
     "Thread to encode the audio stream"
@@ -532,7 +532,7 @@ class EncodeAudioThread(threading.Thread):
 
         # Manage posible exceptions on the thread
         except Exception, e:
-            self.errorMessage = str(e.args[0])
+            self.errorMessage = unicode(e.args[0])
             # Stop the sox thread
             if sox_thread:
                 sox_thread.stopThread()

@@ -112,7 +112,7 @@ def saveConfiguration(filename=''):
     # If it fails, we only show a warning (no fatal)
     except Exception, e:
         Globals.debug(_(u'Can\'t save user configuration:') + ' ' \
-            '' + str(e.args[0]))
+            '' + unicode(e.args[0]))
     
 def loadConfiguration(filename=''):
     "Reads the user configuration from disk"
