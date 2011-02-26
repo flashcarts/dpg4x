@@ -20,6 +20,7 @@ import sys
 import string
 import tempfile
 import shutil
+import wx
 
 ###############
 ## VARIABLES ##
@@ -63,8 +64,12 @@ mediaOtherPanel = None
 dpg_version = 4
 dpg_quality = 'normal'
 # Used to remember the last DVD/VCD device used
-dpg_vcddevice = '/dev/cdrom'
-dpg_dvddevice = '/dev/dvd'
+if sys.platform != 'win32':
+    dpg_vcddevice = '/dev/cdrom'
+    dpg_dvddevice = '/dev/dvd'
+else:
+    dpg_vcddevice = 'D:'
+    dpg_dvddevice = 'D:'
 
 # Video options
 video_keepaspect = False
@@ -100,7 +105,7 @@ subtitles_encoding = sys.getfilesystemencoding()
 
 # Other output
 other_output = ''
-other_temporary = '/tmp'
+other_temporary = wx.StandardPaths.Get().GetTempDir()
 other_thumbnail = ''
 other_previewsize = 10
 
