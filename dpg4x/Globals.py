@@ -105,10 +105,12 @@ subtitles_encoding = sys.getfilesystemencoding()
 
 # Other output
 other_output = ''
-other_temporary = wx.StandardPaths.Get().GetTempDir()
+if sys.platform != 'win32':
+    other_temporary = '/tmp'
+else:
+    other_temporary = os.getenv('TEMP')
 other_thumbnail = ''
 other_previewsize = 10
-
 
 ###############
 ## FUNCTIONS ##
@@ -116,8 +118,17 @@ other_previewsize = 10
 
 def debug(message):
     "Shows a message in the error output"
-    sys.stderr.write((message+"\n").encode(
-        sys.getfilesystemencoding(),'replace'))
+    if not hasattr(sys, 'frozen'):
+        sys.stderr.write((message+"\n").encode(sys.getfilesystemencoding(),'replace'))
+    else:
+        # sys.frozen == "windows_exe":
+        # py2exe programs without a console writes stderr to a log file in the installation
+        # directory. this is not recommended if the program is installed in C:\Program files
+        # (or even allowed for non admin users on Windows 7). 
+        # see also: http://www.py2exe.org/index.cgi/StderrLog
+        global other_temporary
+        f = os.path.join(other_temporary, 'dpg4x.log')
+        sys.stderr.write((message+"\n").encode(sys.getfilesystemencoding(),'replace'), fname = f)
 
 def Encode(text):
     "Encode text to be system-encoding compatible"
@@ -171,6 +182,24 @@ def which (filename):
         f = os.path.join(path, filename)
         if os.access(f, os.X_OK):
             return f
+    if sys.platform == 'win32':
+        return windows_extend_path(filename)
+    return None
+
+def windows_extend_path(filename):
+    """ Searches for program name in:
+        1) Directory below dpg4x directory
+        2) %ProgramFiles% 
+    and extends path with first match if found """ 
+    import glob
+    d = glob.glob(os.path.join(os.path.dirname(sys.argv[0]), '*', filename))
+    if d:
+        os.environ['PATH'] = os.getenv('PATH') + os.pathsep + os.path.dirname(d[0])
+        return d[0]
+    d = glob.glob(os.path.join(os.getenv('ProgramFiles'), '*', filename))
+    if d:
+        os.environ['PATH'] = os.getenv('PATH') + os.pathsep + os.path.dirname(d[0])
+        return d[0]
     return None
 
 def concat(out,*files):

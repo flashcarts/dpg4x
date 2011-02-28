@@ -14,15 +14,20 @@
 # Licence:      GPL v3
 #----------------------------------------------------------------------------
 
-import wxversion
+import sys
+import os
+
 # On Windows wxPython 2.9.1.1 works better than 2.8.11.0.
 # In particuliar OutputTextDialog() is unreadable and unusable. You can only
 # see the first couple of letters of the text and the close button is missing.
-wxversion.select(['2.8','2.9'])
+
+# wxPython running from py2exe fails with wxversion.select()
+# See: http://www.wxpython.org/docs/api/wxversion-module.html
+if not hasattr(sys, 'frozen'):
+    import wxversion
+    wxversion.select(['2.8','2.9'])
 import wx
 
-import os
-import sys
 import locale
 import gettext
 

@@ -32,6 +32,13 @@ import sys
 import tempfile
 import threading
 
+def shell():
+    "Decides if shell should be enabled"
+    if sys.platform == 'win32':
+        return True
+    else:
+        return False
+
 def encode_video(file, filename, preview=False):
     "Encodes the video stream"
     
@@ -59,6 +66,9 @@ def encode_video(file, filename, preview=False):
         mplayer_proc = subprocess.Popen(
             ['mplayer','-frames','1','-vo','null','-ao','null','-identify']+mpFile, 
             stdout=subprocess.PIPE,stderr=subprocess.STDOUT, 
+            # On Windows when running under py2exe it is 
+            # necessary to define stdin
+            stdin=subprocess.PIPE,shell=shell(),
             universal_newlines=True)
         mplayer_output = mplayer_proc.communicate()[0]
         # Check the return process
@@ -232,6 +242,7 @@ def encode_video(file, filename, preview=False):
     # Execute mencoder
     Globals.debug('ENCODE VIDEO: ' + `v_cmd`)
     proc = subprocess.Popen(v_cmd,stdout=subprocess.PIPE,
+        stdin=subprocess.PIPE,shell=shell(),
         stderr=subprocess.STDOUT, universal_newlines=True)
 	# Show progress
     progRE = re.compile ("f \((.*)%\)")
@@ -260,7 +271,7 @@ def encode_video(file, filename, preview=False):
                     # greater. Not critical to creating DPG files so this
                     # could be left out.
                     if sys.platform == 'win32' and sys.version_info < (2, 7):
-                        subprocess.Popen("taskkill /F /T /PID %i"%proc.pid , shell=True)
+                        subprocess.Popen("taskkill /F /T /PID %i"%proc.pid , shell=shell())
                     else:
                         os.kill(proc.pid,signal.SIGTERM)
                     raise Exception(_(u'Process aborted by the user.'))
@@ -273,6 +284,7 @@ def encode_video(file, filename, preview=False):
     if Globals.dpg_quality == 'doublepass':
         Globals.debug('ENCODE VIDEO: ' + `v_cmd_two`)
         proc = subprocess.Popen(v_cmd_two,stdout=subprocess.PIPE,
+            stdin=subprocess.PIPE,shell=shell(),
             stderr=subprocess.STDOUT, universal_newlines=True)
         # Show progress
         mencoder_output = ''
@@ -296,7 +308,7 @@ def encode_video(file, filename, preview=False):
                     # Abort the process if the user requests it
                     if abort:
                         if sys.platform == 'win32' and sys.version_info < (2, 7):
-                            subprocess.Popen("taskkill /F /T /PID %i"%proc.pid , shell=True)
+                            subprocess.Popen("taskkill /F /T /PID %i"%proc.pid , shell=shell())
                         else:
                             os.kill(proc.pid,signal.SIGTERM)
                         raise Exception(_(u'Process aborted by the user.'))
@@ -334,6 +346,7 @@ class SoxThread(threading.Thread):
         
         try:
             proc_sox = subprocess.Popen(self.params, stdout=subprocess.PIPE,
+                stdin=subprocess.PIPE,shell=shell(),
                 stderr=subprocess.STDOUT, universal_newlines=True) 
             # Monitor execution
             sox_output = ''
@@ -407,6 +420,7 @@ class EncodeAudioThread(threading.Thread):
             mplayer_proc = subprocess.Popen(
                 ['mplayer','-frames','0','-vo','null','-ao','null','-identify']+mpFile,
                 stdout=subprocess.PIPE,stderr=subprocess.STDOUT, 
+                stdin=subprocess.PIPE,shell=shell(),
                 universal_newlines=True)
             mplayer_output = mplayer_proc.communicate()[0]
             # Check the return process
@@ -457,6 +471,7 @@ class EncodeAudioThread(threading.Thread):
             if Globals.audio_codec == 'mp2':
                 Globals.debug('ENCODE AUDIO: ' + `a_cmd`)
                 proc = subprocess.Popen(a_cmd, stdout=subprocess.PIPE,
+                    stdin=subprocess.PIPE,shell=shell(),
                     stderr=subprocess.STDOUT, universal_newlines=True)
                 # Monitor execution
                 mencoder_output = ''
@@ -511,6 +526,7 @@ class EncodeAudioThread(threading.Thread):
                 # MPLAYER
                 Globals.debug('ENCODE AUDIO: ' + `m_cmd`)
                 proc = subprocess.Popen(m_cmd, stdout=subprocess.PIPE,
+                    stdin=subprocess.PIPE,shell=shell(),
                     stderr=subprocess.STDOUT, universal_newlines=True)
                 # Monitor execution
                 mplayer_output = ''
@@ -554,6 +570,7 @@ def mpeg_stat(filename):
     stat_proc = subprocess.Popen(
         ['mpeg_stat','-offset',Globals.TMP_STAT,Globals.TMP_VIDEO], 
         stdout=subprocess.PIPE,stderr=subprocess.STDOUT, 
+        stdin=subprocess.PIPE,shell=shell(),
         universal_newlines=True)
     stat_output = stat_proc.communicate()[0]
     # Check the return process
@@ -679,6 +696,7 @@ def conv_thumb(filename, frames):
             str(int((int(frames)/Globals.video_fps)/10))]
         # Execute mplayer to generate the shot
         mplayer_proc = subprocess.Popen(s_cmd, stdout=subprocess.PIPE,
+          stdin=subprocess.PIPE,shell=shell(),
           stderr=subprocess.STDOUT, universal_newlines=True)
         mplayer_output = mplayer_proc.communicate()[0]
         # Check the return process
@@ -692,6 +710,7 @@ def conv_thumb(filename, frames):
             'png''-frames','1']
             # Execute mplayer
             mplayer_proc = subprocess.Popen(s_cmd, stdout=subprocess.PIPE,
+              stdin=subprocess.PIPE,shell=shell(),
               stderr=subprocess.STDOUT, universal_newlines=True)
             mplayer_output = mplayer_proc.communicate()[0]
             # Check the return process
