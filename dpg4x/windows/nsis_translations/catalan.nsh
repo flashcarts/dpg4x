@@ -7,14 +7,14 @@
 !insertmacro LANGFILE "Catalan" "Català"
 
 # Start menu entries
-${LangFileString} UninstallLink "Uninstall Dpg4x"
-${LangFileString} WebLink "Dpg4x on the web"
+${LangFileString} UninstallLink "Desinstal·la Dpg4x"
+${LangFileString} WebLink "Web de Dpg4x"
 
 # MPlayer Section
-${LangFileString} MPLAYER_IS_DOWNLOADING "Downloading MPlayer..."
-${LangFileString} MPLAYER_DL_RETRY "MPlayer was not successfully installed. Retry?"
-${LangFileString} MPLAYER_DL_FAILED "Failed to download MPlayer: '$R0'."
-${LangFileString} MPLAYER_INST_FAILED "Failed to install MPlayer, needed for encoding. Please install separately."
+${LangFileString} MPLAYER_IS_DOWNLOADING "Descarregant MPlayer..."
+${LangFileString} MPLAYER_DL_RETRY "Mplayer no s'ha instal·lat de forma correcta. Ho reintentem?"
+${LangFileString} MPLAYER_DL_FAILED "Ha fallat la descàrrega de MPlayer: '$R0'."
+${LangFileString} MPLAYER_INST_FAILED "Ha fallat la instal·lació de MPlayer, necessari per codificar. Si us plau instal·la'ls per separat."
 
 # Vista & Later Default Programs Registration
 ${LangFileString} APPLICATION_DESCRIPTION "Codificador de vídeos DPG - crea vídeos pel reproductor de Nintendo DS moonshell"

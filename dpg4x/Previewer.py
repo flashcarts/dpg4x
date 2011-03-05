@@ -47,7 +47,10 @@ def preview_files(file):
             ['mencoder',Globals.TMP_VIDEO,'-audiofile',Globals.TMP_AUDIO,
             '-ffourcc','mpg1','-ovc','copy','-oac','copy','-o',
             Globals.TMP_VIDEO+'.avi'],
-            stdout=subprocess.PIPE,stderr=subprocess.STDOUT, 
+            stdout=subprocess.PIPE,stderr=subprocess.STDOUT,
+            # On Windows when running under py2exe it is 
+            # necessary to define stdin
+            stdin=subprocess.PIPE,shell=Globals.shell(), 
             universal_newlines=True)
         mencoder_output = mencoder_proc.communicate()[0]
         # Check the return process
@@ -61,7 +64,10 @@ def preview_files(file):
         # Play the file with mplayer
         mplayer_proc = subprocess.Popen(
             ['mplayer',Globals.TMP_VIDEO+'.avi'], 
-            stdout=subprocess.PIPE,stderr=subprocess.STDOUT, 
+            stdout=subprocess.PIPE,stderr=subprocess.STDOUT,
+            # On Windows when running under py2exe it is 
+            # necessary to define stdin
+            stdin=subprocess.PIPE,shell=Globals.shell(),
             universal_newlines=True)
         mplayer_output = mplayer_proc.communicate()[0]
         # Check the return process
@@ -101,7 +107,10 @@ def play_files(file):
         # Play the file with mplayer
         mplayer_proc = subprocess.Popen(
             ['mplayer']+mpFile, 
-            stdout=subprocess.PIPE,stderr=subprocess.STDOUT, 
+            stdout=subprocess.PIPE,stderr=subprocess.STDOUT,
+            # On Windows when running under py2exe it is 
+            # necessary to define stdin
+            stdin=subprocess.PIPE,shell=Globals.shell(),
             universal_newlines=True)
         mplayer_output = mplayer_proc.communicate()[0]
         # Check the return process
@@ -128,7 +137,10 @@ def show_information(file, parent):
     # Get the media information from mplayer
     mplayer_proc = subprocess.Popen(
         ['mplayer','-frames','0','-vo','null','-ao','null','-identify']+mpFile,
-        stdout=subprocess.PIPE,stderr=subprocess.STDOUT, 
+        stdout=subprocess.PIPE,stderr=subprocess.STDOUT,
+        # On Windows when running under py2exe it is 
+            # necessary to define stdin
+            stdin=subprocess.PIPE,shell=Globals.shell(),
         universal_newlines=True)
     mplayer_output = mplayer_proc.communicate()[0]
     # Check the return process

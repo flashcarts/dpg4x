@@ -154,7 +154,11 @@ class MediaSubtitlesPanel(wx.Panel):
         default = Globals.subtitles_encoding
         if Globals.which('iconv'):
             iconvOut = subprocess.Popen(
-                ['iconv', '-l'], stdout=subprocess.PIPE).communicate()[0]
+                ['iconv', '-l'], stdout=subprocess.PIPE,
+                # On Windows when running under py2exe it is 
+                # necessary to define stdin
+                stdin=subprocess.PIPE,shell=Globals.shell(),
+                ).communicate()[0]
             iconvOut = iconvOut.replace('/','')
             encodings = iconvOut.split('\n')
             encodings.sort()

@@ -219,6 +219,13 @@ def fillString(string, length):
         if len(stringAux) < length:
             stringAux = stringAux + ' '
     return stringAux
+
+def shell():
+    "Decides if shell should be enabled"
+    if sys.platform == 'win32':
+        return True
+    else:
+        return False
     
 def createTemporary():
     "Create the temporary files needed to encode"
