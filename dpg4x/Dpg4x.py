@@ -120,14 +120,6 @@ def checkDependencies():
             dialog.ShowModal()
             sys.exit(1)
 
-def getIconDir():
-    "Returns the path to the icon files"
-    icon_dir = os.getenv('DPG4X_ICONS')
-    # If no env variable defined, assume that icons are located below the top directory
-    if not(icon_dir):
-        icon_dir = os.path.join(os.path.dirname(sys.argv[0]), "icons")
-    return icon_dir
-
 # Main function
 if __name__ == '__main__':
     firstExec = True
@@ -138,7 +130,7 @@ if __name__ == '__main__':
         if Globals.restart:
             reload(Globals)
         firstExec = False
-        mainFrame = MainFrame.create(None, getIconDir())
+        mainFrame = MainFrame.create(None, Globals.getIconDir())
         mainFrame.Show()
         Globals.mainPanel = mainFrame
         application.SetTopWindow(mainFrame)

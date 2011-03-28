@@ -18,6 +18,8 @@ setup(name='dpg4x',
       py_modules=[f.replace(".py","") for f in glob.glob("*.py")],
       packages=['moreControls'],
       data_files= icon_files + i18n_files + doc_files,
+      # Needed to be able to use win32api on Windows XP
+      options = {"py2exe":{"dll_excludes":[ "powrprof.dll" ]}},
       # Used by py2exe to create a wrapper exe files
       windows = [
         {

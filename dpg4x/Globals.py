@@ -22,6 +22,9 @@ import tempfile
 import shutil
 import wx
 
+if sys.platform == 'win32':
+    import win32api
+
 ###############
 ## VARIABLES ##
 ###############
@@ -137,7 +140,29 @@ def Encode(text):
 def Decode(text):
     "Decode text to be system-encoding compatible"
     return text.decode(sys.getfilesystemencoding(),'replace')
+
+# Note: subprocess.Popen doesn't support unicode options arguments
+# (http://bugs.python.org/issue1759845) so we have to encode them.
+def ListUnicodeEncode(list):
+    "Run through the given list and encode unicode items"
+    encoded_list = []
+    for item in list:
+        # Handle East Asian characters by avoiding them
+        if os.path.isfile(item) and sys.platform == 'win32':
+            item = win32api.GetShortPathName(item)
+        if isinstance(item, unicode):
+            item = Encode(item)
+        encoded_list.append(item)  
+    return encoded_list
         
+def getIconDir():
+    "Returns the path to the icon files"
+    icon_dir = os.getenv('DPG4X_ICONS')
+    # If no env variable defined, assume that icons are located below the top directory
+    if not(icon_dir):
+        icon_dir = os.path.join(os.path.dirname(sys.argv[0]), "icons")
+    return icon_dir
+
 def CreateFolder(dir):
     "Create a folder with full path"
     if not os.path.isdir(dir):

@@ -30,16 +30,11 @@ def getMediaConfiguration(filename):
     "Returns the configuration file for the media"
     # Do not try to remove the path from dvd or vcd
     if (filename[:6] == 'vcd://') or (filename[:6] == 'dvd://'):
-        basename = filename
+        basename = filename.replace('/','').replace('\\','').replace(':','')
     else:
         basename = os.path.basename(filename)
-    # Clean up the .ini config filename by removing special characters (re.sub)
-    # This may not be necessary but I'd hate for things to break over a
-    # stupid special character.
     return os.path.join(
-        os.path.dirname(Globals.USERFILECONFIG),
-        re.sub("_{2,}", "_", re.sub("[^a-zA-Z_\-0-9]", "_", 
-        basename ) ) + '.ini')
+        os.path.dirname(Globals.USERFILECONFIG), basename + '.ini')
         
 def deleteConfiguration(filename):
     "Delete the configuration file for the media"

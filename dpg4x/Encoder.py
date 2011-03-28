@@ -57,7 +57,7 @@ def encode_video(file, filename, preview=False):
         aspectRE = re.compile ("\nID_VIDEO_ASPECT=([0-9.]*)\n")
         # Get the video size from mplayer
         mplayer_proc = subprocess.Popen(
-            ['mplayer','-frames','1','-vo','null','-ao','null','-identify']+mpFile, 
+            Globals.ListUnicodeEncode(['mplayer','-frames','1','-vo','null','-ao','null','-identify']+mpFile), 
             stdout=subprocess.PIPE,stderr=subprocess.STDOUT, 
             # On Windows when running under py2exe it is 
             # necessary to define stdin
@@ -234,7 +234,7 @@ def encode_video(file, filename, preview=False):
 
     # Execute mencoder
     Globals.debug('ENCODE VIDEO: ' + `v_cmd`)
-    proc = subprocess.Popen(v_cmd,stdout=subprocess.PIPE,
+    proc = subprocess.Popen(Globals.ListUnicodeEncode(v_cmd),stdout=subprocess.PIPE,
         stdin=subprocess.PIPE,shell=Globals.shell(),
         stderr=subprocess.STDOUT, universal_newlines=True)
 	# Show progress
@@ -276,7 +276,7 @@ def encode_video(file, filename, preview=False):
     # Execute the second pass if necessary
     if Globals.dpg_quality == 'doublepass':
         Globals.debug('ENCODE VIDEO: ' + `v_cmd_two`)
-        proc = subprocess.Popen(v_cmd_two,stdout=subprocess.PIPE,
+        proc = subprocess.Popen(Globals.ListUnicodeEncode(v_cmd_two),stdout=subprocess.PIPE,
             stdin=subprocess.PIPE,shell=Globals.shell(),
             stderr=subprocess.STDOUT, universal_newlines=True)
         # Show progress
@@ -338,7 +338,7 @@ class SoxThread(threading.Thread):
         "Running code for the tread"
         
         try:
-            proc_sox = subprocess.Popen(self.params, stdout=subprocess.PIPE,
+            proc_sox = subprocess.Popen(Globals.ListUnicodeEncode(self.params), stdout=subprocess.PIPE,
                 stdin=subprocess.PIPE,shell=Globals.shell(),
                 stderr=subprocess.STDOUT, universal_newlines=True) 
             # Monitor execution
@@ -405,13 +405,14 @@ class EncodeAudioThread(threading.Thread):
             s_cmd = ['sox','-V3','-S',Globals.TMP_FIFO]
                 
             # Option to normalize the volume
+            normalize = ''
             if Globals.audio_normalize:
-                a_cmd = a_cmd + ['-af','volnorm']
+                normalize = ',volnorm'
                 s_cmd = s_cmd + ['--norm']
                          
             # Get the number of audio channels for video source
             mplayer_proc = subprocess.Popen(
-                ['mplayer','-frames','0','-vo','null','-ao','null','-identify']+mpFile,
+                Globals.ListUnicodeEncode(['mplayer','-frames','0','-vo','null','-ao','null','-identify']+mpFile),
                 stdout=subprocess.PIPE,stderr=subprocess.STDOUT, 
                 stdin=subprocess.PIPE,shell=Globals.shell(),
                 universal_newlines=True)
@@ -430,20 +431,20 @@ class EncodeAudioThread(threading.Thread):
                 # DPGV0 only supports mono audio
                 if (not Globals.audio_mono) and (Globals.dpg_version > 0):
                     if nchan > 2:
-                        a_cmd = a_cmd + ['-af',
-                            'channels=2,resample='+str(Globals.audio_frequency)+':1:2']
+                        a_cmd = a_cmd + ['-srate',str(Globals.audio_frequency),'-af',
+                            'channels=2,lavcresample='+str(Globals.audio_frequency)+normalize]
                         s_cmd = s_cmd + ['-c','2','-r',str(Globals.audio_frequency)]
                     else:
-                        a_cmd = a_cmd + ['-af',
-                            'resample='+str(Globals.audio_frequency)+':1:2']
+                        a_cmd = a_cmd + ['-srate',str(Globals.audio_frequency),'-af',
+                            'lavcresample='+str(Globals.audio_frequency)+normalize]
                         s_cmd = s_cmd + ['-r',str(Globals.audio_frequency)]
                     # Update the audio_mono variable for the header process
                     if nchan == 1:
                         Globals.audio_mono = True
                 # If the force mono option is set (or DPG0), use only one
                 else:
-                    a_cmd = a_cmd + ['-af',
-                        'channels=1,resample='+str(Globals.audio_frequency)+':1:2']
+                    a_cmd = a_cmd + ['-srate',str(Globals.audio_frequency),'-af',
+                        'channels=1,lavcresample='+str(Globals.audio_frequency)+normalize]
                     s_cmd = s_cmd + ['-c','1','-r',str(Globals.audio_frequency)]
                         
             # When error, include the output in the exception
@@ -463,7 +464,7 @@ class EncodeAudioThread(threading.Thread):
             # If mp2 codec is selected, execute mencoder
             if Globals.audio_codec == 'mp2':
                 Globals.debug('ENCODE AUDIO: ' + `a_cmd`)
-                proc = subprocess.Popen(a_cmd, stdout=subprocess.PIPE,
+                proc = subprocess.Popen(Globals.ListUnicodeEncode(a_cmd), stdout=subprocess.PIPE,
                     stdin=subprocess.PIPE,shell=Globals.shell(),
                     stderr=subprocess.STDOUT, universal_newlines=True)
                 # Monitor execution
@@ -518,7 +519,7 @@ class EncodeAudioThread(threading.Thread):
                 
                 # MPLAYER
                 Globals.debug('ENCODE AUDIO: ' + `m_cmd`)
-                proc = subprocess.Popen(m_cmd, stdout=subprocess.PIPE,
+                proc = subprocess.Popen(Globals.ListUnicodeEncode(m_cmd), stdout=subprocess.PIPE,
                     stdin=subprocess.PIPE,shell=Globals.shell(),
                     stderr=subprocess.STDOUT, universal_newlines=True)
                 # Monitor execution
@@ -561,7 +562,7 @@ def mpeg_stat(filename):
     framesRE = re.compile ("frames: ([0-9]*)\.")
     # Execute the mpeg_stat process
     stat_proc = subprocess.Popen(
-        ['mpeg_stat','-offset',Globals.TMP_STAT,Globals.TMP_VIDEO], 
+        Globals.ListUnicodeEncode(['mpeg_stat','-offset',Globals.TMP_STAT,Globals.TMP_VIDEO]), 
         stdout=subprocess.PIPE,stderr=subprocess.STDOUT, 
         stdin=subprocess.PIPE,shell=Globals.shell(),
         universal_newlines=True)
@@ -688,7 +689,7 @@ def conv_thumb(filename, frames):
             # Skip 10% of the frames
             str(int((int(frames)/Globals.video_fps)/10))]
         # Execute mplayer to generate the shot
-        mplayer_proc = subprocess.Popen(s_cmd, stdout=subprocess.PIPE,
+        mplayer_proc = subprocess.Popen(Globals.ListUnicodeEncode(s_cmd), stdout=subprocess.PIPE,
           stdin=subprocess.PIPE,shell=Globals.shell(),
           stderr=subprocess.STDOUT, universal_newlines=True)
         mplayer_output = mplayer_proc.communicate()[0]
@@ -700,9 +701,9 @@ def conv_thumb(filename, frames):
         if not os.path.isfile(shot_file):
             # Try again without ss
             s_cmd = ['mplayer',Globals.TMP_VIDEO,'-nosound','-vo',
-            'png''-frames','1']
+            'png','-frames','1']
             # Execute mplayer
-            mplayer_proc = subprocess.Popen(s_cmd, stdout=subprocess.PIPE,
+            mplayer_proc = subprocess.Popen(Globals.ListUnicodeEncode(s_cmd), stdout=subprocess.PIPE,
               stdin=subprocess.PIPE,shell=Globals.shell(),
               stderr=subprocess.STDOUT, universal_newlines=True)
             mplayer_output = mplayer_proc.communicate()[0]
@@ -867,6 +868,7 @@ def encode_files(files):
         busy = wx.BusyCursor()
         # Process the list of files
         for file in files:
+            
             # Read options from the media specific config file (if one exists)
             ConfigurationManager.loadConfiguration(file)
             
@@ -879,10 +881,10 @@ def encode_files(files):
             # Start the audio encoding thread
             encode_audio = EncodeAudioThread(file, filename)
             encode_audio.start()
-            
+
             # Encode video
             encode_video(file, filename)
-            
+
             # Wait for the audio encoding thread to finish
             # But if it hasn't finished yet... something goes wrong
             abort = progress.doProgress(1, 

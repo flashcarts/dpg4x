@@ -80,7 +80,7 @@ class MediaMain(wx.Dialog):
         
         # Set the icons for the main window
         bundle = wx.IconBundle()
-        icon_dir = os.getenv('DPG4X_ICONS')
+        icon_dir = Globals.getIconDir()
         bundle.AddIconFromFile(icon_dir+'/dpg4x_64.png',
             wx.BITMAP_TYPE_PNG)
         bundle.AddIconFromFile(icon_dir+'/dpg4x_48.png',

@@ -31,6 +31,11 @@ def preview_files(file):
         # Set the busy cursor
         busy = wx.BusyCursor()
         
+        # PATCH: Mplayer can't play audio bitrate higher than 256
+        old_audio_bitrate = Globals.audio_bitrate_mp2
+        if Globals.audio_bitrate_mp2 > 256:
+            Globals.audio_bitrate_mp2 = 256
+        
         # Start the audio encoding thread
         encode_audio = Encoder.EncodeAudioThread(file, file, preview=True)
         encode_audio.start()
@@ -38,15 +43,17 @@ def preview_files(file):
         Encoder.encode_video(file, file, preview=True)
         # Check the status of the thread
         encode_audio.join()
+        # Restore the audio bitrate (previous patch)
+        Globals.audio_bitrate_mp2 = old_audio_bitrate
         threadError = encode_audio.getErrorMessage()
         if threadError:
             raise Exception(threadError)
         
         # Join audio and video with mencoder
         mencoder_proc = subprocess.Popen(
-            ['mencoder',Globals.TMP_VIDEO,'-audiofile',Globals.TMP_AUDIO,
+            Globals.ListUnicodeEncode(['mencoder',Globals.TMP_VIDEO,'-audiofile',Globals.TMP_AUDIO,
             '-ffourcc','mpg1','-ovc','copy','-oac','copy','-o',
-            Globals.TMP_VIDEO+'.avi'],
+            Globals.TMP_VIDEO+'.avi']),
             stdout=subprocess.PIPE,stderr=subprocess.STDOUT,
             # On Windows when running under py2exe it is 
             # necessary to define stdin
@@ -63,7 +70,7 @@ def preview_files(file):
         
         # Play the file with mplayer
         mplayer_proc = subprocess.Popen(
-            ['mplayer',Globals.TMP_VIDEO+'.avi'], 
+            Globals.ListUnicodeEncode(['mplayer',Globals.TMP_VIDEO+'.avi']), 
             stdout=subprocess.PIPE,stderr=subprocess.STDOUT,
             # On Windows when running under py2exe it is 
             # necessary to define stdin
@@ -106,7 +113,7 @@ def play_files(file):
         
         # Play the file with mplayer
         mplayer_proc = subprocess.Popen(
-            ['mplayer']+mpFile, 
+            Globals.ListUnicodeEncode(['mplayer']+mpFile), 
             stdout=subprocess.PIPE,stderr=subprocess.STDOUT,
             # On Windows when running under py2exe it is 
             # necessary to define stdin
@@ -136,7 +143,7 @@ def show_information(file, parent):
             
     # Get the media information from mplayer
     mplayer_proc = subprocess.Popen(
-        ['mplayer','-frames','0','-vo','null','-ao','null','-identify']+mpFile,
+        Globals.ListUnicodeEncode(['mplayer','-frames','0','-vo','null','-ao','null','-identify']+mpFile),
         stdout=subprocess.PIPE,stderr=subprocess.STDOUT,
         # On Windows when running under py2exe it is 
             # necessary to define stdin
