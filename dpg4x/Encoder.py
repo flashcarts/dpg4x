@@ -72,10 +72,20 @@ def encode_video(file, filename, preview=False):
         # being the later the best one. So I'll use info[-1]
         info = aspectRE.findall(mplayer_output)
         if info:
+            ratio = float(info[-1])
             # On MacOSX an older version of mplayer dev-CVS-060307-04:23-4.0.1
             # failed to return anything but 0.0000. MacOSX Fink mplayer
             # 1.0rc2-4.2.1 did not have this issue.
-            ratio = float(info[-1])
+            # Worse, some files just refuse to return a ratio value
+            # "ID_VIDEO_ASPECT=0.0000" and
+            # "Movie-Aspect is undefined - no prescaling applied."
+            # Tracker Bug 3306088 by Matt Kasdorf: float division by zero
+            # To fix use WIDTH and HEIGHT instead.
+            if ratio == 0:
+                widthRE = re.compile ("\nID_VIDEO_WIDTH=([0-9.]*)\n")
+                heightRE = re.compile ("\nID_VIDEO_HEIGHT=([0-9.]*)\n")
+                ratio = round(float(widthRE.findall(mplayer_output)[-1])/float(heightRE.findall(mplayer_output)[-1]), 4)
+
             # Get the best size with the obtained ratio
             Globals.video_width = 256
             Globals.video_height = int(256.0/ratio)
