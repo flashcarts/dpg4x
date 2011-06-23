@@ -6,9 +6,12 @@
 
 !insertmacro LANGFILE "Catalan" "Català"
 
+# Update checks
+${LangFileString} ALREADY_INSTALLED "${Name} ja est� instal lat"
+
 # Start menu entries
-${LangFileString} UninstallLink "Desinstal·la Dpg4x"
-${LangFileString} WebLink "Web de Dpg4x"
+${LangFileString} UninstallLink "Desinstal·la ${Name}"
+${LangFileString} WebLink "Web de ${Name}"
 
 # MPlayer Section
 ${LangFileString} MPLAYER_IS_DOWNLOADING "Descarregant MPlayer..."

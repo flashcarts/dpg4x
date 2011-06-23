@@ -6,9 +6,12 @@
 
 !insertmacro LANGFILE "English" "English"
 
+# Update checks
+${LangFileString} ALREADY_INSTALLED "${Name} is already installed"
+
 # Start menu entries
-${LangFileString} UninstallLink "Uninstall Dpg4x"
-${LangFileString} WebLink "Dpg4x on the web"
+${LangFileString} UninstallLink "Uninstall ${Name}"
+${LangFileString} WebLink "${Name} on the web"
 
 # MPlayer Section
 ${LangFileString} MPLAYER_IS_DOWNLOADING "Downloading MPlayer..."

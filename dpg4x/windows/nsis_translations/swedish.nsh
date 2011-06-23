@@ -6,9 +6,12 @@
 
 !insertmacro LANGFILE "Swedish" "Svenska"
 
+# Update checks
+${LangFileString} ALREADY_INSTALLED "${Name} är redan installerad"
+
 # Start menu entries
-${LangFileString} UninstallLink "Avinstallera Dpg4x"
-${LangFileString} WebLink "Dpg4x websida"
+${LangFileString} UninstallLink "Avinstallera ${Name}"
+${LangFileString} WebLink "${Name} websida"
 
 # MPlayer Section
 ${LangFileString} MPLAYER_IS_DOWNLOADING "Laddar ned MPlayer..."
