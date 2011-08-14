@@ -25,13 +25,19 @@ import stat
 import subprocess
 import struct
 import wx
-from PIL import Image
 import shutil
 import array
 import signal
 import sys
 import tempfile
 import threading
+
+# Try to load the Python Image Library, if available
+pilAvailable = True
+try:
+    from PIL import Image
+except Exception:
+    pilAvailable = False
 
 def encode_video(file, filename, preview=False):
     "Encodes the video stream"
@@ -733,9 +739,17 @@ def conv_thumb(filename, frames, updateprogress=True):
     size = wx.Size(256, 192)
     dest_w, dest_h = size
 
-    # Open the image with PIL (for improved scaling)
-    pilImage = Image.open(thumbfile)
-    width, height = pilImage.size
+    # PIL supports an high-quality antialiased downsampling function.
+    # This is the prefered method if available
+    if pilAvailable:
+        pilImage = Image.open(thumbfile)
+        width, height = pilImage.size
+    # wxWidgets bicubic and box averaging resampling methods give good
+    # results, but antialias is better. Only used if PIL is not available
+    else:
+        image = wx.Image(thumbfile)
+        width = image.GetWidth()
+        height = image.GetHeight()     
 
     # Test to see if the image needs to be resized
     if (width == dest_w and height == dest_h):
@@ -755,16 +769,15 @@ def conv_thumb(filename, frames, updateprogress=True):
             nypos = 0
 
         # First, Rescale/Resize the thumbnail keeping the original aspect ratio
-        # Note: This could be done with:
-        #  wx.Image.Rescale(nwidth, nheight, wx.IMAGE_QUALITY_HIGH)
-        # but PIL with Image.ANTIALIAS does a much much better job.
-        pilImage = pilImage.resize((nwidth, nheight),Image.ANTIALIAS)
-
-        # Convert a PIL (the Python Image Library format) object to a wxPython
-        # Image (or Bitmap) while keeping the alpha transparency layer.
-        image = wx.EmptyImage(pilImage.size[0],pilImage.size[1])
-        image.SetData(pilImage.convert("RGB").tostring())
-        image.SetAlphaData(pilImage.convert("RGBA").tostring()[3::4])
+        if pilAvailable:
+            pilImage = pilImage.resize((nwidth, nheight),Image.ANTIALIAS)
+            # Convert a PIL (the Python Image Library format) object to a wxPython
+            # Image (or Bitmap) while keeping the alpha transparency layer.
+            image = wx.EmptyImage(pilImage.size[0],pilImage.size[1])
+            image.SetData(pilImage.convert("RGB").tostring())
+            image.SetAlphaData(pilImage.convert("RGBA").tostring()[3::4])
+        else:
+            image.Rescale(nwidth, nheight, wx.IMAGE_QUALITY_HIGH)
 
         # Second, Resize to the default screen size adding borders as necessary
         thumbim = image.Resize(size, wx.Point(nxpos,nypos))

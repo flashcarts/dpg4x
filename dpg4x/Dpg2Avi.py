@@ -76,7 +76,7 @@ if __name__ == '__main__':
         # Check the input parameters
         if len(sys.argv) != 3:
             Syserr(_(u'ERROR: Incorrect number of parameters'))
-            Syserr(_(u'USAGE: dpg2avi input.dpg output.avi'))
+            Syserr(_(u'USAGE: %s input.dpg output.avi') % sys.argv[0])
             sys.exit(1)
             
         # Check the input file

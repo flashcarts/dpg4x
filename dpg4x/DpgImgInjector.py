@@ -102,18 +102,25 @@ if __name__ == '__main__':
             fdInput = open(inputN, 'r+b')
 
 
+        knownError = False
         try:
             # Read the DPG version
             versionStr = fdInput.read(4)
-            if versionStr != 'DPG4':
+            if versionStr[:3] != 'DPG':
                 raise Exception()
-            version = int(versionStr[3])
+            # Use a specific message if DPG version < 4
+            if int(versionStr[3]) < 4:
+                knownError = True
+                raise Exception(_(u'%(file)s is a DPG version %(version)s ' \
+                    'file, but version 4 or better is required') % 
+                    {"file": inputN, "version": versionStr[3]})
 
-        # An exception in this code means the file is not DPG
+        # If the version cannot be readed, the file is not a valid DPG file
         except Exception, e:
-            print(unicode(e.args[0]))
-            isDPGFile = False
-            raise Exception(_(u'%s is not a valid DPG file') % inputN)
+            if knownError:
+                raise e
+            else:
+                raise Exception(_(u'%s is not a valid DPG file') % inputN)
 
 
         # Create the temporary files

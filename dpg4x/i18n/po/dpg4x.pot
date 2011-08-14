@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-01-11 22:25+0100\n"
+"POT-Creation-Date: 2011-08-14 17:39+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -45,11 +45,11 @@ msgstr ""
 msgid "The last chapter can not be lower than the first."
 msgstr ""
 
-#: AddDvdDialog.py:148 Dpg2Avi.py:64 Dpg2Avi.py:167 Dpg4x.py:103 Dpg4x.py:105
-#: FilesPanel.py:379 FilesPanel.py:403 FilesPanel.py:413 FilesPanel.py:417
-#: FilesPanel.py:429 FilesPanel.py:451 FilesPanel.py:455 FilesPanel.py:467
-#: FilesPanel.py:477 FilesPanel.py:481 FilesPanel.py:493 FilesPanel.py:510
-#: FilesPanel.py:512 FilesPanel.py:523 FilesPanel.py:650
+#: AddDvdDialog.py:148 Dpg2Avi.py:73 Dpg2Avi.py:176 Dpg4x.py:120 Dpg4x.py:122
+#: DpgImgInjector.py:149 FilesPanel.py:379 FilesPanel.py:403 FilesPanel.py:413
+#: FilesPanel.py:417 FilesPanel.py:429 FilesPanel.py:451 FilesPanel.py:455
+#: FilesPanel.py:467 FilesPanel.py:477 FilesPanel.py:481 FilesPanel.py:493
+#: FilesPanel.py:510 FilesPanel.py:512 FilesPanel.py:523 FilesPanel.py:650
 msgid "ERROR"
 msgstr ""
 
@@ -89,7 +89,7 @@ msgstr ""
 msgid "Auto Audio Track"
 msgstr ""
 
-#: ConfigurationManager.py:114
+#: ConfigurationManager.py:109
 msgid "Can't save user configuration:"
 msgstr ""
 
@@ -101,7 +101,7 @@ msgstr ""
 msgid "Abort"
 msgstr ""
 
-#: CustomProgressDialog.py:92 Encoder.py:43
+#: CustomProgressDialog.py:92 Encoder.py:50
 msgid "Starting encoding process"
 msgstr ""
 
@@ -118,92 +118,110 @@ msgstr ""
 msgid "QUESTION"
 msgstr ""
 
-#: Dpg2Avi.py:62 Dpg4x.py:101
+#: Dpg2Avi.py:71 Dpg4x.py:118
 #, python-format
 msgid "%s not found in PATH. Please install it."
 msgstr ""
 
-#: Dpg2Avi.py:69
+#: Dpg2Avi.py:78 DpgImgInjector.py:67
 msgid "ERROR: Incorrect number of parameters"
 msgstr ""
 
-#: Dpg2Avi.py:70
-msgid "USAGE: dpg2avi input.dpg output.avi"
+#: Dpg2Avi.py:79
+#, python-format
+msgid "USAGE: %s input.dpg output.avi"
 msgstr ""
 
-#: Dpg2Avi.py:76
+#: Dpg2Avi.py:85 DpgImgInjector.py:74 DpgImgInjector.py:80
 #, python-format
 msgid "ERROR: The file %s can not be read"
 msgstr ""
 
-#: Dpg2Avi.py:84
+#: Dpg2Avi.py:93
 #, python-format
 msgid "ERROR: The file %s already exists"
 msgstr ""
 
-#: Dpg2Avi.py:87
+#: Dpg2Avi.py:96 DpgImgInjector.py:93
 #, python-format
 msgid "ERROR: The folder %s can not be written"
 msgstr ""
 
-#: Dpg2Avi.py:114
+#: Dpg2Avi.py:123 DpgImgInjector.py:122
 #, python-format
 msgid "%s is not a valid DPG file"
 msgstr ""
 
-#: Dpg2Avi.py:163 Encoder.py:270 Encoder.py:306 Encoder.py:470 Previewer.py:55
+#: Dpg2Avi.py:172 Encoder.py:291 Encoder.py:328 Encoder.py:496 Previewer.py:65
 msgid "ERROR ON MENCODER"
 msgstr ""
 
-#: Encoder.py:46 Encoder.py:266 Encoder.py:302 Encoder.py:549 Encoder.py:601
-#: Encoder.py:663 Encoder.py:765 Encoder.py:880 Encoder.py:900 Encoder.py:954
+#: DpgImgInjector.py:68
+#, python-format
+msgid "USAGE: %s input.dpg newimage.xxx [output.dpg]"
+msgstr ""
+
+#: DpgImgInjector.py:90
+#, python-format
+msgid "ERROR: The file %s can not be written"
+msgstr ""
+
+#: DpgImgInjector.py:114
+#, python-format
+msgid ""
+"%(file)s is a DPG version %(version)s file, but version 4 or better is "
+"required"
+msgstr ""
+
+#: Encoder.py:53 Encoder.py:287 Encoder.py:324 Encoder.py:576 Encoder.py:629
+#: Encoder.py:692 Encoder.py:833 Encoder.py:949 Encoder.py:969 Encoder.py:1023
 msgid "Process aborted by the user."
 msgstr ""
 
-#: Encoder.py:66 Encoder.py:414 Encoder.py:444 Encoder.py:525 Encoder.py:686
-#: Encoder.py:699 Previewer.py:69 Previewer.py:109 Previewer.py:136
+#: Encoder.py:76 Encoder.py:439 Encoder.py:469 Encoder.py:552 Encoder.py:716
+#: Encoder.py:730 Previewer.py:82 Previewer.py:125 Previewer.py:155
 msgid "ERROR ON MPLAYER"
 msgstr ""
 
-#: Encoder.py:255 Encoder.py:294 Encoder.py:897
+#: Encoder.py:276 Encoder.py:316 Encoder.py:966
 msgid "Encoding in progress"
 msgstr ""
 
-#: Encoder.py:345 Encoder.py:387 Encoder.py:467 Encoder.py:522
+#: Encoder.py:368 Encoder.py:410 Encoder.py:493 Encoder.py:549
 msgid "Audio encoding stopped"
 msgstr ""
 
-#: Encoder.py:348
+#: Encoder.py:371
 msgid "ERROR ON SOX"
 msgstr ""
 
-#: Encoder.py:546 Encoder.py:598
+#: Encoder.py:573 Encoder.py:626
 msgid "Generating GOP offsets"
 msgstr ""
 
-#: Encoder.py:561 Encoder.py:588
+#: Encoder.py:589 Encoder.py:616
 msgid "ERROR ON MPEG_STAT"
 msgstr ""
 
-#: Encoder.py:660
+#: Encoder.py:689
 msgid "Generating thumbnail"
 msgstr ""
 
-#: Encoder.py:762
+#: Encoder.py:830
 msgid "Generating header"
 msgstr ""
 
-#: Encoder.py:877
+#: Encoder.py:946
 msgid "Finishing encoding process"
 msgstr ""
 
-#: Encoder.py:907
+#: Encoder.py:976
 msgid ""
 "WARNING: mpeg_stat not found. The extraction of header offsets will be "
 "slower."
 msgstr ""
 
-#: Encoder.py:951
+#: Encoder.py:1020
 msgid "Writing video file"
 msgstr ""
 
@@ -329,27 +347,27 @@ msgstr ""
 msgid "ENCODING ERROR"
 msgstr ""
 
-#: Globals.py:302
+#: Globals.py:368
 msgid "WARNING: Temporary files were not properly deleted:"
 msgstr ""
 
-#: MainFrame.py:97
+#: MainFrame.py:96
 msgid "MAIN"
 msgstr ""
 
-#: MainFrame.py:103 MediaMainFrame.py:113
+#: MainFrame.py:102 MediaMainFrame.py:113
 msgid "VIDEO"
 msgstr ""
 
-#: MainFrame.py:109 MediaMainFrame.py:119
+#: MainFrame.py:108 MediaMainFrame.py:119
 msgid "AUDIO"
 msgstr ""
 
-#: MainFrame.py:115 MediaMainFrame.py:125
+#: MainFrame.py:114 MediaMainFrame.py:125
 msgid "SUBTITLES"
 msgstr ""
 
-#: MainFrame.py:121 MediaMainFrame.py:131
+#: MainFrame.py:120 MediaMainFrame.py:131
 msgid "MISC"
 msgstr ""
 
@@ -460,19 +478,19 @@ msgstr ""
 msgid "Disable subtitles"
 msgstr ""
 
-#: MediaSubtitlesPanel.py:185 SubtitlesPanel.py:167
+#: MediaSubtitlesPanel.py:189 SubtitlesPanel.py:171
 msgid "WARNING: iconv not found. Subtitles encoding option disabled."
 msgstr ""
 
-#: MediaSubtitlesPanel.py:235 SubtitlesPanel.py:215
+#: MediaSubtitlesPanel.py:239 SubtitlesPanel.py:219
 msgid "Select a subtitles file"
 msgstr ""
 
-#: MediaSubtitlesPanel.py:247 SubtitlesPanel.py:227
+#: MediaSubtitlesPanel.py:251 SubtitlesPanel.py:231
 msgid "Select the subtitles font"
 msgstr ""
 
-#: MediaSubtitlesPanel.py:266 SubtitlesPanel.py:246
+#: MediaSubtitlesPanel.py:270 SubtitlesPanel.py:250
 msgid "The subtitles file can not be readed."
 msgstr ""
 
@@ -522,7 +540,7 @@ msgid ""
 "the default settings. Do you want to continue?"
 msgstr ""
 
-#: Previewer.py:140
+#: Previewer.py:159
 #, python-format
 msgid "Information about %s"
 msgstr ""

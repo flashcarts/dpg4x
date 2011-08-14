@@ -11,7 +11,9 @@
 .
 dpg4x \- A GUI to encode videos into DPG format
 
-dpg2avi \- Converts DPG files into AVI files
+dpg2avi \- Converts DPG files to AVI files
+
+dpgimginjector \- Replaces the thumbnail image file embedded in a DPG file
 .
 .SH "SYNOPSIS"
 .
@@ -19,15 +21,20 @@ dpg2avi \- Converts DPG files into AVI files
 
 .B dpg2avi
 \fIinput_file.dpg\fR \fIoutput_file.avi\fR
+
+.B dpgimginjector
+\fIinput_file.dpg\fR \fIimage_file.xxx\fR \fI[output_file.dpg]\fR
 .
 .SH "DESCRIPTION"
 .
-Dpg4x is a program that tries to make the DPG video creation as easy as possible. A DPG video is the video format that you need if you want to play movies on your Nintendo DS.
+Dpg4x is a program that tries to make the DPG video creation as easy as possible.
+A DPG video is the video format that you need if you want to play movies on your Nintendo DS.
 
 Dpg4x relies on mplayer/mencoder to do it's work, so any video file playable
 with mplayer can be converted to DPG. 
 
-You can also encode the DPG video files to AVI format with the dpg2avi script. 
+You can also encode the DPG video files to AVI format with the dpg2avi script, or
+replace the thumbnail image embedded in a DPG4 video with the dpgimginjector script.
 .
 .SH "FEATURES"
  \- Simple GUI suitable for beginners.
@@ -43,6 +50,7 @@ You can also encode the DPG video files to AVI format with the dpg2avi script.
  \- Multiplatform.
  \- Multilanguage.
  \- The dpg2avi script can convert DPG files to AVI format.
+ \- The dpgimginjector script can replace the thumbnail included in a DPG4 file.
 
 .SH "USAGE"
 .
@@ -131,13 +139,28 @@ section and select "Auto" as the subtitles source.
 .TP
 .B The dpg2avi script
 .
-To use the dpg2avi script, just set the DPG and AVI files as parameters. For example:
+You can encode the DPG video files to AVI format with the dpg2avi script. To use
+the dpg2avi script, just set the DPG and AVI files as parameters. For example:
 .br
 .I dpg2avi input_file.dpg output_file.avi
 
 The dpg2avi script does not re-enconde the video or the audio streams in the DPG
 file. It only performs changes in the container, so all the properties like
 framerate, video size, bitrates, quality, etc. will be the same.
+
+.TP
+.B The dpgimginjector script
+.
+The dpgimginjector script can replace the thumbnail embedded in a DPG file. Note
+that files with DPG version 3 or less, cannot store a thumbnail.
+
+To use the script, you need to set the DPG and the image file. Optionally, you
+can set a different DPG file for output to preserve the original file. For
+example:
+.br
+.I dpgimginjector input_dpg_file.dpg image_file.png output_dpg_file.dpg
+
+Most common image formats are supported: png, jpeg, gif, bmp, etc.
 .
 .SH "FILES"
 .

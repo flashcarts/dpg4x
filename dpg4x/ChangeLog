@@ -53,3 +53,11 @@
     * Better integration with some versions of mencoder (like Fedora's).
     * Lots of bug fixes.
 
+2011-08-14 dpg4x 2.1
+
+    * The new dpgimginjector script can replace the thumbnail image 
+      embedded in a DPG file.
+    * Thumbnail support improved. Optional antialiasing with PIL.
+    * The Windows installer can handle updates.
+    * Fixed bug 3306088.
+

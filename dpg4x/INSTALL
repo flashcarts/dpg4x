@@ -32,6 +32,7 @@ that the dpg4x package would recommend.
 
 mpeg_stat (2.2) - provides a faster and more tested way of generating headers.
 iconv (2.9) - necessary if you want to change the encoding for subtitles.
+python-imaging (1.1.7) - provides antialiased downsampling for thumbnails.
 
 If you can't find mpeg_stat for your system, try this URL:
 http://ftp.sunet.se/pub/multimedia/Berkeley/mpeg/stat/

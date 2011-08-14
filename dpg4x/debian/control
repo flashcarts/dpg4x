@@ -10,6 +10,7 @@ Package: dpg4x
 Architecture: all
 Homepage: http://sourceforge.net/projects/dpg4x/
 Depends: ${misc:Depends}, ${python:Depends}, python-wxgtk2.8, mplayer (>= 1.0), mencoder (>= 1.0)
+Recommends: python-imaging (>= 1.1)
 Suggests: 
 Description: GUI to encode files into the DPG video format
  DPG for X allows the easy creation of DPG video files. A DPG video is
@@ -30,3 +31,4 @@ Description: GUI to encode files into the DPG video format
   - Multiplatform.
   - Multilanguage.
   - The dpg2avi script can convert DPG files to AVI format.
+  - The dpgimginjector script can replace the thumbnail included in a DPG4 file.
