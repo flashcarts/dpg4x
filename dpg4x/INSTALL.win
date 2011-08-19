@@ -27,6 +27,8 @@ Dependencies to run Dpg4x on Windows:
   included in the Python distributions from http://www.python.org  
 * wxPython 2.9: Tested with wxPython2.9-win32-2.9.1.1-py27.exe
   http://wxpython.org/download.php
+* Python Imaging Library (PIL), tested with 1.1.7 for Python 2.7 
+  http://www.pythonware.com/products/pil
 * Mplayer and mencoder for Windows 
   http://www.mplayerhq.hu/MPlayer or the SourceForge project "MPlayer for Win32"
   NOTE: If you install your own mplayer.exe it must either be installed in a directory 
