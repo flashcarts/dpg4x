@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-08-14 17:39+0200\n"
-"PO-Revision-Date: 2011-08-14 17:48+0200\n"
+"POT-Creation-Date: 2011-08-25 16:44+0200\n"
+"PO-Revision-Date: 2011-08-25 16:56+0200\n"
 "Last-Translator: Félix Medrano <xukosky@yahoo.es>\n"
 "Language-Team: Spanish <>\n"
 "Language: es\n"
@@ -48,7 +48,7 @@ msgid "The last chapter can not be lower than the first."
 msgstr "El último capítulo no puede ser inferior al primero."
 
 #: AddDvdDialog.py:148 Dpg2Avi.py:73 Dpg2Avi.py:176 Dpg4x.py:120 Dpg4x.py:122
-#: DpgImgInjector.py:149 FilesPanel.py:379 FilesPanel.py:403 FilesPanel.py:413
+#: DpgImgInjector.py:150 FilesPanel.py:379 FilesPanel.py:403 FilesPanel.py:413
 #: FilesPanel.py:417 FilesPanel.py:429 FilesPanel.py:451 FilesPanel.py:455
 #: FilesPanel.py:467 FilesPanel.py:477 FilesPanel.py:481 FilesPanel.py:493
 #: FilesPanel.py:510 FilesPanel.py:512 FilesPanel.py:523 FilesPanel.py:650
@@ -130,9 +130,8 @@ msgid "ERROR: Incorrect number of parameters"
 msgstr "ERROR: Número incorrecto de parámetros"
 
 #: Dpg2Avi.py:79
-#, python-format
-msgid "USAGE: %s input.dpg output.avi"
-msgstr "USO: %s entrada.dpg salida.avi"
+msgid "USAGE: dpg2avi input.dpg output.avi"
+msgstr "USO: dpg2avi entrada.dpg salida.avi"
 
 #: Dpg2Avi.py:85 DpgImgInjector.py:74 DpgImgInjector.py:80
 #, python-format
@@ -149,7 +148,7 @@ msgstr "ERROR: El archivo %s ya existe"
 msgid "ERROR: The folder %s can not be written"
 msgstr "ERROR: No se puede escribir en el directorio %s"
 
-#: Dpg2Avi.py:123 DpgImgInjector.py:122
+#: Dpg2Avi.py:123 DpgImgInjector.py:123
 #, python-format
 msgid "%s is not a valid DPG file"
 msgstr "%s no es un archivo DPG válido"
@@ -159,9 +158,8 @@ msgid "ERROR ON MENCODER"
 msgstr "ERROR EN MENCODER"
 
 #: DpgImgInjector.py:68
-#, python-format
-msgid "USAGE: %s input.dpg newimage.xxx [output.dpg]"
-msgstr "USO: %s entrada.dpg imagen_nueva.xxx [salida.dpg]"
+msgid "USAGE: dpgimginjector input.dpg newimage.xxx [output.dpg]"
+msgstr "USO: dpgimginjector entrada.dpg imagen_nueva.xxx [salida.dpg]"
 
 #: DpgImgInjector.py:90
 #, python-format
@@ -174,8 +172,8 @@ msgid ""
 "%(file)s is a DPG version %(version)s file, but version 4 or better is "
 "required"
 msgstr ""
-"%(file)s es un archivo DPG versión %(version)s, pero se requiere la versión 4 "
-"o superior"
+"%(file)s es un archivo DPG versión %(version)s, pero se requiere la versión "
+"4 o superior"
 
 #: Encoder.py:53 Encoder.py:287 Encoder.py:324 Encoder.py:576 Encoder.py:629
 #: Encoder.py:692 Encoder.py:833 Encoder.py:949 Encoder.py:969 Encoder.py:1023

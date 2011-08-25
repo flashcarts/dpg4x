@@ -1,23 +1,23 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 #
+# Tomas Aronsson <d0malaga@gmail.com>, 2011.
 # Félix Medrano <xukosky@yahoo.es>, 2011.
+# xukosky <xukosky@yahoo.es>, 2011.
 msgid ""
 msgstr ""
-"Project-Id-Version: dpg4x 2.0\n"
+"Project-Id-Version: DPG for X\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-08-14 17:39+0200\n"
-"PO-Revision-Date: 2011-08-14 17:42+0200\n"
+"POT-Creation-Date: 2011-08-25 16:44+0200\n"
+"PO-Revision-Date: 2011-08-25 16:53+0200\n"
 "Last-Translator: Félix Medrano <xukosky@yahoo.es>\n"
 "Language-Team: Spanish <>\n"
-"Language: \n"
+"Language: sv\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Poedit-Language: Swedish\n"
-"X-Poedit-Country: SWEDEN\n"
+"Plural-Forms: nplurals=2; plural=(n != 1)\n"
 "X-Generator: Lokalize 1.2\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: AddDvdDialog.py:62 FilesPanel.py:134
 msgid "Add DVD"
@@ -48,7 +48,7 @@ msgid "The last chapter can not be lower than the first."
 msgstr "Det sista kapitlet kan inte vara större än det första"
 
 #: AddDvdDialog.py:148 Dpg2Avi.py:73 Dpg2Avi.py:176 Dpg4x.py:120 Dpg4x.py:122
-#: DpgImgInjector.py:149 FilesPanel.py:379 FilesPanel.py:403 FilesPanel.py:413
+#: DpgImgInjector.py:150 FilesPanel.py:379 FilesPanel.py:403 FilesPanel.py:413
 #: FilesPanel.py:417 FilesPanel.py:429 FilesPanel.py:451 FilesPanel.py:455
 #: FilesPanel.py:467 FilesPanel.py:477 FilesPanel.py:481 FilesPanel.py:493
 #: FilesPanel.py:510 FilesPanel.py:512 FilesPanel.py:523 FilesPanel.py:650
@@ -130,9 +130,8 @@ msgid "ERROR: Incorrect number of parameters"
 msgstr "FEL: felaktigt antal parametrar"
 
 #: Dpg2Avi.py:79
-#, python-format
-msgid "USAGE: %s input.dpg output.avi"
-msgstr "Användning: %s indata.dpg utdata.avi"
+msgid "USAGE: dpg2avi input.dpg output.avi"
+msgstr "Användning: dpg2avi indata.dpg utdata.avi"
 
 #: Dpg2Avi.py:85 DpgImgInjector.py:74 DpgImgInjector.py:80
 #, python-format
@@ -149,7 +148,7 @@ msgstr "FEL: Filen %s finns redan"
 msgid "ERROR: The folder %s can not be written"
 msgstr "FEL: Kan ej skriva till katalogen %s"
 
-#: Dpg2Avi.py:123 DpgImgInjector.py:122
+#: Dpg2Avi.py:123 DpgImgInjector.py:123
 #, python-format
 msgid "%s is not a valid DPG file"
 msgstr "%s är inte någon giltig DPG-fil"
@@ -159,14 +158,13 @@ msgid "ERROR ON MENCODER"
 msgstr "Internt fel i mencoder"
 
 #: DpgImgInjector.py:68
-#, fuzzy, python-format
-msgid "USAGE: %s input.dpg newimage.xxx [output.dpg]"
-msgstr "Användning: dpg2avi indata.dpg utdata.avi"
+msgid "USAGE: dpgimginjector input.dpg newimage.xxx [output.dpg]"
+msgstr "Användning: dpgimginjector original.dpg ny-bild.xxx [resultat.dpg]"
 
 #: DpgImgInjector.py:90
-#, fuzzy, python-format
+#, python-format
 msgid "ERROR: The file %s can not be written"
-msgstr "FEL: Kan ej skriva till katalogen %s"
+msgstr "FEL: Kan ej skriva till filen %s"
 
 #: DpgImgInjector.py:114
 #, python-format
@@ -174,6 +172,7 @@ msgid ""
 "%(file)s is a DPG version %(version)s file, but version 4 or better is "
 "required"
 msgstr ""
+"%(file)s är kodad som DPG-version %(version)s, men måste vara 4 eller senare"
 
 #: Encoder.py:53 Encoder.py:287 Encoder.py:324 Encoder.py:576 Encoder.py:629
 #: Encoder.py:692 Encoder.py:833 Encoder.py:949 Encoder.py:969 Encoder.py:1023
@@ -298,7 +297,7 @@ msgstr "Extra hög"
 
 #: FilesPanel.py:186
 msgid "Media sources to encode"
-msgstr "Ingen media att koda"
+msgstr "Mediakällor att koda"
 
 #: FilesPanel.py:187
 msgid "Indv Settings"

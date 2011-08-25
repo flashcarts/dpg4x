@@ -65,7 +65,7 @@ if __name__ == '__main__':
         # Check the input parameters
         if (len(sys.argv) < 3 or len(sys.argv) > 4):
             Syserr(_(u'ERROR: Incorrect number of parameters'))
-            Syserr(_(u'USAGE: %s input.dpg newimage.xxx [output.dpg]') % sys.argv[0])
+            Syserr(_(u'USAGE: dpgimginjector input.dpg newimage.xxx [output.dpg]'))
             sys.exit(1)
 
         # Check the input file

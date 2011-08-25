@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DPG for X\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-08-14 17:39+0200\n"
-"PO-Revision-Date: 2011-08-14 17:23+0200\n"
+"POT-Creation-Date: 2011-08-25 16:44+0200\n"
+"PO-Revision-Date: 2011-08-25 16:55+0200\n"
 "Last-Translator: Félix Medrano <xukosky@yahoo.es>\n"
 "Language-Team: Catalan <None>\n"
 "Language: ca\n"
@@ -46,7 +46,7 @@ msgid "The last chapter can not be lower than the first."
 msgstr "L'últim capítol no pot ser menor que el primer."
 
 #: AddDvdDialog.py:148 Dpg2Avi.py:73 Dpg2Avi.py:176 Dpg4x.py:120 Dpg4x.py:122
-#: DpgImgInjector.py:149 FilesPanel.py:379 FilesPanel.py:403 FilesPanel.py:413
+#: DpgImgInjector.py:150 FilesPanel.py:379 FilesPanel.py:403 FilesPanel.py:413
 #: FilesPanel.py:417 FilesPanel.py:429 FilesPanel.py:451 FilesPanel.py:455
 #: FilesPanel.py:467 FilesPanel.py:477 FilesPanel.py:481 FilesPanel.py:493
 #: FilesPanel.py:510 FilesPanel.py:512 FilesPanel.py:523 FilesPanel.py:650
@@ -128,9 +128,8 @@ msgid "ERROR: Incorrect number of parameters"
 msgstr "ERROR: Nombre incorrecte de paràmetres"
 
 #: Dpg2Avi.py:79
-#, python-format
-msgid "USAGE: %s input.dpg output.avi"
-msgstr "ÚS: %s entrada.dpg sortida.avi"
+msgid "USAGE: dpg2avi input.dpg output.avi"
+msgstr "ÚS: dpg2avi entrada.dpg sortida.avi"
 
 #: Dpg2Avi.py:85 DpgImgInjector.py:74 DpgImgInjector.py:80
 #, python-format
@@ -147,7 +146,7 @@ msgstr "ERROR: El fitxer %s ja existeix"
 msgid "ERROR: The folder %s can not be written"
 msgstr "ERROR: La carpeta %s no es pot escriure"
 
-#: Dpg2Avi.py:123 DpgImgInjector.py:122
+#: Dpg2Avi.py:123 DpgImgInjector.py:123
 #, python-format
 msgid "%s is not a valid DPG file"
 msgstr "%s no és un arxiu DPG vàlid"
@@ -157,9 +156,8 @@ msgid "ERROR ON MENCODER"
 msgstr "ERROR A MENCODER"
 
 #: DpgImgInjector.py:68
-#, python-format
-msgid "USAGE: %s input.dpg newimage.xxx [output.dpg]"
-msgstr "ÚS: %s entrada.dpg nova_imatge.xxx sortida.dpg"
+msgid "USAGE: dpgimginjector input.dpg newimage.xxx [output.dpg]"
+msgstr ""
 
 #: DpgImgInjector.py:90
 #, python-format
@@ -558,3 +556,4 @@ msgstr ""
 #, python-format
 msgid "Information about %s"
 msgstr "Informació sobre %s"
+
