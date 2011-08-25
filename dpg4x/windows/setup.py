@@ -11,7 +11,7 @@ doc_files = [(os.path.join(top_directory, 'doc'), ['COPYING', 'CREDITS', 'INSTAL
 
 from distutils.core import setup
 setup(name='dpg4x',
-      version='2.0',
+      version='2.2',
       license='GPLv3',
       url='http://sourceforge.net/projects/dpg4x',
       description='GUI to encode files into the DPG video format',
@@ -30,6 +30,11 @@ setup(name='dpg4x',
         {
             "script": "Dpg2Avi.py",                          ### cmdline Python script    
             "icon_resources": [(0, "windows/dpg4x.ico")]     ### Icon to embed into the PE file.
+        },
+        {
+            "script": "DpgImgInjector.py",                   ### cmdline Python script    
+            "icon_resources": [(0, "windows/dpg4x.ico")]     ### Icon to embed into the PE file.
         }
+
         ]
       )
