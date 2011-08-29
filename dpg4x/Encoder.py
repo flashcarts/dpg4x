@@ -742,7 +742,12 @@ def conv_thumb(filename, frames, updateprogress=True):
     # PIL supports an high-quality antialiased downsampling function.
     # This is the prefered method if available
     if pilAvailable:
-        pilImage = Image.open(thumbfile)
+        # Hard to predict when PIL closes a file
+        # pilImage = Image.open(thumbfile), causes problems on Windows       
+        fp = open(thumbfile, "rb")
+        pilImage = Image.open(fp) # open from file object
+        pilImage.load() # make sure PIL has read the data
+        fp.close()
         width, height = pilImage.size
     # wxWidgets bicubic and box averaging resampling methods give good
     # results, but antialias is better. Only used if PIL is not available

@@ -141,10 +141,6 @@ if __name__ == '__main__':
         buffer = fdImage.read()
         fdInput.write(buffer)
 
-        # Delete the temporary files
-        Globals.clearTemporary()
-
-
     # Capture exceptions
     except Exception, e:
             Syserr(_(u'ERROR') + ': ' + unicode(e.args[0]))
@@ -155,6 +151,8 @@ if __name__ == '__main__':
             fdInput.close()
         if fdImage:
             fdImage.close()
+        Globals.clearTemporary()
+
 
     # Exit
     sys.exit(retval)
