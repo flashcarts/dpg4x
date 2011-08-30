@@ -3,6 +3,8 @@ dpg4x (2.2-1) unstable; urgency=low
   * The package recomends python-imaging
   * Added dpgimginjector script
 
+ -- Félix Medrano <xukosky@yahoo.es>  Tue,  30 Aug 2011 18:36:15 +0100
+
 dpg4x (2.1-1) unstable; urgency=low
 
   * Changes in the folder structure
