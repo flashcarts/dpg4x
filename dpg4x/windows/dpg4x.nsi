@@ -2,8 +2,8 @@
 # Manual updates by Tomas Aronsson
 
 !define VERSION 2.3
-# Must contain four parts
-!define  VIProduct_Ver "${VERSION}.0.0"
+# Must contain four parts, used for internal comparisons of patch levels
+!define  VIProduct_Ver "${VERSION}.0.1.svn92"
 
 Name dpg4x
 # Needed because $(^Name) sometimes does not seem to expand correctly
@@ -83,8 +83,8 @@ Var StartMenuGroup
 !include nsis_translations\translations.nsh
 
 # Installer attributes
-OutFile "${NAME}-${VERSION}_setup.exe"
-Caption "${NAME} ${VERSION}"
+OutFile "${NAME}-${VIProduct_Ver}_setup.exe"
+Caption "${NAME} ${VIProduct_Ver}"
 InstallDir $PROGRAMFILES\${NAME}
 CRCCheck on
 XPStyle on
@@ -134,7 +134,7 @@ SectionEnd
 
 Section -post SEC0001
     WriteRegStr HKLM "${REGKEY}" Path $INSTDIR
-    WriteRegStr HKLM "${REGKEY}" Version "${VERSION}"
+    WriteRegStr HKLM "${REGKEY}" Version "${VIProduct_Ver}"
 
     # Default Programs, Vista and later: (possibly more things to explore here...)
     # http://msdn.microsoft.com/en-us/library/cc144154%28v=vs.85%29.aspx
@@ -157,7 +157,7 @@ Section -post SEC0001
     !insertmacro MUI_STARTMENU_WRITE_END
 
     WriteRegStr HKLM "SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\${Name}" DisplayName "${Name}"
-    WriteRegStr HKLM "SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\${Name}" DisplayVersion "${VERSION}"
+    WriteRegStr HKLM "SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\${Name}" DisplayVersion "${VIProduct_Ver}"
     WriteRegStr HKLM "SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\${Name}" Publisher "${COMPANY}"
     WriteRegStr HKLM "SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\${Name}" URLInfoAbout "${URL}"
     WriteRegStr HKLM "SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\${Name}" DisplayIcon $INSTDIR\uninstall.exe
@@ -302,7 +302,7 @@ Function CheckPreviousVersion
   1  A newer version than this installer is already installed
   2  An older version than this installer is already installed */
  
-  ${VersionCompare} $InstalledVersion ${VERSION} $R1
+  ${VersionCompare} $InstalledVersion ${VIProduct_Ver} $R1
   IntCmp $R1 1 newer same older
   same:
   newer:

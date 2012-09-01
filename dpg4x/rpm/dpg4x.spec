@@ -1,6 +1,7 @@
 Name: dpg4x
-Version: 2.2
-Release: 1%{?dist}
+Version: 2.3
+# Release: 1%{?dist}
+Release: 0.1.svn92%{?dist}
 License: GPLv3
 Summary: GUI to encode files into the DPG video format
 Url: http://sourceforge.net/projects/dpg4x
@@ -77,6 +78,9 @@ cp -p i18n/en/LC_MESSAGES/dpg4x.mo %{buildroot}/usr/share/locale/en/LC_MESSAGES
 mkdir -p %{buildroot}/usr/share/locale/sv/LC_MESSAGES
 cp -p i18n/sv/LC_MESSAGES/dpg4x.mo %{buildroot}/usr/share/locale/sv/LC_MESSAGES
 
+mkdir -p %{buildroot}/usr/share/locale/fr/LC_MESSAGES
+cp -p i18n/fr/LC_MESSAGES/dpg4x.mo %{buildroot}/usr/share/locale/fr/LC_MESSAGES
+
 %find_lang %{name}
 
 # desktop, menus and icons (--vendor is required by SLES10)
@@ -132,6 +136,10 @@ rm -rf %{buildroot}
 %{_mandir}/man1/*
 
 %changelog 
+* Sat Sep 01 2012 Tomas Aronsson <d0malaga@users.sourceforge.net> - 2.3-0.1.svn-92
+— Preliminary build preparing for 2.3 release
+- Added French translation
+- Included latest trunk changes in svn-91 for using dpg4x without a GUI
 * Sat Aug 27 2011 Tomas Aronsson <d0malaga@users.sourceforge.net> - 2.2-1
 — Updates for packaging dpg4x v2.2.
 - Added dpgimginjector and PIL dependency 
