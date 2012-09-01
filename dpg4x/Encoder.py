@@ -42,7 +42,6 @@ except Exception:
 def encode_video(file, filename, preview=False):
     "Encodes the video stream"
 
-    # Init the progress variables
     global progress
     # Progress dialog disabled on preview
     if not preview:
@@ -902,11 +901,30 @@ def write_header(filename, frames):
         tmpHeader.write (struct.pack ( "4s" , "THM0"))
     tmpHeader.close()
 
-def encode_files(files):
-    "Encode the given list of files"
+def gui_encode_files(files):
+    "Handle GUI logic with progress window"
+    # Init the progress dialog
     busy = None
-    # Create the temporary files
-    Globals.createTemporary()
+    progress = CustomProgressDialog.CustomProgressDialog(
+        Globals.mainPanel, len(files), total_progress())
+    progress.Show()
+    # Disable the events on main frame
+    Globals.mainPanel.Enable(False)
+    try:
+        # Set the busy cursor
+        busy = wx.BusyCursor()
+        encode_files(files, progress)
+    finally:
+        # Sets the normal cursor again
+        if busy is not None:
+            del busy
+        # End the progress dialog
+        if progress:
+            progress.Destroy()
+        # Enable the events on main frame
+        Globals.mainPanel.Enable(True)
+  
+def total_progress():
     # Calculate the length of the encoding process
     # 100 video + 1 GOP + 1 Header + 1 to join everything
     totalProgress = 103
@@ -916,16 +934,20 @@ def encode_files(files):
     # Add one more if a video thumbnail will be generated
     if Globals.dpg_version >= 4:
         totalProgress += 1
-    # Init the progress dialog
+    return totalProgress
+
+
+def encode_files(files, iprogress = None):
+    "Encode the given list of files"
     global progress
-    progress = CustomProgressDialog.CustomProgressDialog(
-        Globals.mainPanel, len(files), totalProgress)
-    progress.Show()
-    # Disable the events on main frame
-    Globals.mainPanel.Enable(False)
+    if iprogress: 
+        progress = iprogress
+    else:
+        progress = CustomProgressDialog.TextProgress(None, len(files), total_progress())
+
+    # Create the temporary files
+    Globals.createTemporary()
     try:
-        # Set the busy cursor
-        busy = wx.BusyCursor()
         # Process the list of files
         for file in files:
 
@@ -1041,25 +1063,10 @@ def encode_files(files):
                     Globals.TMP_VIDEO)
         # Delete the temporary files
         Globals.clearTemporary()
-        # End the progress dialog
-        progress.Destroy()
-        # Enable the events on main frame
-        Globals.mainPanel.Enable(True)
-        # Sets the normal cursor again
-        if busy is not None:
-            del busy
 
     except Exception, e:
-        # Sets the normal cursor again
-        if busy is not None:
-            del busy
         # Delete the temporary files
         Globals.clearTemporary()
-        # End the progress dialog
-        if progress:
-            progress.Destroy()
-        # Enable the events on main frame
-        Globals.mainPanel.Enable(True)
         # Stop the audio encoding thread
         if encode_audio:
             encode_audio.stopThread()

@@ -14,10 +14,41 @@
 #----------------------------------------------------------------------------
 
 import wx
+import Globals 
 
 [wxID_DIALOG1, wxID_DIALOG1BUTTON1, wxID_DIALOG1GAUGE1, wxID_DIALOG1GAUGE2, 
  wxID_DIALOG1STATICTEXT1, wxID_DIALOG1STATICTEXT2, 
 ] = [wx.NewId() for _init_ctrls in range(6)]
+
+
+import sys
+class TextProgress():    
+    "Basic class to run without a GUI"
+    def __init__(self, parent, numFiles, totalProgress):        
+        # Save the progress values
+        self.currProgress = 0
+        self.totalProgress = totalProgress
+        self.currProgOverall = 0
+        self.totalProgOverall = totalProgress * numFiles
+        self.remainFiles = numFiles
+                 
+    def doProgress(self, amount, message):
+        "Advance the progress dialog in 1 step"
+        # Increase the current progress
+        self.currProgress += amount
+        self.currProgOverall += amount
+        # Check if we have finished with the current file
+        if self.currProgress >= self.totalProgress:
+            self.currProgress -= self.totalProgress
+            self.remainFiles -= 1
+        sys.stderr.write(".")
+        # print message
+        return False
+    
+    def getCurrentProgress(self):
+        "Returns the current progress"
+        return self.currProgress
+        
 
 class CustomProgressDialog(wx.Dialog):
     def _init_coll_gridBagSizer1_Items(self, parent):

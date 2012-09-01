@@ -119,9 +119,38 @@ other_previewsize = 10
 ## FUNCTIONS ##
 ###############
 
+def SetupTranslation():
+    # Check if a gettext resource is available for the current LANG
+    import locale
+    import gettext
+
+    # If no env variable defined, assume that i18n files are located below the top directory
+    i18n_dir = os.getenv('DPG4X_I18N')
+    if not(i18n_dir):
+        i18n_dir = os.path.join(os.path.dirname(sys.argv[0]), "i18n")
+        # gettext will search in default directories if no other path given
+    if not os.path.isdir(i18n_dir):
+        i18n_dir = None
+                    
+    if not gettext.find('dpg4x', i18n_dir) and sys.platform == 'win32':
+        # On Windows this fails every time, no default Language environment
+        # variables, but defaults to English.
+        # locale.getdefaultlocale() returns ('en_US', 'cp1252') could be useful.
+        os.environ['LANG']=locale.getdefaultlocale()[0]
+    if not gettext.find('dpg4x', i18n_dir):
+        debug(u'WARNING: dpg4x is not available in your language, ' \
+                u'please help us to translate it.')
+        gettext.install('dpg4x', i18n_dir, unicode=True)
+    else:
+        gettext.translation('dpg4x', i18n_dir).install(unicode=True)
+
+
 def debug(message):
     "Shows a message in the error output"
     if not hasattr(sys, 'frozen'):
+        sys.stderr.write((message+"\n").encode(sys.getfilesystemencoding(),'replace'))
+    # Exe file to be run from a DOS prompt 
+    elif sys.frozen == "console_exe":
         sys.stderr.write((message+"\n").encode(sys.getfilesystemencoding(),'replace'))
     else:
         # sys.frozen == "windows_exe":

@@ -192,6 +192,7 @@ Section /o -un.Main UNSEC0000
     Delete /REBOOTOK $INSTDIR\w9xpopen.exe
     Delete /REBOOTOK $INSTDIR\library.zip
     Delete /REBOOTOK $INSTDIR\Dpg4x.exe
+    Delete /REBOOTOK $INSTDIR\Dpg4xConsole.exe
     Delete /REBOOTOK $INSTDIR\Dpg2avi.exe
     Delete /REBOOTOK $INSTDIR\DpgImgInjector.exe
     Delete /REBOOTOK $INSTDIR\*.pyd

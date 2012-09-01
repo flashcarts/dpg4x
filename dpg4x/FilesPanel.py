@@ -639,7 +639,7 @@ class FilesPanel(wx.Panel):
             ConfigurationManager.saveConfiguration()
             
             # Start encoding the files
-            Encoder.encode_files(files)
+            Encoder.gui_encode_files(files)
         # On error, warn the user
         except Exception, e:
             message = unicode(e.args[0])

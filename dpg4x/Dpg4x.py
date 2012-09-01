@@ -28,33 +28,12 @@ if not hasattr(sys, 'frozen'):
     wxversion.select(['2.8','2.9'])
 import wx
 
-import locale
-import gettext
 
 import MainFrame
 import Globals
-
-# Check if a gettext resource is available for the current LANG
-
-# If no env variable defined, assume that i18n files are located below the top directory
-i18n_dir = os.getenv('DPG4X_I18N')
-if not(i18n_dir):
-    i18n_dir = os.path.join(os.path.dirname(sys.argv[0]), "i18n")
-# gettext will search in default directories if no other path given
-if not os.path.isdir(i18n_dir):
-    i18n_dir = None
-                    
-if not gettext.find('dpg4x', i18n_dir) and sys.platform == 'win32':
-    # On Windows this fails every time, no default Language environment
-    # variables, but defaults to English.
-    # locale.getdefaultlocale() returns ('en_US', 'cp1252') could be useful.
-    os.environ['LANG']=locale.getdefaultlocale()[0]
-if not gettext.find('dpg4x', i18n_dir):
-    Globals.debug(u'WARNING: dpg4x is not available in your language, ' \
-                u'please help us to translate it.')
-    gettext.install('dpg4x', i18n_dir, unicode=True)
-else:
-    gettext.translation('dpg4x', i18n_dir).install(unicode=True)
+import DpgImgInjector
+import Dpg2Avi
+import Encoder
 
 modules ={u'AddDvdDialog': [0,
                    u'A dialog to add Dvd media sources.',
@@ -123,11 +102,50 @@ def checkDependencies():
             dialog.ShowModal()
             sys.exit(1)
 
+def checkArgs():
+    # optparse is deprecated in 2.7, but we might run on older Python versions
+    from optparse import OptionParser
+
+    usage = u'usage: %prog [options] file1 file2...   (starts GUI if no options)'
+    parser = OptionParser(usage=usage)
+    parser.add_option("-i", "--image", dest="image",
+                  help=u'image file to inject into DPG files', metavar="FILE",)
+    parser.add_option("", "--dpg",
+                  action="store_true", dest="dpg", default=False,
+                  help=u'convert files to DPG')
+    parser.add_option("", "--avi",
+                  action="store_true", dest="avi", default=False,
+                  help=u'convert DPG files to AVI, no transformation')
+
+    (options, args) = parser.parse_args()
+    if len(args)>0:
+        if options.image:
+            for a in args:
+                a = Globals.Decode(a)
+                Globals.debug(a)
+                DpgImgInjector.DpgInject(a,options.image,a)
+            return False
+        elif options.avi:
+            for a in args:
+                a = Globals.Decode(a)
+                Globals.debug(a)
+                Dpg2Avi.Dpg2Avi(a)
+            return False
+        elif options.dpg:
+            for a in args:
+                a = Globals.Decode(a)
+                Globals.debug(a)
+                Encoder.encode_files([a])
+            return False
+    return True
+
+
 # Main function
 if __name__ == '__main__':
-    firstExec = True
-    application = wx.App(redirect=False,clearSigInt=False)
+    Globals.SetupTranslation()
     checkDependencies()
+    firstExec = checkArgs() 
+    application = wx.App(redirect=False,clearSigInt=False)
     while firstExec or Globals.restart:
         # Reload the Globals module on restart
         if Globals.restart:

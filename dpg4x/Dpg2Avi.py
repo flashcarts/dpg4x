@@ -17,44 +17,13 @@
 
 import Globals
 
-import os
+import os.path
 import sys
-import locale
-import gettext
 import tempfile
 import struct
 import subprocess
 
-# Check if a gettext resource is available for the current LANG
-# If no env variable defined, assume that i18n files are located below the top directory
-i18n_dir = os.getenv('DPG4X_I18N')
-if not(i18n_dir):
-    i18n_dir = os.path.join(os.path.dirname(sys.argv[0]), "i18n")
-# gettext will search in default directories if no other path given
-if not os.path.isdir(i18n_dir):
-    i18n_dir = None
-                    
-if not gettext.find('dpg4x', i18n_dir) and sys.platform == 'win32':
-    os.environ['LANG']=locale.getdefaultlocale()[0]
-if not gettext.find('dpg4x', i18n_dir):
-    gettext.install('dpg4x', i18n_dir, unicode=True)
-else:
-    gettext.translation('dpg4x', i18n_dir).install(unicode=True)
-
-
-def Sysout(message):
-    "Shows a message in the standart output"
-    sys.stderr.write((message+"\n").encode(
-        sys.getfilesystemencoding(),'replace'))
-
-def Syserr(message):
-    "Shows a message in the error output"
-    sys.stderr.write((message+"\n").encode(
-        sys.getfilesystemencoding(),'replace'))
-
-# Main function
-if __name__ == '__main__':
-    
+def Dpg2Avi(inputN, outputN = None):
     # Variables used on error handling, they need to be declared
     fdInput = None
     fdAudio = None
@@ -63,37 +32,31 @@ if __name__ == '__main__':
     fdVideo_name = ""
     retval = 0
 
-    try:
-        
-        
-        # Check if mplayer is available
-        if not Globals.which('mencoder'):
-            message = _(u'%s not found in PATH. Please install it.') % 'mencoder'
-            # Show an error in the console
-            Syserr(_(u'ERROR') + ': ' + message)
-            sys.exit(1)
-        
-        # Check the input parameters
-        if len(sys.argv) != 3:
-            Syserr(_(u'ERROR: Incorrect number of parameters'))
-            Syserr(_(u'USAGE: dpg2avi input.dpg output.avi'))
-            sys.exit(1)
-            
-        # Check the input file
-        inputN = Globals.Decode(sys.argv[1])
+    if not outputN:
+        # Check if the file already exists and choose another
+        # We'll add a ~number at the end.
+        version = 1
+        outputN = inputN[:-4] + '.avi'
+        while os.path.exists(outputN):
+            if version == 1:
+                outputN = outputN[:-4] + '~' + str(version) + '.avi'
+            else:
+                outputN = outputN[:outputN.rfind('~')+1] + str(version) + '.avi'
+            version += 1       
+
+    try:      
         if not (os.path.isfile(inputN) and (os.access(inputN, os.R_OK))):
-            Syserr(_(u'ERROR: The file %s can not be read') % inputN)
+            Globals.debug(_(u'ERROR: The file %s can not be read') % inputN)
             sys.exit(1)
 
         # Check the output file and path
-        outputN = Globals.Decode(sys.argv[2])
         outPath = os.path.dirname(outputN)
         outPath = os.path.abspath(outPath)
         if os.path.isfile(outputN):
-            Syserr(_(u'ERROR: The file %s already exists') % outputN)
+            Globals.debug(_(u'ERROR: The file %s already exists') % outputN)
             sys.exit(1)
         if not os.access(outPath, os.W_OK):
-            Syserr(_(u'ERROR: The folder %s can not be written') % outPath)
+            Globals.debug(_(u'ERROR: The folder %s can not be written') % outPath)
             sys.exit(1)
             
         # Open input file
@@ -118,7 +81,7 @@ if __name__ == '__main__':
             
         # An exception in this code means the file is not DPG
         except Exception, e:
-            print(unicode(e.args[0]))
+            # print(unicode(e.args[0]))
             isDPGFile = False
             raise Exception(_(u'%s is not a valid DPG file') % inputN)
                 
@@ -137,7 +100,7 @@ if __name__ == '__main__':
             fdAudio.write(buffer)
             readed += bufferLenght
         fdAudio.flush()
-		# Windows won't let mencoder open the file twice -> close it
+        # Windows won't let mencoder open the file twice -> close it
         fdAudio_name = fdAudio.name
         fdAudio.close()
 
@@ -156,11 +119,11 @@ if __name__ == '__main__':
             fdVideo.write(buffer)
             readed += bufferLenght
         fdVideo.flush()
-		# Windows won't let mencoder open the file twice -> close it
+        # Windows won't let mencoder open the file twice -> close it
         fdVideo_name = fdVideo.name
         fdVideo.close()
  
-	    # Join audio and video with mencoder
+        # Join audio and video with mencoder
         mencoder_proc = subprocess.Popen(
             Globals.ListUnicodeEncode(['mencoder',fdVideo_name,'-audiofile',fdAudio_name,
             '-ffourcc','mpg1','-ovc','copy','-oac','copy','-o',outputN]),
@@ -169,11 +132,11 @@ if __name__ == '__main__':
         mencoder_output = mencoder_proc.communicate()[0]
         # Check the return process
         if mencoder_proc.wait() != 0:
-			raise Exception(_(u'ERROR ON MENCODER')+'\n\n'+mencoder_output)
+            raise Exception(_(u'ERROR ON MENCODER')+'\n\n'+mencoder_output)
             
     # Capture exceptions
     except Exception, e:
-            Syserr(_(u'ERROR') + ': ' + unicode(e.args[0]))
+            Globals.debug(_(u'ERROR') + ': ' + unicode(e.args[0]))
             retval = 1
     finally:
     # Close all the files, delete temporary ones
@@ -187,6 +150,29 @@ if __name__ == '__main__':
             fdVideo.close()
         if os.path.exists(fdVideo_name):
             os.unlink(fdVideo_name)
+    return retval
+
+# Main function
+if __name__ == '__main__':
+    Globals.SetupTranslation()
+
+    # Check if mplayer is available
+    if not Globals.which('mencoder'):
+        message = _(u'%s not found in PATH. Please install it.') % 'mencoder'
+        # Show an error in the console
+        Globals.debug(_(u'ERROR') + ': ' + message)
+        sys.exit(1)
+        
+    # Check the input parameters
+    if len(sys.argv) != 3:
+        Globals.debug(_(u'ERROR: Incorrect number of parameters'))
+        Globals.debug(_(u'USAGE: dpg2avi input.dpg output.avi'))
+        sys.exit(1)
+            
+    # Check the input file
+    inputN = Globals.Decode(sys.argv[1])
+    outputN = Globals.Decode(sys.argv[2])
+    retval = Dpg2Avi(inputN, outputN)
     
     # Exit
     sys.exit(retval)
