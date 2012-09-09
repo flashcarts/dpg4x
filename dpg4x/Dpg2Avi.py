@@ -1,4 +1,3 @@
-#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
 #----------------------------------------------------------------------------
@@ -151,28 +150,3 @@ def Dpg2Avi(inputN, outputN = None):
         if os.path.exists(fdVideo_name):
             os.unlink(fdVideo_name)
     return retval
-
-# Main function
-if __name__ == '__main__':
-    Globals.SetupTranslation()
-
-    # Check if mplayer is available
-    if not Globals.which('mencoder'):
-        message = _(u'%s not found in PATH. Please install it.') % 'mencoder'
-        # Show an error in the console
-        Globals.debug(_(u'ERROR') + ': ' + message)
-        sys.exit(1)
-        
-    # Check the input parameters
-    if len(sys.argv) != 3:
-        Globals.debug(_(u'ERROR: Incorrect number of parameters'))
-        Globals.debug(_(u'USAGE: dpg2avi input.dpg output.avi'))
-        sys.exit(1)
-            
-    # Check the input file
-    inputN = Globals.Decode(sys.argv[1])
-    outputN = Globals.Decode(sys.argv[2])
-    retval = Dpg2Avi(inputN, outputN)
-    
-    # Exit
-    sys.exit(retval)

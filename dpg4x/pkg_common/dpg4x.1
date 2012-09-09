@@ -11,19 +11,12 @@
 .
 dpg4x \- A GUI to encode videos into DPG format
 
-dpg2avi \- Converts DPG files to AVI files
-
-dpgimginjector \- Replaces the thumbnail image file embedded in a DPG file
 .
 .SH "SYNOPSIS"
 .
 .B dpg4x
+\fI[Options]\fR \fIfile1\fR \fI[file2]\fR \fI[...]\fR
 
-.B dpg2avi
-\fIinput_file.dpg\fR \fIoutput_file.avi\fR
-
-.B dpgimginjector
-\fIinput_file.dpg\fR \fIimage_file.xxx\fR \fI[output_file.dpg]\fR
 .
 .SH "DESCRIPTION"
 .
@@ -33,12 +26,13 @@ A DPG video is the video format that you need if you want to play movies on your
 Dpg4x relies on mplayer/mencoder to do it's work, so any video file playable
 with mplayer can be converted to DPG. 
 
-You can also encode the DPG video files to AVI format with the dpg2avi script, or
-replace the thumbnail image embedded in a DPG4 video with the dpgimginjector script.
+You can also encode the DPG video files to AVI format or replace the thumbnail image
+embedded in a DPG4 video using the command line options.
 .
 .SH "FEATURES"
  \- Simple GUI suitable for beginners.
  \- Includes lots of options for the advanced user.
+ \- Command line options to encode videos from batch jobs.
  \- Supports individual per-media settings when needed.
  \- Multiple DPG version support, from DPG0 to DPG4.
  \- Can process any video file playable by mplayer.
@@ -49,8 +43,6 @@ replace the thumbnail image embedded in a DPG4 video with the dpgimginjector scr
  \- Batch processing.
  \- Multiplatform.
  \- Multilanguage.
- \- The dpg2avi script can convert DPG files to AVI format.
- \- The dpgimginjector script can replace the thumbnail included in a DPG4 file.
 
 .SH "USAGE"
 .
@@ -136,29 +128,44 @@ check that everything is ok, just play the video file with mplayer (e.g. with
 the "Preview" button). As the last step, don't forget to switch to the SUBTITLES
 section and select "Auto" as the subtitles source.
 
-.TP
-.B The dpg2avi script
 .
-You can encode the DPG video files to AVI format with the dpg2avi script. To use
-the dpg2avi script, just set the DPG and AVI files as parameters. For example:
+.SH "OPTIONS"
+.
+.TP
+.B The --dpg option
+.
+You can encode the video files into DPG format with the --dpg option. For example:
 .br
-.I dpg2avi input_file.dpg output_file.avi
+.I dpg4x --dpg input_file.avi 
 
-The dpg2avi script does not re-enconde the video or the audio streams in the DPG
+This will create an DPG file called input_file.dpg or if that exists input_file~1.dpg.
+
+The --dpg option will consider the options that have been set from the GUI, and either
+use the default ones or, if defined, the individual settings for each input file.
+
+.TP
+.B The --avi option
+.
+You can encode the DPG video files to AVI format with the --avi option. For example:
+.br
+.I dpg4x --avi input_file.dpg 
+
+This will create an AVI file called input_file.avi or if that exists input_file~1.avi.
+
+The --avi option does not re-encode the video or the audio streams in the DPG
 file. It only performs changes in the container, so all the properties like
 framerate, video size, bitrates, quality, etc. will be the same.
 
 .TP
-.B The dpgimginjector script
+.B The --thumbnail option
 .
-The dpgimginjector script can replace the thumbnail embedded in a DPG file. Note
+The --thumbnail option can replace the thumbnail embedded in a DPG file. Note
 that files with DPG version 3 or less, cannot store a thumbnail.
 
-To use the script, you need to set the DPG and the image file. Optionally, you
-can set a different DPG file for output to preserve the original file. For
+To use the script, you need to set the image file. For
 example:
 .br
-.I dpgimginjector input_dpg_file.dpg image_file.png output_dpg_file.dpg
+.I dpg4x --thumbnail=image_file.png file.dpg 
 
 Most common image formats are supported: png, jpeg, gif, bmp, etc.
 .
@@ -177,7 +184,7 @@ settings are stored in a file named config.ini
 You can also reset all the configuration to the default values by pressing the
 "Reset to default" button in the MISC section.
 
-The dpg2avi does not read the dpg4x configuration files. It stores the temporary
+The --avi option does not read the dpg4x configuration files. It stores the temporary
 files in the output directory.
 .
 .SH "BUGS"

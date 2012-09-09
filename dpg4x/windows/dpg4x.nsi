@@ -3,7 +3,7 @@
 
 !define VERSION 2.3
 # Must contain four parts, used for internal comparisons of patch levels
-!define  VIProduct_Ver "${VERSION}.0.1.svn92"
+!define  VIProduct_Ver "${VERSION}.0.2.svn93"
 
 Name dpg4x
 # Needed because $(^Name) sometimes does not seem to expand correctly
@@ -189,12 +189,8 @@ Section /o -un.Main UNSEC0000
     RmDir /r /REBOOTOK $INSTDIR\icons
     RmDir /r /REBOOTOK $INSTDIR\dependencies    
     Delete /REBOOTOK $INSTDIR\*.dll
-    Delete /REBOOTOK $INSTDIR\w9xpopen.exe
     Delete /REBOOTOK $INSTDIR\library.zip
-    Delete /REBOOTOK $INSTDIR\Dpg4x.exe
-    Delete /REBOOTOK $INSTDIR\Dpg4xConsole.exe
-    Delete /REBOOTOK $INSTDIR\Dpg2avi.exe
-    Delete /REBOOTOK $INSTDIR\DpgImgInjector.exe
+    Delete /REBOOTOK $INSTDIR\*.exe
     Delete /REBOOTOK $INSTDIR\*.pyd
     Delete /REBOOTOK $INSTDIR\*.7z
     Delete /REBOOTOK $INSTDIR\*.log    

@@ -103,35 +103,51 @@ def checkDependencies():
             sys.exit(1)
 
 def checkArgs():
-    # optparse is deprecated in 2.7, but we might run on older Python versions
-    from optparse import OptionParser
+    usage=_(u"""Usage: dpg4x [options] file1 file2... (starts GUI if no options)
 
-    usage = u'usage: %prog [options] file1 file2...   (starts GUI if no options)'
-    parser = OptionParser(usage=usage)
-    parser.add_option("-i", "--image", dest="image",
-                  help=u'image file to inject into DPG files', metavar="FILE",)
-    parser.add_option("", "--dpg",
-                  action="store_true", dest="dpg", default=False,
-                  help=u'convert files to DPG')
-    parser.add_option("", "--avi",
-                  action="store_true", dest="avi", default=False,
-                  help=u'convert DPG files to AVI, no transformation')
+Options:
+  -h, --help        show this help message and exit
+  --thumbnail=FILE  Use image file as thumbnail in DPG files
+  --dpg             convert files to DPG, using settings from GUI
+  --avi             convert DPG files to AVI, no transformation
+""")
 
-    (options, args) = parser.parse_args()
+    # Naive parser because optparse does not support i18n
+    options_image = None
+    options_avi = False
+    options_dpg = False
+    args = []
+    for arg in sys.argv[1:]:
+        if arg == '--dpg':
+            options_dpg = True
+        elif arg == '--avi':
+            options_avi = True
+        elif arg.startswith('--thumbnail='): 
+            options_image = arg.split('=')[1]
+        elif arg == '-h' or arg == '--help':
+            Globals.debug(usage)
+            return False
+        elif arg.startswith('-'):
+            Globals.debug(_(u'Non supported option: %s') % arg)
+            Globals.debug(usage)
+            return False                
+        else:
+            args += [arg]
+
     if len(args)>0:
-        if options.image:
+        if options_image:
             for a in args:
                 a = Globals.Decode(a)
                 Globals.debug(a)
-                DpgImgInjector.DpgInject(a,options.image,a)
+                DpgImgInjector.DpgInject(a,options_image,a)
             return False
-        elif options.avi:
+        elif options_avi:
             for a in args:
                 a = Globals.Decode(a)
                 Globals.debug(a)
                 Dpg2Avi.Dpg2Avi(a)
             return False
-        elif options.dpg:
+        elif options_dpg:
             for a in args:
                 a = Globals.Decode(a)
                 Globals.debug(a)

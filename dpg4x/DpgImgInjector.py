@@ -1,4 +1,3 @@
-#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
 #----------------------------------------------------------------------------
@@ -102,23 +101,3 @@ def DpgInject(inputN, imageN, outputN):
             fdImage.close()
         Globals.clearTemporary()
     return 0
-
-# Main function
-if __name__ == '__main__':
-    Globals.SetupTranslation()
-
-    # Check the input parameters
-    if (len(sys.argv) < 3 or len(sys.argv) > 4):
-        Globals.debug(_(u'ERROR: Incorrect number of parameters'))
-        Globals.debug(_(u'USAGE: dpgimginjector input.dpg newimage.xxx [output.dpg]'))
-        sys.exit(1)
-
-    inputN = Globals.Decode(sys.argv[1])
-    imageN = Globals.Decode(sys.argv[2])
-    if len(sys.argv) == 4:
-        outputN = Globals.Decode(sys.argv[3])
-    else:
-        outputN = inputN
-        
-    retval = DpgInject(inputN, imageN, outputN)
-    sys.exit(retval)

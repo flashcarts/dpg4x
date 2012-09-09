@@ -1,7 +1,7 @@
 Name: dpg4x
 Version: 2.3
 # Release: 1%{?dist}
-Release: 0.1.svn92%{?dist}
+Release: 0.2.svn93%{?dist}
 License: GPLv3
 Summary: GUI to encode files into the DPG video format
 Url: http://sourceforge.net/projects/dpg4x
@@ -32,6 +32,7 @@ Nintendo DS.
 Features:
  - Simple GUI suitable for beginners.
  - Includes lots of options for the advanced user.
+ - Command line options to encode videos from batch jobs.
  - Supports individual per-media settings when needed.
  - Multiple DPG version support, from DPG0 to DPG4.
  - Can process any video file playable by mplayer.
@@ -42,9 +43,7 @@ Features:
  - Batch processing.
  - Multiplatform.
  - Multilanguage.
- - The dpg2avi script can convert DPG files to AVI format.
- - The dpgimginjector script can replace the thumbnail image in a DPG file.
-
+ 
 # The sourceForge tar files has '_' instead of '-', require -n tag
 %prep
 %setup -q -n %{name}_%{version}
@@ -62,8 +61,6 @@ python pkg_common/setup.py install -O1 --root=%{buildroot} --prefix=%{_prefix}
 # man pages
 mkdir -p %{buildroot}%{_mandir}/man1
 cp -p pkg_common/dpg4x.1 %{buildroot}%{_mandir}/man1
-ln -sf %{_mandir}/man1/%{name}.1.gz %{buildroot}%{_mandir}/man1/dpg2avi.1.gz
-ln -sf %{_mandir}/man1/%{name}.1.gz %{buildroot}%{_mandir}/man1/dpgimginjector.1.gz
 
 # translations
 mkdir -p %{buildroot}/usr/share/locale/es/LC_MESSAGES
@@ -106,8 +103,6 @@ cp -a pkg_common/%{name}.xpm %{buildroot}/usr/share/pixmaps
 
 # Set exec flag on files that can be run directly (those with shebangs)
 chmod 755  %{buildroot}/usr/share/dpg4x/Dpg4x.py
-chmod 755  %{buildroot}/usr/share/dpg4x/DpgImgInjector.py
-chmod 755  %{buildroot}/usr/share/dpg4x/Dpg2Avi.py 
 
 # Make sure the icon cache is up to date
 %post
@@ -136,10 +131,11 @@ rm -rf %{buildroot}
 %{_mandir}/man1/*
 
 %changelog 
-* Sat Sep 01 2012 Tomas Aronsson <d0malaga@users.sourceforge.net> - 2.3-0.1.svn-92
+* Sun Sep 09 2012 Tomas Aronsson <d0malaga@users.sourceforge.net> - 2.3-0.2.svn-93
 — Preliminary build preparing for 2.3 release
-- Added French translation
 - Included latest trunk changes in svn-91 for using dpg4x without a GUI
+- Removed Dpg2Avi and DpgImginjector scripts, now included in dpg4x
+- Added French translation
 * Sat Aug 27 2011 Tomas Aronsson <d0malaga@users.sourceforge.net> - 2.2-1
 — Updates for packaging dpg4x v2.2.
 - Added dpgimginjector and PIL dependency 
