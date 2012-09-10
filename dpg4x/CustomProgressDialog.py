@@ -14,7 +14,6 @@
 #----------------------------------------------------------------------------
 
 import wx
-import Globals 
 
 [wxID_DIALOG1, wxID_DIALOG1BUTTON1, wxID_DIALOG1GAUGE1, wxID_DIALOG1GAUGE2, 
  wxID_DIALOG1STATICTEXT1, wxID_DIALOG1STATICTEXT2, 

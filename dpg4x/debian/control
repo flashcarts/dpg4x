@@ -20,6 +20,7 @@ Description: GUI to encode files into the DPG video format
  It features:
   - Simple GUI suitable for beginners.
   - Includes lots of options for the advanced user.
+  - Command line options to encode videos from batch jobs.
   - Supports individual per-media settings when needed.
   - Multiple DPG version support, from DPG0 to DPG4.
   - Can process any video file playable by mplayer.
@@ -30,5 +31,3 @@ Description: GUI to encode files into the DPG video format
   - Batch processing.
   - Multiplatform.
   - Multilanguage.
-  - The dpg2avi script can convert DPG files to AVI format.
-  - The dpgimginjector script can replace the thumbnail included in a DPG4 file.

@@ -1000,8 +1000,9 @@ def encode_files(files, iprogress = None):
                 frames, gopSize = mpeg_stat(filename)
             # If mpeg_stat not available, we'll try an alternate way
             else:
-                Globals.debug(_(u'WARNING: mpeg_stat not found. The extraction' \
-                    u' of header offsets will be slower.'))
+                # Warning disabled - mpeg_stat seems to be dead
+                #Globals.debug(_(u'WARNING: mpeg_stat not found. The extraction' \
+                #    u' of header offsets will be slower.'))
                 frames, gopSize = alternative_mpeg_stat(filename)
             # With dpg version >= 4, we can use thumbnails
             if Globals.dpg_version >= 4:
