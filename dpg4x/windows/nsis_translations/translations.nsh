@@ -8,7 +8,7 @@
 !insertmacro MUI_LANGUAGE Catalan
 
 # Custom translations for setup
-!insertmacro LANGFILE_INCLUDE "nsis_translations\english.nsh"
-!insertmacro LANGFILE_INCLUDE "nsis_translations\catalan.nsh"
-!insertmacro LANGFILE_INCLUDE "nsis_translations\spanish.nsh"
-!insertmacro LANGFILE_INCLUDE "nsis_translations\swedish.nsh"
+!insertmacro LANGFILE_INCLUDE "nsis_translations\English.nsh"
+!insertmacro LANGFILE_INCLUDE "nsis_translations\Spanish.nsh"
+!insertmacro LANGFILE_INCLUDE "nsis_translations\Swedish.nsh"
+!insertmacro LANGFILE_INCLUDE "nsis_translations\Catalan.nsh"
