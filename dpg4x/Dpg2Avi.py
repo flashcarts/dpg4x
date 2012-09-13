@@ -45,7 +45,7 @@ def Dpg2Avi(inputN, outputN = None):
 
     try:      
         if not (os.path.isfile(inputN) and (os.access(inputN, os.R_OK))):
-            Globals.debug(_(u'ERROR: The file %s can not be read') % inputN)
+            Globals.debug(_(u'ERROR: The file %s cannot be read') % inputN)
             sys.exit(1)
 
         # Check the output file and path
@@ -55,7 +55,7 @@ def Dpg2Avi(inputN, outputN = None):
             Globals.debug(_(u'ERROR: The file %s already exists') % outputN)
             sys.exit(1)
         if not os.access(outPath, os.W_OK):
-            Globals.debug(_(u'ERROR: The folder %s can not be written') % outPath)
+            Globals.debug(_(u'ERROR: The folder %s cannot be written') % outPath)
             sys.exit(1)
             
         # Open input file
@@ -87,17 +87,17 @@ def Dpg2Avi(inputN, outputN = None):
         # Extract the audio data
         fdAudio = tempfile.NamedTemporaryFile(prefix='.dpg2avi', dir=outPath, delete=False)
         fdInput.seek(audioStart, os.SEEK_SET)
-        readed = 0
-        while readed < audioLenght:
+        v_read = 0
+        while v_read < audioLenght:
             # Max buffer lenght
             bufferLenght = 1024
-            remain = audioLenght - readed
+            remain = audioLenght - v_read
             # Adjut the buffer lenght
             if bufferLenght > remain:
                 bufferLenght = remain
             buffer = fdInput.read(bufferLenght)
             fdAudio.write(buffer)
-            readed += bufferLenght
+            v_read += bufferLenght
         fdAudio.flush()
         # Windows won't let mencoder open the file twice -> close it
         fdAudio_name = fdAudio.name
@@ -106,17 +106,17 @@ def Dpg2Avi(inputN, outputN = None):
         # Extract the video data
         fdVideo = tempfile.NamedTemporaryFile(prefix='.dpg2avi', dir=outPath, delete=False)
         fdInput.seek(videoStart, os.SEEK_SET)
-        readed = 0
-        while readed < videoLenght:
+        v_read = 0
+        while v_read < videoLenght:
             # Max buffer lenght
             bufferLenght = 1024
-            remain = videoLenght - readed
+            remain = videoLenght - v_read
             # Adjut the buffer lenght
             if bufferLenght > remain:
                 bufferLenght = remain
             buffer = fdInput.read(bufferLenght)
             fdVideo.write(buffer)
-            readed += bufferLenght
+            v_read += bufferLenght
         fdVideo.flush()
         # Windows won't let mencoder open the file twice -> close it
         fdVideo_name = fdVideo.name

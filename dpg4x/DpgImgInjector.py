@@ -28,20 +28,20 @@ def DpgInject(inputN, imageN, outputN):
 
     try:
         if not (os.path.isfile(inputN) and (os.access(inputN, os.R_OK))):
-            Globals.debug(_(u'ERROR: The file %s can not be read') % inputN)
+            Globals.debug(_(u'ERROR: The file %s cannot be read') % inputN)
             return 1
 
         if not (os.path.isfile(imageN) and (os.access(imageN, os.R_OK))):
-            Globals.debug(_(u'ERROR: The file %s can not be read') % imageN)
+            Globals.debug(_(u'ERROR: The file %s cannot be read') % imageN)
             return 1
 
         outPath = os.path.dirname(outputN)
         outPath = os.path.abspath(outPath)
         if (os.path.isfile(outputN) and (not os.access(outputN, os.W_OK))):
-            Globals.debug(_(u'ERROR: The file %s can not be written') % outputN)
+            Globals.debug(_(u'ERROR: The file %s cannot be written') % outputN)
             return 1
         if not os.access(outPath, os.W_OK):
-            Globals.debug(_(u'ERROR: The folder %s can not be written') % outPath)
+            Globals.debug(_(u'ERROR: The folder %s cannot be written') % outPath)
             return 1
 
         # Copy file if not modifying input
@@ -63,7 +63,7 @@ def DpgInject(inputN, imageN, outputN):
                     'file, but version 4 or better is required') % 
                     {"file": inputN, "version": versionStr[3]})
 
-        # If the version cannot be readed, the file is not a valid DPG file
+        # If the version cannot be read, the file is not a valid DPG file
         except Exception, e:
             if knownError:
                 raise e

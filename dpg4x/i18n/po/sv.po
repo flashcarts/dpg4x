@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DPG for X\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-08-25 16:44+0200\n"
+"POT-Creation-Date: 2012-09-13 20:18+0200\n"
 "PO-Revision-Date: 2011-08-25 16:53+0200\n"
 "Last-Translator: Félix Medrano <xukosky@yahoo.es>\n"
 "Language-Team: Spanish <>\n"
@@ -44,11 +44,11 @@ msgid "Last"
 msgstr "Sista"
 
 #: AddDvdDialog.py:147
-msgid "The last chapter can not be lower than the first."
+msgid "The last chapter cannot be lower than the first."
 msgstr "Det sista kapitlet kan inte vara större än det första"
 
-#: AddDvdDialog.py:148 Dpg2Avi.py:73 Dpg2Avi.py:176 Dpg4x.py:120 Dpg4x.py:122
-#: DpgImgInjector.py:150 FilesPanel.py:379 FilesPanel.py:403 FilesPanel.py:413
+#: AddDvdDialog.py:148 Dpg2Avi.py:138 Dpg4x.py:99 Dpg4x.py:101
+#: DpgImgInjector.py:94 FilesPanel.py:379 FilesPanel.py:403 FilesPanel.py:413
 #: FilesPanel.py:417 FilesPanel.py:429 FilesPanel.py:451 FilesPanel.py:455
 #: FilesPanel.py:467 FilesPanel.py:477 FilesPanel.py:481 FilesPanel.py:493
 #: FilesPanel.py:510 FilesPanel.py:512 FilesPanel.py:523 FilesPanel.py:650
@@ -92,81 +92,85 @@ msgid "Auto Audio Track"
 msgstr "Välj spår automatiskt"
 
 #: ConfigurationManager.py:109
-msgid "Can't save user configuration:"
+msgid "Cannot save user configuration:"
 msgstr "Kan ej spara användarprofil:"
 
-#: CustomProgressDialog.py:50
+#: CustomProgressDialog.py:80
 msgid "ENCODING"
 msgstr "Kodning pågår"
 
-#: CustomProgressDialog.py:68
+#: CustomProgressDialog.py:98
 msgid "Abort"
 msgstr "Avbryt"
 
-#: CustomProgressDialog.py:92 Encoder.py:50
+#: CustomProgressDialog.py:122 Encoder.py:49
 msgid "Starting encoding process"
 msgstr "Starta kodningsjobb"
 
-#: CustomProgressDialog.py:93 CustomProgressDialog.py:119
+#: CustomProgressDialog.py:123 CustomProgressDialog.py:149
 #, python-format
 msgid "Overall progress - %s files remain"
 msgstr "Kodning pågår - %s filer kvar"
 
-#: CustomProgressDialog.py:138
+#: CustomProgressDialog.py:168
 msgid "Do you want to abort the encoding process?"
 msgstr "Vill du avsluta kodningen?"
 
-#: CustomProgressDialog.py:138 OtherPanel.py:240
+#: CustomProgressDialog.py:168 OtherPanel.py:240
 msgid "QUESTION"
 msgstr "FRÅGA"
 
-#: Dpg2Avi.py:71 Dpg4x.py:118
+#: Dpg2Avi.py:48 DpgImgInjector.py:31 DpgImgInjector.py:35
 #, python-format
-msgid "%s not found in PATH. Please install it."
-msgstr "%s finns ej i sökvägen. Behöver installeras"
-
-#: Dpg2Avi.py:78 DpgImgInjector.py:67
-msgid "ERROR: Incorrect number of parameters"
-msgstr "FEL: felaktigt antal parametrar"
-
-#: Dpg2Avi.py:79
-msgid "USAGE: dpg2avi input.dpg output.avi"
-msgstr "Användning: dpg2avi indata.dpg utdata.avi"
-
-#: Dpg2Avi.py:85 DpgImgInjector.py:74 DpgImgInjector.py:80
-#, python-format
-msgid "ERROR: The file %s can not be read"
+msgid "ERROR: The file %s cannot be read"
 msgstr "FEL: Filen %s kan inte läsas"
 
-#: Dpg2Avi.py:93
+#: Dpg2Avi.py:55
 #, python-format
 msgid "ERROR: The file %s already exists"
 msgstr "FEL: Filen %s finns redan"
 
-#: Dpg2Avi.py:96 DpgImgInjector.py:93
+#: Dpg2Avi.py:58 DpgImgInjector.py:44
 #, python-format
-msgid "ERROR: The folder %s can not be written"
+msgid "ERROR: The folder %s cannot be written"
 msgstr "FEL: Kan ej skriva till katalogen %s"
 
-#: Dpg2Avi.py:123 DpgImgInjector.py:123
+#: Dpg2Avi.py:85 DpgImgInjector.py:71
 #, python-format
 msgid "%s is not a valid DPG file"
 msgstr "%s är inte någon giltig DPG-fil"
 
-#: Dpg2Avi.py:172 Encoder.py:291 Encoder.py:328 Encoder.py:496 Previewer.py:65
+#: Dpg2Avi.py:134 Encoder.py:290 Encoder.py:327 Encoder.py:495 Previewer.py:65
 msgid "ERROR ON MENCODER"
 msgstr "Internt fel i mencoder"
 
-#: DpgImgInjector.py:68
-msgid "USAGE: dpgimginjector input.dpg newimage.xxx [output.dpg]"
-msgstr "Användning: dpgimginjector original.dpg ny-bild.xxx [resultat.dpg]"
-
-#: DpgImgInjector.py:90
+#: Dpg4x.py:97
 #, python-format
-msgid "ERROR: The file %s can not be written"
+msgid "%s not found in PATH. Please install it."
+msgstr "%s finns ej i sökvägen. Behöver installeras"
+
+#: Dpg4x.py:106
+msgid ""
+"Usage: dpg4x [options] file1 file2... (starts GUI if no options)\n"
+"\n"
+"Options:\n"
+"  -h, --help        show this help message and exit\n"
+"  --thumbnail=FILE  use image file as thumbnail in DPG files\n"
+"  --dpg             convert files to DPG, using settings from GUI\n"
+"  --avi             convert DPG files to AVI, no transformation\n"
+msgstr ""
+
+#: Dpg4x.py:131
+#, python-format
+msgid "Non supported option: %s"
+msgstr ""
+
+#: DpgImgInjector.py:41
+#, python-format
+msgid "ERROR: The file %s cannot be written"
 msgstr "FEL: Kan ej skriva till filen %s"
 
-#: DpgImgInjector.py:114
+#: DpgImgInjector.py:62
 #, python-format
 msgid ""
 "%(file)s is a DPG version %(version)s file, but version 4 or better is "
@@ -174,56 +178,49 @@ msgid ""
 msgstr ""
 "%(file)s är kodad som DPG-version %(version)s, men måste vara 4 eller senare"
 
-#: Encoder.py:53 Encoder.py:287 Encoder.py:324 Encoder.py:576 Encoder.py:629
-#: Encoder.py:692 Encoder.py:833 Encoder.py:949 Encoder.py:969 Encoder.py:1023
-msgid "Process aborted by the user."
+#: Encoder.py:52 Encoder.py:286 Encoder.py:323 Encoder.py:575 Encoder.py:628
+#: Encoder.py:691 Encoder.py:837 Encoder.py:976 Encoder.py:996 Encoder.py:1051
+msgid "Process aborted by user."
 msgstr "Process avbruten av användare"
 
-#: Encoder.py:76 Encoder.py:439 Encoder.py:469 Encoder.py:552 Encoder.py:716
-#: Encoder.py:730 Previewer.py:82 Previewer.py:125 Previewer.py:155
+#: Encoder.py:75 Encoder.py:438 Encoder.py:468 Encoder.py:551 Encoder.py:715
+#: Encoder.py:729 Previewer.py:82 Previewer.py:125 Previewer.py:155
 msgid "ERROR ON MPLAYER"
 msgstr "Internt fel i mplayer"
 
-#: Encoder.py:276 Encoder.py:316 Encoder.py:966
+#: Encoder.py:275 Encoder.py:315 Encoder.py:993
 msgid "Encoding in progress"
 msgstr "Kodning pågår"
 
-#: Encoder.py:368 Encoder.py:410 Encoder.py:493 Encoder.py:549
+#: Encoder.py:367 Encoder.py:409 Encoder.py:492 Encoder.py:548
 msgid "Audio encoding stopped"
 msgstr "Ljudkodning stoppad"
 
-#: Encoder.py:371
+#: Encoder.py:370
 msgid "ERROR ON SOX"
 msgstr "Internt fel i sox"
 
-#: Encoder.py:573 Encoder.py:626
+#: Encoder.py:572 Encoder.py:625
 msgid "Generating GOP offsets"
 msgstr "Skapar GOP-punkter"
 
-#: Encoder.py:589 Encoder.py:616
+#: Encoder.py:588 Encoder.py:615
 msgid "ERROR ON MPEG_STAT"
 msgstr "Internt fel i mpeg_stat"
 
-#: Encoder.py:689
+#: Encoder.py:688
 msgid "Generating thumbnail"
 msgstr "Skapar miniatyrer"
 
-#: Encoder.py:830
+#: Encoder.py:834
 msgid "Generating header"
 msgstr "Skapar filhuvud"
 
-#: Encoder.py:946
+#: Encoder.py:973
 msgid "Finishing encoding process"
 msgstr "Avslutar kodningsjobb"
 
-#: Encoder.py:976
-msgid ""
-"WARNING: mpeg_stat not found. The extraction of header offsets will be "
-"slower."
-msgstr ""
-"Varning: mpeg_stat kan ej hittas. Analys av videon kommer att bli långsammare"
-
-#: Encoder.py:1020
+#: Encoder.py:1048
 msgid "Writing video file"
 msgstr "Skriver videofil"
 
@@ -327,7 +324,7 @@ msgstr "Välj en mediakälla"
 
 #: FilesPanel.py:584 MediaOtherPanel.py:279
 msgid ""
-"With extra high quality, the video FPS can not be lower than 24. Raising "
+"With extra high quality, the video FPS cannot be lower than 24. Raising "
 "video FPS to 24."
 msgstr "Med extra hög kvalite kan video FPS inte vara så lågt, ökar till 24"
 
@@ -338,7 +335,7 @@ msgstr "VARNING"
 
 #: FilesPanel.py:619
 #, python-format
-msgid "Can not read file %s."
+msgid "Cannot read file %s."
 msgstr "Kan inte läsa filen %s"
 
 #: FilesPanel.py:626
@@ -349,7 +346,7 @@ msgstr "Det finns inga mediakällor att bearbeta"
 msgid "ENCODING ERROR"
 msgstr "Fel vid kodning"
 
-#: Globals.py:368
+#: Globals.py:397
 msgid "WARNING: Temporary files were not properly deleted:"
 msgstr "VARNING: kunde ej ta bort tillfälliga filer:"
 
@@ -417,7 +414,7 @@ msgid "Select a thumbnail file"
 msgstr "Välj en miniatyrfil"
 
 #: MediaOtherPanel.py:304 OtherPanel.py:195
-msgid "The output folder can not be written. Please select another one."
+msgid "The output folder cannot be written. Please select another one."
 msgstr "Kan ej skriva till resultatkatalogen. Var god välj en annan katalog."
 
 #: MediaOtherPanel.py:311 OtherPanel.py:202
@@ -429,15 +426,15 @@ msgstr "Om du vill avkoda en DVD eller VCD måste du välja en resultatkatalog"
 #: MediaOtherPanel.py:317 OtherPanel.py:208
 #, python-format
 msgid ""
-"The folder %s can not be written. Please select an output folder in \"MISC\"."
+"The folder %s cannot be written. Please select an output folder in \"MISC\"."
 msgstr "Kan ej skriva till katalogen %s. Var god välj en annan katalog. "
 
 #: MediaOtherPanel.py:324 OtherPanel.py:215
-msgid "The temporary folder can not be written. Please select another one."
+msgid "The temporary folder cannot be written. Please select another one."
 msgstr "Kan ej skriva till temporärkatalogen. Var god välj en annan katalog."
 
 #: MediaOtherPanel.py:332 OtherPanel.py:223
-msgid "The thumbnail file can not be readed."
+msgid "The thumbnail file cannot be read."
 msgstr "Kan ej läsa fil med miniatyrbilder"
 
 #: MediaOtherPanel.py:336 OtherPanel.py:227
@@ -493,7 +490,7 @@ msgid "Select the subtitles font"
 msgstr "Välj font för undertexter"
 
 #: MediaSubtitlesPanel.py:270 SubtitlesPanel.py:250
-msgid "The subtitles file can not be readed."
+msgid "The subtitles file cannot be read."
 msgstr "Kan ej läsa filen med undertexter"
 
 #: MediaVideoPanel.py:86 VideoPanel.py:72
@@ -549,3 +546,18 @@ msgstr ""
 msgid "Information about %s"
 msgstr "Information om %s"
 
+#~ msgid "ERROR: Incorrect number of parameters"
+#~ msgstr "FEL: felaktigt antal parametrar"
+
+#~ msgid "USAGE: dpg2avi input.dpg output.avi"
+#~ msgstr "Användning: dpg2avi indata.dpg utdata.avi"
+
+#~ msgid "USAGE: dpgimginjector input.dpg newimage.xxx [output.dpg]"
+#~ msgstr "Användning: dpgimginjector original.dpg ny-bild.xxx [resultat.dpg]"
+
+#~ msgid ""
+#~ "WARNING: mpeg_stat not found. The extraction of header offsets will be "
+#~ "slower."
+#~ msgstr ""
+#~ "Varning: mpeg_stat kan ej hittas. Analys av videon kommer att bli "
+#~ "långsammare"

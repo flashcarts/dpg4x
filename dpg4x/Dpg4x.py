@@ -107,7 +107,7 @@ def checkArgs():
 
 Options:
   -h, --help        show this help message and exit
-  --thumbnail=FILE  Use image file as thumbnail in DPG files
+  --thumbnail=FILE  use image file as thumbnail in DPG files
   --dpg             convert files to DPG, using settings from GUI
   --avi             convert DPG files to AVI, no transformation
 """)

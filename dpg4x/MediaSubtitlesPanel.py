@@ -264,10 +264,10 @@ class MediaSubtitlesPanel(wx.Panel):
         # If subtitles file selected
         elif Globals.subtitles_source == 'file':
             Globals.subtitles_file = self.textCtrl1.GetValue()
-            # Check the subtitles file can be readed
+            # Check the subtitles file can be read
             if not (os.path.isfile(Globals.subtitles_file) and os.access(
                 Globals.subtitles_file, os.R_OK)):
-                raise Exception(_(u'The subtitles file can not be readed.'))
+                raise Exception(_(u'The subtitles file cannot be read.'))
         # Get also fonts and encoding
         Globals.subtitles_font = self.textCtrl2.GetValue()
         Globals.subtitles_encoding = self.choice1.GetValue()

@@ -144,7 +144,7 @@ class AddDvdDialog(wx.Dialog):
         # Check that the last chapter is higher than the first
         if self.checkBox1.IsChecked():
             if self.spinCtrl2.GetValue() > self.spinCtrl3.GetValue():
-                message = _(u'The last chapter can not be lower than the first.')
+                message = _(u'The last chapter cannot be lower than the first.')
                 dialog = wx.MessageDialog(self, message, _(u'ERROR'), 
                     style=wx.OK|wx.ICON_ERROR)
                 dialog.ShowModal()

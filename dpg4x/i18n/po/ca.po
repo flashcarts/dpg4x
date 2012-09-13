@@ -1,22 +1,22 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
-# 
+#
 #   <xukosky@yahoo.es>, 2011.
 # Félix Medrano <xukosky@yahoo.es>, 2011.
 # el_libre como el chaval <el.libre@gmail.com>, 2011.
 msgid ""
 msgstr ""
 "Project-Id-Version: DPG for X\n"
-"Report-Msgid-Bugs-To: http://sourceforge.net/tracker/?group_id=302222&atid=1274260\n"
-"POT-Creation-Date: 2011-08-25 16:44+0200\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2012-09-13 20:18+0200\n"
 "PO-Revision-Date: 2011-09-05 12:40+0000\n"
 "Last-Translator: el_libre <el.libre@gmail.com>\n"
 "Language-Team: Catalan (http://www.transifex.net/projects/p/dpg4x/team/ca/)\n"
+"Language: ca\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: ca\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
 
 #: AddDvdDialog.py:62 FilesPanel.py:134
@@ -44,11 +44,11 @@ msgid "Last"
 msgstr "Última"
 
 #: AddDvdDialog.py:147
-msgid "The last chapter can not be lower than the first."
+msgid "The last chapter cannot be lower than the first."
 msgstr "L'últim capítol no pot ser menor que el primer."
 
-#: AddDvdDialog.py:148 Dpg2Avi.py:73 Dpg2Avi.py:176 Dpg4x.py:120 Dpg4x.py:122
-#: DpgImgInjector.py:150 FilesPanel.py:379 FilesPanel.py:403 FilesPanel.py:413
+#: AddDvdDialog.py:148 Dpg2Avi.py:138 Dpg4x.py:99 Dpg4x.py:101
+#: DpgImgInjector.py:94 FilesPanel.py:379 FilesPanel.py:403 FilesPanel.py:413
 #: FilesPanel.py:417 FilesPanel.py:429 FilesPanel.py:451 FilesPanel.py:455
 #: FilesPanel.py:467 FilesPanel.py:477 FilesPanel.py:481 FilesPanel.py:493
 #: FilesPanel.py:510 FilesPanel.py:512 FilesPanel.py:523 FilesPanel.py:650
@@ -92,140 +92,136 @@ msgid "Auto Audio Track"
 msgstr "Auto pista d'àudio"
 
 #: ConfigurationManager.py:109
-msgid "Can't save user configuration:"
+msgid "Cannot save user configuration:"
 msgstr "No es pot desar la configuració de l'usuari/a:"
 
-#: CustomProgressDialog.py:50
+#: CustomProgressDialog.py:80
 msgid "ENCODING"
 msgstr "CODIFICACIÓ"
 
-#: CustomProgressDialog.py:68
+#: CustomProgressDialog.py:98
 msgid "Abort"
 msgstr "Avorta"
 
-#: CustomProgressDialog.py:92 Encoder.py:50
+#: CustomProgressDialog.py:122 Encoder.py:49
 msgid "Starting encoding process"
 msgstr "Iniciant el procés de codificació"
 
-#: CustomProgressDialog.py:93 CustomProgressDialog.py:119
+#: CustomProgressDialog.py:123 CustomProgressDialog.py:149
 #, python-format
 msgid "Overall progress - %s files remain"
 msgstr "Progrés General - Queden %s arxius"
 
-#: CustomProgressDialog.py:138
+#: CustomProgressDialog.py:168
 msgid "Do you want to abort the encoding process?"
 msgstr "Vols avortar el procés de codificació?"
 
-#: CustomProgressDialog.py:138 OtherPanel.py:240
+#: CustomProgressDialog.py:168 OtherPanel.py:240
 msgid "QUESTION"
 msgstr "PREGUNTA"
 
-#: Dpg2Avi.py:71 Dpg4x.py:118
+#: Dpg2Avi.py:48 DpgImgInjector.py:31 DpgImgInjector.py:35
 #, python-format
-msgid "%s not found in PATH. Please install it."
-msgstr "No s'ha trobat %s a PATH. Si us plau, instal·la'l."
-
-#: Dpg2Avi.py:78 DpgImgInjector.py:67
-msgid "ERROR: Incorrect number of parameters"
-msgstr "ERROR: Nombre incorrecte de paràmetres"
-
-#: Dpg2Avi.py:79
-msgid "USAGE: dpg2avi input.dpg output.avi"
-msgstr "ÚS: dpg2avi entrada.dpg sortida.avi"
-
-#: Dpg2Avi.py:85 DpgImgInjector.py:74 DpgImgInjector.py:80
-#, python-format
-msgid "ERROR: The file %s can not be read"
+msgid "ERROR: The file %s cannot be read"
 msgstr "ERROR: El fitxer %s no es pot llegir"
 
-#: Dpg2Avi.py:93
+#: Dpg2Avi.py:55
 #, python-format
 msgid "ERROR: The file %s already exists"
 msgstr "ERROR: El fitxer %s ja existeix"
 
-#: Dpg2Avi.py:96 DpgImgInjector.py:93
+#: Dpg2Avi.py:58 DpgImgInjector.py:44
 #, python-format
-msgid "ERROR: The folder %s can not be written"
+msgid "ERROR: The folder %s cannot be written"
 msgstr "ERROR: La carpeta %s no es pot escriure"
 
-#: Dpg2Avi.py:123 DpgImgInjector.py:123
+#: Dpg2Avi.py:85 DpgImgInjector.py:71
 #, python-format
 msgid "%s is not a valid DPG file"
 msgstr "%s no és un arxiu DPG vàlid"
 
-#: Dpg2Avi.py:172 Encoder.py:291 Encoder.py:328 Encoder.py:496 Previewer.py:65
+#: Dpg2Avi.py:134 Encoder.py:290 Encoder.py:327 Encoder.py:495 Previewer.py:65
 msgid "ERROR ON MENCODER"
 msgstr "ERROR A MENCODER"
 
-#: DpgImgInjector.py:68
-msgid "USAGE: dpgimginjector input.dpg newimage.xxx [output.dpg]"
-msgstr "ÚS: dpgimginjector entrada.dpg novaimatge.xxx [sortida.dpg]"
-
-#: DpgImgInjector.py:90
+#: Dpg4x.py:97
 #, python-format
-msgid "ERROR: The file %s can not be written"
+msgid "%s not found in PATH. Please install it."
+msgstr "No s'ha trobat %s a PATH. Si us plau, instal·la'l."
+
+#: Dpg4x.py:106
+msgid ""
+"Usage: dpg4x [options] file1 file2... (starts GUI if no options)\n"
+"\n"
+"Options:\n"
+"  -h, --help        show this help message and exit\n"
+"  --thumbnail=FILE  use image file as thumbnail in DPG files\n"
+"  --dpg             convert files to DPG, using settings from GUI\n"
+"  --avi             convert DPG files to AVI, no transformation\n"
+msgstr ""
+
+#: Dpg4x.py:131
+#, python-format
+msgid "Non supported option: %s"
+msgstr ""
+
+#: DpgImgInjector.py:41
+#, python-format
+msgid "ERROR: The file %s cannot be written"
 msgstr "ERROR: El fitxer %s no es pot escriure"
 
-#: DpgImgInjector.py:114
+#: DpgImgInjector.py:62
 #, python-format
 msgid ""
 "%(file)s is a DPG version %(version)s file, but version 4 or better is "
 "required"
 msgstr ""
-"%(file)s és un arxiu de versió DPG %(version)s ,però la versió 4 o millor és"
-" requerida"
+"%(file)s és un arxiu de versió DPG %(version)s ,però la versió 4 o millor és "
+"requerida"
 
-#: Encoder.py:53 Encoder.py:287 Encoder.py:324 Encoder.py:576 Encoder.py:629
-#: Encoder.py:692 Encoder.py:833 Encoder.py:949 Encoder.py:969 Encoder.py:1023
-msgid "Process aborted by the user."
+#: Encoder.py:52 Encoder.py:286 Encoder.py:323 Encoder.py:575 Encoder.py:628
+#: Encoder.py:691 Encoder.py:837 Encoder.py:976 Encoder.py:996 Encoder.py:1051
+msgid "Process aborted by user."
 msgstr "Procés avortat per l'usuari/a."
 
-#: Encoder.py:76 Encoder.py:439 Encoder.py:469 Encoder.py:552 Encoder.py:716
-#: Encoder.py:730 Previewer.py:82 Previewer.py:125 Previewer.py:155
+#: Encoder.py:75 Encoder.py:438 Encoder.py:468 Encoder.py:551 Encoder.py:715
+#: Encoder.py:729 Previewer.py:82 Previewer.py:125 Previewer.py:155
 msgid "ERROR ON MPLAYER"
 msgstr "ERROR A MPLAYER"
 
-#: Encoder.py:276 Encoder.py:316 Encoder.py:966
+#: Encoder.py:275 Encoder.py:315 Encoder.py:993
 msgid "Encoding in progress"
 msgstr "Codificació en procés"
 
-#: Encoder.py:368 Encoder.py:410 Encoder.py:493 Encoder.py:549
+#: Encoder.py:367 Encoder.py:409 Encoder.py:492 Encoder.py:548
 msgid "Audio encoding stopped"
 msgstr "Codificació d'àudio aturada"
 
-#: Encoder.py:371
+#: Encoder.py:370
 msgid "ERROR ON SOX"
 msgstr "ERROR A SOX"
 
-#: Encoder.py:573 Encoder.py:626
+#: Encoder.py:572 Encoder.py:625
 msgid "Generating GOP offsets"
 msgstr "Generant compensacions GOP"
 
-#: Encoder.py:589 Encoder.py:616
+#: Encoder.py:588 Encoder.py:615
 msgid "ERROR ON MPEG_STAT"
 msgstr "ERROR A MPEG_STAT"
 
-#: Encoder.py:689
+#: Encoder.py:688
 msgid "Generating thumbnail"
 msgstr "Generant miniatura"
 
-#: Encoder.py:830
+#: Encoder.py:834
 msgid "Generating header"
 msgstr "Generant capçalera"
 
-#: Encoder.py:946
+#: Encoder.py:973
 msgid "Finishing encoding process"
 msgstr "Acabant el procés de codificació"
 
-#: Encoder.py:976
-msgid ""
-"WARNING: mpeg_stat not found. The extraction of header offsets will be "
-"slower."
-msgstr ""
-"ADVERTÈNCIA: mpeg_stat no s'ha trobat. L'extracció de les capçaleres de "
-"sortida seran més lentes."
-
-#: Encoder.py:1020
+#: Encoder.py:1048
 msgid "Writing video file"
 msgstr "Escrivint arxiu de vídeo"
 
@@ -329,7 +325,7 @@ msgstr "Selecciona una font de mitjà."
 
 #: FilesPanel.py:584 MediaOtherPanel.py:279
 msgid ""
-"With extra high quality, the video FPS can not be lower than 24. Raising "
+"With extra high quality, the video FPS cannot be lower than 24. Raising "
 "video FPS to 24."
 msgstr ""
 "Amb alta qualitat extra, el nombre de QPS de vídeo no pot ser inferior a 24."
@@ -341,7 +337,7 @@ msgstr "AVÍS"
 
 #: FilesPanel.py:619
 #, python-format
-msgid "Can not read file %s."
+msgid "Cannot read file %s."
 msgstr "No es pot llegir el fitxer %s."
 
 #: FilesPanel.py:626
@@ -352,7 +348,7 @@ msgstr "No hi ha mitjans per a processar."
 msgid "ENCODING ERROR"
 msgstr "ERROR DE CODIFICACIÓ"
 
-#: Globals.py:368
+#: Globals.py:397
 msgid "WARNING: Temporary files were not properly deleted:"
 msgstr "ADVERTÈNCIA: Els arxius temporals no s'han eliminat correctament:"
 
@@ -421,14 +417,14 @@ msgid "Select a thumbnail file"
 msgstr "Selecciona un fitxer de miniatures"
 
 #: MediaOtherPanel.py:304 OtherPanel.py:195
-msgid "The output folder can not be written. Please select another one."
+msgid "The output folder cannot be written. Please select another one."
 msgstr ""
 "La carpeta de sortida no es pot escriure. Si us plau, selecciona una altra."
 
 #: MediaOtherPanel.py:311 OtherPanel.py:202
 msgid ""
-"If you want to encode from DVD or VCD you need to select an output folder in"
-" \"MISC\"."
+"If you want to encode from DVD or VCD you need to select an output folder in "
+"\"MISC\"."
 msgstr ""
 "Per codificar des d'un DVD o VCD cal seleccionar una carpeta de sortida a "
 "\"MISC\"."
@@ -436,19 +432,18 @@ msgstr ""
 #: MediaOtherPanel.py:317 OtherPanel.py:208
 #, python-format
 msgid ""
-"The folder %s can not be written. Please select an output folder in "
-"\"MISC\"."
+"The folder %s cannot be written. Please select an output folder in \"MISC\"."
 msgstr ""
 "La carpeta %s no es pot escriure. Si us plau, selecciona una carpeta de "
 "sortida a \"MISC\"."
 
 #: MediaOtherPanel.py:324 OtherPanel.py:215
-msgid "The temporary folder can not be written. Please select another one."
+msgid "The temporary folder cannot be written. Please select another one."
 msgstr ""
 "La carpeta temporal no es pot escriure. Si us plau, selecciona una altra."
 
 #: MediaOtherPanel.py:332 OtherPanel.py:223
-msgid "The thumbnail file can not be readed."
+msgid "The thumbnail file cannot be read."
 msgstr "L'arxiu de miniatura no pot ser llegit."
 
 #: MediaOtherPanel.py:336 OtherPanel.py:227
@@ -506,7 +501,7 @@ msgid "Select the subtitles font"
 msgstr "Selecciona el tipus de lletra dels subtítols"
 
 #: MediaSubtitlesPanel.py:270 SubtitlesPanel.py:250
-msgid "The subtitles file can not be readed."
+msgid "The subtitles file cannot be read."
 msgstr "L'arxiu de subtítols no pot ser llegit."
 
 #: MediaVideoPanel.py:86 VideoPanel.py:72
@@ -562,4 +557,18 @@ msgstr ""
 msgid "Information about %s"
 msgstr "Informació sobre %s"
 
+#~ msgid "ERROR: Incorrect number of parameters"
+#~ msgstr "ERROR: Nombre incorrecte de paràmetres"
 
+#~ msgid "USAGE: dpg2avi input.dpg output.avi"
+#~ msgstr "ÚS: dpg2avi entrada.dpg sortida.avi"
+
+#~ msgid "USAGE: dpgimginjector input.dpg newimage.xxx [output.dpg]"
+#~ msgstr "ÚS: dpgimginjector entrada.dpg novaimatge.xxx [sortida.dpg]"
+
+#~ msgid ""
+#~ "WARNING: mpeg_stat not found. The extraction of header offsets will be "
+#~ "slower."
+#~ msgstr ""
+#~ "ADVERTÈNCIA: mpeg_stat no s'ha trobat. L'extracció de les capçaleres de "
+#~ "sortida seran més lentes."

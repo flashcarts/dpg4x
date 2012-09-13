@@ -581,8 +581,8 @@ class FilesPanel(wx.Panel):
         autoFPS = Globals.videoPanel.checkBox2.IsChecked()
         if quality == 'doublepass':
             if (not autoFPS) and (currFPS < 24):
-                message = _(u'With extra high quality, the video FPS can ' \
-                    u'not be lower than 24. Raising video FPS to 24.')
+                message = _(u'With extra high quality, the video FPS cannot ' \
+                    u'be lower than 24. Raising video FPS to 24.')
                 Globals.debug(_(u'WARNING') + ': ' + message)
                 # Show a dialog to the user
                 dialog = wx.MessageDialog(self, message, _(u'WARNING'), 
@@ -614,9 +614,9 @@ class FilesPanel(wx.Panel):
                 if not ((file[:6] == 'vcd://') or (file[:6] == 'dvd://')):
                     if os.path.isfile(file) and os.access(file, os.R_OK):
                         files.append(file)
-                    # If can not be readed, show error message and exit
+                    # If cannot be read, show error message and exit
                     else:
-                        raise Exception(_(u'Can not read file %s.') % file)
+                        raise Exception(_(u'Cannot read file %s.') % file)
                 # Always append DVD and VCD
                 else:
                     files.append(file)

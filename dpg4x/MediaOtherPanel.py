@@ -276,8 +276,8 @@ class MediaOtherPanel(wx.Panel):
         autoFPS = Globals.mediaVideoPanel.checkBox2.IsChecked()
         if quality == 'doublepass':
             if (not autoFPS) and (currFPS < 24):
-                message = _(u'With extra high quality, the video FPS can ' \
-                    u'not be lower than 24. Raising video FPS to 24.')
+                message = _(u'With extra high quality, the video FPS cannot ' \
+                    u'be lower than 24. Raising video FPS to 24.')
                 Globals.debug(_(u'WARNING') + ': ' + message)
                 # Show a dialog to the user
                 dialog = wx.MessageDialog(self, message, _(u'WARNING'),
@@ -301,7 +301,7 @@ class MediaOtherPanel(wx.Panel):
         if Globals.other_output:
             if not (os.path.isdir(Globals.other_output) and os.access(
                 Globals.other_output, os.W_OK)):
-                raise Exception(_(u'The output folder can not be written.' \
+                raise Exception(_(u'The output folder cannot be written.' \
                     u' Please select another one.'))
         # If no output folder given, check the input folders
         elif files is not None:
@@ -314,22 +314,22 @@ class MediaOtherPanel(wx.Panel):
                 else:
                     outDir = os.path.dirname(file)
                     if not (os.path.isdir(outDir) and os.access(outDir, os.W_OK)):
-                        raise Exception(_(u'The folder %s can not be written.' \
+                        raise Exception(_(u'The folder %s cannot be written.' \
                             u' Please select an output folder in "MISC".') % outDir)
 
         Globals.other_temporary = self.textCtrl2.GetValue()
         # Check the temporary folder exists and is writable
         if not (os.path.isdir(Globals.other_temporary) and os.access(
             Globals.other_temporary, os.W_OK)):
-            raise Exception(_(u'The temporary folder can not be written.' \
+            raise Exception(_(u'The temporary folder cannot be written.' \
                 u' Please select another one.'))
 
         Globals.other_thumbnail = self.textCtrl3.GetValue()
-        # Check the thumbnail file can be readed
+        # Check the thumbnail file can be read
         if Globals.other_thumbnail:
             if not (os.path.isfile(Globals.other_thumbnail) and os.access(
                 Globals.other_thumbnail, os.R_OK)):
-                raise Exception(_(u'The thumbnail file can not be readed.'))
+                raise Exception(_(u'The thumbnail file cannot be read.'))
             # Check the thumbnail file can be processed by wx.Image
             imageAux = wx.Image(Globals.other_thumbnail)
             if not imageAux.IsOk():

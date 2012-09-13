@@ -49,7 +49,7 @@ def encode_video(file, filename, preview=False):
             filename + u' - ' + _(u'Starting encoding process'))
         # Abort the process if the user requests it
         if abort:
-            raise Exception(_(u'Process aborted by the user.'))
+            raise Exception(_(u'Process aborted by user.'))
 
     # Prepare the input file to be usable by mplayer
     if (file[:6] == 'vcd://') or (file[:6] == 'dvd://'):
@@ -283,7 +283,7 @@ def encode_video(file, filename, preview=False):
                         subprocess.Popen("taskkill /F /T /PID %i"%proc.pid , shell=Globals.shell())
                     else:
                         os.kill(proc.pid,signal.SIGTERM)
-                    raise Exception(_(u'Process aborted by the user.'))
+                    raise Exception(_(u'Process aborted by user.'))
 
     # Check the return process
     if proc.wait() != 0:
@@ -320,7 +320,7 @@ def encode_video(file, filename, preview=False):
                             subprocess.Popen("taskkill /F /T /PID %i"%proc.pid , shell=Globals.shell())
                         else:
                             os.kill(proc.pid,signal.SIGTERM)
-                        raise Exception(_(u'Process aborted by the user.'))
+                        raise Exception(_(u'Process aborted by user.'))
 
         # Check the return process
         if proc.wait() != 0:
@@ -572,7 +572,7 @@ def mpeg_stat(filename):
         filename + ' - ' + _(u'Generating GOP offsets'))
     # Abort the process if the user requests it
     if abort:
-        raise Exception(_(u'Process aborted by the user.'))
+        raise Exception(_(u'Process aborted by user.'))
 
     # RE to obtain the number of frames
     framesRE = re.compile ("frames: ([0-9]*)\.")
@@ -625,7 +625,7 @@ def alternative_mpeg_stat(filename):
         filename + ' - ' + _(u'Generating GOP offsets'))
     # Abort the process if the user requests it
     if abort:
-        raise Exception(_(u'Process aborted by the user.'))
+        raise Exception(_(u'Process aborted by user.'))
 
     # These are the start codes used in the mpeg format
     PICTURE_START_CODE = array.array('c','\x00\x00\x01\x00')
@@ -688,7 +688,7 @@ def conv_thumb(filename, frames, updateprogress=True):
             filename + ' - ' + _(u'Generating thumbnail'))
         # Abort the process if the user requests it
         if abort:
-            raise Exception(_(u'Process aborted by the user.'))
+            raise Exception(_(u'Process aborted by user.'))
 
     # Takes a PNG screenshot if no file given.
     if not Globals.other_thumbnail:
@@ -834,7 +834,7 @@ def write_header(filename, frames):
         filename + ' - ' + _(u'Generating header'))
     # Abort the process if the user requests it
     if abort:
-        raise Exception(_(u'Process aborted by the user.'))
+        raise Exception(_(u'Process aborted by user.'))
 
     # Calculate the start of the audio file
     audiostart = 36
@@ -973,7 +973,7 @@ def encode_files(files, iprogress = None):
                 filename + ' - ' + _(u'Finishing encoding process'))
             # Abort the process if the user requests it
             if abort:
-                raise Exception(_(u'Process aborted by the user.'))
+                raise Exception(_(u'Process aborted by user.'))
             # Check the status of the thread
             encode_audio.join()
             threadError = encode_audio.getErrorMessage()
@@ -993,7 +993,7 @@ def encode_files(files, iprogress = None):
                         filename + ' - ' + _(u'Encoding in progress') + ': 100%')
                 # Abort the process if the user requests it
                 if abort:
-                    raise Exception(_(u'Process aborted by the user.'))
+                    raise Exception(_(u'Process aborted by user.'))
 
             # Generate GOP offsets
             if Globals.which('mpeg_stat'):
@@ -1048,7 +1048,7 @@ def encode_files(files, iprogress = None):
                 filename + ' - ' + _(u'Writing video file'))
             # Abort the process if the user requests it
             if abort:
-                raise Exception(_(u'Process aborted by the user.'))
+                raise Exception(_(u'Process aborted by user.'))
 
             # For dpg version 4
             if Globals.dpg_version == 4:
