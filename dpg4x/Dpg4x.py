@@ -31,7 +31,7 @@ import wx
 
 import MainFrame
 import Globals
-import DpgImgInjector
+import DpgThumbnail
 import Dpg2Avi
 import Encoder
 
@@ -135,26 +135,29 @@ Options:
             args += [arg]
 
     if len(args)>0:
-        if options_image:
-            for a in args:
-                a = Globals.Decode(a)
-                Globals.debug(a)
-                DpgImgInjector.DpgInject(a,options_image,a)
-            return False
-        elif options_avi:
-            for a in args:
-                a = Globals.Decode(a)
-                Globals.debug(a)
-                Dpg2Avi.Dpg2Avi(a)
-            return False
-        elif options_dpg:
-            for a in args:
-                a = Globals.Decode(a)
-                Globals.debug(a)
-                Encoder.encode_files([a])
+        try:
+            if options_image:
+                for a in args:
+                    a = Globals.Decode(a)
+                    Globals.debug(a)
+                    DpgThumbnail.DpgInject(a,options_image,a)
+                return False
+            elif options_avi:
+                for a in args:
+                    a = Globals.Decode(a)
+                    Globals.debug(a)
+                    Dpg2Avi.Dpg2Avi(a)
+                    return False
+            elif options_dpg:
+                for a in args:
+                    a = Globals.Decode(a)
+                    Globals.debug(a)
+                    Encoder.encode_files([a])
+                return False
+        except Exception, e:
+            Globals.debug(_(u'ERROR') + ': ' + unicode(e.args[0]))
             return False
     return True
-
 
 # Main function
 if __name__ == '__main__':

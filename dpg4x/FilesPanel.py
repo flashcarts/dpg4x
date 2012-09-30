@@ -15,6 +15,8 @@
 
 import Globals
 import Encoder
+import DpgHeader
+
 import ConfigurationManager
 import Previewer
 import MediaMainFrame
@@ -300,7 +302,11 @@ class FilesPanel(wx.Panel):
                     self.listCtrl1.InsertStringItem(index, file)
                     # Check if a media configuration exists for the file
                     configfile = ConfigurationManager.getMediaConfiguration(file)
-                    if os.path.isfile(configfile):
+                    # Tomas: new check to indicate DPG files
+                    v = DpgHeader.getDpgVersion(file)
+                    if v:
+                        self.listCtrl1.SetStringItem(index, 1, _("DPG%d" % v))                        
+                    elif os.path.isfile(configfile):
                         self.listCtrl1.SetStringItem(index, 1, _("YES"))
                     else:
                         self.listCtrl1.SetStringItem(index, 1, _("NO"))
@@ -497,6 +503,13 @@ class FilesPanel(wx.Panel):
             # Show file settings
             item = self.listCtrl1.GetFirstSelected()
             name = self.listCtrl1.GetItemText(item)
+
+            # Do not allow own configuration for DPG files
+            v = DpgHeader.getDpgVersion(name)
+            if v:
+                # Tomas: maybe a better error message here
+                return        
+            
             MediaMainFrame.show_settings(name, self)
             # Check if a media configuration exists for the file
             configfile = ConfigurationManager.getMediaConfiguration(name)
@@ -533,8 +546,11 @@ class FilesPanel(wx.Panel):
         # Delete the configuration files
         for item in selItems:
             filename = self.listCtrl1.GetItemText(item)
-            ConfigurationManager.deleteConfiguration(filename)
-            self.listCtrl1.SetStringItem(item, 1, _("NO"))
+            # Do not allow own configuration for DPG files
+            v = DpgHeader.getDpgVersion(filename)
+            if not v:
+                ConfigurationManager.deleteConfiguration(filename)
+                self.listCtrl1.SetStringItem(item, 1, _("NO"))
             
         
     def changeDPGLevel(self, event):

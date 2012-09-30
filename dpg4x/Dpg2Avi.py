@@ -22,7 +22,7 @@ import tempfile
 import struct
 import subprocess
 
-def Dpg2Avi(inputN, outputN = None):
+def Dpg2Avi(inputN, outputN = None, overWrite = False):
     # Variables used on error handling, they need to be declared
     fdInput = None
     fdAudio = None
@@ -51,7 +51,7 @@ def Dpg2Avi(inputN, outputN = None):
         # Check the output file and path
         outPath = os.path.dirname(outputN)
         outPath = os.path.abspath(outPath)
-        if os.path.isfile(outputN):
+        if os.path.isfile(outputN) and not overWrite:
             Globals.debug(_(u'ERROR: The file %s already exists') % outputN)
             sys.exit(1)
         if not os.access(outPath, os.W_OK):

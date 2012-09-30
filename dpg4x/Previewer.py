@@ -14,15 +14,29 @@
 
 import Globals
 import Encoder
+import Dpg2Avi
+import DpgHeader
+
 from moreControls.OutputTextDialog import OutputTextDialog
+from moreControls.DpgInfoDialog import DpgInfoDialog
+
 
 import subprocess
+import tempfile
 import os
 import wx
 
 def preview_files(file):
     "Encode a small chunk of the selected file and play it"
     busy = None
+
+    # Tomas: might be better to disable button if a DPG file is selected
+    # not same as viewing the file
+    dpgVersion = DpgHeader.getDpgVersion(file)
+    if dpgVersion:
+        play_files(file)
+        return
+
     # Create the temporary files
     Globals.createTemporary()
     # Disable the events on main frame
@@ -109,7 +123,15 @@ def play_files(file):
         if (file[:6] == 'vcd://') or (file[:6] == 'dvd://'):
             mpFile = file.split()
         else:
-            mpFile = [ file ]
+            dpgVersion = DpgHeader.getDpgVersion(file)
+            # Mplayer cannot read DPG, convert to AVI
+            if dpgVersion:
+                fd,tmpname = tempfile.mkstemp(dir=Globals.other_temporary)
+                os.close(fd)
+                Dpg2Avi.Dpg2Avi(file, tmpname, True)
+                mpFile = [ tmpname ]
+            else:
+                mpFile = [ file ]
         
         # Play the file with mplayer
         mplayer_proc = subprocess.Popen(
@@ -134,12 +156,21 @@ def play_files(file):
     
 def show_information(file, parent):
     "Displays information about a media source"
+    dpgVersion = None
     
     # Prepare the input file to be usable by mplayer
     if (file[:6] == 'vcd://') or (file[:6] == 'dvd://'):
         mpFile = file.split()
     else:
-        mpFile = [ file ]
+        dpgVersion = DpgHeader.getDpgVersion(file)
+        # Mplayer cannot read DPG, convert to AVI
+        if dpgVersion:
+            fd,tmpname = tempfile.mkstemp(dir=Globals.other_temporary)
+            os.close(fd)
+            Dpg2Avi.Dpg2Avi(file, tmpname, True)
+            mpFile = [ tmpname ]
+        else:
+            mpFile = [ file ]
             
     # Get the media information from mplayer
     mplayer_proc = subprocess.Popen(
@@ -155,6 +186,10 @@ def show_information(file, parent):
         raise Exception(_(u'ERROR ON MPLAYER')+'\n\n'+mplayer_output)
     
     # Show a dialog to the user
-    dialog = OutputTextDialog(parent, mplayer_output, 
-        _(u'Information about %s') % os.path.basename(file))
+    if dpgVersion:
+        dialog = DpgInfoDialog(parent, file, mplayer_output, 
+                 _(u'Information about %s') % os.path.basename(file))
+    else:
+        dialog = OutputTextDialog(parent, mplayer_output, 
+                 _(u'Information about %s') % os.path.basename(file))
     dialog.ShowModal()

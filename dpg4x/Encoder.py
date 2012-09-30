@@ -18,6 +18,9 @@
 import Globals
 import ConfigurationManager
 import CustomProgressDialog
+import Dpg2Avi
+import DpgHeader
+import DpgThumbnail
 
 import re
 import os
@@ -734,92 +737,14 @@ def conv_thumb(filename, frames, updateprogress=True):
     else:
         thumbfile = Globals.other_thumbnail
 
-    # The final image should have these dimensions
-    size = wx.Size(256, 192)
-    dest_w, dest_h = size
+    # Tomas 20120917: moved code below to DpgThumbnail class
+    thumbnail = DpgThumbnail.DpgThumbnail(thumbfile)
+    thumb_data = thumbnail.getThumbData()
 
-    # PIL supports an high-quality antialiased downsampling function.
-    # This is the prefered method if available
-    if pilAvailable:
-        # Hard to predict when PIL closes a file
-        # pilImage = Image.open(thumbfile), causes problems on Windows       
-        fp = open(thumbfile, "rb")
-        pilImage = Image.open(fp) # open from file object
-        pilImage.load() # make sure PIL has read the data
-        fp.close()
-        width, height = pilImage.size
-    # wxWidgets bicubic and box averaging resampling methods give good
-    # results, but antialias is better. Only used if PIL is not available
-    else:
-        image = wx.Image(thumbfile)
-        width = image.GetWidth()
-        height = image.GetHeight()     
-
-    # Test to see if the image needs to be resized
-    if (width == dest_w and height == dest_h):
-        thumbim = wx.Image(thumbfile)
-    else:
-        # Find and keep the image aspect ratio
-        ratio = round(float(width) / float(height), 2)
-        nwidth = 256
-        nheight = int(256.0/ratio+0.5)
-        nxpos = 0
-        nypos = (192-nheight)/2
-        # When height is greater than the screen max, scale down width instead
-        if nheight > 192:
-            nwidth = int(192.0*ratio+0.5)
-            nheight = 192
-            nxpos = (256-nwidth)/2
-            nypos = 0
-
-        # First, Rescale/Resize the thumbnail keeping the original aspect ratio
-        if pilAvailable:
-            pilImage = pilImage.resize((nwidth, nheight),Image.ANTIALIAS)
-            # Convert a PIL (the Python Image Library format) object to a wxPython
-            # Image (or Bitmap) while keeping the alpha transparency layer.
-            image = wx.EmptyImage(pilImage.size[0],pilImage.size[1])
-            image.SetData(pilImage.convert("RGB").tostring())
-            image.SetAlphaData(pilImage.convert("RGBA").tostring()[3::4])
-        else:
-            image.Rescale(nwidth, nheight, wx.IMAGE_QUALITY_HIGH)
-
-        # Second, Resize to the default screen size adding borders as necessary
-        thumbim = image.Resize(size, wx.Point(nxpos,nypos))
-    # End if
-
-    # Convert the image to the thumbnail format
-
-    # Process every pixel in the image
-    data = []
-    for i in range(dest_h):
-        row = []
-        for j in range(dest_w):
-            # Get the RGB values
-            red = thumbim.GetRed(j, i)
-            green = thumbim.GetGreen(j, i)
-            blue = thumbim.GetBlue(j, i)
-            # Recombine the pixel value in 16 bit mode
-            pixel = (( 1 << 15)
-                | ((blue >> 3) << 10)
-                | ((green >> 3) << 5)
-                | (red >> 3))
-            # Add the pixel to the current row
-            row.append(pixel)
-        # Append the row to the data
-        data.append(row)
-    # Join all the data with the desired format
-    row_fmt=('H'*dest_w)
-    thumb_data = ''.join(struct.pack(row_fmt, *row) for row in data)
     # Write the data to a temporary file
     thumb_file = open(Globals.TMP_THUMB, 'wb')
     thumb_file.write(thumb_data)
     thumb_file.close()
-    #to create a file readable by an image viewer:
-    #tga16_file = open('thumb.tga', 'wb')
-    #tga_header='\x00\x00\x02\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x01\xC0\x00\x10\x00'
-    #tga16_file.write(tga_header)
-    #tga16_file.write(thumb_data)
-    #tga16_file.close()
 
     # Remove shot temporary file
     if not Globals.other_thumbnail:
@@ -836,70 +761,17 @@ def write_header(filename, frames):
     if abort:
         raise Exception(_(u'Process aborted by user.'))
 
-    # Calculate the start of the audio file
-    audiostart = 36
-    # DPG2 and DPG3 include also the GOP header
-    if (Globals.dpg_version == 2) or (Globals.dpg_version == 3):
-        audiostart += 12
-    # DPG4 includes also a thumbnail
-    elif Globals.dpg_version >= 4:
-        audiostart += 98320
-    # Get size from audio file
-    audiosize = os.stat(Globals.TMP_AUDIO)[stat.ST_SIZE]
-    # Get size from video file
-    videosize = os.stat(Globals.TMP_VIDEO)[stat.ST_SIZE]
-    # Video starts on header + video stream
-    videostart = audiostart + audiosize
-    videoend = videostart + videosize
+    # Tomas 20120909: moved code below to DpgHeader class
+    dpg = DpgHeader.DpgHeader()
+    dpg.setAudio(Globals.audio_codec, Globals.audio_frequency)
+    dpg.setVideo(frames, Globals.video_fps, Globals.video_pixel)
+    dpg.setSizes(Globals.dpg_version, 
+                 os.stat(Globals.TMP_VIDEO)[stat.ST_SIZE], 
+                 os.stat(Globals.TMP_AUDIO)[stat.ST_SIZE], 
+                 os.stat(Globals.TMP_GOP)[stat.ST_SIZE])
+    # print dpg
+    dpg.toFile(Globals.TMP_HEADER)
 
-    # Open the temporary header file for writing
-    tmpHeader = open(Globals.TMP_HEADER, 'wb')
-
-    # Write the DPG header
-
-    # The header starts with 4 bytes with DPGX, being X the version
-    tmpHeader.write (struct.pack ( "4s" , "DPG" + str(Globals.dpg_version)))
-    # Number of frames in the video
-    tmpHeader.write (struct.pack ( "<l" , frames))
-    # Frames per second that the video runs
-    tmpHeader.write (struct.pack ( "<b" , 0))
-    tmpHeader.write (struct.pack ( "<b" , Globals.video_fps))
-    tmpHeader.write (struct.pack ( "<h" , 0))
-    # Audio sample rate
-    tmpHeader.write (struct.pack ( "<l" , Globals.audio_frequency))
-    # Number of audio channels, has special values for MP2 and OGG Vorbis
-    if Globals.audio_codec == 'libgsm':
-        # Yes, always mono audio. I was not able to encode stereo GSM
-        tmpHeader.write (struct.pack ( "<l" , 1))
-    elif Globals.audio_codec == 'mp2':
-        tmpHeader.write (struct.pack ( "<l" , 0))
-    elif Globals.audio_codec == 'vorbis':
-        tmpHeader.write (struct.pack ( "<l" , 3))
-
-    # Start of the audio file
-    tmpHeader.write (struct.pack ( "<l" , audiostart))
-    # Length, in bytes, of the audio
-    tmpHeader.write (struct.pack ( "<l" , audiosize))
-    # Start of the video file
-    tmpHeader.write (struct.pack ( "<l" , videostart))
-    # Length, in bytes, of the video
-    tmpHeader.write (struct.pack ( "<l" , videosize))
-
-    # For DPG >= 2, add the GOP file
-    # This information allows faster seeking
-    if Globals.dpg_version >= 2:
-        gopsize = os.stat(Globals.TMP_GOP)[stat.ST_SIZE]
-        tmpHeader.write (struct.pack ( "<l" , videoend ))
-        tmpHeader.write (struct.pack ( "<l" , gopsize))
-    # Add the pixel format
-    # DPG0 only supports the RGB24 pixel format and does not have this
-    # I have problems with other pixel formats and mencoder anyway
-    if Globals.dpg_version > 0:
-        tmpHeader.write (struct.pack ( "<l" , Globals.video_pixel ))
-    # Thumbnail header for DPG4
-    if Globals.dpg_version == 4:
-        tmpHeader.write (struct.pack ( "4s" , "THM0"))
-    tmpHeader.close()
 
 def gui_encode_files(files):
     "Handle GUI logic with progress window"
@@ -939,7 +811,9 @@ def total_progress():
 
 def encode_files(files, iprogress = None):
     "Encode the given list of files"
+    encode_audio = None 
     global progress
+    
     if iprogress: 
         progress = iprogress
     else:
@@ -951,6 +825,13 @@ def encode_files(files, iprogress = None):
         # Process the list of files
         for file in files:
 
+            # Tomas: If it's a DPG file, just run dpg2avi
+            # Would it be better to have this check directly in the FilesPanel code?            
+            v = DpgHeader.getDpgVersion(file)
+            if v:
+                Dpg2Avi.Dpg2Avi(file)
+                continue
+            
             # Read options from the media specific config file (if one exists)
             ConfigurationManager.loadConfiguration(file)
 
@@ -1073,3 +954,4 @@ def encode_files(files, iprogress = None):
             encode_audio.stopThread()
         # Send the exception to the FilesPanel
         raise e
+        
