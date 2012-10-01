@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: DPG for X\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2012-10-01 21:36+0200\n"
-"PO-Revision-Date: 2012-10-01 22:06+0100\n"
+"PO-Revision-Date: 2012-10-02 00:31+0100\n"
 "Last-Translator: Tomas Aronsson <d0malaga@users.sourceforge.net>\n"
 "Language-Team: Spanish <>\n"
 "Language: sv\n"
@@ -206,8 +206,8 @@ msgstr ""
 "Argument:\n"
 "  -h, --help       visa denna hjälptext och avsluta\n"
 "  --thumbnail=FIL  använd bildfil som miniatyrbild i DPG-filer\n"
-"  --dpg             konvertera filer till DPG, återanvänd tidigare inställningar\n"
-"  --avi               konvertera DPG-filer till AVI utan omkodning\n"
+"  --dpg            konvertera filer till DPG, återanvänd tidigare inställningar\n"
+"  --avi            konvertera DPG-filer till AVI utan omkodning\n"
 
 #: Dpg4x.py:131
 #, python-format
@@ -263,7 +263,7 @@ msgstr "GOP"
 
 #: DpgHeader.py:115
 msgid "Embedded Thumbnail"
-msgstr "Välj miniatyrbild"
+msgstr "Innehåller miniatyrbild"
 
 #: DpgHeader.py:149
 #, python-format

@@ -24,19 +24,19 @@ class DpgInfoDialog(wx.Dialog):
  
     def _init_sizers(self):
         self.boxSizer1 = wx.BoxSizer(orient=wx.HORIZONTAL)
-        self.boxSizer1.AddWindow(self.textCtrl1, 1, border=0, flag=wx.EXPAND)
-        self.boxSizer1.AddWindow(self.bmp, 1, border=0, flag=wx.EXPAND)
+        self.boxSizer1.Add(self.textCtrl1, 1, border=0, flag=wx.EXPAND)
+        self.boxSizer1.Add(self.bmp, 1, border=0, flag=wx.EXPAND)
         self.dpg_panel.SetSizer(self.boxSizer1)
 
         self.boxSizer2 = wx.BoxSizer(orient=wx.HORIZONTAL)
-        self.boxSizer2.AddWindow(self.button1, 0, border=0, flag=wx.CENTER)
-        self.boxSizer2.AddWindow(self.button2, 0, border=0, flag=wx.CENTER)
+        self.boxSizer2.Add(self.button1, 0, border=0, flag=wx.ALIGN_RIGHT)
+        self.boxSizer2.Add(self.button2, 0, border=0, flag=wx.ALIGN_RIGHT)
         self.panelb.SetSizer(self.boxSizer2)
 
         self.boxSizer3 = wx.BoxSizer(orient=wx.VERTICAL)
-        self.boxSizer3.AddWindow(self.dpg_panel, 1, border=0, flag=wx.EXPAND)
-        self.boxSizer3.AddWindow(self.textCtrl2, 1, border=0, flag=wx.EXPAND)
-        self.boxSizer3.AddWindow(self.panelb, 1, border=0, flag=wx.EXPAND)
+        self.boxSizer3.Add(self.dpg_panel, 1, border=0, flag=wx.EXPAND)
+        self.boxSizer3.Add(self.textCtrl2, 1, border=0, flag=wx.EXPAND)
+        self.boxSizer3.Add(self.panelb, 0, border=1, flag=wx.ALIGN_RIGHT)
         self.main_panel.SetSizer(self.boxSizer3)
 
 
@@ -84,6 +84,7 @@ class DpgInfoDialog(wx.Dialog):
         if dpg.version > 3:
             thumb = DpgThumbnail.DpgThumbnail(filename)
             self.textCtrl1.AppendText(str(dpg))
+            self.textCtrl1.ShowPosition(0)
             self.bmp.SetBitmap(thumb.getImage().ConvertToBitmap())
         else:
             self.textCtrl1.AppendText(str(dpg))
