@@ -8,9 +8,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DPG for X\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-09-13 20:18+0200\n"
-"PO-Revision-Date: 2011-08-25 16:53+0200\n"
-"Last-Translator: Félix Medrano <xukosky@yahoo.es>\n"
+"POT-Creation-Date: 2012-10-01 21:36+0200\n"
+"PO-Revision-Date: 2012-10-01 22:06+0100\n"
+"Last-Translator: Tomas Aronsson <d0malaga@users.sourceforge.net>\n"
 "Language-Team: Spanish <>\n"
 "Language: sv\n"
 "MIME-Version: 1.0\n"
@@ -19,15 +19,18 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
 "X-Generator: Lokalize 1.2\n"
 
-#: AddDvdDialog.py:62 FilesPanel.py:134
+#: AddDvdDialog.py:62
+#: FilesPanel.py:136
 msgid "Add DVD"
 msgstr "Lägg till DVD"
 
-#: AddDvdDialog.py:65 AddVcdDialog.py:58
+#: AddDvdDialog.py:65
+#: AddVcdDialog.py:58
 msgid "Device"
 msgstr "Enhet"
 
-#: AddDvdDialog.py:71 AddVcdDialog.py:64
+#: AddDvdDialog.py:71
+#: AddVcdDialog.py:64
 msgid "Track"
 msgstr "Spår"
 
@@ -47,15 +50,32 @@ msgstr "Sista"
 msgid "The last chapter cannot be lower than the first."
 msgstr "Det sista kapitlet kan inte vara större än det första"
 
-#: AddDvdDialog.py:148 Dpg2Avi.py:138 Dpg4x.py:99 Dpg4x.py:101
-#: DpgImgInjector.py:94 FilesPanel.py:379 FilesPanel.py:403 FilesPanel.py:413
-#: FilesPanel.py:417 FilesPanel.py:429 FilesPanel.py:451 FilesPanel.py:455
-#: FilesPanel.py:467 FilesPanel.py:477 FilesPanel.py:481 FilesPanel.py:493
-#: FilesPanel.py:510 FilesPanel.py:512 FilesPanel.py:523 FilesPanel.py:650
+#: AddDvdDialog.py:148
+#: Dpg2Avi.py:138
+#: Dpg4x.py:99
+#: Dpg4x.py:101
+#: Dpg4x.py:158
+#: FilesPanel.py:385
+#: FilesPanel.py:409
+#: FilesPanel.py:419
+#: FilesPanel.py:423
+#: FilesPanel.py:435
+#: FilesPanel.py:457
+#: FilesPanel.py:461
+#: FilesPanel.py:473
+#: FilesPanel.py:483
+#: FilesPanel.py:487
+#: FilesPanel.py:499
+#: FilesPanel.py:523
+#: FilesPanel.py:525
+#: FilesPanel.py:536
+#: FilesPanel.py:666
+#: moreControls/DpgInfoDialog.py:121
 msgid "ERROR"
 msgstr "FEL"
 
-#: AddVcdDialog.py:55 FilesPanel.py:137
+#: AddVcdDialog.py:55
+#: FilesPanel.py:139
 msgid "Add VCD"
 msgstr "Lägg till VCD"
 
@@ -63,31 +83,40 @@ msgstr "Lägg till VCD"
 msgid "Track 1 does not contain video"
 msgstr "Spår 1 innehåller ingen video"
 
-#: AudioPanel.py:65 MediaAudioPanel.py:78
+#: AudioPanel.py:65
+#: DpgHeader.py:107
+#: MediaAudioPanel.py:78
 msgid "Audio Codec"
 msgstr "Ljudkodare"
 
-#: AudioPanel.py:72 MediaAudioPanel.py:85
+#: AudioPanel.py:72
+#: MediaAudioPanel.py:85
 msgid "Audio Track"
 msgstr "Ljudspår"
 
-#: AudioPanel.py:88 MediaAudioPanel.py:94
+#: AudioPanel.py:88
+#: MediaAudioPanel.py:94
 msgid "Normalize Volume"
 msgstr "Normalisera volym"
 
-#: AudioPanel.py:91 MediaAudioPanel.py:97
+#: AudioPanel.py:91
+#: MediaAudioPanel.py:97
 msgid "Audio Bitrate"
 msgstr "Bithastighet ljud"
 
-#: AudioPanel.py:98 MediaAudioPanel.py:104
+#: AudioPanel.py:98
+#: DpgHeader.py:108
+#: MediaAudioPanel.py:104
 msgid "Audio Frequency"
 msgstr "Frekvens"
 
-#: AudioPanel.py:105 MediaAudioPanel.py:111
+#: AudioPanel.py:105
+#: MediaAudioPanel.py:111
 msgid "Force Mono Channel"
 msgstr "Framtvinga monokanal"
 
-#: AudioPanel.py:109 MediaAudioPanel.py:115
+#: AudioPanel.py:109
+#: MediaAudioPanel.py:115
 msgid "Auto Audio Track"
 msgstr "Välj spår automatiskt"
 
@@ -103,11 +132,13 @@ msgstr "Kodning pågår"
 msgid "Abort"
 msgstr "Avbryt"
 
-#: CustomProgressDialog.py:122 Encoder.py:49
+#: CustomProgressDialog.py:122
+#: Encoder.py:52
 msgid "Starting encoding process"
 msgstr "Starta kodningsjobb"
 
-#: CustomProgressDialog.py:123 CustomProgressDialog.py:149
+#: CustomProgressDialog.py:123
+#: CustomProgressDialog.py:149
 #, python-format
 msgid "Overall progress - %s files remain"
 msgstr "Kodning pågår - %s filer kvar"
@@ -116,11 +147,14 @@ msgstr "Kodning pågår - %s filer kvar"
 msgid "Do you want to abort the encoding process?"
 msgstr "Vill du avsluta kodningen?"
 
-#: CustomProgressDialog.py:168 OtherPanel.py:240
+#: CustomProgressDialog.py:168
+#: OtherPanel.py:240
 msgid "QUESTION"
 msgstr "FRÅGA"
 
-#: Dpg2Avi.py:48 DpgImgInjector.py:31 DpgImgInjector.py:35
+#: Dpg2Avi.py:48
+#: DpgThumbnail.py:33
+#: DpgThumbnail.py:36
 #, python-format
 msgid "ERROR: The file %s cannot be read"
 msgstr "FEL: Filen %s kan inte läsas"
@@ -130,17 +164,25 @@ msgstr "FEL: Filen %s kan inte läsas"
 msgid "ERROR: The file %s already exists"
 msgstr "FEL: Filen %s finns redan"
 
-#: Dpg2Avi.py:58 DpgImgInjector.py:44
+#: Dpg2Avi.py:58
+#: DpgThumbnail.py:43
 #, python-format
 msgid "ERROR: The folder %s cannot be written"
 msgstr "FEL: Kan ej skriva till katalogen %s"
 
-#: Dpg2Avi.py:85 DpgImgInjector.py:71
+#: Dpg2Avi.py:85
+#: DpgHeader.py:164
+#: DpgThumbnail.py:55
+#: DpgThumbnail.py:157
 #, python-format
 msgid "%s is not a valid DPG file"
 msgstr "%s är inte någon giltig DPG-fil"
 
-#: Dpg2Avi.py:134 Encoder.py:290 Encoder.py:327 Encoder.py:495 Previewer.py:65
+#: Dpg2Avi.py:134
+#: Encoder.py:293
+#: Encoder.py:330
+#: Encoder.py:498
+#: Previewer.py:79
 msgid "ERROR ON MENCODER"
 msgstr "Internt fel i mencoder"
 
@@ -159,190 +201,291 @@ msgid ""
 "  --dpg             convert files to DPG, using settings from GUI\n"
 "  --avi             convert DPG files to AVI, no transformation\n"
 msgstr ""
+"Användning: dpg4x [argument] fil1 fil2... (startar fönsterprogram om inga argument angivna)\n"
+"\n"
+"Argument:\n"
+"  -h, --help       visa denna hjälptext och avsluta\n"
+"  --thumbnail=FIL  använd bildfil som miniatyrbild i DPG-filer\n"
+"  --dpg             konvertera filer till DPG, återanvänd tidigare inställningar\n"
+"  --avi               konvertera DPG-filer till AVI utan omkodning\n"
 
 #: Dpg4x.py:131
 #, python-format
 msgid "Non supported option: %s"
-msgstr ""
+msgstr "Okänd parameter: %s"
 
-#: DpgImgInjector.py:41
+#: DpgHeader.py:86
+#: FilesPanel.py:116
+#: MediaOtherPanel.py:143
+msgid "DPG Version"
+msgstr "DPG-version"
+
+#: DpgHeader.py:87
+#: MainFrame.py:102
+#: MediaMainFrame.py:113
+msgid "VIDEO"
+msgstr "Video"
+
+#: DpgHeader.py:88
+#: MediaVideoPanel.py:114
+#: VideoPanel.py:100
+msgid "Frames Per Second"
+msgstr "Bildrutor per sekund (FPS)"
+
+#: DpgHeader.py:89
+#: MediaVideoPanel.py:124
+#: VideoPanel.py:110
+msgid "Pixel Format"
+msgstr "Pixelformat"
+
+#: DpgHeader.py:91
+msgid "frames"
+msgstr "bildrutor"
+
+#: DpgHeader.py:92
+#: DpgHeader.py:110
+#: DpgHeader.py:113
+#, python-format
+msgid "Size: %d bytes"
+msgstr "Storlek: %d bytes"
+
+#: DpgHeader.py:105
+msgid "unknown"
+msgstr "okänd"
+
+#: DpgHeader.py:109
+msgid "channels"
+msgstr "kanaler"
+
+#: DpgHeader.py:112
+msgid "GOP"
+msgstr "GOP"
+
+#: DpgHeader.py:115
+msgid "Embedded Thumbnail"
+msgstr "Välj miniatyrbild"
+
+#: DpgHeader.py:149
+#, python-format
+msgid "%s is not a valid DPG audio codec"
+msgstr "%s är inte någon giltig DPG-fil"
+
+#: DpgThumbnail.py:41
 #, python-format
 msgid "ERROR: The file %s cannot be written"
 msgstr "FEL: Kan ej skriva till filen %s"
 
-#: DpgImgInjector.py:62
+#: DpgThumbnail.py:51
+#: DpgThumbnail.py:140
 #, python-format
-msgid ""
-"%(file)s is a DPG version %(version)s file, but version 4 or better is "
-"required"
-msgstr ""
-"%(file)s är kodad som DPG-version %(version)s, men måste vara 4 eller senare"
+msgid "%(file)s is a DPG version %(version)s "
+msgstr "%(file)s är kodad som DPG-version %(version)s, men måste vara 4 eller senare"
 
-#: Encoder.py:52 Encoder.py:286 Encoder.py:323 Encoder.py:575 Encoder.py:628
-#: Encoder.py:691 Encoder.py:837 Encoder.py:976 Encoder.py:996 Encoder.py:1051
+#: Encoder.py:55
+#: Encoder.py:289
+#: Encoder.py:326
+#: Encoder.py:578
+#: Encoder.py:631
+#: Encoder.py:694
+#: Encoder.py:762
+#: Encoder.py:857
+#: Encoder.py:877
+#: Encoder.py:932
 msgid "Process aborted by user."
 msgstr "Process avbruten av användare"
 
-#: Encoder.py:75 Encoder.py:438 Encoder.py:468 Encoder.py:551 Encoder.py:715
-#: Encoder.py:729 Previewer.py:82 Previewer.py:125 Previewer.py:155
+#: Encoder.py:78
+#: Encoder.py:441
+#: Encoder.py:471
+#: Encoder.py:554
+#: Encoder.py:718
+#: Encoder.py:732
+#: Previewer.py:96
+#: Previewer.py:147
+#: Previewer.py:186
 msgid "ERROR ON MPLAYER"
 msgstr "Internt fel i mplayer"
 
-#: Encoder.py:275 Encoder.py:315 Encoder.py:993
+#: Encoder.py:278
+#: Encoder.py:318
+#: Encoder.py:874
 msgid "Encoding in progress"
 msgstr "Kodning pågår"
 
-#: Encoder.py:367 Encoder.py:409 Encoder.py:492 Encoder.py:548
+#: Encoder.py:370
+#: Encoder.py:412
+#: Encoder.py:495
+#: Encoder.py:551
 msgid "Audio encoding stopped"
 msgstr "Ljudkodning stoppad"
 
-#: Encoder.py:370
+#: Encoder.py:373
 msgid "ERROR ON SOX"
 msgstr "Internt fel i sox"
 
-#: Encoder.py:572 Encoder.py:625
+#: Encoder.py:575
+#: Encoder.py:628
 msgid "Generating GOP offsets"
 msgstr "Skapar GOP-punkter"
 
-#: Encoder.py:588 Encoder.py:615
+#: Encoder.py:591
+#: Encoder.py:618
 msgid "ERROR ON MPEG_STAT"
 msgstr "Internt fel i mpeg_stat"
 
-#: Encoder.py:688
+#: Encoder.py:691
 msgid "Generating thumbnail"
 msgstr "Skapar miniatyrer"
 
-#: Encoder.py:834
+#: Encoder.py:759
 msgid "Generating header"
 msgstr "Skapar filhuvud"
 
-#: Encoder.py:973
+#: Encoder.py:854
 msgid "Finishing encoding process"
 msgstr "Avslutar kodningsjobb"
 
-#: Encoder.py:1048
+#: Encoder.py:929
 msgid "Writing video file"
 msgstr "Skriver videofil"
 
-#: FilesPanel.py:101
+#: FilesPanel.py:103
 msgid "Add Media"
 msgstr "Lägg till media"
 
-#: FilesPanel.py:104
+#: FilesPanel.py:106
 msgid "Delete Media"
 msgstr "Ta bort media"
 
-#: FilesPanel.py:107
+#: FilesPanel.py:109
 msgid "DPG Preview"
 msgstr "Förhandsgranska DPG"
 
-#: FilesPanel.py:111 MediaOtherPanel.py:140
+#: FilesPanel.py:113
+#: MediaOtherPanel.py:140
 msgid "Quality"
 msgstr "Kvalitet"
 
-#: FilesPanel.py:114 MediaOtherPanel.py:143
-msgid "DPG Version"
-msgstr "DPG-version"
-
-#: FilesPanel.py:118
+#: FilesPanel.py:120
 msgid "Individual Settings"
 msgstr "Inställning per fil"
 
-#: FilesPanel.py:122
+#: FilesPanel.py:124
 msgid "Start Encoding"
 msgstr "Börja kodning"
 
-#: FilesPanel.py:131
+#: FilesPanel.py:133
 msgid "Add File"
 msgstr "Lägg till fil"
 
-#: FilesPanel.py:140
+#: FilesPanel.py:142
 msgid "Play Media"
 msgstr "Spela media"
 
-#: FilesPanel.py:143
+#: FilesPanel.py:145
 msgid "Cancel"
 msgstr "Avbryt"
 
-#: FilesPanel.py:146
+#: FilesPanel.py:148
 msgid "Media Info"
 msgstr "Mediainformation"
 
-#: FilesPanel.py:149
+#: FilesPanel.py:151
 msgid "Set"
 msgstr "Lägg till"
 
-#: FilesPanel.py:152
+#: FilesPanel.py:154
 msgid "Delete"
 msgstr "Ta bort"
 
-#: FilesPanel.py:172 MediaOtherPanel.py:172
+#: FilesPanel.py:174
+#: MediaOtherPanel.py:172
 msgid "Low"
 msgstr "Låg"
 
-#: FilesPanel.py:173 MediaOtherPanel.py:173
+#: FilesPanel.py:175
+#: MediaOtherPanel.py:173
 msgid "Normal"
 msgstr "Normal"
 
-#: FilesPanel.py:174 MediaOtherPanel.py:174
+#: FilesPanel.py:176
+#: MediaOtherPanel.py:174
 msgid "High"
 msgstr "Hög"
 
-#: FilesPanel.py:175 MediaOtherPanel.py:175
+#: FilesPanel.py:177
+#: MediaOtherPanel.py:175
 msgid "Extra High"
 msgstr "Extra hög"
 
-#: FilesPanel.py:186
+#: FilesPanel.py:188
 msgid "Media sources to encode"
 msgstr "Mediakällor att koda"
 
-#: FilesPanel.py:187
+#: FilesPanel.py:189
 msgid "Indv Settings"
 msgstr "Inst. per fil"
 
-#: FilesPanel.py:289
+#: FilesPanel.py:291
 msgid "Select the files to be encoded"
 msgstr "Välj filer som skall kodas"
 
-#: FilesPanel.py:304 FilesPanel.py:337 FilesPanel.py:364 FilesPanel.py:504
-#: FilesPanel.py:663
+#: FilesPanel.py:308
+#, python-format
+msgid "DPG%d"
+msgstr "DPG%d"
+
+#: FilesPanel.py:310
+#: FilesPanel.py:343
+#: FilesPanel.py:370
+#: FilesPanel.py:517
+#: FilesPanel.py:679
 msgid "YES"
 msgstr "Ja"
 
-#: FilesPanel.py:306 FilesPanel.py:339 FilesPanel.py:366 FilesPanel.py:506
-#: FilesPanel.py:537 FilesPanel.py:665
+#: FilesPanel.py:312
+#: FilesPanel.py:345
+#: FilesPanel.py:372
+#: FilesPanel.py:519
+#: FilesPanel.py:553
+#: FilesPanel.py:681
 msgid "NO"
 msgstr "Nej"
 
-#: FilesPanel.py:378 FilesPanel.py:522
+#: FilesPanel.py:384
+#: FilesPanel.py:535
 msgid "No media sources selected."
 msgstr "Inga mediakällor valda"
 
-#: FilesPanel.py:402 FilesPanel.py:428 FilesPanel.py:466 FilesPanel.py:492
+#: FilesPanel.py:408
+#: FilesPanel.py:434
+#: FilesPanel.py:472
+#: FilesPanel.py:498
 msgid "Select one media source."
 msgstr "Välj en mediakälla"
 
-#: FilesPanel.py:584 MediaOtherPanel.py:279
-msgid ""
-"With extra high quality, the video FPS cannot be lower than 24. Raising "
-"video FPS to 24."
+#: FilesPanel.py:600
+#: MediaOtherPanel.py:279
+msgid "With extra high quality, the video FPS cannot be lower than 24. Raising video FPS to 24."
 msgstr "Med extra hög kvalite kan video FPS inte vara så lågt, ökar till 24"
 
-#: FilesPanel.py:586 FilesPanel.py:588 MediaOtherPanel.py:281
+#: FilesPanel.py:602
+#: FilesPanel.py:604
+#: MediaOtherPanel.py:281
 #: MediaOtherPanel.py:283
 msgid "WARNING"
 msgstr "VARNING"
 
-#: FilesPanel.py:619
+#: FilesPanel.py:635
 #, python-format
 msgid "Cannot read file %s."
 msgstr "Kan inte läsa filen %s"
 
-#: FilesPanel.py:626
+#: FilesPanel.py:642
 msgid "There are no media sources to process."
 msgstr "Det finns inga mediakällor att bearbeta"
 
-#: FilesPanel.py:646
+#: FilesPanel.py:662
 msgid "ENCODING ERROR"
 msgstr "Fel vid kodning"
 
@@ -354,178 +497,209 @@ msgstr "VARNING: kunde ej ta bort tillfälliga filer:"
 msgid "MAIN"
 msgstr "Media/kodning"
 
-#: MainFrame.py:102 MediaMainFrame.py:113
-msgid "VIDEO"
-msgstr "Video"
-
-#: MainFrame.py:108 MediaMainFrame.py:119
+#: MainFrame.py:108
+#: MediaMainFrame.py:119
 msgid "AUDIO"
 msgstr "Ljud"
 
-#: MainFrame.py:114 MediaMainFrame.py:125
+#: MainFrame.py:114
+#: MediaMainFrame.py:125
 msgid "SUBTITLES"
 msgstr "Undertexter"
 
-#: MainFrame.py:120 MediaMainFrame.py:131
+#: MainFrame.py:120
+#: MediaMainFrame.py:131
 msgid "MISC"
 msgstr "Övrigt"
 
-#: MediaOtherPanel.py:94 OtherPanel.py:88
+#: MediaOtherPanel.py:94
+#: OtherPanel.py:88
 msgid "Output Folder"
 msgstr "Resultatkatalog"
 
-#: MediaOtherPanel.py:100 MediaOtherPanel.py:110 MediaOtherPanel.py:120
-#: MediaSubtitlesPanel.py:106 MediaSubtitlesPanel.py:115 OtherPanel.py:94
-#: OtherPanel.py:104 OtherPanel.py:114 SubtitlesPanel.py:94
+#: MediaOtherPanel.py:100
+#: MediaOtherPanel.py:110
+#: MediaOtherPanel.py:120
+#: MediaSubtitlesPanel.py:106
+#: MediaSubtitlesPanel.py:115
+#: OtherPanel.py:94
+#: OtherPanel.py:104
+#: OtherPanel.py:114
+#: SubtitlesPanel.py:94
 #: SubtitlesPanel.py:103
 msgid "Examine"
 msgstr "Öppna"
 
-#: MediaOtherPanel.py:104 OtherPanel.py:98
+#: MediaOtherPanel.py:104
+#: OtherPanel.py:98
 msgid "Temporary Folder"
 msgstr "Temporärkatalog"
 
-#: MediaOtherPanel.py:114 OtherPanel.py:108
+#: MediaOtherPanel.py:114
+#: OtherPanel.py:108
+#: moreControls/DpgInfoDialog.py:74
 msgid "Select Thumbnail"
 msgstr "Välj miniatyrbild"
 
-#: MediaOtherPanel.py:124 OtherPanel.py:118
+#: MediaOtherPanel.py:124
+#: OtherPanel.py:118
 msgid "The input folder will be used by default"
 msgstr "Indatakatalogen kommer att användas om inget annat anges"
 
-#: MediaOtherPanel.py:128 OtherPanel.py:122
+#: MediaOtherPanel.py:128
+#: OtherPanel.py:122
 msgid "Thumbnails are autogenerated by default (DPG4 only)"
 msgstr "Miniatyrbilder kommer att skapas om inget annat anges (endast DPG4)"
 
-#: MediaOtherPanel.py:132 OtherPanel.py:126
+#: MediaOtherPanel.py:132
+#: OtherPanel.py:126
 msgid "Preview size (seconds)"
 msgstr "Förhandsvisning, längd (sekunder)"
 
-#: MediaOtherPanel.py:205 OtherPanel.py:158
+#: MediaOtherPanel.py:205
+#: OtherPanel.py:158
 msgid "Select the ouput folder"
 msgstr "Välj resultatkatalog"
 
-#: MediaOtherPanel.py:217 OtherPanel.py:170
+#: MediaOtherPanel.py:217
+#: OtherPanel.py:170
 msgid "Select the temporary folder"
 msgstr "Välj katalog för temporära filer"
 
-#: MediaOtherPanel.py:229 OtherPanel.py:182
+#: MediaOtherPanel.py:229
+#: OtherPanel.py:182
+#: moreControls/DpgInfoDialog.py:108
 msgid "Select a thumbnail file"
 msgstr "Välj en miniatyrfil"
 
-#: MediaOtherPanel.py:304 OtherPanel.py:195
+#: MediaOtherPanel.py:304
+#: OtherPanel.py:195
 msgid "The output folder cannot be written. Please select another one."
 msgstr "Kan ej skriva till resultatkatalogen. Var god välj en annan katalog."
 
-#: MediaOtherPanel.py:311 OtherPanel.py:202
-msgid ""
-"If you want to encode from DVD or VCD you need to select an output folder in "
-"\"MISC\"."
+#: MediaOtherPanel.py:311
+#: OtherPanel.py:202
+msgid "If you want to encode from DVD or VCD you need to select an output folder in \"MISC\"."
 msgstr "Om du vill avkoda en DVD eller VCD måste du välja en resultatkatalog"
 
-#: MediaOtherPanel.py:317 OtherPanel.py:208
+#: MediaOtherPanel.py:317
+#: OtherPanel.py:208
 #, python-format
-msgid ""
-"The folder %s cannot be written. Please select an output folder in \"MISC\"."
+msgid "The folder %s cannot be written. Please select an output folder in \"MISC\"."
 msgstr "Kan ej skriva till katalogen %s. Var god välj en annan katalog. "
 
-#: MediaOtherPanel.py:324 OtherPanel.py:215
+#: MediaOtherPanel.py:324
+#: OtherPanel.py:215
 msgid "The temporary folder cannot be written. Please select another one."
 msgstr "Kan ej skriva till temporärkatalogen. Var god välj en annan katalog."
 
-#: MediaOtherPanel.py:332 OtherPanel.py:223
+#: MediaOtherPanel.py:332
+#: OtherPanel.py:223
 msgid "The thumbnail file cannot be read."
 msgstr "Kan ej läsa fil med miniatyrbilder"
 
-#: MediaOtherPanel.py:336 OtherPanel.py:227
+#: MediaOtherPanel.py:336
+#: OtherPanel.py:227
 msgid "The thumbnail file has an unknown format."
 msgstr "Miniatyrfilen har ett okänt format"
 
-#: MediaSubtitlesPanel.py:84 SubtitlesPanel.py:72
+#: MediaSubtitlesPanel.py:84
+#: SubtitlesPanel.py:72
 msgid "Subtitles Source"
 msgstr "Källa för undertexter"
 
-#: MediaSubtitlesPanel.py:91 SubtitlesPanel.py:79
+#: MediaSubtitlesPanel.py:91
+#: SubtitlesPanel.py:79
 msgid "Subtitles Track"
 msgstr "Spår för undertexter"
 
-#: MediaSubtitlesPanel.py:100 SubtitlesPanel.py:88
+#: MediaSubtitlesPanel.py:100
+#: SubtitlesPanel.py:88
 msgid "Subtitles File"
 msgstr "Fil för undertexter"
 
-#: MediaSubtitlesPanel.py:110 SubtitlesPanel.py:98
+#: MediaSubtitlesPanel.py:110
+#: SubtitlesPanel.py:98
 msgid "Font"
 msgstr "Typsnitt"
 
-#: MediaSubtitlesPanel.py:119 SubtitlesPanel.py:107
+#: MediaSubtitlesPanel.py:119
+#: SubtitlesPanel.py:107
 msgid "Encoding"
 msgstr "Kodar"
 
-#: MediaSubtitlesPanel.py:139 SubtitlesPanel.py:121
+#: MediaSubtitlesPanel.py:139
+#: SubtitlesPanel.py:121
 msgid "Auto"
 msgstr "Auto"
 
-#: MediaSubtitlesPanel.py:140 SubtitlesPanel.py:122
+#: MediaSubtitlesPanel.py:140
+#: SubtitlesPanel.py:122
 msgid "Get track from input video file"
 msgstr "Hämta spår från videofil"
 
-#: MediaSubtitlesPanel.py:141 SubtitlesPanel.py:123
+#: MediaSubtitlesPanel.py:141
+#: SubtitlesPanel.py:123
 msgid "Use subtitles file"
 msgstr "Använd fil för undertexter"
 
-#: MediaSubtitlesPanel.py:142 SubtitlesPanel.py:124
+#: MediaSubtitlesPanel.py:142
+#: SubtitlesPanel.py:124
 msgid "Disable subtitles"
 msgstr "Använd inte undertexter"
 
-#: MediaSubtitlesPanel.py:189 SubtitlesPanel.py:171
+#: MediaSubtitlesPanel.py:189
+#: SubtitlesPanel.py:171
 msgid "WARNING: iconv not found. Subtitles encoding option disabled."
 msgstr "VARNING: kan ej hitta iconv. Generering av undertexter avslagen"
 
-#: MediaSubtitlesPanel.py:239 SubtitlesPanel.py:219
+#: MediaSubtitlesPanel.py:239
+#: SubtitlesPanel.py:219
 msgid "Select a subtitles file"
 msgstr "Välj fil för undertexter"
 
-#: MediaSubtitlesPanel.py:251 SubtitlesPanel.py:231
+#: MediaSubtitlesPanel.py:251
+#: SubtitlesPanel.py:231
 msgid "Select the subtitles font"
 msgstr "Välj font för undertexter"
 
-#: MediaSubtitlesPanel.py:270 SubtitlesPanel.py:250
+#: MediaSubtitlesPanel.py:270
+#: SubtitlesPanel.py:250
 msgid "The subtitles file cannot be read."
 msgstr "Kan ej läsa filen med undertexter"
 
-#: MediaVideoPanel.py:86 VideoPanel.py:72
+#: MediaVideoPanel.py:86
+#: VideoPanel.py:72
 msgid "Width"
 msgstr "Bredd"
 
-#: MediaVideoPanel.py:94 VideoPanel.py:80
+#: MediaVideoPanel.py:94
+#: VideoPanel.py:80
 msgid "Keep Aspect"
 msgstr "Behåll förhållande bredd/höjd"
 
-#: MediaVideoPanel.py:97 VideoPanel.py:83
+#: MediaVideoPanel.py:97
+#: VideoPanel.py:83
 msgid "Height"
 msgstr "Höjd"
 
-#: MediaVideoPanel.py:105 VideoPanel.py:91
+#: MediaVideoPanel.py:105
+#: VideoPanel.py:91
 msgid "Video Bitrate"
 msgstr "Bithastighet video"
 
-#: MediaVideoPanel.py:114 VideoPanel.py:100
-msgid "Frames Per Second"
-msgstr "Bilder per sekund (FPS)"
-
-#: MediaVideoPanel.py:121 VideoPanel.py:107
+#: MediaVideoPanel.py:121
+#: VideoPanel.py:107
 msgid "Auto FPS"
 msgstr "Automatisk FPS"
 
-#: MediaVideoPanel.py:124 VideoPanel.py:110
-msgid "Pixel Format"
-msgstr "Pixelformat"
-
-#: MediaVideoPanel.py:131 VideoPanel.py:117
+#: MediaVideoPanel.py:131
+#: VideoPanel.py:117
 msgid "Video Track"
 msgstr "Videospår"
 
-#: MediaVideoPanel.py:140 VideoPanel.py:126
+#: MediaVideoPanel.py:140
+#: VideoPanel.py:126
 msgid "Auto Video Track"
 msgstr "Välj videospår automatiskt"
 
@@ -534,17 +708,18 @@ msgid "Reset all configurations to the default values"
 msgstr "Återställ all konfiguration till ursprungliga värden"
 
 #: OtherPanel.py:238
-msgid ""
-"The configuration files will be deleted and dpg4x will be restarted using "
-"the default settings. Do you want to continue?"
-msgstr ""
-"Konfigurationsfilerna kommer att tas bort och dpg4x startas om med "
-"ursprungliga värden. Vill du fortsätta?"
+msgid "The configuration files will be deleted and dpg4x will be restarted using the default settings. Do you want to continue?"
+msgstr "Konfigurationsfilerna kommer att tas bort och dpg4x startas om med ursprungliga värden. Vill du fortsätta?"
 
-#: Previewer.py:159
+#: Previewer.py:191
+#: Previewer.py:194
 #, python-format
 msgid "Information about %s"
 msgstr "Information om %s"
+
+#: moreControls/DpgInfoDialog.py:71
+msgid "Close"
+msgstr "Stäng"
 
 #~ msgid "ERROR: Incorrect number of parameters"
 #~ msgstr "FEL: felaktigt antal parametrar"

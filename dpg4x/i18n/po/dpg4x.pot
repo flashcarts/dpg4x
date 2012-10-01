@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-09-13 20:18+0200\n"
+"POT-Creation-Date: 2012-10-01 21:36+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: AddDvdDialog.py:62 FilesPanel.py:134
+#: AddDvdDialog.py:62 FilesPanel.py:136
 msgid "Add DVD"
 msgstr ""
 
@@ -45,15 +45,16 @@ msgstr ""
 msgid "The last chapter cannot be lower than the first."
 msgstr ""
 
-#: AddDvdDialog.py:148 Dpg2Avi.py:138 Dpg4x.py:99 Dpg4x.py:101
-#: DpgImgInjector.py:94 FilesPanel.py:379 FilesPanel.py:403 FilesPanel.py:413
-#: FilesPanel.py:417 FilesPanel.py:429 FilesPanel.py:451 FilesPanel.py:455
-#: FilesPanel.py:467 FilesPanel.py:477 FilesPanel.py:481 FilesPanel.py:493
-#: FilesPanel.py:510 FilesPanel.py:512 FilesPanel.py:523 FilesPanel.py:650
+#: AddDvdDialog.py:148 Dpg2Avi.py:138 Dpg4x.py:99 Dpg4x.py:101 Dpg4x.py:158
+#: FilesPanel.py:385 FilesPanel.py:409 FilesPanel.py:419 FilesPanel.py:423
+#: FilesPanel.py:435 FilesPanel.py:457 FilesPanel.py:461 FilesPanel.py:473
+#: FilesPanel.py:483 FilesPanel.py:487 FilesPanel.py:499 FilesPanel.py:523
+#: FilesPanel.py:525 FilesPanel.py:536 FilesPanel.py:666
+#: moreControls/DpgInfoDialog.py:121
 msgid "ERROR"
 msgstr ""
 
-#: AddVcdDialog.py:55 FilesPanel.py:137
+#: AddVcdDialog.py:55 FilesPanel.py:139
 msgid "Add VCD"
 msgstr ""
 
@@ -61,7 +62,7 @@ msgstr ""
 msgid "Track 1 does not contain video"
 msgstr ""
 
-#: AudioPanel.py:65 MediaAudioPanel.py:78
+#: AudioPanel.py:65 DpgHeader.py:107 MediaAudioPanel.py:78
 msgid "Audio Codec"
 msgstr ""
 
@@ -77,7 +78,7 @@ msgstr ""
 msgid "Audio Bitrate"
 msgstr ""
 
-#: AudioPanel.py:98 MediaAudioPanel.py:104
+#: AudioPanel.py:98 DpgHeader.py:108 MediaAudioPanel.py:104
 msgid "Audio Frequency"
 msgstr ""
 
@@ -101,7 +102,7 @@ msgstr ""
 msgid "Abort"
 msgstr ""
 
-#: CustomProgressDialog.py:122 Encoder.py:49
+#: CustomProgressDialog.py:122 Encoder.py:52
 msgid "Starting encoding process"
 msgstr ""
 
@@ -118,7 +119,7 @@ msgstr ""
 msgid "QUESTION"
 msgstr ""
 
-#: Dpg2Avi.py:48 DpgImgInjector.py:31 DpgImgInjector.py:35
+#: Dpg2Avi.py:48 DpgThumbnail.py:33 DpgThumbnail.py:36
 #, python-format
 msgid "ERROR: The file %s cannot be read"
 msgstr ""
@@ -128,17 +129,17 @@ msgstr ""
 msgid "ERROR: The file %s already exists"
 msgstr ""
 
-#: Dpg2Avi.py:58 DpgImgInjector.py:44
+#: Dpg2Avi.py:58 DpgThumbnail.py:43
 #, python-format
 msgid "ERROR: The folder %s cannot be written"
 msgstr ""
 
-#: Dpg2Avi.py:85 DpgImgInjector.py:71
+#: Dpg2Avi.py:85 DpgHeader.py:164 DpgThumbnail.py:55 DpgThumbnail.py:157
 #, python-format
 msgid "%s is not a valid DPG file"
 msgstr ""
 
-#: Dpg2Avi.py:134 Encoder.py:290 Encoder.py:327 Encoder.py:495 Previewer.py:65
+#: Dpg2Avi.py:134 Encoder.py:293 Encoder.py:330 Encoder.py:498 Previewer.py:79
 msgid "ERROR ON MENCODER"
 msgstr ""
 
@@ -163,183 +164,228 @@ msgstr ""
 msgid "Non supported option: %s"
 msgstr ""
 
-#: DpgImgInjector.py:41
+#: DpgHeader.py:86 FilesPanel.py:116 MediaOtherPanel.py:143
+msgid "DPG Version"
+msgstr ""
+
+#: DpgHeader.py:87 MainFrame.py:102 MediaMainFrame.py:113
+msgid "VIDEO"
+msgstr ""
+
+#: DpgHeader.py:88 MediaVideoPanel.py:114 VideoPanel.py:100
+msgid "Frames Per Second"
+msgstr ""
+
+#: DpgHeader.py:89 MediaVideoPanel.py:124 VideoPanel.py:110
+msgid "Pixel Format"
+msgstr ""
+
+#: DpgHeader.py:91
+msgid "frames"
+msgstr ""
+
+#: DpgHeader.py:92 DpgHeader.py:110 DpgHeader.py:113
+#, python-format
+msgid "Size: %d bytes"
+msgstr ""
+
+#: DpgHeader.py:105
+msgid "unknown"
+msgstr ""
+
+#: DpgHeader.py:109
+msgid "channels"
+msgstr ""
+
+#: DpgHeader.py:112
+msgid "GOP"
+msgstr ""
+
+#: DpgHeader.py:115
+msgid "Embedded Thumbnail"
+msgstr ""
+
+#: DpgHeader.py:149
+#, python-format
+msgid "%s is not a valid DPG audio codec"
+msgstr ""
+
+#: DpgThumbnail.py:41
 #, python-format
 msgid "ERROR: The file %s cannot be written"
 msgstr ""
 
-#: DpgImgInjector.py:62
+#: DpgThumbnail.py:51 DpgThumbnail.py:140
 #, python-format
-msgid ""
-"%(file)s is a DPG version %(version)s file, but version 4 or better is "
-"required"
+msgid "%(file)s is a DPG version %(version)s "
 msgstr ""
 
-#: Encoder.py:52 Encoder.py:286 Encoder.py:323 Encoder.py:575 Encoder.py:628
-#: Encoder.py:691 Encoder.py:837 Encoder.py:976 Encoder.py:996 Encoder.py:1051
+#: Encoder.py:55 Encoder.py:289 Encoder.py:326 Encoder.py:578 Encoder.py:631
+#: Encoder.py:694 Encoder.py:762 Encoder.py:857 Encoder.py:877 Encoder.py:932
 msgid "Process aborted by user."
 msgstr ""
 
-#: Encoder.py:75 Encoder.py:438 Encoder.py:468 Encoder.py:551 Encoder.py:715
-#: Encoder.py:729 Previewer.py:82 Previewer.py:125 Previewer.py:155
+#: Encoder.py:78 Encoder.py:441 Encoder.py:471 Encoder.py:554 Encoder.py:718
+#: Encoder.py:732 Previewer.py:96 Previewer.py:147 Previewer.py:186
 msgid "ERROR ON MPLAYER"
 msgstr ""
 
-#: Encoder.py:275 Encoder.py:315 Encoder.py:993
+#: Encoder.py:278 Encoder.py:318 Encoder.py:874
 msgid "Encoding in progress"
 msgstr ""
 
-#: Encoder.py:367 Encoder.py:409 Encoder.py:492 Encoder.py:548
+#: Encoder.py:370 Encoder.py:412 Encoder.py:495 Encoder.py:551
 msgid "Audio encoding stopped"
 msgstr ""
 
-#: Encoder.py:370
+#: Encoder.py:373
 msgid "ERROR ON SOX"
 msgstr ""
 
-#: Encoder.py:572 Encoder.py:625
+#: Encoder.py:575 Encoder.py:628
 msgid "Generating GOP offsets"
 msgstr ""
 
-#: Encoder.py:588 Encoder.py:615
+#: Encoder.py:591 Encoder.py:618
 msgid "ERROR ON MPEG_STAT"
 msgstr ""
 
-#: Encoder.py:688
+#: Encoder.py:691
 msgid "Generating thumbnail"
 msgstr ""
 
-#: Encoder.py:834
+#: Encoder.py:759
 msgid "Generating header"
 msgstr ""
 
-#: Encoder.py:973
+#: Encoder.py:854
 msgid "Finishing encoding process"
 msgstr ""
 
-#: Encoder.py:1048
+#: Encoder.py:929
 msgid "Writing video file"
 msgstr ""
 
-#: FilesPanel.py:101
+#: FilesPanel.py:103
 msgid "Add Media"
 msgstr ""
 
-#: FilesPanel.py:104
+#: FilesPanel.py:106
 msgid "Delete Media"
 msgstr ""
 
-#: FilesPanel.py:107
+#: FilesPanel.py:109
 msgid "DPG Preview"
 msgstr ""
 
-#: FilesPanel.py:111 MediaOtherPanel.py:140
+#: FilesPanel.py:113 MediaOtherPanel.py:140
 msgid "Quality"
 msgstr ""
 
-#: FilesPanel.py:114 MediaOtherPanel.py:143
-msgid "DPG Version"
-msgstr ""
-
-#: FilesPanel.py:118
+#: FilesPanel.py:120
 msgid "Individual Settings"
 msgstr ""
 
-#: FilesPanel.py:122
+#: FilesPanel.py:124
 msgid "Start Encoding"
 msgstr ""
 
-#: FilesPanel.py:131
+#: FilesPanel.py:133
 msgid "Add File"
 msgstr ""
 
-#: FilesPanel.py:140
+#: FilesPanel.py:142
 msgid "Play Media"
 msgstr ""
 
-#: FilesPanel.py:143
+#: FilesPanel.py:145
 msgid "Cancel"
 msgstr ""
 
-#: FilesPanel.py:146
+#: FilesPanel.py:148
 msgid "Media Info"
 msgstr ""
 
-#: FilesPanel.py:149
+#: FilesPanel.py:151
 msgid "Set"
 msgstr ""
 
-#: FilesPanel.py:152
+#: FilesPanel.py:154
 msgid "Delete"
 msgstr ""
 
-#: FilesPanel.py:172 MediaOtherPanel.py:172
+#: FilesPanel.py:174 MediaOtherPanel.py:172
 msgid "Low"
 msgstr ""
 
-#: FilesPanel.py:173 MediaOtherPanel.py:173
+#: FilesPanel.py:175 MediaOtherPanel.py:173
 msgid "Normal"
 msgstr ""
 
-#: FilesPanel.py:174 MediaOtherPanel.py:174
+#: FilesPanel.py:176 MediaOtherPanel.py:174
 msgid "High"
 msgstr ""
 
-#: FilesPanel.py:175 MediaOtherPanel.py:175
+#: FilesPanel.py:177 MediaOtherPanel.py:175
 msgid "Extra High"
 msgstr ""
 
-#: FilesPanel.py:186
+#: FilesPanel.py:188
 msgid "Media sources to encode"
 msgstr ""
 
-#: FilesPanel.py:187
+#: FilesPanel.py:189
 msgid "Indv Settings"
 msgstr ""
 
-#: FilesPanel.py:289
+#: FilesPanel.py:291
 msgid "Select the files to be encoded"
 msgstr ""
 
-#: FilesPanel.py:304 FilesPanel.py:337 FilesPanel.py:364 FilesPanel.py:504
-#: FilesPanel.py:663
+#: FilesPanel.py:308
+#, python-format
+msgid "DPG%d"
+msgstr ""
+
+#: FilesPanel.py:310 FilesPanel.py:343 FilesPanel.py:370 FilesPanel.py:517
+#: FilesPanel.py:679
 msgid "YES"
 msgstr ""
 
-#: FilesPanel.py:306 FilesPanel.py:339 FilesPanel.py:366 FilesPanel.py:506
-#: FilesPanel.py:537 FilesPanel.py:665
+#: FilesPanel.py:312 FilesPanel.py:345 FilesPanel.py:372 FilesPanel.py:519
+#: FilesPanel.py:553 FilesPanel.py:681
 msgid "NO"
 msgstr ""
 
-#: FilesPanel.py:378 FilesPanel.py:522
+#: FilesPanel.py:384 FilesPanel.py:535
 msgid "No media sources selected."
 msgstr ""
 
-#: FilesPanel.py:402 FilesPanel.py:428 FilesPanel.py:466 FilesPanel.py:492
+#: FilesPanel.py:408 FilesPanel.py:434 FilesPanel.py:472 FilesPanel.py:498
 msgid "Select one media source."
 msgstr ""
 
-#: FilesPanel.py:584 MediaOtherPanel.py:279
+#: FilesPanel.py:600 MediaOtherPanel.py:279
 msgid ""
 "With extra high quality, the video FPS cannot be lower than 24. Raising "
 "video FPS to 24."
 msgstr ""
 
-#: FilesPanel.py:586 FilesPanel.py:588 MediaOtherPanel.py:281
+#: FilesPanel.py:602 FilesPanel.py:604 MediaOtherPanel.py:281
 #: MediaOtherPanel.py:283
 msgid "WARNING"
 msgstr ""
 
-#: FilesPanel.py:619
+#: FilesPanel.py:635
 #, python-format
 msgid "Cannot read file %s."
 msgstr ""
 
-#: FilesPanel.py:626
+#: FilesPanel.py:642
 msgid "There are no media sources to process."
 msgstr ""
 
-#: FilesPanel.py:646
+#: FilesPanel.py:662
 msgid "ENCODING ERROR"
 msgstr ""
 
@@ -349,10 +395,6 @@ msgstr ""
 
 #: MainFrame.py:96
 msgid "MAIN"
-msgstr ""
-
-#: MainFrame.py:102 MediaMainFrame.py:113
-msgid "VIDEO"
 msgstr ""
 
 #: MainFrame.py:108 MediaMainFrame.py:119
@@ -382,7 +424,7 @@ msgstr ""
 msgid "Temporary Folder"
 msgstr ""
 
-#: MediaOtherPanel.py:114 OtherPanel.py:108
+#: MediaOtherPanel.py:114 OtherPanel.py:108 moreControls/DpgInfoDialog.py:74
 msgid "Select Thumbnail"
 msgstr ""
 
@@ -406,7 +448,7 @@ msgstr ""
 msgid "Select the temporary folder"
 msgstr ""
 
-#: MediaOtherPanel.py:229 OtherPanel.py:182
+#: MediaOtherPanel.py:229 OtherPanel.py:182 moreControls/DpgInfoDialog.py:108
 msgid "Select a thumbnail file"
 msgstr ""
 
@@ -506,16 +548,8 @@ msgstr ""
 msgid "Video Bitrate"
 msgstr ""
 
-#: MediaVideoPanel.py:114 VideoPanel.py:100
-msgid "Frames Per Second"
-msgstr ""
-
 #: MediaVideoPanel.py:121 VideoPanel.py:107
 msgid "Auto FPS"
-msgstr ""
-
-#: MediaVideoPanel.py:124 VideoPanel.py:110
-msgid "Pixel Format"
 msgstr ""
 
 #: MediaVideoPanel.py:131 VideoPanel.py:117
@@ -536,7 +570,11 @@ msgid ""
 "the default settings. Do you want to continue?"
 msgstr ""
 
-#: Previewer.py:159
+#: Previewer.py:191 Previewer.py:194
 #, python-format
 msgid "Information about %s"
+msgstr ""
+
+#: moreControls/DpgInfoDialog.py:71
+msgid "Close"
 msgstr ""
