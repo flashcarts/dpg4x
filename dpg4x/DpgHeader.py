@@ -2,7 +2,7 @@
 '''
 Created on 9 sep 2012
 
-@author: F�lix Medrano Sanz
+@author: Félix Medrano Sanz
          minor updates by Tomas Aronsson
 '''
 import struct
@@ -82,15 +82,24 @@ class DpgHeader():
         if filename:
             self.fromFile(filename)
         
-    def __str__(self):
+    def __unicode__(self):
         s = _(u'DPG Version') + ': %d\n' % self.version
-        s += _(u'VIDEO') + ': mpg1\n'
-        s += _(u'Frames Per Second') + ': %d   ' % self.fps
-        s += _(u'Pixel Format') + ': %d\n' % self.pixelFormat
-        # Not yet translated
-        s += '%d ' % self.frames + _(u'frames') + '\n'
+        s += _(u'Video Codec') + ': mpg1\n'
+        s += _(u'Frames Per Second') + ': %d\n' % self.fps
+        
+        if self.pixelFormat == 0:
+            pFormat = 'RGB15'
+        elif self.pixelFormat == 1:
+            pFormat = 'RGB18'
+        elif self.pixelFormat == 2:
+            pFormat = 'RGB21'
+        else:
+            pFormat = 'RGB24'
+            
+        s += _(u'Pixel Format') + ': %s\n' % pFormat
         s += _(u'Size: %d bytes') % self.videoSize
-        s += '\n\n'
+        s += ', %d ' % self.frames + _(u'frames') + '\n'
+        s += '\n'
 
         # Number of audio channels, has special values for MP2 and OGG Vorbis
         aChannels = 2
@@ -132,7 +141,7 @@ class DpgHeader():
             self.hasThumb = True
             # The thumbnail is always 98320 bytes
             self.audioStart += 98320
-        self.videostart = self.audioStart + self.audioSize
+        self.videoStart = self.audioStart + self.audioSize
         self.gopStart = self.videoStart + self.videoSize
                     
     def setAudio(self, codec = "mp2", sampleRate = 32000):

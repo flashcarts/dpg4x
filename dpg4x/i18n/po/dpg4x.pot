@@ -8,14 +8,285 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-10-01 21:36+0200\n"
+"POT-Creation-Date: 2012-10-05 20:11+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: \n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=CHARSET\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+
+#: CustomProgressDialog.py:80
+msgid "ENCODING"
+msgstr ""
+
+#: CustomProgressDialog.py:98
+msgid "Abort"
+msgstr ""
+
+#: CustomProgressDialog.py:122 Encoder.py:52
+msgid "Starting encoding process"
+msgstr ""
+
+#: CustomProgressDialog.py:123 CustomProgressDialog.py:149
+#, python-format
+msgid "Overall progress - %s files remain"
+msgstr ""
+
+#: CustomProgressDialog.py:168
+msgid "Do you want to abort the encoding process?"
+msgstr ""
+
+#: CustomProgressDialog.py:168 OtherPanel.py:240
+msgid "QUESTION"
+msgstr ""
+
+#: Globals.py:397
+msgid "WARNING: Temporary files were not properly deleted:"
+msgstr ""
+
+#: AudioPanel.py:65 DpgHeader.py:116 MediaAudioPanel.py:78
+msgid "Audio Codec"
+msgstr ""
+
+#: AudioPanel.py:72 MediaAudioPanel.py:85
+msgid "Audio Track"
+msgstr ""
+
+#: AudioPanel.py:88 MediaAudioPanel.py:94
+msgid "Normalize Volume"
+msgstr ""
+
+#: AudioPanel.py:91 MediaAudioPanel.py:97
+msgid "Audio Bitrate"
+msgstr ""
+
+#: AudioPanel.py:98 DpgHeader.py:117 MediaAudioPanel.py:104
+msgid "Audio Frequency"
+msgstr ""
+
+#: AudioPanel.py:105 MediaAudioPanel.py:111
+msgid "Force Mono Channel"
+msgstr ""
+
+#: AudioPanel.py:109 MediaAudioPanel.py:115
+msgid "Auto Audio Track"
+msgstr ""
+
+#: moreControls/DpgInfoDialog.py:71
+msgid "Close"
+msgstr ""
+
+#: moreControls/DpgInfoDialog.py:74 OtherPanel.py:108 MediaOtherPanel.py:114
+msgid "Select Thumbnail"
+msgstr ""
+
+#: moreControls/DpgInfoDialog.py:109 OtherPanel.py:182 MediaOtherPanel.py:229
+msgid "Select a thumbnail file"
+msgstr ""
+
+#: moreControls/DpgInfoDialog.py:122 Dpg2Avi.py:138 AddDvdDialog.py:148
+#: Dpg4x.py:101 Dpg4x.py:103 Dpg4x.py:160 FilesPanel.py:385 FilesPanel.py:409
+#: FilesPanel.py:419 FilesPanel.py:423 FilesPanel.py:435 FilesPanel.py:457
+#: FilesPanel.py:461 FilesPanel.py:473 FilesPanel.py:483 FilesPanel.py:487
+#: FilesPanel.py:499 FilesPanel.py:523 FilesPanel.py:525 FilesPanel.py:536
+#: FilesPanel.py:666
+msgid "ERROR"
+msgstr ""
+
+#: DpgThumbnail.py:33 DpgThumbnail.py:36 Dpg2Avi.py:48
+#, python-format
+msgid "ERROR: The file %s cannot be read"
+msgstr ""
+
+#: DpgThumbnail.py:41
+#, python-format
+msgid "ERROR: The file %s cannot be written"
+msgstr ""
+
+#: DpgThumbnail.py:43 Dpg2Avi.py:58
+#, python-format
+msgid "ERROR: The folder %s cannot be written"
+msgstr ""
+
+#: DpgThumbnail.py:51 DpgThumbnail.py:140
+#, python-format
+msgid "%(file)s is a DPG version %(version)s "
+msgstr ""
+
+#: DpgThumbnail.py:55 DpgThumbnail.py:157 Dpg2Avi.py:85 DpgHeader.py:173
+#, python-format
+msgid "%s is not a valid DPG file"
+msgstr ""
+
+#: MainFrame.py:96
+msgid "MAIN"
+msgstr ""
+
+#: MainFrame.py:102 MediaMainFrame.py:113
+msgid "VIDEO"
+msgstr ""
+
+#: MainFrame.py:108 MediaMainFrame.py:119
+msgid "AUDIO"
+msgstr ""
+
+#: MainFrame.py:114 MediaMainFrame.py:125
+msgid "SUBTITLES"
+msgstr ""
+
+#: MainFrame.py:120 MediaMainFrame.py:131
+msgid "MISC"
+msgstr ""
+
+#: Dpg2Avi.py:55
+#, python-format
+msgid "ERROR: The file %s already exists"
+msgstr ""
+
+#: Dpg2Avi.py:134 Previewer.py:79 Encoder.py:293 Encoder.py:330 Encoder.py:498
+msgid "ERROR ON MENCODER"
+msgstr ""
+
+#: SubtitlesPanel.py:72 MediaSubtitlesPanel.py:84
+msgid "Subtitles Source"
+msgstr ""
+
+#: SubtitlesPanel.py:79 MediaSubtitlesPanel.py:91
+msgid "Subtitles Track"
+msgstr ""
+
+#: SubtitlesPanel.py:88 MediaSubtitlesPanel.py:100
+msgid "Subtitles File"
+msgstr ""
+
+#: SubtitlesPanel.py:94 SubtitlesPanel.py:103 OtherPanel.py:94
+#: OtherPanel.py:104 OtherPanel.py:114 MediaSubtitlesPanel.py:106
+#: MediaSubtitlesPanel.py:115 MediaOtherPanel.py:100 MediaOtherPanel.py:110
+#: MediaOtherPanel.py:120
+msgid "Examine"
+msgstr ""
+
+#: SubtitlesPanel.py:98 MediaSubtitlesPanel.py:110
+msgid "Font"
+msgstr ""
+
+#: SubtitlesPanel.py:107 MediaSubtitlesPanel.py:119
+msgid "Encoding"
+msgstr ""
+
+#: SubtitlesPanel.py:121 MediaSubtitlesPanel.py:139
+msgid "Auto"
+msgstr ""
+
+#: SubtitlesPanel.py:122 MediaSubtitlesPanel.py:140
+msgid "Get track from input video file"
+msgstr ""
+
+#: SubtitlesPanel.py:123 MediaSubtitlesPanel.py:141
+msgid "Use subtitles file"
+msgstr ""
+
+#: SubtitlesPanel.py:124 MediaSubtitlesPanel.py:142
+msgid "Disable subtitles"
+msgstr ""
+
+#: SubtitlesPanel.py:171 MediaSubtitlesPanel.py:189
+msgid "WARNING: iconv not found. Subtitles encoding option disabled."
+msgstr ""
+
+#: SubtitlesPanel.py:219 MediaSubtitlesPanel.py:239
+msgid "Select a subtitles file"
+msgstr ""
+
+#: SubtitlesPanel.py:231 MediaSubtitlesPanel.py:251
+msgid "Select the subtitles font"
+msgstr ""
+
+#: SubtitlesPanel.py:250 MediaSubtitlesPanel.py:270
+msgid "The subtitles file cannot be read."
+msgstr ""
+
+#: OtherPanel.py:88 MediaOtherPanel.py:94
+msgid "Output Folder"
+msgstr ""
+
+#: OtherPanel.py:98 MediaOtherPanel.py:104
+msgid "Temporary Folder"
+msgstr ""
+
+#: OtherPanel.py:118 MediaOtherPanel.py:124
+msgid "The input folder will be used by default"
+msgstr ""
+
+#: OtherPanel.py:122 MediaOtherPanel.py:128
+msgid "Thumbnails are autogenerated by default (DPG4 only)"
+msgstr ""
+
+#: OtherPanel.py:126 MediaOtherPanel.py:132
+msgid "Preview size (seconds)"
+msgstr ""
+
+#: OtherPanel.py:134
+msgid "Reset all configurations to the default values"
+msgstr ""
+
+#: OtherPanel.py:158 MediaOtherPanel.py:205
+msgid "Select the ouput folder"
+msgstr ""
+
+#: OtherPanel.py:170 MediaOtherPanel.py:217
+msgid "Select the temporary folder"
+msgstr ""
+
+#: OtherPanel.py:195 MediaOtherPanel.py:304
+msgid "The output folder cannot be written. Please select another one."
+msgstr ""
+
+#: OtherPanel.py:202 MediaOtherPanel.py:311
+msgid ""
+"If you want to encode from DVD or VCD you need to select an output folder in "
+"\"MISC\"."
+msgstr ""
+
+#: OtherPanel.py:208 MediaOtherPanel.py:317
+#, python-format
+msgid ""
+"The folder %s cannot be written. Please select an output folder in \"MISC\"."
+msgstr ""
+
+#: OtherPanel.py:215 MediaOtherPanel.py:324
+msgid "The temporary folder cannot be written. Please select another one."
+msgstr ""
+
+#: OtherPanel.py:223 MediaOtherPanel.py:332
+msgid "The thumbnail file cannot be read."
+msgstr ""
+
+#: OtherPanel.py:227 MediaOtherPanel.py:336
+msgid "The thumbnail file has an unknown format."
+msgstr ""
+
+#: OtherPanel.py:238
+msgid ""
+"The configuration files will be deleted and dpg4x will be restarted using "
+"the default settings. Do you want to continue?"
+msgstr ""
+
+#: ConfigurationManager.py:109
+msgid "Cannot save user configuration:"
+msgstr ""
+
+#: Previewer.py:96 Previewer.py:147 Previewer.py:186 Encoder.py:78
+#: Encoder.py:441 Encoder.py:471 Encoder.py:554 Encoder.py:718 Encoder.py:732
+msgid "ERROR ON MPLAYER"
+msgstr ""
+
+#: Previewer.py:191 Previewer.py:194
+#, python-format
+msgid "Information about %s"
+msgstr ""
 
 #: AddDvdDialog.py:62 FilesPanel.py:136
 msgid "Add DVD"
@@ -45,110 +316,12 @@ msgstr ""
 msgid "The last chapter cannot be lower than the first."
 msgstr ""
 
-#: AddDvdDialog.py:148 Dpg2Avi.py:138 Dpg4x.py:99 Dpg4x.py:101 Dpg4x.py:158
-#: FilesPanel.py:385 FilesPanel.py:409 FilesPanel.py:419 FilesPanel.py:423
-#: FilesPanel.py:435 FilesPanel.py:457 FilesPanel.py:461 FilesPanel.py:473
-#: FilesPanel.py:483 FilesPanel.py:487 FilesPanel.py:499 FilesPanel.py:523
-#: FilesPanel.py:525 FilesPanel.py:536 FilesPanel.py:666
-#: moreControls/DpgInfoDialog.py:121
-msgid "ERROR"
-msgstr ""
-
-#: AddVcdDialog.py:55 FilesPanel.py:139
-msgid "Add VCD"
-msgstr ""
-
-#: AddVcdDialog.py:71
-msgid "Track 1 does not contain video"
-msgstr ""
-
-#: AudioPanel.py:65 DpgHeader.py:107 MediaAudioPanel.py:78
-msgid "Audio Codec"
-msgstr ""
-
-#: AudioPanel.py:72 MediaAudioPanel.py:85
-msgid "Audio Track"
-msgstr ""
-
-#: AudioPanel.py:88 MediaAudioPanel.py:94
-msgid "Normalize Volume"
-msgstr ""
-
-#: AudioPanel.py:91 MediaAudioPanel.py:97
-msgid "Audio Bitrate"
-msgstr ""
-
-#: AudioPanel.py:98 DpgHeader.py:108 MediaAudioPanel.py:104
-msgid "Audio Frequency"
-msgstr ""
-
-#: AudioPanel.py:105 MediaAudioPanel.py:111
-msgid "Force Mono Channel"
-msgstr ""
-
-#: AudioPanel.py:109 MediaAudioPanel.py:115
-msgid "Auto Audio Track"
-msgstr ""
-
-#: ConfigurationManager.py:109
-msgid "Cannot save user configuration:"
-msgstr ""
-
-#: CustomProgressDialog.py:80
-msgid "ENCODING"
-msgstr ""
-
-#: CustomProgressDialog.py:98
-msgid "Abort"
-msgstr ""
-
-#: CustomProgressDialog.py:122 Encoder.py:52
-msgid "Starting encoding process"
-msgstr ""
-
-#: CustomProgressDialog.py:123 CustomProgressDialog.py:149
-#, python-format
-msgid "Overall progress - %s files remain"
-msgstr ""
-
-#: CustomProgressDialog.py:168
-msgid "Do you want to abort the encoding process?"
-msgstr ""
-
-#: CustomProgressDialog.py:168 OtherPanel.py:240
-msgid "QUESTION"
-msgstr ""
-
-#: Dpg2Avi.py:48 DpgThumbnail.py:33 DpgThumbnail.py:36
-#, python-format
-msgid "ERROR: The file %s cannot be read"
-msgstr ""
-
-#: Dpg2Avi.py:55
-#, python-format
-msgid "ERROR: The file %s already exists"
-msgstr ""
-
-#: Dpg2Avi.py:58 DpgThumbnail.py:43
-#, python-format
-msgid "ERROR: The folder %s cannot be written"
-msgstr ""
-
-#: Dpg2Avi.py:85 DpgHeader.py:164 DpgThumbnail.py:55 DpgThumbnail.py:157
-#, python-format
-msgid "%s is not a valid DPG file"
-msgstr ""
-
-#: Dpg2Avi.py:134 Encoder.py:293 Encoder.py:330 Encoder.py:498 Previewer.py:79
-msgid "ERROR ON MENCODER"
-msgstr ""
-
-#: Dpg4x.py:97
+#: Dpg4x.py:99
 #, python-format
 msgid "%s not found in PATH. Please install it."
 msgstr ""
 
-#: Dpg4x.py:106
+#: Dpg4x.py:108
 msgid ""
 "Usage: dpg4x [options] file1 file2... (starts GUI if no options)\n"
 "\n"
@@ -159,111 +332,9 @@ msgid ""
 "  --avi             convert DPG files to AVI, no transformation\n"
 msgstr ""
 
-#: Dpg4x.py:131
+#: Dpg4x.py:133
 #, python-format
 msgid "Non supported option: %s"
-msgstr ""
-
-#: DpgHeader.py:86 FilesPanel.py:116 MediaOtherPanel.py:143
-msgid "DPG Version"
-msgstr ""
-
-#: DpgHeader.py:87 MainFrame.py:102 MediaMainFrame.py:113
-msgid "VIDEO"
-msgstr ""
-
-#: DpgHeader.py:88 MediaVideoPanel.py:114 VideoPanel.py:100
-msgid "Frames Per Second"
-msgstr ""
-
-#: DpgHeader.py:89 MediaVideoPanel.py:124 VideoPanel.py:110
-msgid "Pixel Format"
-msgstr ""
-
-#: DpgHeader.py:91
-msgid "frames"
-msgstr ""
-
-#: DpgHeader.py:92 DpgHeader.py:110 DpgHeader.py:113
-#, python-format
-msgid "Size: %d bytes"
-msgstr ""
-
-#: DpgHeader.py:105
-msgid "unknown"
-msgstr ""
-
-#: DpgHeader.py:109
-msgid "channels"
-msgstr ""
-
-#: DpgHeader.py:112
-msgid "GOP"
-msgstr ""
-
-#: DpgHeader.py:115
-msgid "Embedded Thumbnail"
-msgstr ""
-
-#: DpgHeader.py:149
-#, python-format
-msgid "%s is not a valid DPG audio codec"
-msgstr ""
-
-#: DpgThumbnail.py:41
-#, python-format
-msgid "ERROR: The file %s cannot be written"
-msgstr ""
-
-#: DpgThumbnail.py:51 DpgThumbnail.py:140
-#, python-format
-msgid "%(file)s is a DPG version %(version)s "
-msgstr ""
-
-#: Encoder.py:55 Encoder.py:289 Encoder.py:326 Encoder.py:578 Encoder.py:631
-#: Encoder.py:694 Encoder.py:762 Encoder.py:857 Encoder.py:877 Encoder.py:932
-msgid "Process aborted by user."
-msgstr ""
-
-#: Encoder.py:78 Encoder.py:441 Encoder.py:471 Encoder.py:554 Encoder.py:718
-#: Encoder.py:732 Previewer.py:96 Previewer.py:147 Previewer.py:186
-msgid "ERROR ON MPLAYER"
-msgstr ""
-
-#: Encoder.py:278 Encoder.py:318 Encoder.py:874
-msgid "Encoding in progress"
-msgstr ""
-
-#: Encoder.py:370 Encoder.py:412 Encoder.py:495 Encoder.py:551
-msgid "Audio encoding stopped"
-msgstr ""
-
-#: Encoder.py:373
-msgid "ERROR ON SOX"
-msgstr ""
-
-#: Encoder.py:575 Encoder.py:628
-msgid "Generating GOP offsets"
-msgstr ""
-
-#: Encoder.py:591 Encoder.py:618
-msgid "ERROR ON MPEG_STAT"
-msgstr ""
-
-#: Encoder.py:691
-msgid "Generating thumbnail"
-msgstr ""
-
-#: Encoder.py:759
-msgid "Generating header"
-msgstr ""
-
-#: Encoder.py:854
-msgid "Finishing encoding process"
-msgstr ""
-
-#: Encoder.py:929
-msgid "Writing video file"
 msgstr ""
 
 #: FilesPanel.py:103
@@ -282,6 +353,10 @@ msgstr ""
 msgid "Quality"
 msgstr ""
 
+#: FilesPanel.py:116 DpgHeader.py:86 MediaOtherPanel.py:143
+msgid "DPG Version"
+msgstr ""
+
 #: FilesPanel.py:120
 msgid "Individual Settings"
 msgstr ""
@@ -292,6 +367,10 @@ msgstr ""
 
 #: FilesPanel.py:133
 msgid "Add File"
+msgstr ""
+
+#: FilesPanel.py:139 AddVcdDialog.py:55
+msgid "Add VCD"
 msgstr ""
 
 #: FilesPanel.py:142
@@ -389,147 +468,46 @@ msgstr ""
 msgid "ENCODING ERROR"
 msgstr ""
 
-#: Globals.py:397
-msgid "WARNING: Temporary files were not properly deleted:"
+#: DpgHeader.py:87
+msgid "Video Codec"
 msgstr ""
 
-#: MainFrame.py:96
-msgid "MAIN"
+#: DpgHeader.py:88 MediaVideoPanel.py:114 VideoPanel.py:100
+msgid "Frames Per Second"
 msgstr ""
 
-#: MainFrame.py:108 MediaMainFrame.py:119
-msgid "AUDIO"
+#: DpgHeader.py:99 MediaVideoPanel.py:124 VideoPanel.py:110
+msgid "Pixel Format"
 msgstr ""
 
-#: MainFrame.py:114 MediaMainFrame.py:125
-msgid "SUBTITLES"
-msgstr ""
-
-#: MainFrame.py:120 MediaMainFrame.py:131
-msgid "MISC"
-msgstr ""
-
-#: MediaOtherPanel.py:94 OtherPanel.py:88
-msgid "Output Folder"
-msgstr ""
-
-#: MediaOtherPanel.py:100 MediaOtherPanel.py:110 MediaOtherPanel.py:120
-#: MediaSubtitlesPanel.py:106 MediaSubtitlesPanel.py:115 OtherPanel.py:94
-#: OtherPanel.py:104 OtherPanel.py:114 SubtitlesPanel.py:94
-#: SubtitlesPanel.py:103
-msgid "Examine"
-msgstr ""
-
-#: MediaOtherPanel.py:104 OtherPanel.py:98
-msgid "Temporary Folder"
-msgstr ""
-
-#: MediaOtherPanel.py:114 OtherPanel.py:108 moreControls/DpgInfoDialog.py:74
-msgid "Select Thumbnail"
-msgstr ""
-
-#: MediaOtherPanel.py:124 OtherPanel.py:118
-msgid "The input folder will be used by default"
-msgstr ""
-
-#: MediaOtherPanel.py:128 OtherPanel.py:122
-msgid "Thumbnails are autogenerated by default (DPG4 only)"
-msgstr ""
-
-#: MediaOtherPanel.py:132 OtherPanel.py:126
-msgid "Preview size (seconds)"
-msgstr ""
-
-#: MediaOtherPanel.py:205 OtherPanel.py:158
-msgid "Select the ouput folder"
-msgstr ""
-
-#: MediaOtherPanel.py:217 OtherPanel.py:170
-msgid "Select the temporary folder"
-msgstr ""
-
-#: MediaOtherPanel.py:229 OtherPanel.py:182 moreControls/DpgInfoDialog.py:108
-msgid "Select a thumbnail file"
-msgstr ""
-
-#: MediaOtherPanel.py:304 OtherPanel.py:195
-msgid "The output folder cannot be written. Please select another one."
-msgstr ""
-
-#: MediaOtherPanel.py:311 OtherPanel.py:202
-msgid ""
-"If you want to encode from DVD or VCD you need to select an output folder in "
-"\"MISC\"."
-msgstr ""
-
-#: MediaOtherPanel.py:317 OtherPanel.py:208
+#: DpgHeader.py:100 DpgHeader.py:119 DpgHeader.py:122
 #, python-format
-msgid ""
-"The folder %s cannot be written. Please select an output folder in \"MISC\"."
+msgid "Size: %d bytes"
 msgstr ""
 
-#: MediaOtherPanel.py:324 OtherPanel.py:215
-msgid "The temporary folder cannot be written. Please select another one."
+#: DpgHeader.py:101
+msgid "frames"
 msgstr ""
 
-#: MediaOtherPanel.py:332 OtherPanel.py:223
-msgid "The thumbnail file cannot be read."
+#: DpgHeader.py:114
+msgid "unknown"
 msgstr ""
 
-#: MediaOtherPanel.py:336 OtherPanel.py:227
-msgid "The thumbnail file has an unknown format."
+#: DpgHeader.py:118
+msgid "channels"
 msgstr ""
 
-#: MediaSubtitlesPanel.py:84 SubtitlesPanel.py:72
-msgid "Subtitles Source"
+#: DpgHeader.py:121
+msgid "GOP"
 msgstr ""
 
-#: MediaSubtitlesPanel.py:91 SubtitlesPanel.py:79
-msgid "Subtitles Track"
+#: DpgHeader.py:124
+msgid "Embedded Thumbnail"
 msgstr ""
 
-#: MediaSubtitlesPanel.py:100 SubtitlesPanel.py:88
-msgid "Subtitles File"
-msgstr ""
-
-#: MediaSubtitlesPanel.py:110 SubtitlesPanel.py:98
-msgid "Font"
-msgstr ""
-
-#: MediaSubtitlesPanel.py:119 SubtitlesPanel.py:107
-msgid "Encoding"
-msgstr ""
-
-#: MediaSubtitlesPanel.py:139 SubtitlesPanel.py:121
-msgid "Auto"
-msgstr ""
-
-#: MediaSubtitlesPanel.py:140 SubtitlesPanel.py:122
-msgid "Get track from input video file"
-msgstr ""
-
-#: MediaSubtitlesPanel.py:141 SubtitlesPanel.py:123
-msgid "Use subtitles file"
-msgstr ""
-
-#: MediaSubtitlesPanel.py:142 SubtitlesPanel.py:124
-msgid "Disable subtitles"
-msgstr ""
-
-#: MediaSubtitlesPanel.py:189 SubtitlesPanel.py:171
-msgid "WARNING: iconv not found. Subtitles encoding option disabled."
-msgstr ""
-
-#: MediaSubtitlesPanel.py:239 SubtitlesPanel.py:219
-msgid "Select a subtitles file"
-msgstr ""
-
-#: MediaSubtitlesPanel.py:251 SubtitlesPanel.py:231
-msgid "Select the subtitles font"
-msgstr ""
-
-#: MediaSubtitlesPanel.py:270 SubtitlesPanel.py:250
-msgid "The subtitles file cannot be read."
+#: DpgHeader.py:158
+#, python-format
+msgid "%s is not a valid DPG audio codec"
 msgstr ""
 
 #: MediaVideoPanel.py:86 VideoPanel.py:72
@@ -560,21 +538,47 @@ msgstr ""
 msgid "Auto Video Track"
 msgstr ""
 
-#: OtherPanel.py:134
-msgid "Reset all configurations to the default values"
+#: AddVcdDialog.py:71
+msgid "Track 1 does not contain video"
 msgstr ""
 
-#: OtherPanel.py:238
-msgid ""
-"The configuration files will be deleted and dpg4x will be restarted using "
-"the default settings. Do you want to continue?"
+#: Encoder.py:55 Encoder.py:289 Encoder.py:326 Encoder.py:578 Encoder.py:631
+#: Encoder.py:694 Encoder.py:762 Encoder.py:857 Encoder.py:877 Encoder.py:932
+msgid "Process aborted by user."
 msgstr ""
 
-#: Previewer.py:191 Previewer.py:194
-#, python-format
-msgid "Information about %s"
+#: Encoder.py:278 Encoder.py:318 Encoder.py:874
+msgid "Encoding in progress"
 msgstr ""
 
-#: moreControls/DpgInfoDialog.py:71
-msgid "Close"
+#: Encoder.py:370 Encoder.py:412 Encoder.py:495 Encoder.py:551
+msgid "Audio encoding stopped"
+msgstr ""
+
+#: Encoder.py:373
+msgid "ERROR ON SOX"
+msgstr ""
+
+#: Encoder.py:575 Encoder.py:628
+msgid "Generating GOP offsets"
+msgstr ""
+
+#: Encoder.py:591 Encoder.py:618
+msgid "ERROR ON MPEG_STAT"
+msgstr ""
+
+#: Encoder.py:691
+msgid "Generating thumbnail"
+msgstr ""
+
+#: Encoder.py:759
+msgid "Generating header"
+msgstr ""
+
+#: Encoder.py:854
+msgid "Finishing encoding process"
+msgstr ""
+
+#: Encoder.py:929
+msgid "Writing video file"
 msgstr ""

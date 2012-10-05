@@ -403,6 +403,8 @@ class FilesPanel(wx.Panel):
         if (event is not None):
             event.StopPropagation()
         try:
+            # Busy cursor
+            self.busy = wx.BusyCursor()
             # Allow only one file
             if self.listCtrl1.GetSelectedItemCount() != 1:
                 message = _(u'Select one media source.')
@@ -412,9 +414,15 @@ class FilesPanel(wx.Panel):
                 return
             # Play the file
             item = self.listCtrl1.GetItemText(self.listCtrl1.GetFirstSelected())
-            Previewer.play_files(item)       
+            Previewer.play_files(item)
+            # Sets the normal cursor again
+            if self.busy:
+                del self.busy
         # On error, warn the user
         except Exception, e:
+            # Sets the normal cursor again
+            if self.busy:
+                del self.busy
             message = unicode(e.args[0])
             Globals.debug(_(u'ERROR') + ': ' + message)
             # Show a dialog to the user
@@ -429,6 +437,8 @@ class FilesPanel(wx.Panel):
         if (event is not None):
             event.StopPropagation()
         try:
+            # Busy cursor
+            self.busy = wx.BusyCursor()
             # Allow only one file
             if self.listCtrl1.GetSelectedItemCount() != 1:
                 message = _(u'Select one media source.')
@@ -445,14 +455,18 @@ class FilesPanel(wx.Panel):
             ConfigurationManager.saveConfiguration()
             # Preview the file
             item = self.listCtrl1.GetItemText(self.listCtrl1.GetFirstSelected())
-            
             # Read options from the media specific config file (if one exists)
             # This allows media specific options to be saved between sessions
             ConfigurationManager.loadConfiguration(item)
-            
-            Previewer.preview_files(item)       
+            Previewer.preview_files(item)
+            # Sets the normal cursor again
+            if self.busy:
+                del self.busy      
         # On error, warn the user
         except Exception, e:
+            # Sets the normal cursor again
+            if self.busy:
+                del self.busy
             message = unicode(e.args[0])
             Globals.debug(_(u'ERROR') + ': ' + message)
             # Show a dialog to the user

@@ -83,7 +83,7 @@ class DpgInfoDialog(wx.Dialog):
         dpg = DpgHeader.DpgHeader(filename)
         if dpg.version > 3:
             thumb = DpgThumbnail.DpgThumbnail(filename)
-            self.textCtrl1.AppendText(str(dpg))
+            self.textCtrl1.AppendText(unicode(dpg))
             self.textCtrl1.ShowPosition(0)
             self.bmp.SetBitmap(thumb.getImage().ConvertToBitmap())
         else:
