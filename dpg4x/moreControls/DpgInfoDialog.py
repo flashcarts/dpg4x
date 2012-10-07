@@ -87,7 +87,7 @@ class DpgInfoDialog(wx.Dialog):
             self.textCtrl1.ShowPosition(0)
             self.bmp.SetBitmap(thumb.getImage().ConvertToBitmap())
         else:
-            self.textCtrl1.AppendText(str(dpg))
+            self.textCtrl1.AppendText(unicode(dpg))
             
         self.textCtrl2.AppendText(text)
         self.textCtrl2.ShowPosition(0)

@@ -14,15 +14,12 @@
 
 import Globals
 import Encoder
-import Dpg2Avi
 import DpgHeader
 
 from moreControls.OutputTextDialog import OutputTextDialog
 from moreControls.DpgInfoDialog import DpgInfoDialog
 
-
 import subprocess
-import tempfile
 import os
 import wx
 
@@ -124,12 +121,10 @@ def play_files(file):
             mpFile = file.split()
         else:
             dpgVersion = DpgHeader.getDpgVersion(file)
-            # Mplayer cannot read DPG, convert to AVI
+            # Mplayer cannot read DPG directly, needs to know where video/audio start
             if dpgVersion:
-                fd,tmpname = tempfile.mkstemp(dir=Globals.other_temporary)
-                os.close(fd)
-                Dpg2Avi.Dpg2Avi(file, tmpname, True)
-                mpFile = [ tmpname ]
+                h = DpgHeader.DpgHeader(file)
+                mpFile = ['-sb', '%d' % h.videoStart, '-audiofile', file, file]
             else:
                 mpFile = [ file ]
         
@@ -163,12 +158,22 @@ def show_information(file, parent):
         mpFile = file.split()
     else:
         dpgVersion = DpgHeader.getDpgVersion(file)
-        # Mplayer cannot read DPG, convert to AVI
+        # Mplayer cannot read DPG directly
         if dpgVersion:
-            fd,tmpname = tempfile.mkstemp(dir=Globals.other_temporary)
-            os.close(fd)
-            Dpg2Avi.Dpg2Avi(file, tmpname, True)
-            mpFile = [ tmpname ]
+            # Even if not changing streams it takes time to convert a long movie to AVI
+            # Code below behind comments works, but is too slow with large DPG files
+            # Still kept here as fallback if we get mplayer issues
+
+            # import Dpg2Avi
+            # import tempfile
+            # fd,tmpname = tempfile.mkstemp(dir=Globals.other_temporary)
+            # os.close(fd)
+            # Dpg2Avi.Dpg2Avi(file, tmpname, True)
+            # mpFile = [ tmpname ]
+
+            # Mplayer can handle DPG files if told where video/audio start
+            h = DpgHeader.DpgHeader(file)
+            mpFile = ['-sb', '%d' % h.videoStart, '-audiofile', file, file]
         else:
             mpFile = [ file ]
             
