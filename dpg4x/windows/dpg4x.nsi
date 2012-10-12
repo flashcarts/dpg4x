@@ -3,7 +3,7 @@
 
 !define VERSION 2.3
 # Must contain four parts, used for internal comparisons of patch levels
-!define  VIProduct_Ver "${VERSION}.0.2.svn93"
+!define  VIProduct_Ver "${VERSION}.1.0"
 
 Name dpg4x
 # Needed because $(^Name) sometimes does not seem to expand correctly
