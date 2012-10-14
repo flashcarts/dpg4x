@@ -24,20 +24,19 @@ about dependencies and installation.
 
 2. FEATURES
 
-- Simple GUI suitable for beginners.
-- Includes lots of options for the advanced user.
-- Supports individual per-media settings when needed.
-- Multiple DPG version support, from DPG0 to DPG4.
-- Can process any video file playable by mplayer.
-- Encodes your DVD and VCD directly.
-- Includes subtitles support.
-- Ability to preview the encoding settings.
-- Drag and drop support from your favourite file manager.
-- Batch processing.
-- Multiplatform.
-- Multilanguage.
-- The dpg2avi script can convert DPG files to AVI format.
-- The dpgimginjector script can replace the thumbnail included in a DPG4 file.
+ - Simple GUI suitable for beginners.
+ - Includes lots of options for the advanced user.
+ - Command line options to encode videos from batch jobs.
+ - Supports individual per-media settings when needed.
+ - Multiple DPG version support, from DPG0 to DPG4.
+ - Can process any video file playable by mplayer.
+ - Encodes your DVD and VCD directly.
+ - Includes subtitles support.
+ - Ability to preview the encoding settings.
+ - Drag and drop support from your favorite file manager.
+ - Batch processing.
+ - Multiplatform.
+ - Multilanguage.
 
 3. USAGE
 

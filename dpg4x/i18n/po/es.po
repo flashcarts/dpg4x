@@ -1,7 +1,7 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
-# 
+#
 # Translators:
 # Félix Medrano <xukosky@yahoo.es>, 2010-2012.
 # xukosky <xukosky@yahoo.es>, 2011.
@@ -9,15 +9,16 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: DPG for X\n"
-"Report-Msgid-Bugs-To: http://sourceforge.net/tracker/?group_id=302222&atid=1274260\n"
-"POT-Creation-Date: 2012-10-05 20:11+0200\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2012-10-14 10:43+0200\n"
 "PO-Revision-Date: 2012-10-05 18:33+0000\n"
 "Last-Translator: xukosky <xukosky@yahoo.es>\n"
-"Language-Team: Spanish (http://www.transifex.com/projects/p/dpg4x/language/es/)\n"
+"Language-Team: Spanish (http://www.transifex.com/projects/p/dpg4x/language/"
+"es/)\n"
+"Language: es\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: es\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: CustomProgressDialog.py:80
@@ -90,11 +91,11 @@ msgid "Select a thumbnail file"
 msgstr "Seleccione un archivo de imagen"
 
 #: moreControls/DpgInfoDialog.py:122 Dpg2Avi.py:138 AddDvdDialog.py:148
-#: Dpg4x.py:101 Dpg4x.py:103 Dpg4x.py:160 FilesPanel.py:385 FilesPanel.py:409
-#: FilesPanel.py:419 FilesPanel.py:423 FilesPanel.py:435 FilesPanel.py:457
-#: FilesPanel.py:461 FilesPanel.py:473 FilesPanel.py:483 FilesPanel.py:487
-#: FilesPanel.py:499 FilesPanel.py:523 FilesPanel.py:525 FilesPanel.py:536
-#: FilesPanel.py:666
+#: Dpg4x.py:101 Dpg4x.py:103 Dpg4x.py:160 FilesPanel.py:385 FilesPanel.py:411
+#: FilesPanel.py:427 FilesPanel.py:431 FilesPanel.py:445 FilesPanel.py:471
+#: FilesPanel.py:475 FilesPanel.py:487 FilesPanel.py:497 FilesPanel.py:501
+#: FilesPanel.py:513 FilesPanel.py:537 FilesPanel.py:539 FilesPanel.py:550
+#: FilesPanel.py:680
 msgid "ERROR"
 msgstr "ERROR"
 
@@ -123,32 +124,36 @@ msgstr "%(file)s es un archivo DPG versión %(version)s "
 msgid "%s is not a valid DPG file"
 msgstr "%s no es un archivo DPG válido"
 
-#: MainFrame.py:96
+#: MainFrame.py:98
 msgid "MAIN"
 msgstr "PRINCIPAL"
 
-#: MainFrame.py:102 MediaMainFrame.py:113
+#: MainFrame.py:104 MediaMainFrame.py:113
 msgid "VIDEO"
 msgstr "IMAGEN"
 
-#: MainFrame.py:108 MediaMainFrame.py:119
+#: MainFrame.py:110 MediaMainFrame.py:119
 msgid "AUDIO"
 msgstr "SONIDO"
 
-#: MainFrame.py:114 MediaMainFrame.py:125
+#: MainFrame.py:116 MediaMainFrame.py:125
 msgid "SUBTITLES"
 msgstr "SUBTÍTULOS"
 
-#: MainFrame.py:120 MediaMainFrame.py:131
+#: MainFrame.py:122 MediaMainFrame.py:131
 msgid "MISC"
 msgstr "VARIOS"
+
+#: MainFrame.py:127
+msgid "HELP"
+msgstr "AYUDA"
 
 #: Dpg2Avi.py:55
 #, python-format
 msgid "ERROR: The file %s already exists"
 msgstr "ERROR: El archivo %s ya existe"
 
-#: Dpg2Avi.py:134 Previewer.py:79 Encoder.py:293 Encoder.py:330 Encoder.py:498
+#: Dpg2Avi.py:134 Previewer.py:76 Encoder.py:293 Encoder.py:330 Encoder.py:498
 msgid "ERROR ON MENCODER"
 msgstr "ERROR EN MENCODER"
 
@@ -197,7 +202,9 @@ msgstr "Deshabilitar los subtítulos"
 
 #: SubtitlesPanel.py:171 MediaSubtitlesPanel.py:189
 msgid "WARNING: iconv not found. Subtitles encoding option disabled."
-msgstr "AVISO: no se encuentra iconv. Opción de codificación de subtítulos deshabilitada."
+msgstr ""
+"AVISO: no se encuentra iconv. Opción de codificación de subtítulos "
+"deshabilitada."
 
 #: SubtitlesPanel.py:219 MediaSubtitlesPanel.py:239
 msgid "Select a subtitles file"
@@ -245,23 +252,29 @@ msgstr "Seleccione el directorio temporal"
 
 #: OtherPanel.py:195 MediaOtherPanel.py:304
 msgid "The output folder cannot be written. Please select another one."
-msgstr "No se puede escribir en el directorio de salida. Por favor seleccione otro."
+msgstr ""
+"No se puede escribir en el directorio de salida. Por favor seleccione otro."
 
 #: OtherPanel.py:202 MediaOtherPanel.py:311
 msgid ""
-"If you want to encode from DVD or VCD you need to select an output folder in"
-" \"MISC\"."
-msgstr "Para poder codificar un DVD o un VCD tiene que seleccionar un directorio de salida en «VARIOS»."
+"If you want to encode from DVD or VCD you need to select an output folder in "
+"\"MISC\"."
+msgstr ""
+"Para poder codificar un DVD o un VCD tiene que seleccionar un directorio de "
+"salida en «VARIOS»."
 
 #: OtherPanel.py:208 MediaOtherPanel.py:317
 #, python-format
 msgid ""
 "The folder %s cannot be written. Please select an output folder in \"MISC\"."
-msgstr "No se puede escribir en el directorio %s. Por favor seleccione un directorio de salida en «VARIOS»."
+msgstr ""
+"No se puede escribir en el directorio %s. Por favor seleccione un directorio "
+"de salida en «VARIOS»."
 
 #: OtherPanel.py:215 MediaOtherPanel.py:324
 msgid "The temporary folder cannot be written. Please select another one."
-msgstr "No se puede escribir en el directorio temporal. Por favor seleccione otro."
+msgstr ""
+"No se puede escribir en el directorio temporal. Por favor seleccione otro."
 
 #: OtherPanel.py:223 MediaOtherPanel.py:332
 msgid "The thumbnail file cannot be read."
@@ -275,18 +288,20 @@ msgstr "El archivo con la miniatura tiene un formato desconocido."
 msgid ""
 "The configuration files will be deleted and dpg4x will be restarted using "
 "the default settings. Do you want to continue?"
-msgstr "Se borrarán los archivos de configuración y dpg4x se reiniciará utilizando la configuración predeterminada. ¿Desea continuar?"
+msgstr ""
+"Se borrarán los archivos de configuración y dpg4x se reiniciará utilizando "
+"la configuración predeterminada. ¿Desea continuar?"
 
 #: ConfigurationManager.py:109
 msgid "Cannot save user configuration:"
 msgstr "No se puede guardar la configuración de usuario:"
 
-#: Previewer.py:96 Previewer.py:147 Previewer.py:186 Encoder.py:78
+#: Previewer.py:93 Previewer.py:142 Previewer.py:191 Encoder.py:78
 #: Encoder.py:441 Encoder.py:471 Encoder.py:554 Encoder.py:718 Encoder.py:732
 msgid "ERROR ON MPLAYER"
 msgstr "ERROR EN MPLAYER"
 
-#: Previewer.py:191 Previewer.py:194
+#: Previewer.py:196 Previewer.py:199
 #, python-format
 msgid "Information about %s"
 msgstr "Información sobre %s"
@@ -333,7 +348,16 @@ msgid ""
 "  --thumbnail=FILE  use image file as thumbnail in DPG files\n"
 "  --dpg             convert files to DPG, using settings from GUI\n"
 "  --avi             convert DPG files to AVI, no transformation\n"
-msgstr "Uso: dpg4x [opciones] archivo1 archivo2... (inicia el interfaz sin opciones)\n\nOpciones:\n  -h, --help          muestra este mensaje de ayuda y termina\n  --thumbnail=IMAGEN  pone la imagen como miniatura en un archivo DPG\n  --dpg               convierte archivos a DPG, utilizando la configuración del interfaz\n  --avi               convierte archivos DPG a AVI, sin transformación\n"
+msgstr ""
+"Uso: dpg4x [opciones] archivo1 archivo2... (inicia el interfaz sin "
+"opciones)\n"
+"\n"
+"Opciones:\n"
+"  -h, --help          muestra este mensaje de ayuda y termina\n"
+"  --thumbnail=IMAGEN  pone la imagen como miniatura en un archivo DPG\n"
+"  --dpg               convierte archivos a DPG, utilizando la configuración "
+"del interfaz\n"
+"  --avi               convierte archivos DPG a AVI, sin transformación\n"
 
 #: Dpg4x.py:133
 #, python-format
@@ -429,45 +453,47 @@ msgstr "Seleccione los archivos que se van a codificar"
 msgid "DPG%d"
 msgstr "DPG%d"
 
-#: FilesPanel.py:310 FilesPanel.py:343 FilesPanel.py:370 FilesPanel.py:517
-#: FilesPanel.py:679
+#: FilesPanel.py:310 FilesPanel.py:343 FilesPanel.py:370 FilesPanel.py:531
+#: FilesPanel.py:693
 msgid "YES"
 msgstr "SÍ"
 
-#: FilesPanel.py:312 FilesPanel.py:345 FilesPanel.py:372 FilesPanel.py:519
-#: FilesPanel.py:553 FilesPanel.py:681
+#: FilesPanel.py:312 FilesPanel.py:345 FilesPanel.py:372 FilesPanel.py:533
+#: FilesPanel.py:567 FilesPanel.py:695
 msgid "NO"
 msgstr "NO"
 
-#: FilesPanel.py:384 FilesPanel.py:535
+#: FilesPanel.py:384 FilesPanel.py:549
 msgid "No media sources selected."
 msgstr "No hay orígenes de vídeo seleccionados."
 
-#: FilesPanel.py:408 FilesPanel.py:434 FilesPanel.py:472 FilesPanel.py:498
+#: FilesPanel.py:410 FilesPanel.py:444 FilesPanel.py:486 FilesPanel.py:512
 msgid "Select one media source."
 msgstr "Seleccione un origen de vídeo."
 
-#: FilesPanel.py:600 MediaOtherPanel.py:279
+#: FilesPanel.py:614 MediaOtherPanel.py:279
 msgid ""
 "With extra high quality, the video FPS cannot be lower than 24. Raising "
 "video FPS to 24."
-msgstr "Con calidad muy alta, las imágenes por segundo no pueden ser menos de 24. Se elevará la tasa hasta 24."
+msgstr ""
+"Con calidad muy alta, las imágenes por segundo no pueden ser menos de 24. Se "
+"elevará la tasa hasta 24."
 
-#: FilesPanel.py:602 FilesPanel.py:604 MediaOtherPanel.py:281
+#: FilesPanel.py:616 FilesPanel.py:618 MediaOtherPanel.py:281
 #: MediaOtherPanel.py:283
 msgid "WARNING"
 msgstr "AVISO"
 
-#: FilesPanel.py:635
+#: FilesPanel.py:649
 #, python-format
 msgid "Cannot read file %s."
 msgstr "No se puede leer el archivo %s."
 
-#: FilesPanel.py:642
+#: FilesPanel.py:656
 msgid "There are no media sources to process."
 msgstr "No hay orígenes de vídeo para procesar."
 
-#: FilesPanel.py:662
+#: FilesPanel.py:676
 msgid "ENCODING ERROR"
 msgstr "ERROR DE CODIFICACIÓN"
 

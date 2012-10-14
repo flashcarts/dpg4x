@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-10-05 20:11+0200\n"
+"POT-Creation-Date: 2012-10-14 10:43+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -87,11 +87,11 @@ msgid "Select a thumbnail file"
 msgstr ""
 
 #: moreControls/DpgInfoDialog.py:122 Dpg2Avi.py:138 AddDvdDialog.py:148
-#: Dpg4x.py:101 Dpg4x.py:103 Dpg4x.py:160 FilesPanel.py:385 FilesPanel.py:409
-#: FilesPanel.py:419 FilesPanel.py:423 FilesPanel.py:435 FilesPanel.py:457
-#: FilesPanel.py:461 FilesPanel.py:473 FilesPanel.py:483 FilesPanel.py:487
-#: FilesPanel.py:499 FilesPanel.py:523 FilesPanel.py:525 FilesPanel.py:536
-#: FilesPanel.py:666
+#: Dpg4x.py:101 Dpg4x.py:103 Dpg4x.py:160 FilesPanel.py:385 FilesPanel.py:411
+#: FilesPanel.py:427 FilesPanel.py:431 FilesPanel.py:445 FilesPanel.py:471
+#: FilesPanel.py:475 FilesPanel.py:487 FilesPanel.py:497 FilesPanel.py:501
+#: FilesPanel.py:513 FilesPanel.py:537 FilesPanel.py:539 FilesPanel.py:550
+#: FilesPanel.py:680
 msgid "ERROR"
 msgstr ""
 
@@ -120,24 +120,28 @@ msgstr ""
 msgid "%s is not a valid DPG file"
 msgstr ""
 
-#: MainFrame.py:96
+#: MainFrame.py:98
 msgid "MAIN"
 msgstr ""
 
-#: MainFrame.py:102 MediaMainFrame.py:113
+#: MainFrame.py:104 MediaMainFrame.py:113
 msgid "VIDEO"
 msgstr ""
 
-#: MainFrame.py:108 MediaMainFrame.py:119
+#: MainFrame.py:110 MediaMainFrame.py:119
 msgid "AUDIO"
 msgstr ""
 
-#: MainFrame.py:114 MediaMainFrame.py:125
+#: MainFrame.py:116 MediaMainFrame.py:125
 msgid "SUBTITLES"
 msgstr ""
 
-#: MainFrame.py:120 MediaMainFrame.py:131
+#: MainFrame.py:122 MediaMainFrame.py:131
 msgid "MISC"
+msgstr ""
+
+#: MainFrame.py:127
+msgid "HELP"
 msgstr ""
 
 #: Dpg2Avi.py:55
@@ -145,7 +149,7 @@ msgstr ""
 msgid "ERROR: The file %s already exists"
 msgstr ""
 
-#: Dpg2Avi.py:134 Previewer.py:79 Encoder.py:293 Encoder.py:330 Encoder.py:498
+#: Dpg2Avi.py:134 Previewer.py:76 Encoder.py:293 Encoder.py:330 Encoder.py:498
 msgid "ERROR ON MENCODER"
 msgstr ""
 
@@ -278,12 +282,12 @@ msgstr ""
 msgid "Cannot save user configuration:"
 msgstr ""
 
-#: Previewer.py:96 Previewer.py:147 Previewer.py:186 Encoder.py:78
+#: Previewer.py:93 Previewer.py:142 Previewer.py:191 Encoder.py:78
 #: Encoder.py:441 Encoder.py:471 Encoder.py:554 Encoder.py:718 Encoder.py:732
 msgid "ERROR ON MPLAYER"
 msgstr ""
 
-#: Previewer.py:191 Previewer.py:194
+#: Previewer.py:196 Previewer.py:199
 #, python-format
 msgid "Information about %s"
 msgstr ""
@@ -426,45 +430,45 @@ msgstr ""
 msgid "DPG%d"
 msgstr ""
 
-#: FilesPanel.py:310 FilesPanel.py:343 FilesPanel.py:370 FilesPanel.py:517
-#: FilesPanel.py:679
+#: FilesPanel.py:310 FilesPanel.py:343 FilesPanel.py:370 FilesPanel.py:531
+#: FilesPanel.py:693
 msgid "YES"
 msgstr ""
 
-#: FilesPanel.py:312 FilesPanel.py:345 FilesPanel.py:372 FilesPanel.py:519
-#: FilesPanel.py:553 FilesPanel.py:681
+#: FilesPanel.py:312 FilesPanel.py:345 FilesPanel.py:372 FilesPanel.py:533
+#: FilesPanel.py:567 FilesPanel.py:695
 msgid "NO"
 msgstr ""
 
-#: FilesPanel.py:384 FilesPanel.py:535
+#: FilesPanel.py:384 FilesPanel.py:549
 msgid "No media sources selected."
 msgstr ""
 
-#: FilesPanel.py:408 FilesPanel.py:434 FilesPanel.py:472 FilesPanel.py:498
+#: FilesPanel.py:410 FilesPanel.py:444 FilesPanel.py:486 FilesPanel.py:512
 msgid "Select one media source."
 msgstr ""
 
-#: FilesPanel.py:600 MediaOtherPanel.py:279
+#: FilesPanel.py:614 MediaOtherPanel.py:279
 msgid ""
 "With extra high quality, the video FPS cannot be lower than 24. Raising "
 "video FPS to 24."
 msgstr ""
 
-#: FilesPanel.py:602 FilesPanel.py:604 MediaOtherPanel.py:281
+#: FilesPanel.py:616 FilesPanel.py:618 MediaOtherPanel.py:281
 #: MediaOtherPanel.py:283
 msgid "WARNING"
 msgstr ""
 
-#: FilesPanel.py:635
+#: FilesPanel.py:649
 #, python-format
 msgid "Cannot read file %s."
 msgstr ""
 
-#: FilesPanel.py:642
+#: FilesPanel.py:656
 msgid "There are no media sources to process."
 msgstr ""
 
-#: FilesPanel.py:662
+#: FilesPanel.py:676
 msgid "ENCODING ERROR"
 msgstr ""
 

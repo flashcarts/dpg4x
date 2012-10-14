@@ -85,6 +85,8 @@ class Frame1(wx.Frame):
             wx.BITMAP_TYPE_PNG))
         imageList.AddIcon(wx.Icon(icon_dir+'/other.png',
             wx.BITMAP_TYPE_PNG))
+        imageList.AddIcon(wx.Icon(icon_dir+'/help.png',
+            wx.BITMAP_TYPE_PNG))
         self.notebook1.AssignImageList(imageList)
         
         # Panel with files to be processed
@@ -120,8 +122,25 @@ class Frame1(wx.Frame):
             Globals.fillString(_(u'MISC'),10),imageId=4)
         Globals.otherPanel = otherPanel
         
+        # User Guide
+        self.notebook1.AddPage(filesPanel,
+            Globals.fillString(_(u'HELP'),10),imageId=5)
+        
         # Set the window size
         width = self.GetBestSize().x + 20
         height = self.GetBestSize().y + 20
         self.SetMinSize(wx.Size(width, height))
         self.SetClientSize(wx.Size(width, height))
+        
+        # Events
+        wx.EVT_TOOLBOOK_PAGE_CHANGED(self.notebook1, wxID_FRAME1NOTEBOOK1, self.PageChanged)
+        
+    def PageChanged(self, event):
+        "A page changes in the notebook, used to open the user guide"
+        if event.GetSelection() == 5:
+            self.notebook1.SetSelection(event.GetOldSelection())
+            wx.LaunchDefaultBrowser('http://dpg4x.sourceforge.net/user-guide.html')
+            
+
+        
+        
