@@ -18,7 +18,6 @@
 import Globals
 import ConfigurationManager
 import CustomProgressDialog
-import Dpg2Avi
 import DpgHeader
 import DpgThumbnail
 
@@ -256,6 +255,198 @@ def encode_video(file, filename, preview=False):
     proc = subprocess.Popen(Globals.ListUnicodeEncode(v_cmd),stdout=subprocess.PIPE,
         stdin=subprocess.PIPE,shell=Globals.shell(),
         stderr=subprocess.STDOUT, universal_newlines=True)
+
+    if preview:
+        # Progress dialog disabled on preview, handle exceptions output only
+        mencoder_progress(proc)
+    else:
+        doublepass = 0
+        if Globals.dpg_quality == 'doublepass':
+            doublepass = 1
+        mencoder_progress(proc, filename, progress, doublepass)
+        
+    # Execute the second pass if necessary
+    if Globals.dpg_quality == 'doublepass':
+        Globals.debug('ENCODE VIDEO: ' + `v_cmd_two`)
+        proc = subprocess.Popen(Globals.ListUnicodeEncode(v_cmd_two),stdout=subprocess.PIPE,
+            stdin=subprocess.PIPE,shell=Globals.shell(),
+            stderr=subprocess.STDOUT, universal_newlines=True)
+        if preview:
+            # Progress dialog disabled on preview, handle exceptions output only
+            mencoder_progress(proc)
+        else:
+            mencoder_progress(proc, filename, progress, 2)
+
+        # Delete the divx2pass.log temporary file
+        os.chdir(current_path)
+        shutil.rmtree(Globals.TMP_DIVX2PASS, ignore_errors = True)
+
+def encode_Dpg2Avi(inputN, progress = None, outputN = None, overWrite = False):
+    # Variables used on error handling, they need to be declared
+    fdInput = None
+    fdAudio = None
+    fdVideo = None
+    fdAudio_name = ""
+    fdVideo_name = ""
+    retval = 0
+
+    filename = os.path.basename(inputN)
+    if progress:
+            # Increase progress
+            abort = progress.doProgress(1,
+                filename + ' - ' + _(u'Writing video file'))
+            # Abort the process if the user requests it
+            if abort:
+                raise Exception(_(u'Process aborted by user.'))
+    
+    if not outputN:
+        # Check if the file already exists and choose another
+        # We'll add a ~number at the end.
+        version = 1
+        outputN = inputN[:-4] + '.avi'
+        while os.path.exists(outputN):
+            if version == 1:
+                outputN = outputN[:-4] + '~' + str(version) + '.avi'
+            else:
+                outputN = outputN[:outputN.rfind('~')+1] + str(version) + '.avi'
+            version += 1       
+
+    try:      
+        if not (os.path.isfile(inputN) and (os.access(inputN, os.R_OK))):
+            Globals.debug(_(u'ERROR: The file %s cannot be read') % inputN)
+            sys.exit(1)
+
+        # Check the output file and path
+        outPath = os.path.dirname(outputN)
+        outPath = os.path.abspath(outPath)
+        if os.path.isfile(outputN) and not overWrite:
+            Globals.debug(_(u'ERROR: The file %s already exists') % outputN)
+            sys.exit(1)
+        if not os.access(outPath, os.W_OK):
+            Globals.debug(_(u'ERROR: The folder %s cannot be written') % outPath)
+            sys.exit(1)
+            
+        # Open input file
+        fdInput = open(inputN, 'rb')
+        
+        try:
+            # Read the DPG version
+            versionStr = fdInput.read(4)
+            if versionStr[:3] != 'DPG':
+                raise Exception()
+            version = int(versionStr[3])
+        
+            # Read where the audio file starts
+            fdInput.seek(20, os.SEEK_SET)
+            audioStart = struct.unpack("<l", fdInput.read(4))[0]
+            # Read the lenght of the audio file
+            audioLenght = struct.unpack("<l", fdInput.read(4))[0]
+            # Read where the video file starts
+            videoStart = struct.unpack("<l", fdInput.read(4))[0]
+            # Read the lenght of the video file
+            videoLenght = struct.unpack("<l", fdInput.read(4))[0]
+            
+        # An exception in this code means the file is not DPG
+        except Exception, e:
+            # print(unicode(e.args[0]))
+            isDPGFile = False
+            raise Exception(_(u'%s is not a valid DPG file') % inputN)
+                
+        # Extract the audio data
+        fdAudio = tempfile.NamedTemporaryFile(prefix='.dpg2avi', dir=outPath, delete=False)
+        fdInput.seek(audioStart, os.SEEK_SET)
+        v_read = 0
+        while v_read < audioLenght:
+            # Max buffer lenght
+            bufferLenght = 1024
+            remain = audioLenght - v_read
+            # Adjut the buffer lenght
+            if bufferLenght > remain:
+                bufferLenght = remain
+            buffer = fdInput.read(bufferLenght)
+            fdAudio.write(buffer)
+            v_read += bufferLenght
+        fdAudio.flush()
+        # Windows won't let mencoder open the file twice -> close it
+        fdAudio_name = fdAudio.name
+        fdAudio.close()
+
+        if progress:
+            # Increase progress
+            abort = progress.doProgress(1,
+                filename + ' - ' + _(u'Writing video file'))
+            # Abort the process if the user requests it
+            if abort:
+                raise Exception(_(u'Process aborted by user.'))
+    
+        # Extract the video data
+        fdVideo = tempfile.NamedTemporaryFile(prefix='.dpg2avi', dir=outPath, delete=False)
+        fdInput.seek(videoStart, os.SEEK_SET)
+        v_read = 0
+        while v_read < videoLenght:
+            # Max buffer lenght
+            bufferLenght = 1024
+            remain = videoLenght - v_read
+            # Adjut the buffer lenght
+            if bufferLenght > remain:
+                bufferLenght = remain
+            buffer = fdInput.read(bufferLenght)
+            fdVideo.write(buffer)
+            v_read += bufferLenght
+        fdVideo.flush()
+        # Windows won't let mencoder open the file twice -> close it
+        fdVideo_name = fdVideo.name
+        fdVideo.close()
+ 
+        if progress:
+            abort = progress.doProgress(1,
+                    filename + u' - ' + _(u'Starting encoding process'))
+            # Abort the process if the user requests it
+            if abort:
+                raise Exception(_(u'Process aborted by user.'))
+
+        # Join audio and video with mencoder
+        v_cmd = ['mencoder',fdVideo_name,'-audiofile',fdAudio_name,
+            '-ffourcc','mpg1','-ovc','copy','-oac','copy','-o',outputN]
+        # Do not show debug output when running from commandline
+        if progress:
+            Globals.debug('DPG2AVI: ' + `v_cmd`)
+        proc = subprocess.Popen(
+            Globals.ListUnicodeEncode(v_cmd), stdout=subprocess.PIPE,
+            # On Windows when running under py2exe it is
+            # necessary to define stdin
+            stdin=subprocess.PIPE,shell=Globals.shell(),
+            stderr=subprocess.STDOUT, universal_newlines=True)
+
+        if progress:
+            mencoder_progress(proc, filename, progress, 2)
+        else:
+            mencoder_progress(proc)
+                    
+    # Capture exceptions
+    except Exception, e:
+            Globals.debug(_(u'ERROR') + ': ' + unicode(e.args[0]))
+            retval = 1
+    finally:
+    # Close all the files, delete temporary ones
+        if fdInput:
+            fdInput.close()
+        if fdAudio:
+            fdAudio.close()
+        if os.path.exists(fdAudio_name):
+            os.unlink(fdAudio_name)
+        if fdVideo:
+            fdVideo.close()
+        if os.path.exists(fdVideo_name):
+            os.unlink(fdVideo_name)
+    return retval
+
+
+def mencoder_progress(proc, filename = '', progress = None, doublepass = 0):
+    """ Help function to update progress bar based on mencoder output. 
+        Also used when just waiting for mencoder and wanting to include
+        output in case of exceptions 
+    """
     # Show progress
     progRE = re.compile ("f \((.*)%\)")
     mencoder_output = ''
@@ -263,17 +454,23 @@ def encode_video(file, filename, preview=False):
     for line in proc.stdout:
         mencoder_output += line
         percent = progRE.search( line )
-        if percent:
+        # If preview we only want to collect error messages
+        # to show if we get mencoder problems, no progress bar
+        if percent and progress > 0:
             # The size of the video progress will be 1X
             shownProgress = int(percent.group(1))
             diffProgress = int(percent.group(1)) - localProgress
             localProgress = int(percent.group(1))
             userProgress = str(shownProgress)
-            # If we are in doublepass mode, we have encoded only the half
-            if Globals.dpg_quality == 'doublepass':
+            if doublepass == 1:
+                # If we are in doublepass mode step 1, we have encoded only the half
                 userProgress = str(shownProgress/2)
-            # Progress dialog disabled on preview
-            if not preview:
+            elif doublepass == 2:
+                # Because we are in doublepass step 2, we have encoded only the half
+                # But add a 50% because the 1st pass is done
+                userProgress = str(shownProgress/2 + 50)
+                
+            if diffProgress > 0:
                 abort = progress.doProgress(diffProgress,
                     filename + ' - ' + _(u'Encoding in progress') + ': ' +
                     userProgress + '%')
@@ -287,50 +484,9 @@ def encode_video(file, filename, preview=False):
                     else:
                         os.kill(proc.pid,signal.SIGTERM)
                     raise Exception(_(u'Process aborted by user.'))
-
     # Check the return process
     if proc.wait() != 0:
         raise Exception(_(u'ERROR ON MENCODER')+'\n\n'+mencoder_output)
-
-    # Execute the second pass if necessary
-    if Globals.dpg_quality == 'doublepass':
-        Globals.debug('ENCODE VIDEO: ' + `v_cmd_two`)
-        proc = subprocess.Popen(Globals.ListUnicodeEncode(v_cmd_two),stdout=subprocess.PIPE,
-            stdin=subprocess.PIPE,shell=Globals.shell(),
-            stderr=subprocess.STDOUT, universal_newlines=True)
-        # Show progress
-        mencoder_output = ''
-        localProgress = 1
-        for line in proc.stdout:
-            mencoder_output += line
-            percent = progRE.search( line )
-            if percent:
-                # The size of the video progress will be 1X
-                shownProgress = int(percent.group(1))
-                diffProgress = int(percent.group(1)) - localProgress
-                localProgress = int(percent.group(1))
-                # Because we are in doublepass mode, we have encoded only the half
-                # But add a 50% because the 1st pass is done
-                userProgress = str(shownProgress/2 + 50)
-                # Progress dialog disabled on preview
-                if not preview:
-                    abort = progress.doProgress(diffProgress,
-                        filename + ' - ' + _(u'Encoding in progress') + ': ' +
-                        userProgress + '%')
-                    # Abort the process if the user requests it
-                    if abort:
-                        if sys.platform == 'win32' and sys.version_info < (2, 7):
-                            subprocess.Popen("taskkill /F /T /PID %i"%proc.pid , shell=Globals.shell())
-                        else:
-                            os.kill(proc.pid,signal.SIGTERM)
-                        raise Exception(_(u'Process aborted by user.'))
-
-        # Check the return process
-        if proc.wait() != 0:
-            raise Exception(_(u'ERROR ON MENCODER')+'\n\n'+mencoder_output)
-        # Delete the divx2pass.log temporary file
-        os.chdir(current_path)
-        shutil.rmtree(Globals.TMP_DIVX2PASS, ignore_errors = True)
 
 class SoxThread(threading.Thread):
     "Thread to execute the sox process"
@@ -825,21 +981,25 @@ def encode_files(files, iprogress = None):
         # Process the list of files
         for file in files:
 
-            # Tomas: If it's a DPG file, just run dpg2avi
-            # Would it be better to have this check directly in the FilesPanel code?            
-            v = DpgHeader.getDpgVersion(file)
-            if v:
-                Dpg2Avi.Dpg2Avi(file)
-                continue
-            
-            # Read options from the media specific config file (if one exists)
-            ConfigurationManager.loadConfiguration(file)
-
             # Don't try to get the filename of a dvd or vcd source
             if (file[:6] == 'vcd://') or (file[:6] == 'dvd://'):
                 filename = file
             else:
                 filename = os.path.basename(file)
+
+            # Tomas: If it's a DPG file, just run dpg2avi
+            v = DpgHeader.getDpgVersion(file)
+            if v:
+                encode_Dpg2Avi(file, progress)
+
+                abort = progress.doFile(filename + ' - ' + _(u'Finishing encoding process'))
+                # Abort the process if the user requests it
+                if abort:
+                    raise Exception(_(u'Process aborted by user.'))
+                continue
+            
+            # Read options from the media specific config file (if one exists)
+            ConfigurationManager.loadConfiguration(file)
 
             # Start the audio encoding thread
             encode_audio = EncodeAudioThread(file, filename)

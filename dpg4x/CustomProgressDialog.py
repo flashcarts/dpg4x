@@ -132,6 +132,14 @@ class CustomProgressDialog(wx.Dialog):
         self.SetMinSize(wx.Size(width, height))
         self.SetClientSize(wx.Size(width, height))
         
+    def doFile(self, message):
+        "Advance the progress dialog 1 file, adjust all gauges"
+        self.currProgress = 0
+        self.remainFiles -= 1
+        self.currProgOverall = self.totalProgOverall - \
+            self.totalProgress * self.remainFiles 
+        return self.doProgress(0, message)
+
     def doProgress(self, amount, message):
         "Advance the progress dialog in 1 step"
         # Increase the current progress

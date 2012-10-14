@@ -32,7 +32,6 @@ import wx
 import MainFrame
 import Globals
 import DpgThumbnail
-import Dpg2Avi
 import Encoder
 
 modules ={u'AddDvdDialog': [0,
@@ -51,7 +50,6 @@ modules ={u'AddDvdDialog': [0,
  u'CustomProgressDialog': [0,
                            u'Dialog to show the progress of the encoding.',
                            u'CustomProgressDialog.py'],
- u'Dpg2Avi': [0, u'Converts DPG videos into AVI videos.', u'Dpg2Avi.py'],
  u'DpgHeader': [0, u'DPG header management.', u'DpgHeader.py'],
  u'DpgInfoDialog': [0,
                     u'Dialog with a thumbail image and TextCtrls to show DPG info.',
@@ -148,7 +146,7 @@ Options:
                 for a in args:
                     a = Globals.Decode(a)
                     Globals.debug(a)
-                    Dpg2Avi.Dpg2Avi(a)
+                    Encoder.encode_Dpg2Avi(a)
                     return False
             elif options_dpg:
                 for a in args:
