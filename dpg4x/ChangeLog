@@ -8,9 +8,13 @@
  #####   #        ####       #   #    #
 
 
-2012-08-20 dpg4x 2.3 alpha
-    * Preliminary build to fix Mplayer download problems on Windows, bug 3556834
-    * Not yet properly tested or released	
+2012-10-14 dpg4x 2.3
+    * New language available: French.
+    * Support for DPG files: info window with thumbnail replace button, show video, converto to AVI.
+    * Added input arguments to Dpg4x to be able to create dpg files from a batch job.
+    * The dpg2avi and dpgimginjector scripts have been merged with the main program.
+    * A new help button opens the user guide in the default web browser.
+    * Fixed bug 3556834 - Old Windows mplayer download has been moved to other location.
 
 2011-09-06 dpg4x 2.2
     * The new dpgimginjector script can replace the thumbnail image 

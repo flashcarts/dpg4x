@@ -1,6 +1,5 @@
 dpg4x (2.3-1) unstable; urgency=low
 
-  * Included latest trunk changes in svn-91 for using dpg4x without a GUI
   * Removed Dpg2Avi and DpgImginjector scripts, now included in dpg4x
 
  -- Félix Medrano <xukosky@yahoo.es>  Mon,  10 Sep 2012 21:25:00 +0100
