@@ -29,8 +29,7 @@ setup(name='dpg4x',
       console = [
         {
             "script": "Dpg4x.py",                           ### cmdline Python script    
-            "dest_base": "Dpg4xConsole",                    ### based on same src as above
-            "icon_resources": [(0, "windows/dpg4x.ico")]     ### Icon to embed into the PE file.
+            "dest_base": "Dpg4xConsole"                    ### based on same src as above
         }
         ]
       )
