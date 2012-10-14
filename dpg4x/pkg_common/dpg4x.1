@@ -23,11 +23,12 @@ dpg4x \- A GUI to encode videos into DPG format
 Dpg4x is a program that tries to make the DPG video creation as easy as possible.
 A DPG video is the video format that you need if you want to play movies on your Nintendo DS.
 
+You can also encode the DPG video files to AVI format or replace the thumbnail image
+embedded in a DPG4 video.
+
 Dpg4x relies on mplayer/mencoder to do it's work, so any video file playable
 with mplayer can be converted to DPG. 
 
-You can also encode the DPG video files to AVI format or replace the thumbnail image
-embedded in a DPG4 video using the command line options.
 .
 .SH "FEATURES"
  \- Simple GUI suitable for beginners.
@@ -57,12 +58,17 @@ encode. To add a media source to the list, use the "Add Media" button. This will
 enable the "Add File", "Add DVD" and "Add VCD" buttons. To delete a media source
 from the list, select the media and use the "Delete Media" button. 
 
-To add a file, just browse your file system and select it. To add a DVD or a VCD
+To add a file, just browse your file system and select it. It is also possible 
+to add files using drag-and-drop from a file manager. To add a DVD or a VCD
 you need to select the track and the disc reader device. When adding a DVD, you
 can filter by a range of chapters.
 
-Need more? Now you can also add files with drag-and-drop from your favourite
-file manager!
+The Media Info button gathers technical information about the selected media
+source. This can be useful to get the available audio and video tracks.
+
+If the source file is a DPG file, the thumbnail and more DPG header information is shown. 
+This dialog also includes a function for replacing the thumbnail.
+
 .TP
 .B Start Encoding
 .
@@ -88,10 +94,6 @@ the beginning of the video, using the encoding settings you have selected, and
 then plays it as a DPG-like video. This is specially useful for testing your
 settings and seeing how your video would like. You can setup the length of the
 preview from the MISC section.
-
-The "Info" button shows more detailed mplayer information about the video. For DPG
-files there is additional header information and a thumbnail view. This dialog also 
-includes a function for replacing the thumbnail in a DPG file.
 
 .TP
 .B Default Settings
@@ -126,6 +128,8 @@ the individual configuration for that media source. If you are not sure about
 if a media source will use individual or default settings you can check it in
 the media sources list, in the MAIN section (second column).
 
+Note: DPG files are converted to AVI without changing video/audio and do 
+not support individual settings.
 .TP
 .B Default Subtitles
 .
@@ -142,7 +146,7 @@ section and select "Auto" as the subtitles source.
 .TP
 .B The --dpg option
 .
-You can encode the video files into DPG format with the --dpg option. For example:
+The --dpg option encodes video files into DPG format:
 .br
 .I dpg4x --dpg input_file.avi 
 
@@ -154,7 +158,7 @@ use the default ones or, if defined, the individual settings for each input file
 .TP
 .B The --avi option
 .
-You can encode the DPG video files to AVI format with the --avi option. For example:
+The --avi option changes the DPG video files to AVI format:
 .br
 .I dpg4x --avi input_file.dpg 
 
