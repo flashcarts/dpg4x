@@ -151,7 +151,7 @@ def encode_video(file, filename, preview=False):
         v_pixelformat + ',' \
         'scale='+str(Globals.video_width)+':'+str(Globals.video_height)+':::3,harddup',
         '-nosound','-ovc','lavc','-lavcopts',
-        'vcodec=mpeg1video:vstrict=-2:mbd=2:trell:cbp:mv0:vmax_b_frames=2:' \
+        'vcodec=mpeg1video:vstrict=-2:mbd=2:trell:mv0:vmax_b_frames=2:' \
         'cmp='+defcmp+':subcmp='+defcmp+':precmp='+defcmp+':dia=4:predia=4:bidir_refine=4:' \
         'mv0_threshold=0:last_pred=3:vbitrate='+str(Globals.video_bitrate),
         '-o',Globals.TMP_VIDEO,'-of','rawvideo']
@@ -175,7 +175,7 @@ def encode_video(file, filename, preview=False):
         v_pixelformat + ',' \
         'scale='+str(Globals.video_width)+':'+str(Globals.video_height)+':::3,harddup',
         '-nosound','-ovc','lavc','-lavcopts',
-        'vcodec=mpeg1video:vstrict=-2:mbd=2:trell:cbp:mv0:keyint=15:cmp='+defcmp+':subcmp='+defcmp+':' \
+        'vcodec=mpeg1video:vstrict=-2:mbd=2:trell:mv0:keyint=15:cmp='+defcmp+':subcmp='+defcmp+':' \
         'precmp='+defcmp+':dia=3:predia=3:last_pred=3:vbitrate='+str(Globals.video_bitrate),
         '-o',Globals.TMP_VIDEO,'-of','rawvideo']
     # Options to process with low quality
@@ -194,7 +194,7 @@ def encode_video(file, filename, preview=False):
         v_pixelformat + ',' \
         'scale='+str(Globals.video_width)+':'+str(Globals.video_height)+':::3,harddup',
         '-nosound','-ovc','lavc','-lavcopts',
-        'vcodec=mpeg1video:vstrict=-2:mbd=2:trell:cbp:mv0:keyint=15:cmp='+defcmp+':subcmp='+defcmp+':' \
+        'vcodec=mpeg1video:vstrict=-2:mbd=2:trell:mv0:keyint=15:cmp='+defcmp+':subcmp='+defcmp+':' \
         'precmp='+defcmp+':vbitrate='+str(Globals.video_bitrate),'-o',Globals.TMP_VIDEO,
         '-of','rawvideo']
 
@@ -251,7 +251,7 @@ def encode_video(file, filename, preview=False):
             '38,40,28,30,32,34,36,38,42,42,30,32,34,36,38,40,42,44'
 
     # Execute mencoder
-    Globals.debug('ENCODE VIDEO: ' + `v_cmd`)
+    Globals.debug('ENCODE VIDEO: ' + `' '.join(v_cmd)`)
     proc = subprocess.Popen(Globals.ListUnicodeEncode(v_cmd),stdout=subprocess.PIPE,
         stdin=subprocess.PIPE,shell=Globals.shell(),
         stderr=subprocess.STDOUT, universal_newlines=True)
@@ -267,7 +267,7 @@ def encode_video(file, filename, preview=False):
         
     # Execute the second pass if necessary
     if Globals.dpg_quality == 'doublepass':
-        Globals.debug('ENCODE VIDEO: ' + `v_cmd_two`)
+        Globals.debug('ENCODE VIDEO: ' + `' '.join(v_cmd_two)`)
         proc = subprocess.Popen(Globals.ListUnicodeEncode(v_cmd_two),stdout=subprocess.PIPE,
             stdin=subprocess.PIPE,shell=Globals.shell(),
             stderr=subprocess.STDOUT, universal_newlines=True)
@@ -410,7 +410,7 @@ def encode_Dpg2Avi(inputN, progress = None, outputN = None, overWrite = False):
             '-ffourcc','mpg1','-ovc','copy','-oac','copy','-o',outputN]
         # Do not show debug output when running from commandline
         if progress:
-            Globals.debug('DPG2AVI: ' + `v_cmd`)
+            Globals.debug('DPG2AVI: ' + `' '.join(v_cmd)`)
         proc = subprocess.Popen(
             Globals.ListUnicodeEncode(v_cmd), stdout=subprocess.PIPE,
             # On Windows when running under py2exe it is
@@ -484,9 +484,13 @@ def mencoder_progress(proc, filename = '', progress = None, doublepass = 0):
                     else:
                         os.kill(proc.pid,signal.SIGTERM)
                     raise Exception(_(u'Process aborted by user.'))
-    # Check the return process
-    if proc.wait() != 0:
-        raise Exception(_(u'ERROR ON MENCODER')+'\n\n'+mencoder_output)
+    # Check the return process value... semes unreliable for later mplayer versions
+    # -> update for later (+svn 34401) mencoders: ignore error code if
+    # progress is 100% + raise error if no progress at all
+    if (proc.wait() != 0 and localProgress < 100) or localProgress == 1:
+        # For DPG preview mode the total progress is never 100%... ignore errors here
+        if progress is not None:
+            raise Exception(_(u'ERROR ON MENCODER')+'\n\n'+mencoder_output)
 
 class SoxThread(threading.Thread):
     "Thread to execute the sox process"
@@ -638,7 +642,7 @@ class EncodeAudioThread(threading.Thread):
 
             # If mp2 codec is selected, execute mencoder
             if Globals.audio_codec == 'mp2':
-                Globals.debug('ENCODE AUDIO: ' + `a_cmd`)
+                Globals.debug('ENCODE AUDIO: ' + `' '.join(a_cmd)`)
                 proc = subprocess.Popen(Globals.ListUnicodeEncode(a_cmd), stdout=subprocess.PIPE,
                     stdin=subprocess.PIPE,shell=Globals.shell(),
                     stderr=subprocess.STDOUT, universal_newlines=True)
@@ -688,12 +692,12 @@ class EncodeAudioThread(threading.Thread):
                     format = ['-t','wav','-e','gsm-full-rate']
                 s_cmd = s_cmd + format + [Globals.TMP_AUDIO]
                 # Execute sox through a trhead
-                Globals.debug('ENCODE AUDIO: ' + `s_cmd`)
+                Globals.debug('ENCODE AUDIO: ' + `' '.join(s_cmd)`)
                 sox_thread = SoxThread(s_cmd)
                 sox_thread.start()
 
                 # MPLAYER
-                Globals.debug('ENCODE AUDIO: ' + `m_cmd`)
+                Globals.debug('ENCODE AUDIO: ' + `' '.join(m_cmd)`)
                 proc = subprocess.Popen(Globals.ListUnicodeEncode(m_cmd), stdout=subprocess.PIPE,
                     stdin=subprocess.PIPE,shell=Globals.shell(),
                     stderr=subprocess.STDOUT, universal_newlines=True)
@@ -865,6 +869,8 @@ def conv_thumb(filename, frames, updateprogress=True):
             # Skip 10% of the frames
             str(int((int(frames)/Globals.video_fps)/10))]
         # Execute mplayer to generate the shot
+        if progress:
+            Globals.debug('Extract thumb: ' + `' '.join(s_cmd)`)
         mplayer_proc = subprocess.Popen(Globals.ListUnicodeEncode(s_cmd), stdout=subprocess.PIPE,
           stdin=subprocess.PIPE,shell=Globals.shell(),
           stderr=subprocess.STDOUT, universal_newlines=True)
@@ -879,6 +885,8 @@ def conv_thumb(filename, frames, updateprogress=True):
             s_cmd = ['mplayer',Globals.TMP_VIDEO,'-nosound','-vo',
             'png','-frames','1']
             # Execute mplayer
+            if progress:
+              Globals.debug('Extract thumb (again): ' + `' '.join(s_cmd)`)
             mplayer_proc = subprocess.Popen(Globals.ListUnicodeEncode(s_cmd), stdout=subprocess.PIPE,
               stdin=subprocess.PIPE,shell=Globals.shell(),
               stderr=subprocess.STDOUT, universal_newlines=True)

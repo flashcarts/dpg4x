@@ -3,7 +3,7 @@
 
 !define VERSION 2.3
 # Must contain four parts, used for internal comparisons of patch levels
-!define  VIProduct_Ver "${VERSION}.1.0"
+!define  VIProduct_Ver "${VERSION}.3.0"
 
 Name dpg4x
 # Needed because $(^Name) sometimes does not seem to expand correctly
@@ -27,7 +27,7 @@ Var /GLOBAL InstalledVersion
 !define MPLAYER_REV 34401
 !define MPLAYER MPlayer-p3-svn-${MPLAYER_REV}
 !define MPLAYER7Z dependencies\${MPLAYER}.7z
-!define MPLAYER_URL "http://downloads.sourceforge.net/project/mplayer-win32/MPlayer%20and%20MEncoder/revision%20${MPLAYER_REV}/${MPLAYER}.7z"
+!define MPLAYER_URL "http://downloads.sourceforge.net/project/mplayer-win32/MPlayer%20and%20MEncoder/old/revision%20${MPLAYER_REV}/${MPLAYER}.7z"
 
 # MultiUser Symbol Definitions
 !define MULTIUSER_EXECUTIONLEVEL Highest

@@ -672,7 +672,7 @@ class FilesPanel(wx.Panel):
             Encoder.gui_encode_files(files)
         # On error, warn the user
         except Exception, e:
-            message = unicode(e.args[0])
+            message = unicode(str(e))
             Globals.debug(_(u'ENCODING ERROR') + ': ' + message)
             # Show a dialog to the user
             #dialog = wx.MessageDialog(self, message, _(u'ERROR'), 

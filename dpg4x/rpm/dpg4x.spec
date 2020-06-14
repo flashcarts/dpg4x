@@ -1,6 +1,6 @@
 Name: dpg4x
 Version: 2.3
-Release: 1%{?dist}
+Release: 3%{?dist}
 License: GPLv3
 Summary: GUI to encode files into the DPG video format
 Url: http://sourceforge.net/projects/dpg4x
@@ -130,6 +130,10 @@ rm -rf %{buildroot}
 %{_mandir}/man1/*
 
 %changelog 
+* Tue Aug 20 2013 Tomas Aronsson <d0malaga@users.sourceforge.net> - 2.3-3
+— Updates for newer mplayer versions
+* Thu Jul 25 2013 Tomas Aronsson <d0malaga@users.sourceforge.net> - 2.3-2
+— Updates to Windows installer, increasing rpm release number to align
 * Sun Sep 09 2012 Tomas Aronsson <d0malaga@users.sourceforge.net> - 2.3-1
 — Updates for packaging dpg4x v2.3.
 - Removed Dpg2Avi and DpgImginjector scripts, now included in dpg4x
