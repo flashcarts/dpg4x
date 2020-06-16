@@ -110,25 +110,25 @@ class MediaMain(wx.Dialog):
         # Panel with media video options
         mediaVideoPanel = MediaVideoPanel.MediaVideoPanel(self.notebook1)
         self.notebook1.AddPage(mediaVideoPanel,
-            Globals.fillString(_(u'VIDEO'),10),imageId=1)
+            Globals.fillString(_('VIDEO'),10),imageId=1)
         Globals.mediaVideoPanel = mediaVideoPanel
 
         # Panel with media audio options
         mediaAudioPanel = MediaAudioPanel.MediaAudioPanel(self.notebook1)
         self.notebook1.AddPage(mediaAudioPanel,
-            Globals.fillString(_(u'AUDIO'),10),imageId=2)
+            Globals.fillString(_('AUDIO'),10),imageId=2)
         Globals.mediaAudioPanel = mediaAudioPanel
 
         # Panel with media subtitle options
         mediaSubtitlesPanel = MediaSubtitlesPanel.MediaSubtitlesPanel(self.notebook1)
         self.notebook1.AddPage(mediaSubtitlesPanel,
-            Globals.fillString(_(u'SUBTITLES'),10),imageId=3)
+            Globals.fillString(_('SUBTITLES'),10),imageId=3)
         Globals.mediaSubtitlesPanel = mediaSubtitlesPanel
 
         # Panel with aditional media options
         mediaOtherPanel = MediaOtherPanel.MediaOtherPanel(self.notebook1)
         self.notebook1.AddPage(mediaOtherPanel,
-            Globals.fillString(_(u'MISC'),10),imageId=4)
+            Globals.fillString(_('MISC'),10),imageId=4)
         Globals.mediaOtherPanel = mediaOtherPanel
         
         # Help to set the buttons at the same height

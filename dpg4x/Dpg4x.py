@@ -16,6 +16,7 @@
 
 import sys
 import os
+import importlib
 
 # On Windows wxPython 2.9.1.1 works better than 2.8.11.0.
 # In particuliar OutputTextDialog() is unreadable and unusable. You can only
@@ -34,58 +35,58 @@ import Globals
 import DpgThumbnail
 import Encoder
 
-modules ={u'AddDvdDialog': [0,
-                   u'A dialog to add Dvd media sources.',
-                   u'AddDvdDialog.py'],
- u'AddVcdDialog': [0,
-                   u'A dialog to add Vcd media sources.',
-                   u'AddVcdDialog.py'],
- u'AudioPanel': [0, u'Panel with audio options.', u'AudioPanel.py'],
- u'ConfigurationManager': [0,
-                           u'Manages the configuration variables.',
-                           u'ConfigurationManager.py'],
- u'CustomFontSelector': [0,
-                         u'Dialog to select fonts (only faces).',
-                         u'CustomFontSelector.py'],
- u'CustomProgressDialog': [0,
-                           u'Dialog to show the progress of the encoding.',
-                           u'CustomProgressDialog.py'],
- u'DpgHeader': [0, u'DPG header management.', u'DpgHeader.py'],
- u'DpgInfoDialog': [0,
-                    u'Dialog with a thumbail image and TextCtrls to show DPG info.',
-                    u'moreControls/DpgInfoDialog.py'],
- u'DpgThumbnail': [0, u'Class to handle DPG thumbnails.', u'DpgThumbnail.py'],
- u'Encoder': [0, u'Performs the encoding duties.', u'Encoder.py'],
- u'FilesPanel': [0, u'Panel with files to be encoded.', u'FilesPanel.py'],
- u'Globals': [0,
-              u'Source file with global variables and functions.',
-              u'Globals.py'],
- u'MainFrame': [1, u'Main frame of Application.', u'MainFrame.py'],
- u'MediaAudioPanel': [0,
-                      u'Panel with per-media audio options.',
-                      u'MediaAudioPanel.py'],
- u'MediaMainFrame': [0,
-                     u'Frame with per-media settings.',
-                     u'MediaMainFrame.py'],
- u'MediaOtherPanel': [0,
-                      u'Panel with per-media aditional options.',
-                      u'MediaOtherPanel.py'],
- u'MediaSubtitlesPanel': [0,
-                          u'Panel with per-media subtitle options.',
-                          u'MediaSubtitlesPanel.py'],
- u'MediaVideoPanel': [0,
-                      u'Panel with per-media video options.',
-                      u'MediaVideoPanel.py'],
- u'OtherPanel': [0, u'Panel with aditional options.', u'OtherPanel.py'],
- u'OutputTextDialog': [0,
-                       u"Dialog with a TextCtrl to show program's output.",
-                       u'moreControls/OutputTextDialog.py'],
- u'Previewer': [0, u'Allows advanced preview options.', u'Previewer.py'],
- u'SubtitlesPanel': [0, u'Panel with subtitle options.', u'SubtitlesPanel.py'],
- u'TreeCtrlComboPopup': [0,
-                         u'Popup control containing a TreeCtrl.',
-                         u'TreeCtrlComboPopup.py'],
- u'VideoPanel': [0, u'Panel with video options.', u'VideoPanel.py']}
+modules ={'AddDvdDialog': [0,
+                   'A dialog to add Dvd media sources.',
+                   'AddDvdDialog.py'],
+ 'AddVcdDialog': [0,
+                   'A dialog to add Vcd media sources.',
+                   'AddVcdDialog.py'],
+ 'AudioPanel': [0, 'Panel with audio options.', 'AudioPanel.py'],
+ 'ConfigurationManager': [0,
+                           'Manages the configuration variables.',
+                           'ConfigurationManager.py'],
+ 'CustomFontSelector': [0,
+                         'Dialog to select fonts (only faces).',
+                         'CustomFontSelector.py'],
+ 'CustomProgressDialog': [0,
+                           'Dialog to show the progress of the encoding.',
+                           'CustomProgressDialog.py'],
+ 'DpgHeader': [0, 'DPG header management.', 'DpgHeader.py'],
+ 'DpgInfoDialog': [0,
+                    'Dialog with a thumbail image and TextCtrls to show DPG info.',
+                    'moreControls/DpgInfoDialog.py'],
+ 'DpgThumbnail': [0, 'Class to handle DPG thumbnails.', 'DpgThumbnail.py'],
+ 'Encoder': [0, 'Performs the encoding duties.', 'Encoder.py'],
+ 'FilesPanel': [0, 'Panel with files to be encoded.', 'FilesPanel.py'],
+ 'Globals': [0,
+              'Source file with global variables and functions.',
+              'Globals.py'],
+ 'MainFrame': [1, 'Main frame of Application.', 'MainFrame.py'],
+ 'MediaAudioPanel': [0,
+                      'Panel with per-media audio options.',
+                      'MediaAudioPanel.py'],
+ 'MediaMainFrame': [0,
+                     'Frame with per-media settings.',
+                     'MediaMainFrame.py'],
+ 'MediaOtherPanel': [0,
+                      'Panel with per-media aditional options.',
+                      'MediaOtherPanel.py'],
+ 'MediaSubtitlesPanel': [0,
+                          'Panel with per-media subtitle options.',
+                          'MediaSubtitlesPanel.py'],
+ 'MediaVideoPanel': [0,
+                      'Panel with per-media video options.',
+                      'MediaVideoPanel.py'],
+ 'OtherPanel': [0, 'Panel with aditional options.', 'OtherPanel.py'],
+ 'OutputTextDialog': [0,
+                       "Dialog with a TextCtrl to show program's output.",
+                       'moreControls/OutputTextDialog.py'],
+ 'Previewer': [0, 'Allows advanced preview options.', 'Previewer.py'],
+ 'SubtitlesPanel': [0, 'Panel with subtitle options.', 'SubtitlesPanel.py'],
+ 'TreeCtrlComboPopup': [0,
+                         'Popup control containing a TreeCtrl.',
+                         'TreeCtrlComboPopup.py'],
+ 'VideoPanel': [0, 'Panel with video options.', 'VideoPanel.py']}
     
 def checkDependencies():
     "Check that the mandatory dependecies are present"
@@ -94,16 +95,16 @@ def checkDependencies():
     # Check that all of them are present
     for program in mandatory:
         if not Globals.which(program):
-            message = _(u'%s not found in PATH. Please install it.') % program
+            message = _('%s not found in PATH. Please install it.') % program
             # Show an error in the console
-            Globals.debug(_(u'ERROR') + ': ' + message)
+            Globals.debug(_('ERROR') + ': ' + message)
             # Show a dialog to the user
-            dialog = wx.MessageDialog(None, message, _(u'ERROR'), style=wx.OK|wx.ICON_ERROR)
+            dialog = wx.MessageDialog(None, message, _('ERROR'), style=wx.OK|wx.ICON_ERROR)
             dialog.ShowModal()
             sys.exit(1)
 
 def checkArgs():
-    usage=_(u"""Usage: dpg4x [options] file1 file2... (starts GUI if no options)
+    usage=_("""Usage: dpg4x [options] file1 file2... (starts GUI if no options)
 
 Options:
   -h, --help        show this help message and exit
@@ -128,7 +129,7 @@ Options:
             Globals.debug(usage)
             return False
         elif arg.startswith('-'):
-            Globals.debug(_(u'Non supported option: %s') % arg)
+            Globals.debug(_('Non supported option: %s') % arg)
             Globals.debug(usage)
             return False                
         else:
@@ -154,8 +155,8 @@ Options:
                     Globals.debug(a)
                     Encoder.encode_files([a])
                 return False
-        except Exception, e:
-            Globals.debug(_(u'ERROR') + ': ' + unicode(e.args[0]))
+        except Exception as e:
+            Globals.debug(_('ERROR') + ': ' + str(e.args[0]))
             return False
     return True
 
@@ -168,7 +169,7 @@ if __name__ == '__main__':
     while firstExec or Globals.restart:
         # Reload the Globals module on restart
         if Globals.restart:
-            reload(Globals)
+            importlib.reload(Globals)
         firstExec = False
         mainFrame = MainFrame.create(None, Globals.getIconDir())
         mainFrame.Show()

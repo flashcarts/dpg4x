@@ -14,13 +14,13 @@
 
 import Globals
 
-import ConfigParser
+import configparser
 import re
 import os
 import shutil
 
 # Private configuration manager
-__cp = ConfigParser.SafeConfigParser()
+__cp = configparser.SafeConfigParser()
 
 ###############
 ## FUNCTIONS ##
@@ -105,9 +105,9 @@ def saveConfiguration(filename=''):
         __cp.write(userConfig)
         userConfig.close()
     # If it fails, we only show a warning (no fatal)
-    except Exception, e:
-        Globals.debug(_(u'Cannot save user configuration:') + ' ' \
-            '' + unicode(e.args[0]))
+    except Exception as e:
+        Globals.debug(_('Cannot save user configuration:') + ' ' \
+            '' + str(e.args[0]))
     
 def loadConfiguration(filename=''):
     "Reads the user configuration from disk"

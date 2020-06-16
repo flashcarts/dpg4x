@@ -48,10 +48,10 @@ def encode_video(file, filename, preview=False):
     # Progress dialog disabled on preview
     if not preview:
         abort = progress.doProgress(1,
-            filename + u' - ' + _(u'Starting encoding process'))
+            filename + ' - ' + _('Starting encoding process'))
         # Abort the process if the user requests it
         if abort:
-            raise Exception(_(u'Process aborted by user.'))
+            raise Exception(_('Process aborted by user.'))
 
     # Prepare the input file to be usable by mplayer
     if (file[:6] == 'vcd://') or (file[:6] == 'dvd://'):
@@ -74,7 +74,7 @@ def encode_video(file, filename, preview=False):
         mplayer_output = mplayer_proc.communicate()[0]
         # Check the return process
         if mplayer_proc.wait() != 0:
-            raise Exception(_(u'ERROR ON MPLAYER')+'\n\n'+mplayer_output)
+            raise Exception(_('ERROR ON MPLAYER')+'\n\n'+mplayer_output)
         # In my tests, the video aspect can be shown more than once,
         # being the later the best one. So I'll use info[-1]
         info = aspectRE.findall(mplayer_output)
@@ -251,7 +251,7 @@ def encode_video(file, filename, preview=False):
             '38,40,28,30,32,34,36,38,42,42,30,32,34,36,38,40,42,44'
 
     # Execute mencoder
-    Globals.debug('ENCODE VIDEO: ' + `' '.join(v_cmd)`)
+    Globals.debug('ENCODE VIDEO: ' + repr(' '.join(v_cmd)))
     proc = subprocess.Popen(Globals.ListUnicodeEncode(v_cmd),stdout=subprocess.PIPE,
         stdin=subprocess.PIPE,shell=Globals.shell(),
         stderr=subprocess.STDOUT, universal_newlines=True)
@@ -267,7 +267,7 @@ def encode_video(file, filename, preview=False):
         
     # Execute the second pass if necessary
     if Globals.dpg_quality == 'doublepass':
-        Globals.debug('ENCODE VIDEO: ' + `' '.join(v_cmd_two)`)
+        Globals.debug('ENCODE VIDEO: ' + repr(' '.join(v_cmd_two)))
         proc = subprocess.Popen(Globals.ListUnicodeEncode(v_cmd_two),stdout=subprocess.PIPE,
             stdin=subprocess.PIPE,shell=Globals.shell(),
             stderr=subprocess.STDOUT, universal_newlines=True)
@@ -294,10 +294,10 @@ def encode_Dpg2Avi(inputN, progress = None, outputN = None, overWrite = False):
     if progress:
             # Increase progress
             abort = progress.doProgress(1,
-                filename + ' - ' + _(u'Writing video file'))
+                filename + ' - ' + _('Writing video file'))
             # Abort the process if the user requests it
             if abort:
-                raise Exception(_(u'Process aborted by user.'))
+                raise Exception(_('Process aborted by user.'))
     
     if not outputN:
         # Check if the file already exists and choose another
@@ -313,17 +313,17 @@ def encode_Dpg2Avi(inputN, progress = None, outputN = None, overWrite = False):
 
     try:      
         if not (os.path.isfile(inputN) and (os.access(inputN, os.R_OK))):
-            Globals.debug(_(u'ERROR: The file %s cannot be read') % inputN)
+            Globals.debug(_('ERROR: The file %s cannot be read') % inputN)
             sys.exit(1)
 
         # Check the output file and path
         outPath = os.path.dirname(outputN)
         outPath = os.path.abspath(outPath)
         if os.path.isfile(outputN) and not overWrite:
-            Globals.debug(_(u'ERROR: The file %s already exists') % outputN)
+            Globals.debug(_('ERROR: The file %s already exists') % outputN)
             sys.exit(1)
         if not os.access(outPath, os.W_OK):
-            Globals.debug(_(u'ERROR: The folder %s cannot be written') % outPath)
+            Globals.debug(_('ERROR: The folder %s cannot be written') % outPath)
             sys.exit(1)
             
         # Open input file
@@ -347,10 +347,10 @@ def encode_Dpg2Avi(inputN, progress = None, outputN = None, overWrite = False):
             videoLenght = struct.unpack("<l", fdInput.read(4))[0]
             
         # An exception in this code means the file is not DPG
-        except Exception, e:
+        except Exception as e:
             # print(unicode(e.args[0]))
             isDPGFile = False
-            raise Exception(_(u'%s is not a valid DPG file') % inputN)
+            raise Exception(_('%s is not a valid DPG file') % inputN)
                 
         # Extract the audio data
         fdAudio = tempfile.NamedTemporaryFile(prefix='.dpg2avi', dir=outPath, delete=False)
@@ -374,10 +374,10 @@ def encode_Dpg2Avi(inputN, progress = None, outputN = None, overWrite = False):
         if progress:
             # Increase progress
             abort = progress.doProgress(1,
-                filename + ' - ' + _(u'Writing video file'))
+                filename + ' - ' + _('Writing video file'))
             # Abort the process if the user requests it
             if abort:
-                raise Exception(_(u'Process aborted by user.'))
+                raise Exception(_('Process aborted by user.'))
     
         # Extract the video data
         fdVideo = tempfile.NamedTemporaryFile(prefix='.dpg2avi', dir=outPath, delete=False)
@@ -400,17 +400,17 @@ def encode_Dpg2Avi(inputN, progress = None, outputN = None, overWrite = False):
  
         if progress:
             abort = progress.doProgress(1,
-                    filename + u' - ' + _(u'Starting encoding process'))
+                    filename + ' - ' + _('Starting encoding process'))
             # Abort the process if the user requests it
             if abort:
-                raise Exception(_(u'Process aborted by user.'))
+                raise Exception(_('Process aborted by user.'))
 
         # Join audio and video with mencoder
         v_cmd = ['mencoder',fdVideo_name,'-audiofile',fdAudio_name,
             '-ffourcc','mpg1','-ovc','copy','-oac','copy','-o',outputN]
         # Do not show debug output when running from commandline
         if progress:
-            Globals.debug('DPG2AVI: ' + `' '.join(v_cmd)`)
+            Globals.debug('DPG2AVI: ' + repr(' '.join(v_cmd)))
         proc = subprocess.Popen(
             Globals.ListUnicodeEncode(v_cmd), stdout=subprocess.PIPE,
             # On Windows when running under py2exe it is
@@ -424,8 +424,8 @@ def encode_Dpg2Avi(inputN, progress = None, outputN = None, overWrite = False):
             mencoder_progress(proc)
                     
     # Capture exceptions
-    except Exception, e:
-            Globals.debug(_(u'ERROR') + ': ' + unicode(e.args[0]))
+    except Exception as e:
+            Globals.debug(_('ERROR') + ': ' + str(e.args[0]))
             retval = 1
     finally:
     # Close all the files, delete temporary ones
@@ -472,7 +472,7 @@ def mencoder_progress(proc, filename = '', progress = None, doublepass = 0):
                 
             if diffProgress > 0:
                 abort = progress.doProgress(diffProgress,
-                    filename + ' - ' + _(u'Encoding in progress') + ': ' +
+                    filename + ' - ' + _('Encoding in progress') + ': ' +
                     userProgress + '%')
                 # Abort the process if the user requests it
                 if abort:
@@ -483,14 +483,14 @@ def mencoder_progress(proc, filename = '', progress = None, doublepass = 0):
                         subprocess.Popen("taskkill /F /T /PID %i"%proc.pid , shell=Globals.shell())
                     else:
                         os.kill(proc.pid,signal.SIGTERM)
-                    raise Exception(_(u'Process aborted by user.'))
+                    raise Exception(_('Process aborted by user.'))
     # Check the return process value... semes unreliable for later mplayer versions
     # -> update for later (+svn 34401) mencoders: ignore error code if
     # progress is 100% + raise error if no progress at all
     if (proc.wait() != 0 and localProgress < 100) or localProgress == 1:
         # For DPG preview mode the total progress is never 100%... ignore errors here
         if progress is not None:
-            raise Exception(_(u'ERROR ON MENCODER')+'\n\n'+mencoder_output)
+            raise Exception(_('ERROR ON MENCODER')+'\n\n'+mencoder_output)
 
 class SoxThread(threading.Thread):
     "Thread to execute the sox process"
@@ -527,13 +527,13 @@ class SoxThread(threading.Thread):
                 # Check if the encoding must continue
                 if self.stop:
                     proc_sox.terminate()
-                    raise Exception(_(u'Audio encoding stopped'))
+                    raise Exception(_('Audio encoding stopped'))
             # Check the return process
             if proc_sox.wait() != 0:
-                raise Exception(_(u'ERROR ON SOX')+'\n\n'+sox_output)
+                raise Exception(_('ERROR ON SOX')+'\n\n'+sox_output)
         # Manage posible exceptions on the thread
-        except Exception, e:
-            self.errorMessage = unicode(e.args[0])
+        except Exception as e:
+            self.errorMessage = str(e.args[0])
 
 class EncodeAudioThread(threading.Thread):
     "Thread to encode the audio stream"
@@ -569,7 +569,7 @@ class EncodeAudioThread(threading.Thread):
 
             # Check if the encoding must continue
             if self.stop:
-                raise Exception(_(u'Audio encoding stopped'))
+                raise Exception(_('Audio encoding stopped'))
 
             # When mp2 audio codec is selected, we use mencoder to perform
             # all the process
@@ -598,7 +598,7 @@ class EncodeAudioThread(threading.Thread):
             mplayer_output = mplayer_proc.communicate()[0]
             # Check the return process
             if mplayer_proc.wait() != 0:
-                raise Exception(_(u'ERROR ON MPLAYER')+'\n\n'+mplayer_output)
+                raise Exception(_('ERROR ON MPLAYER')+'\n\n'+mplayer_output)
             # Identify the info by searchinb the ID_AUDIO_NCH tag
             nchanRE = re.compile ("\nID_AUDIO_NCH=([0-9]*)\n")
             nchanSE = nchanRE.search(mplayer_output)
@@ -628,7 +628,7 @@ class EncodeAudioThread(threading.Thread):
 
             # When error, include the output in the exception
             else:
-                raise Exception(_(u'ERROR ON MPLAYER')+'\n\n'+mplayer_output)
+                raise Exception(_('ERROR ON MPLAYER')+'\n\n'+mplayer_output)
 
             # Select the audio track
             if not Globals.audio_autotrack:
@@ -642,7 +642,7 @@ class EncodeAudioThread(threading.Thread):
 
             # If mp2 codec is selected, execute mencoder
             if Globals.audio_codec == 'mp2':
-                Globals.debug('ENCODE AUDIO: ' + `' '.join(a_cmd)`)
+                Globals.debug('ENCODE AUDIO: ' + repr(' '.join(a_cmd)))
                 proc = subprocess.Popen(Globals.ListUnicodeEncode(a_cmd), stdout=subprocess.PIPE,
                     stdin=subprocess.PIPE,shell=Globals.shell(),
                     stderr=subprocess.STDOUT, universal_newlines=True)
@@ -652,10 +652,10 @@ class EncodeAudioThread(threading.Thread):
                     mencoder_output += line
                     # Check if the encoding must continue
                     if self.stop:
-                        raise Exception(_(u'Audio encoding stopped'))
+                        raise Exception(_('Audio encoding stopped'))
                 # Check the return process
                 if proc.wait() != 0:
-                    raise Exception(_(u'ERROR ON MENCODER')+'\n\n'+mencoder_output)
+                    raise Exception(_('ERROR ON MENCODER')+'\n\n'+mencoder_output)
 
             # If gsm or ogg is selected, execute mplayer and sox
             else:
@@ -692,12 +692,12 @@ class EncodeAudioThread(threading.Thread):
                     format = ['-t','wav','-e','gsm-full-rate']
                 s_cmd = s_cmd + format + [Globals.TMP_AUDIO]
                 # Execute sox through a trhead
-                Globals.debug('ENCODE AUDIO: ' + `' '.join(s_cmd)`)
+                Globals.debug('ENCODE AUDIO: ' + repr(' '.join(s_cmd)))
                 sox_thread = SoxThread(s_cmd)
                 sox_thread.start()
 
                 # MPLAYER
-                Globals.debug('ENCODE AUDIO: ' + `' '.join(m_cmd)`)
+                Globals.debug('ENCODE AUDIO: ' + repr(' '.join(m_cmd)))
                 proc = subprocess.Popen(Globals.ListUnicodeEncode(m_cmd), stdout=subprocess.PIPE,
                     stdin=subprocess.PIPE,shell=Globals.shell(),
                     stderr=subprocess.STDOUT, universal_newlines=True)
@@ -708,10 +708,10 @@ class EncodeAudioThread(threading.Thread):
                     # Check if the encoding must continue
                     if self.stop:
                         proc.terminate()
-                        raise Exception(_(u'Audio encoding stopped'))
+                        raise Exception(_('Audio encoding stopped'))
                 # Check the return process
                 if proc.wait() != 0:
-                    raise Exception(_(u'ERROR ON MPLAYER')+'\n\n'+mplayer_output)
+                    raise Exception(_('ERROR ON MPLAYER')+'\n\n'+mplayer_output)
 
                 # Check for errors in SOX
                 sox_thread.join()
@@ -720,8 +720,8 @@ class EncodeAudioThread(threading.Thread):
                     raise Exception(threadError)
 
         # Manage posible exceptions on the thread
-        except Exception, e:
-            self.errorMessage = unicode(e.args[0])
+        except Exception as e:
+            self.errorMessage = str(e.args[0])
             # Stop the sox thread
             if sox_thread:
                 sox_thread.stopThread()
@@ -732,10 +732,10 @@ def mpeg_stat(filename):
     # Increase progress
     global progress
     abort = progress.doProgress(1,
-        filename + ' - ' + _(u'Generating GOP offsets'))
+        filename + ' - ' + _('Generating GOP offsets'))
     # Abort the process if the user requests it
     if abort:
-        raise Exception(_(u'Process aborted by user.'))
+        raise Exception(_('Process aborted by user.'))
 
     # RE to obtain the number of frames
     framesRE = re.compile ("frames: ([0-9]*)\.")
@@ -748,7 +748,7 @@ def mpeg_stat(filename):
     stat_output = stat_proc.communicate()[0]
     # Check the return process
     if stat_proc.wait() != 0:
-        raise Exception(_(u'ERROR ON MPEG_STAT')+'\n\n'+stat_output)
+        raise Exception(_('ERROR ON MPEG_STAT')+'\n\n'+stat_output)
     # Gather the frames information
     info = framesRE.search(stat_output)
     if info:
@@ -775,7 +775,7 @@ def mpeg_stat(filename):
             stat.close()
     # When error, include the output in the exception
     else:
-        raise Exception(_(u'ERROR ON MPEG_STAT')+'\n\n'+stat_output)
+        raise Exception(_('ERROR ON MPEG_STAT')+'\n\n'+stat_output)
     return (int(frames), gopSize*8)
 
 def alternative_mpeg_stat(filename):
@@ -785,10 +785,10 @@ def alternative_mpeg_stat(filename):
     # Increase progress
     global progress
     abort = progress.doProgress(1,
-        filename + ' - ' + _(u'Generating GOP offsets'))
+        filename + ' - ' + _('Generating GOP offsets'))
     # Abort the process if the user requests it
     if abort:
-        raise Exception(_(u'Process aborted by user.'))
+        raise Exception(_('Process aborted by user.'))
 
     # These are the start codes used in the mpeg format
     PICTURE_START_CODE = array.array('c','\x00\x00\x01\x00')
@@ -848,10 +848,10 @@ def conv_thumb(filename, frames, updateprogress=True):
         # Increase progress
         global progress
         abort = progress.doProgress(1,
-            filename + ' - ' + _(u'Generating thumbnail'))
+            filename + ' - ' + _('Generating thumbnail'))
         # Abort the process if the user requests it
         if abort:
-            raise Exception(_(u'Process aborted by user.'))
+            raise Exception(_('Process aborted by user.'))
 
     # Takes a PNG screenshot if no file given.
     if not Globals.other_thumbnail:
@@ -870,14 +870,14 @@ def conv_thumb(filename, frames, updateprogress=True):
             str(int((int(frames)/Globals.video_fps)/10))]
         # Execute mplayer to generate the shot
         if progress:
-            Globals.debug('Extract thumb: ' + `' '.join(s_cmd)`)
+            Globals.debug('Extract thumb: ' + repr(' '.join(s_cmd)))
         mplayer_proc = subprocess.Popen(Globals.ListUnicodeEncode(s_cmd), stdout=subprocess.PIPE,
           stdin=subprocess.PIPE,shell=Globals.shell(),
           stderr=subprocess.STDOUT, universal_newlines=True)
         mplayer_output = mplayer_proc.communicate()[0]
         # Check the return process
         if mplayer_proc.wait() != 0:
-            raise Exception(_(u'ERROR ON MPLAYER')+'\n\n'+mplayer_output)
+            raise Exception(_('ERROR ON MPLAYER')+'\n\n'+mplayer_output)
 
         # Some low quality encoded videos, have problems with the 10% skip
         if not os.path.isfile(shot_file):
@@ -886,14 +886,14 @@ def conv_thumb(filename, frames, updateprogress=True):
             'png','-frames','1']
             # Execute mplayer
             if progress:
-              Globals.debug('Extract thumb (again): ' + `' '.join(s_cmd)`)
+              Globals.debug('Extract thumb (again): ' + repr(' '.join(s_cmd)))
             mplayer_proc = subprocess.Popen(Globals.ListUnicodeEncode(s_cmd), stdout=subprocess.PIPE,
               stdin=subprocess.PIPE,shell=Globals.shell(),
               stderr=subprocess.STDOUT, universal_newlines=True)
             mplayer_output = mplayer_proc.communicate()[0]
             # Check the return process
             if mplayer_proc.wait() != 0:
-                raise Exception(_(u'ERROR ON MPLAYER')+'\n\n'+mplayer_output)
+                raise Exception(_('ERROR ON MPLAYER')+'\n\n'+mplayer_output)
 
         thumbfile = shot_file
         os.chdir(current_path)
@@ -920,10 +920,10 @@ def write_header(filename, frames):
     # Increase progress
     global progress
     abort = progress.doProgress(1,
-        filename + ' - ' + _(u'Generating header'))
+        filename + ' - ' + _('Generating header'))
     # Abort the process if the user requests it
     if abort:
-        raise Exception(_(u'Process aborted by user.'))
+        raise Exception(_('Process aborted by user.'))
 
     # Tomas 20120909: moved code below to DpgHeader class
     dpg = DpgHeader.DpgHeader()
@@ -1000,10 +1000,10 @@ def encode_files(files, iprogress = None):
             if v:
                 encode_Dpg2Avi(file, progress)
 
-                abort = progress.doFile(filename + ' - ' + _(u'Finishing encoding process'))
+                abort = progress.doFile(filename + ' - ' + _('Finishing encoding process'))
                 # Abort the process if the user requests it
                 if abort:
-                    raise Exception(_(u'Process aborted by user.'))
+                    raise Exception(_('Process aborted by user.'))
                 continue
             
             # Read options from the media specific config file (if one exists)
@@ -1019,10 +1019,10 @@ def encode_files(files, iprogress = None):
             # Wait for the audio encoding thread to finish
             # But if it hasn't finished yet... something goes wrong
             abort = progress.doProgress(1,
-                filename + ' - ' + _(u'Finishing encoding process'))
+                filename + ' - ' + _('Finishing encoding process'))
             # Abort the process if the user requests it
             if abort:
-                raise Exception(_(u'Process aborted by user.'))
+                raise Exception(_('Process aborted by user.'))
             # Check the status of the thread
             encode_audio.join()
             threadError = encode_audio.getErrorMessage()
@@ -1039,10 +1039,10 @@ def encode_files(files, iprogress = None):
             if realProg < calculatedProg:
                 diffProgress = calculatedProg-realProg
                 abort = progress.doProgress(diffProgress,
-                        filename + ' - ' + _(u'Encoding in progress') + ': 100%')
+                        filename + ' - ' + _('Encoding in progress') + ': 100%')
                 # Abort the process if the user requests it
                 if abort:
-                    raise Exception(_(u'Process aborted by user.'))
+                    raise Exception(_('Process aborted by user.'))
 
             # Generate GOP offsets
             if Globals.which('mpeg_stat'):
@@ -1094,10 +1094,10 @@ def encode_files(files, iprogress = None):
 
             # Increase progress
             abort = progress.doProgress(1,
-                filename + ' - ' + _(u'Writing video file'))
+                filename + ' - ' + _('Writing video file'))
             # Abort the process if the user requests it
             if abort:
-                raise Exception(_(u'Process aborted by user.'))
+                raise Exception(_('Process aborted by user.'))
 
             # For dpg version 4
             if Globals.dpg_version == 4:
@@ -1114,7 +1114,7 @@ def encode_files(files, iprogress = None):
         # Delete the temporary files
         Globals.clearTemporary()
 
-    except Exception, e:
+    except Exception as e:
         # Delete the temporary files
         Globals.clearTemporary()
         # Stop the audio encoding thread

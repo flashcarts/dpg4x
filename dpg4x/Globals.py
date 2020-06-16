@@ -21,6 +21,7 @@ import string
 import tempfile
 import shutil
 import wx
+import importlib
 
 if sys.platform == 'win32':
     import win32api
@@ -138,11 +139,11 @@ def SetupTranslation():
         # locale.getdefaultlocale() returns ('en_US', 'cp1252') could be useful.
         os.environ['LANG']=locale.getdefaultlocale()[0]
     if not gettext.find('dpg4x', i18n_dir):
-        debug(u'WARNING: dpg4x is not available in your language, ' \
-                u'please help us to translate it.')
-        gettext.install('dpg4x', i18n_dir, unicode=True)
+        debug('WARNING: dpg4x is not available in your language, ' \
+                'please help us to translate it.')
+        gettext.install('dpg4x', i18n_dir, str=True)
     else:
-        gettext.translation('dpg4x', i18n_dir).install(unicode=True)
+        gettext.translation('dpg4x', i18n_dir).install(str=True)
 
 
 def debug(message):
@@ -179,7 +180,7 @@ def ListUnicodeEncode(list):
         # Handle East Asian characters by avoiding them
         if os.path.isfile(item) and sys.platform == 'win32':
             item = win32api.GetShortPathName(item)
-        if isinstance(item, unicode):
+        if isinstance(item, str):
             item = Encode(item)
         encoded_list.append(item)  
     return encoded_list
@@ -222,7 +223,7 @@ def which (filename):
         if os.access (filename, os.X_OK):
             return filename
 
-    if not os.environ.has_key('PATH') or os.environ['PATH'] == '':
+    if 'PATH' not in os.environ or os.environ['PATH'] == '':
         p = os.defpath
     else:
         p = os.environ['PATH']
@@ -300,7 +301,7 @@ def createTemporary():
     # os.mkfifo does not work on Windows and causes the script to fail.
     # Should use os.pipe() instead. I never need this though.
     if sys.platform != 'win32':
-        os.mkfifo(TMP_FIFO,0600)
+        os.mkfifo(TMP_FIFO,0o600)
     # Video temporary file
     global TMP_VIDEO
     fd,TMP_VIDEO = tempfile.mkstemp(dir=tmpDir)
@@ -393,11 +394,11 @@ def clearTemporary():
             shutil.rmtree(TMP_DIVX2PASS, ignore_errors = True)
             
     # Warn if there is a problem when deleting files
-    except Exception, e:
-        debug(_(u'WARNING: Temporary files were not properly deleted:') + '' \
-            u' ' + unicode(e.args[0]))
+    except Exception as e:
+        debug(_('WARNING: Temporary files were not properly deleted:') + '' \
+            ' ' + str(e.args[0]))
             
             
 # Load the configuration file
-reload(ConfigurationManager)
+importlib.reload(ConfigurationManager)
 ConfigurationManager.loadConfiguration()

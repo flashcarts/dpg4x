@@ -83,9 +83,9 @@ class DpgHeader():
             self.fromFile(filename)
         
     def __unicode__(self):
-        s = _(u'DPG Version') + ': %d\n' % self.version
-        s += _(u'Video Codec') + ': mpg1\n'
-        s += _(u'Frames Per Second') + ': %d\n' % self.fps
+        s = _('DPG Version') + ': %d\n' % self.version
+        s += _('Video Codec') + ': mpg1\n'
+        s += _('Frames Per Second') + ': %d\n' % self.fps
         
         if self.pixelFormat == 0:
             pFormat = 'RGB15'
@@ -96,9 +96,9 @@ class DpgHeader():
         else:
             pFormat = 'RGB24'
             
-        s += _(u'Pixel Format') + ': %s\n' % pFormat
-        s += _(u'Size: %d bytes') % self.videoSize
-        s += ', %d ' % self.frames + _(u'frames') + '\n'
+        s += _('Pixel Format') + ': %s\n' % pFormat
+        s += _('Size: %d bytes') % self.videoSize
+        s += ', %d ' % self.frames + _('frames') + '\n'
         s += '\n'
 
         # Number of audio channels, has special values for MP2 and OGG Vorbis
@@ -111,17 +111,17 @@ class DpgHeader():
             aCodec = 'libgsm'
             aChannels = self.audioCodecOrChannels
         else:
-            aCodec = _(u'unknown')
+            aCodec = _('unknown')
 
-        s += _(u'Audio Codec') + ': %s\n' % aCodec
-        s += _(u'Audio Frequency') + ': %d, ' % self.audioSampleRate
-        s += '%d ' % aChannels + _(u'channels') + '\n'
-        s += _(u'Size: %d bytes') % self.audioSize
+        s += _('Audio Codec') + ': %s\n' % aCodec
+        s += _('Audio Frequency') + ': %d, ' % self.audioSampleRate
+        s += '%d ' % aChannels + _('channels') + '\n'
+        s += _('Size: %d bytes') % self.audioSize
         s += '\n\n'
-        s += _(u'GOP') + ' '
-        s += _(u'Size: %d bytes') % self.gopSize
+        s += _('GOP') + ' '
+        s += _('Size: %d bytes') % self.gopSize
         if self.hasThumb:
-            s += '\n' + _(u'Embedded Thumbnail')
+            s += '\n' + _('Embedded Thumbnail')
         return s
 
     def setSizes(self, version, vSize, aSize, gSize = 0):
@@ -155,7 +155,7 @@ class DpgHeader():
         elif codec == 'vorbis':
             self.audioCodecOrChannels = 3
         else: 
-            raise Exception(_(u'%s is not a valid DPG audio codec') % codec)
+            raise Exception(_('%s is not a valid DPG audio codec') % codec)
         # Sample rate 32000, higher possible but may result in worse quality
         self.audioSampleRate = sampleRate
     
@@ -170,7 +170,7 @@ class DpgHeader():
         fd = open(filename, 'rb')
         versionStr = fd.read(4)
         if versionStr[:3] != 'DPG':
-            raise Exception(_(u'%s is not a valid DPG file') % file)
+            raise Exception(_('%s is not a valid DPG file') % file)
         self.version = int(versionStr[3])
         self.frames = struct.unpack("<l", fd.read(4))[0]
         # FPS only using one byte

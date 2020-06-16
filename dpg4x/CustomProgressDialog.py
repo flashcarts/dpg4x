@@ -77,7 +77,7 @@ class CustomProgressDialog(wx.Dialog):
     def _init_ctrls(self, prnt):
         # generated method, don't edit
         wx.Dialog.__init__(self, id=wxID_DIALOG1, name='', parent=prnt,
-              style=wx.CAPTION, title=_(u'ENCODING'))
+              style=wx.CAPTION, title=_('ENCODING'))
 
         self.staticText1 = wx.StaticText(id=wxID_DIALOG1STATICTEXT1, label='',
               name='staticText1', parent=self, pos=wx.Point(20, 20),
@@ -95,7 +95,7 @@ class CustomProgressDialog(wx.Dialog):
               parent=self, pos=wx.Point(20, 98), range=100, size=wx.Size(500,
               28), style=wx.GA_HORIZONTAL)
 
-        self.button1 = wx.Button(id=wxID_DIALOG1BUTTON1, label=_(u'Abort'),
+        self.button1 = wx.Button(id=wxID_DIALOG1BUTTON1, label=_('Abort'),
               name='button1', parent=self, pos=wx.Point(233, 146),
               style=0)
 
@@ -119,8 +119,8 @@ class CustomProgressDialog(wx.Dialog):
         self.gauge2.SetRange(self.totalProgOverall)
         
         # Set the overal progress label
-        self.staticText2.SetLabel(_(u'Starting encoding process'))
-        self.staticText2.SetLabel(_(u'Overall progress - %s files remain') %
+        self.staticText2.SetLabel(_('Starting encoding process'))
+        self.staticText2.SetLabel(_('Overall progress - %s files remain') %
             str(self.remainFiles))
             
         # Events
@@ -154,7 +154,7 @@ class CustomProgressDialog(wx.Dialog):
         self.gauge2.SetValue(self.currProgOverall)
         # Update the text messages
         self.staticText1.SetLabel(message)
-        self.staticText2.SetLabel(_(u'Overall progress - %s files remain') %
+        self.staticText2.SetLabel(_('Overall progress - %s files remain') %
             str(self.remainFiles))
         # Force the dialog to be refreshed
         self.Update()
@@ -173,7 +173,7 @@ class CustomProgressDialog(wx.Dialog):
             event.StopPropagation()
         # Request for confirmation
         dialog = wx.MessageDialog(self, 
-            _(u'Do you want to abort the encoding process?'), _(u'QUESTION'), 
+            _('Do you want to abort the encoding process?'), _('QUESTION'), 
             style=wx.YES_NO | wx.NO_DEFAULT | wx.ICON_QUESTION)
         confirmation = dialog.ShowModal()
         # Set the abort flag

@@ -30,17 +30,17 @@ def DpgInject(inputN, imageN, outputN):
 
     try:
         if not (os.path.isfile(inputN) and (os.access(inputN, os.R_OK))):
-            raise Exception(_(u'ERROR: The file %s cannot be read') % inputN)
+            raise Exception(_('ERROR: The file %s cannot be read') % inputN)
 
         if not (os.path.isfile(imageN) and (os.access(imageN, os.R_OK))):
-            raise Exception(_(u'ERROR: The file %s cannot be read') % imageN)
+            raise Exception(_('ERROR: The file %s cannot be read') % imageN)
 
         outPath = os.path.dirname(outputN)
         outPath = os.path.abspath(outPath)
         if (os.path.isfile(outputN) and (not os.access(outputN, os.W_OK))):
-            raise Exception(_(u'ERROR: The file %s cannot be written') % outputN)
+            raise Exception(_('ERROR: The file %s cannot be written') % outputN)
         if not os.access(outPath, os.W_OK):
-            raise Exception(_(u'ERROR: The folder %s cannot be written') % outPath)
+            raise Exception(_('ERROR: The folder %s cannot be written') % outPath)
 
         dpgVersion = DpgHeader.getDpgVersion(inputN)
         if dpgVersion:
@@ -48,11 +48,11 @@ def DpgInject(inputN, imageN, outputN):
             # Todo: it could be possible to upgrade to DPG4 but
             # leads to more complicated code because header size grows
             if dpgVersion < 4:
-                raise Exception(_(u'%(file)s is a DPG version %(version)s ' \
+                raise Exception(_('%(file)s is a DPG version %(version)s ' \
                                   'file, but version 4 or better is required') % 
                                 {"file": inputN, "version": dpgVersion})
         else:
-            raise Exception(_(u'%s is not a valid DPG file') % inputN)
+            raise Exception(_('%s is not a valid DPG file') % inputN)
 
         thumbnail = DpgThumbnail()
         thumbnail.fromFile(imageN)
@@ -137,7 +137,7 @@ class DpgThumbnail(object):
         if dpgVersion:
             # Use a specific message if DPG version < 4
             if dpgVersion < 4:
-                raise Exception(_(u'%(file)s is a DPG version %(version)s ' \
+                raise Exception(_('%(file)s is a DPG version %(version)s ' \
                                   'file, but version 4 or better is required') % 
                                   {"file": filename, "version": dpgVersion})
             else:
@@ -154,7 +154,7 @@ class DpgThumbnail(object):
         thumbStr = fd.read(4)
         # Can ver4 exist without this? Or would it be a corrupt file?
         if thumbStr != 'THM0':
-            raise Exception(_(u'%s is not a valid DPG file') % filename)            
+            raise Exception(_('%s is not a valid DPG file') % filename)            
 
         dest_w, dest_h = self.size
 

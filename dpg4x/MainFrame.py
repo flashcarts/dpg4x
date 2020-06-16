@@ -95,36 +95,36 @@ class Frame1(wx.Frame):
         # the AddPage() caption text and icons disappear after being clicked
         # with 2.9. Problem is evident in the wxPython demo as well as dpg4x.
         self.notebook1.AddPage(filesPanel,
-            Globals.fillString(_(u'MAIN'),10),imageId=0)
+            Globals.fillString(_('MAIN'),10),imageId=0)
         Globals.filesPanel = filesPanel
         
         # Panel with video options
         videoPanel = VideoPanel.VideoPanel(self.notebook1)
         self.notebook1.AddPage(videoPanel,
-            Globals.fillString(_(u'VIDEO'),10),imageId=1)
+            Globals.fillString(_('VIDEO'),10),imageId=1)
         Globals.videoPanel = videoPanel
         
         # Panel with audio options
         audioPanel = AudioPanel.AudioPanel(self.notebook1)
         self.notebook1.AddPage(audioPanel,
-            Globals.fillString(_(u'AUDIO'),10),imageId=2)
+            Globals.fillString(_('AUDIO'),10),imageId=2)
         Globals.audioPanel = audioPanel
         
         # Panel with subtitle options
         subtitlesPanel = SubtitlesPanel.SubtitlesPanel(self.notebook1)
         self.notebook1.AddPage(subtitlesPanel,
-            Globals.fillString(_(u'SUBTITLES'),10),imageId=3)
+            Globals.fillString(_('SUBTITLES'),10),imageId=3)
         Globals.subtitlesPanel = subtitlesPanel
         
         # Panel with aditional options
         otherPanel = OtherPanel.OtherPanel(self.notebook1)
         self.notebook1.AddPage(otherPanel,
-            Globals.fillString(_(u'MISC'),10),imageId=4)
+            Globals.fillString(_('MISC'),10),imageId=4)
         Globals.otherPanel = otherPanel
         
         # User Guide
         self.notebook1.AddPage(filesPanel,
-            Globals.fillString(_(u'HELP'),10),imageId=5)
+            Globals.fillString(_('HELP'),10),imageId=5)
         
         # Set the window size
         width = self.GetBestSize().x + 20

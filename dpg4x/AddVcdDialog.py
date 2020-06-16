@@ -52,23 +52,23 @@ class AddVcdDialog(wx.Dialog):
     def _init_ctrls(self, prnt):
         # generated method, don't edit
         wx.Dialog.__init__(self, id=wxID_DIALOG1, name='', parent=prnt,
-              style=wx.DEFAULT_DIALOG_STYLE, title=_(u'Add VCD'))
+              style=wx.DEFAULT_DIALOG_STYLE, title=_('Add VCD'))
 
         self.staticText1 = wx.StaticText(id=wxID_DIALOG1STATICTEXT1,
-              label=_(u'Device'), name='staticText1', parent=self, style=0)
+              label=_('Device'), name='staticText1', parent=self, style=0)
 
         self.textCtrl1 = wx.TextCtrl(id=wxID_DIALOG1TEXTCTRL1, name='textCtrl1',
               parent=self, style=0, value=Globals.dpg_vcddevice)
 
         self.staticText2 = wx.StaticText(id=wxID_DIALOG1STATICTEXT2,
-              label=_(u'Track'), name='staticText2', parent=self, style=0)
+              label=_('Track'), name='staticText2', parent=self, style=0)
 
         self.spinCtrl1 = wx.SpinCtrl(id=wxID_DIALOG1SPINCTRL1, value=str(2),
               max=99, min=1, name='spinCtrl1', parent=self, 
               style=wx.SP_ARROW_KEYS)
 
         self.staticText3 = wx.StaticText(id=wxID_DIALOG1STATICTEXT3,
-              label=_(u'Track 1 does not contain video'), 
+              label=_('Track 1 does not contain video'), 
               name='staticText3', parent=self, style=0)
 
         self.button1 = wx.Button(id=wx.ID_OK, parent=self, style=0)

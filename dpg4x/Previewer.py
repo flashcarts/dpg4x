@@ -73,7 +73,7 @@ def preview_files(file):
         mencoder_output = mencoder_proc.communicate()[0]
         # Check the return process
         if mencoder_proc.wait() != 0:
-            raise Exception(_(u'ERROR ON MENCODER')+'\n\n'+mencoder_output)
+            raise Exception(_('ERROR ON MENCODER')+'\n\n'+mencoder_output)
         
         # Sets the normal cursor again
         if busy is not None:
@@ -90,14 +90,14 @@ def preview_files(file):
         mplayer_output = mplayer_proc.communicate()[0]
         # Check the return process
         if mplayer_proc.wait() != 0:
-            raise Exception(_(u'ERROR ON MPLAYER')+'\n\n'+mplayer_output)
+            raise Exception(_('ERROR ON MPLAYER')+'\n\n'+mplayer_output)
         
         # Delete the temporary files
         os.remove(Globals.TMP_VIDEO+'.avi')
         Globals.clearTemporary()
         # Enable the events on main frame
         Globals.mainPanel.Enable(True)
-    except Exception, e:
+    except Exception as e:
         # Sets the normal cursor again
         if busy is not None:
             del busy
@@ -139,11 +139,11 @@ def play_files(file):
         mplayer_output = mplayer_proc.communicate()[0]
         # Check the return process
         if mplayer_proc.wait() != 0:
-            raise Exception(_(u'ERROR ON MPLAYER')+'\n\n'+mplayer_output)
+            raise Exception(_('ERROR ON MPLAYER')+'\n\n'+mplayer_output)
         
         # Enable the events on main frame
         Globals.mainPanel.Enable(True)
-    except Exception, e:
+    except Exception as e:
         # Enable the events on main frame
         Globals.mainPanel.Enable(True)
         # Send the exception to the FilesPanel
@@ -188,13 +188,13 @@ def show_information(file, parent):
     mplayer_output = mplayer_proc.communicate()[0]
     # Check the return process
     if mplayer_proc.wait() != 0:
-        raise Exception(_(u'ERROR ON MPLAYER')+'\n\n'+mplayer_output)
+        raise Exception(_('ERROR ON MPLAYER')+'\n\n'+mplayer_output)
     
     # Show a dialog to the user
     if dpgVersion:
         dialog = DpgInfoDialog(parent, file, mplayer_output, 
-                 _(u'Information about %s') % os.path.basename(file))
+                 _('Information about %s') % os.path.basename(file))
     else:
         dialog = OutputTextDialog(parent, mplayer_output, 
-                 _(u'Information about %s') % os.path.basename(file))
+                 _('Information about %s') % os.path.basename(file))
     dialog.ShowModal()

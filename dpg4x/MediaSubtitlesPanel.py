@@ -81,14 +81,14 @@ class MediaSubtitlesPanel(wx.Panel):
         self.panel2 = wx.Panel(id=wxID_PANEL2, name='', parent=self)
 
         self.staticText5 = wx.StaticText(id=wxID_PANEL1STATICTEXT5,
-              label=_(u'Subtitles Source')+' ', name='staticText5', parent=self,
+              label=_('Subtitles Source')+' ', name='staticText5', parent=self,
               style=0)
 
         self.choice2 = wx.Choice(choices=[], id=wxID_PANEL1CHOICE2,
               name='choice1', parent=self, style=0)
 
         self.staticText1 = wx.StaticText(id=wxID_PANEL1STATICTEXT1,
-              label=_(u'Subtitles Track')+' ', name='staticText1',
+              label=_('Subtitles Track')+' ', name='staticText1',
               parent=self, style=0)
 
         self.spinCtrl1 = wx.SpinCtrl(id=wxID_PANEL1SPINCTRL1,
@@ -97,26 +97,26 @@ class MediaSubtitlesPanel(wx.Panel):
               style=wx.SP_ARROW_KEYS)
 
         self.staticText2 = wx.StaticText(id=wxID_PANEL1STATICTEXT2,
-              label=_(u'Subtitles File')+' ', name='staticText2',
+              label=_('Subtitles File')+' ', name='staticText2',
               parent=self, style=0)
 
         self.textCtrl1 = wx.TextCtrl(id=wxID_PANEL1TEXTCTRL1, name='textCtrl1',
               parent=self, style=0, value=Globals.subtitles_file)
 
-        self.button1 = wx.Button(id=wxID_PANEL1BUTTON1, label=_(u'Examine'),
+        self.button1 = wx.Button(id=wxID_PANEL1BUTTON1, label=_('Examine'),
               name='button1', parent=self, style=0)
 
         self.staticText3 = wx.StaticText(id=wxID_PANEL1STATICTEXT3,
-              label=_(u'Font')+' ', name='staticText3', parent=self, style=0)
+              label=_('Font')+' ', name='staticText3', parent=self, style=0)
 
         self.textCtrl2 = wx.TextCtrl(id=wxID_PANEL1TEXTCTRL2, name='textCtrl2',
               parent=self, style=wx.TE_READONLY, value=Globals.subtitles_font)
 
-        self.button2 = wx.Button(id=wxID_PANEL1BUTTON2, label=_(u'Examine'),
+        self.button2 = wx.Button(id=wxID_PANEL1BUTTON2, label=_('Examine'),
               name='button2', parent=self, style=0)
 
         self.staticText4 = wx.StaticText(id=wxID_PANEL1STATICTEXT4,
-              label=_(u'Encoding')+' ', name='staticText4', parent=self, style=0)
+              label=_('Encoding')+' ', name='staticText4', parent=self, style=0)
 
         # Custom TreeCtrlComboPopup
         self.choice1 = wx.combo.ComboCtrl(self, size=(280,-1),
@@ -136,10 +136,10 @@ class MediaSubtitlesPanel(wx.Panel):
         self._init_ctrls(parent)
 
         # Init the subtitles source choice
-        self.choice2.Append(_(u'Auto'),'auto')
-        self.choice2.Append(_(u'Get track from input video file'),'sid')
-        self.choice2.Append(_(u'Use subtitles file'),'file')
-        self.choice2.Append(_(u'Disable subtitles'),'disable')
+        self.choice2.Append(_('Auto'),'auto')
+        self.choice2.Append(_('Get track from input video file'),'sid')
+        self.choice2.Append(_('Use subtitles file'),'file')
+        self.choice2.Append(_('Disable subtitles'),'disable')
         if Globals.subtitles_source == 'auto':
             self.choice2.Select(0)
         elif Globals.subtitles_source == 'sid':
@@ -186,8 +186,8 @@ class MediaSubtitlesPanel(wx.Panel):
         else:
             self.choice1.SetValue('')
             self.choice1.Enable(False)
-            Globals.debug(_(u'WARNING: iconv not found. Subtitles encoding ' \
-                u'option disabled.'))
+            Globals.debug(_('WARNING: iconv not found. Subtitles encoding ' \
+                'option disabled.'))
 
         # Events
         wx.EVT_BUTTON(self.button1, wxID_PANEL1BUTTON1, self.selectSubsFile)
@@ -236,7 +236,7 @@ class MediaSubtitlesPanel(wx.Panel):
         # If None event we called it
         if (event is not None):
             event.StopPropagation()
-        dialog = wx.FileDialog(self, _(u'Select a subtitles file'), style=wx.OPEN,
+        dialog = wx.FileDialog(self, _('Select a subtitles file'), style=wx.OPEN,
             defaultDir=os.path.dirname(self.textCtrl1.GetValue()))
         if dialog.ShowModal() == wx.ID_OK:
             self.textCtrl1.SetValue(dialog.GetPath())
@@ -248,7 +248,7 @@ class MediaSubtitlesPanel(wx.Panel):
         if (event is not None):
             event.StopPropagation()
         dialog = CustomFontSelector.CustomFontSelector(
-            self, _(u'Select the subtitles font'),
+            self, _('Select the subtitles font'),
             self.textCtrl2.GetValue())
         if dialog.ShowModal() == wx.ID_OK:
             self.textCtrl2.SetValue(dialog.GetData())
@@ -267,7 +267,7 @@ class MediaSubtitlesPanel(wx.Panel):
             # Check the subtitles file can be read
             if not (os.path.isfile(Globals.subtitles_file) and os.access(
                 Globals.subtitles_file, os.R_OK)):
-                raise Exception(_(u'The subtitles file cannot be read.'))
+                raise Exception(_('The subtitles file cannot be read.'))
         # Get also fonts and encoding
         Globals.subtitles_font = self.textCtrl2.GetValue()
         Globals.subtitles_encoding = self.choice1.GetValue()

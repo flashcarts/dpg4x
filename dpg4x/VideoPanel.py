@@ -69,7 +69,7 @@ class VideoPanel(wx.Panel):
               style=wx.TAB_TRAVERSAL)
 
         self.staticText1 = wx.StaticText(id=wxID_PANEL1STATICTEXT1,
-              label=_(u'Width')+' ', name='staticText1', parent=self, style=0)
+              label=_('Width')+' ', name='staticText1', parent=self, style=0)
 
         self.spinCtrl1 = wx.SpinCtrl(id=wxID_PANEL1SPINCTRL1, 
               value=str(Globals.video_width),
@@ -77,10 +77,10 @@ class VideoPanel(wx.Panel):
               style=wx.SP_ARROW_KEYS)
 
         self.checkBox1 = wx.CheckBox(id=wxID_PANEL1CHECKBOX1, 
-              label=_(u'Keep Aspect'),name='checkBox1', parent=self, style=0)
+              label=_('Keep Aspect'),name='checkBox1', parent=self, style=0)
 
         self.staticText2 = wx.StaticText(id=wxID_PANEL1STATICTEXT2,
-              label=_(u'Height')+' ', name='staticText2', parent=self, style=0)
+              label=_('Height')+' ', name='staticText2', parent=self, style=0)
 
         self.spinCtrl2 = wx.SpinCtrl(id=wxID_PANEL1SPINCTRL2, 
               value=str(Globals.video_height),
@@ -88,7 +88,7 @@ class VideoPanel(wx.Panel):
               style=wx.SP_ARROW_KEYS)
 
         self.staticText3 = wx.StaticText(id=wxID_PANEL1STATICTEXT3,
-              label=_(u'Video Bitrate')+' ', name='staticText3', parent=self, 
+              label=_('Video Bitrate')+' ', name='staticText3', parent=self, 
               style=0)
 
         self.spinCtrl3 = wx.SpinCtrl(id=wxID_PANEL1SPINCTRL3, 
@@ -97,24 +97,24 @@ class VideoPanel(wx.Panel):
               style=wx.SP_ARROW_KEYS)
 
         self.staticText4 = wx.StaticText(id=wxID_PANEL1STATICTEXT4,
-              label=_(u'Frames Per Second')+' ', name='staticText4', 
+              label=_('Frames Per Second')+' ', name='staticText4', 
               parent=self, style=0)
 
         self.choice1 = wx.Choice(choices=[], id=wxID_PANEL1CHOICE1,
               name='choice1', parent=self, style=0)
 
         self.checkBox2 = wx.CheckBox(id=wxID_PANEL1CHECKBOX2, 
-              label=_(u'Auto FPS'),name='checkBox2', parent=self, style=0)
+              label=_('Auto FPS'),name='checkBox2', parent=self, style=0)
 
         self.staticText5 = wx.StaticText(id=wxID_PANEL1STATICTEXT5,
-              label=_(u'Pixel Format')+' ', name='staticText5', parent=self, 
+              label=_('Pixel Format')+' ', name='staticText5', parent=self, 
               style=0)
 
         self.choice2 = wx.Choice(choices=[], id=wxID_PANEL1CHOICE2,
               name='choice2', parent=self, style=0)
               
         self.staticText6 = wx.StaticText(id=wxID_PANEL1STATICTEXT6,
-              label=_(u'Video Track')+' ', name='staticText6', 
+              label=_('Video Track')+' ', name='staticText6', 
               parent=self, style=0)
               
         self.spinCtrl4 = wx.SpinCtrl(id=wxID_PANEL1SPINCTRL4, 
@@ -123,7 +123,7 @@ class VideoPanel(wx.Panel):
               style=wx.SP_ARROW_KEYS)
               
         self.checkBox3 = wx.CheckBox(id=wxID_PANEL1CHECKBOX3, 
-              label=_(u'Auto Video Track'),name='checkBox3', parent=self, style=0)
+              label=_('Auto Video Track'),name='checkBox3', parent=self, style=0)
 
         self._init_sizers()
 
@@ -136,39 +136,39 @@ class VideoPanel(wx.Panel):
         self.switchSize(None)
         
         # Init video bitrate choice
-        self.choice1.Append(u'64',64)
-        self.choice1.Append(u'80',80)
-        self.choice1.Append(u'96',96)
-        self.choice1.Append(u'112',112)
-        self.choice1.Append(u'128',128)
-        self.choice1.Append(u'144',144)
-        self.choice1.Append(u'160',160)
-        self.choice1.Append(u'176',176)
-        self.choice1.Append(u'192',192)
-        self.choice1.Append(u'208',208)
-        self.choice1.Append(u'224',224)
-        self.choice1.Append(u'240',240)
-        self.choice1.Append(u'256',256)
-        self.choice1.Append(u'272',272)
-        self.choice1.Append(u'288',288)
-        self.choice1.Append(u'304',304)
-        self.choice1.Append(u'320',320)
-        self.choice1.Append(u'336',336)
-        self.choice1.Append(u'352',352)
-        self.choice1.Append(u'368',368)
-        self.choice1.Append(u'384',384)
-        self.choice1.Append(u'400',400)
-        self.choice1.Append(u'416',416)
-        self.choice1.Append(u'432',432)
-        self.choice1.Append(u'448',448)
-        self.choice1.Append(u'464',464)
+        self.choice1.Append('64',64)
+        self.choice1.Append('80',80)
+        self.choice1.Append('96',96)
+        self.choice1.Append('112',112)
+        self.choice1.Append('128',128)
+        self.choice1.Append('144',144)
+        self.choice1.Append('160',160)
+        self.choice1.Append('176',176)
+        self.choice1.Append('192',192)
+        self.choice1.Append('208',208)
+        self.choice1.Append('224',224)
+        self.choice1.Append('240',240)
+        self.choice1.Append('256',256)
+        self.choice1.Append('272',272)
+        self.choice1.Append('288',288)
+        self.choice1.Append('304',304)
+        self.choice1.Append('320',320)
+        self.choice1.Append('336',336)
+        self.choice1.Append('352',352)
+        self.choice1.Append('368',368)
+        self.choice1.Append('384',384)
+        self.choice1.Append('400',400)
+        self.choice1.Append('416',416)
+        self.choice1.Append('432',432)
+        self.choice1.Append('448',448)
+        self.choice1.Append('464',464)
         self.choice1.SetStringSelection(str(Globals.video_bitrate))
         
         # Init the pixel format choice
-        self.choice2.Append(u'RGB15',0)
-        self.choice2.Append(u'RGB18',1)
-        self.choice2.Append(u'RGB21',2)
-        self.choice2.Append(u'RGB24',3)
+        self.choice2.Append('RGB15',0)
+        self.choice2.Append('RGB18',1)
+        self.choice2.Append('RGB21',2)
+        self.choice2.Append('RGB24',3)
         self.choice2.Select(Globals.video_pixel)
         
         # Pixel format other than RGB24 does not work for me

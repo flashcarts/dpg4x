@@ -59,33 +59,33 @@ class AddDvdDialog(wx.Dialog):
     def _init_ctrls(self, prnt):
         # generated method, don't edit
         wx.Dialog.__init__(self, id=wxID_DIALOG1, name='', parent=prnt,
-              style=wx.DEFAULT_DIALOG_STYLE, title=_(u'Add DVD'))
+              style=wx.DEFAULT_DIALOG_STYLE, title=_('Add DVD'))
 
         self.staticText1 = wx.StaticText(id=wxID_DIALOG1STATICTEXT1,
-              label=_(u'Device'), name='staticText1', parent=self, style=0)
+              label=_('Device'), name='staticText1', parent=self, style=0)
 
         self.textCtrl1 = wx.TextCtrl(id=wxID_DIALOG1TEXTCTRL1, name='textCtrl1',
               parent=self, style=0, value=Globals.dpg_dvddevice)
 
         self.staticText2 = wx.StaticText(id=wxID_DIALOG1STATICTEXT2,
-              label=_(u'Track'), name='staticText2', parent=self, style=0)
+              label=_('Track'), name='staticText2', parent=self, style=0)
 
         self.spinCtrl1 = wx.SpinCtrl(id=wxID_DIALOG1SPINCTRL1, value=str(1),
               max=99, min=1, name='spinCtrl1', parent=self, 
               style=wx.SP_ARROW_KEYS)
 
         self.checkBox1 = wx.CheckBox(id=wxID_PANEL1CHECKBOX1, 
-              label=_(u'Filter chapters'), name='checkBox1', parent=self, style=0)
+              label=_('Filter chapters'), name='checkBox1', parent=self, style=0)
               
         self.staticText3 = wx.StaticText(id=wxID_DIALOG1STATICTEXT3,
-              label=_(u'First'), name='staticText3', parent=self, style=0)
+              label=_('First'), name='staticText3', parent=self, style=0)
               
         self.spinCtrl2 = wx.SpinCtrl(id=wxID_DIALOG1SPINCTRL2, value=str(1),
               max=99, min=1, name='spinCtrl2', parent=self, 
               style=wx.SP_ARROW_KEYS)
               
         self.staticText4 = wx.StaticText(id=wxID_DIALOG1STATICTEXT4,
-              label=_(u'Last'), name='staticText4', parent=self, style=0)
+              label=_('Last'), name='staticText4', parent=self, style=0)
               
         self.spinCtrl3 = wx.SpinCtrl(id=wxID_DIALOG1SPINCTRL3, value=str(10),
               max=99, min=1, name='spinCtrl3', parent=self, 
@@ -144,8 +144,8 @@ class AddDvdDialog(wx.Dialog):
         # Check that the last chapter is higher than the first
         if self.checkBox1.IsChecked():
             if self.spinCtrl2.GetValue() > self.spinCtrl3.GetValue():
-                message = _(u'The last chapter cannot be lower than the first.')
-                dialog = wx.MessageDialog(self, message, _(u'ERROR'), 
+                message = _('The last chapter cannot be lower than the first.')
+                dialog = wx.MessageDialog(self, message, _('ERROR'), 
                     style=wx.OK|wx.ICON_ERROR)
                 dialog.ShowModal()
                 return

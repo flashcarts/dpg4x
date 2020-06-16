@@ -68,10 +68,10 @@ class DpgInfoDialog(wx.Dialog):
         self.panelb = wx.Panel(id=wxID_DIALOG1PANEL1, name='panel2',
               parent=self.main_panel, style=wx.TAB_TRAVERSAL)
 
-        self.button1 = wx.Button(id=wx.ID_CLOSE, label=_(u'Close'),
+        self.button1 = wx.Button(id=wx.ID_CLOSE, label=_('Close'),
               parent=self.panelb, style=0)
 
-        self.button2 = wx.Button(id=wx.ID_OPEN, label=_(u'Select Thumbnail'),
+        self.button2 = wx.Button(id=wx.ID_OPEN, label=_('Select Thumbnail'),
               parent=self.panelb, style=0)
 
         self._init_sizers()
@@ -83,11 +83,11 @@ class DpgInfoDialog(wx.Dialog):
         dpg = DpgHeader.DpgHeader(filename)
         if dpg.version > 3:
             thumb = DpgThumbnail.DpgThumbnail(filename)
-            self.textCtrl1.AppendText(unicode(dpg))
+            self.textCtrl1.AppendText(str(dpg))
             self.textCtrl1.ShowPosition(0)
             self.bmp.SetBitmap(thumb.getImage().ConvertToBitmap())
         else:
-            self.textCtrl1.AppendText(unicode(dpg))
+            self.textCtrl1.AppendText(str(dpg))
             
         self.textCtrl2.AppendText(text)
         self.textCtrl2.ShowPosition(0)
@@ -106,7 +106,7 @@ class DpgInfoDialog(wx.Dialog):
     def OnReplaceThumb(self, event):
         "Replace thumbnail"
         image_file = None
-        dialog = wx.FileDialog(self, _(u'Select a thumbnail file'), style=wx.OPEN,
+        dialog = wx.FileDialog(self, _('Select a thumbnail file'), style=wx.OPEN,
             defaultDir=os.path.dirname(self.filename))
         if dialog.ShowModal() == wx.ID_OK:
             image_file = dialog.GetPath()
@@ -117,9 +117,9 @@ class DpgInfoDialog(wx.Dialog):
                 DpgThumbnail.DpgInject(self.filename,image_file,self.filename)
                 thumb = DpgThumbnail.DpgThumbnail(image_file)
                 self.bmp.SetBitmap(thumb.getImage().ConvertToBitmap())
-            except Exception, e:
-                message = unicode(e.args[0])
-                dialog = wx.MessageDialog(self, message, _(u'ERROR'), 
+            except Exception as e:
+                message = str(e.args[0])
+                dialog = wx.MessageDialog(self, message, _('ERROR'), 
                                           style=wx.OK|wx.ICON_ERROR)
                 dialog.ShowModal()
                             

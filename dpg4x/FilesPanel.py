@@ -100,28 +100,28 @@ class FilesPanel(wx.Panel):
               style= wx.LC_REPORT|wx.BORDER_NONE|wx.LC_HRULES|wx.LC_VRULES,
               parent=self, size=(380, 150))
 
-        self.button1 = wx.Button(id=wxID_PANEL1BUTTON1, label=_(u'Add Media'),
+        self.button1 = wx.Button(id=wxID_PANEL1BUTTON1, label=_('Add Media'),
               name='button1', parent=self.panel2, style=0)
 
-        self.button2 = wx.Button(id=wxID_PANEL1BUTTON2, label=_(u'Delete Media'),
+        self.button2 = wx.Button(id=wxID_PANEL1BUTTON2, label=_('Delete Media'),
               name='button2', parent=self.panel2, style=0)
               
-        self.button4 = wx.Button(id=wxID_PANEL1BUTTON4, label=_(u'DPG Preview'),
+        self.button4 = wx.Button(id=wxID_PANEL1BUTTON4, label=_('DPG Preview'),
               name='button4', parent=self.panel2, style=0)
 
         self.staticText1 = wx.StaticText(id=wxID_PANEL1STATICTEXT1,
-              label=_(u'Quality')+' ', name='staticText1', parent=self, style=0)
+              label=_('Quality')+' ', name='staticText1', parent=self, style=0)
               
         self.staticText2 = wx.StaticText(id=wxID_PANEL1STATICTEXT2,
-              label=_(u'DPG Version')+' ', name='staticText2', parent=self, 
+              label=_('DPG Version')+' ', name='staticText2', parent=self, 
               style=0)
               
         self.staticText3 = wx.StaticText(id=wxID_PANEL1STATICTEXT3,
-              label=_(u'Individual Settings'), name='staticText3', 
+              label=_('Individual Settings'), name='staticText3', 
               parent=self.panel2, style=0)
 
         self.button3 = wx.Button(id=wxID_PANEL1BUTTON3, 
-              label=_(u'Start Encoding'), name='button3', parent=self, 
+              label=_('Start Encoding'), name='button3', parent=self, 
               size=(350, 50), style=0)
 
         self.choice1 = wx.Choice(choices=[], id=wxID_PANEL1CHOICE1,
@@ -130,28 +130,28 @@ class FilesPanel(wx.Panel):
         self.choice2 = wx.Choice(choices=[], id=wxID_PANEL1CHOICE2,
               name='choice2', parent=self, style=0)
               
-        self.button5 = wx.Button(id=wxID_PANEL1BUTTON5, label=_(u'Add File'),
+        self.button5 = wx.Button(id=wxID_PANEL1BUTTON5, label=_('Add File'),
               name='button5', parent=self.panel2, style=0)
               
-        self.button6 = wx.Button(id=wxID_PANEL1BUTTON6, label=_(u'Add DVD'),
+        self.button6 = wx.Button(id=wxID_PANEL1BUTTON6, label=_('Add DVD'),
               name='button6', parent=self.panel2, style=0)
               
-        self.button7 = wx.Button(id=wxID_PANEL1BUTTON7, label=_(u'Add VCD'),
+        self.button7 = wx.Button(id=wxID_PANEL1BUTTON7, label=_('Add VCD'),
               name='button7', parent=self.panel2, style=0)
               
-        self.button8 = wx.Button(id=wxID_PANEL1BUTTON8, label=_(u'Play Media'),
+        self.button8 = wx.Button(id=wxID_PANEL1BUTTON8, label=_('Play Media'),
               name='button8', parent=self.panel2, style=0)
               
-        self.button9 = wx.Button(id=wxID_PANEL1BUTTON9, label=_(u'Cancel'),
+        self.button9 = wx.Button(id=wxID_PANEL1BUTTON9, label=_('Cancel'),
               name='button9', parent=self.panel2, style=0)
               
-        self.button10 = wx.Button(id=wxID_PANEL1BUTTON10, label=_(u'Media Info'),
+        self.button10 = wx.Button(id=wxID_PANEL1BUTTON10, label=_('Media Info'),
               name='button10', parent=self.panel2, style=0)
               
-        self.button11 = wx.Button(id=wxID_PANEL1BUTTON11, label=_(u'Set'),
+        self.button11 = wx.Button(id=wxID_PANEL1BUTTON11, label=_('Set'),
               name='button11', parent=self.panel2, style=0)
               
-        self.button12 = wx.Button(id=wxID_PANEL1BUTTON12, label=_(u'Delete'),
+        self.button12 = wx.Button(id=wxID_PANEL1BUTTON12, label=_('Delete'),
               name='button12', parent=self.panel2, style=0)
 
         self._init_sizers()
@@ -163,18 +163,18 @@ class FilesPanel(wx.Panel):
         self.lastFilePath = ''
         
         # Init version choice
-        self.choice2.Append(u'0',0)
-        self.choice2.Append(u'1',1)
-        self.choice2.Append(u'2',2)
-        self.choice2.Append(u'3',3)
-        self.choice2.Append(u'4',4)
+        self.choice2.Append('0',0)
+        self.choice2.Append('1',1)
+        self.choice2.Append('2',2)
+        self.choice2.Append('3',3)
+        self.choice2.Append('4',4)
         self.choice2.Select(Globals.dpg_version)
         
         # Init quality choice
-        self.choice1.Append(_(u'Low'),'low')
-        self.choice1.Append(_(u'Normal'),'normal')
-        self.choice1.Append(_(u'High'),'high')
-        self.choice1.Append(_(u'Extra High'),'doublepass')
+        self.choice1.Append(_('Low'),'low')
+        self.choice1.Append(_('Normal'),'normal')
+        self.choice1.Append(_('High'),'high')
+        self.choice1.Append(_('Extra High'),'doublepass')
         if Globals.dpg_quality == 'low':
             self.choice1.Select(0)
         elif Globals.dpg_quality == 'normal':
@@ -185,8 +185,8 @@ class FilesPanel(wx.Panel):
             self.choice1.Select(3)
         
         # Init list control
-        self.listCtrl1.InsertColumn(0,_(u'Media sources to encode'))
-        self.listCtrl1.InsertColumn(1,_(u'Indv Settings'), wx.LIST_FORMAT_CENTRE)
+        self.listCtrl1.InsertColumn(0,_('Media sources to encode'))
+        self.listCtrl1.InsertColumn(1,_('Indv Settings'), wx.LIST_FORMAT_CENTRE)
         # setResizeColumn() breaks manual resizing on Windows so instead make
         # the first column as large as possible, auto size the second column,
         # then make both fit within the 380 pixels of space.
@@ -288,7 +288,7 @@ class FilesPanel(wx.Panel):
         if (event is not None):
             event.StopPropagation()
         # Open a file dialog
-        fileDialog = wx.FileDialog(self, _(u'Select the files to be encoded'), 
+        fileDialog = wx.FileDialog(self, _('Select the files to be encoded'), 
             defaultDir=self.lastFilePath, 
             style=wx.FD_OPEN | wx.FD_FILE_MUST_EXIST | 
                   wx.FD_MULTIPLE | wx.FD_PREVIEW)
@@ -381,8 +381,8 @@ class FilesPanel(wx.Panel):
             event.StopPropagation()
         # Check if there are media sources selected
         if self.listCtrl1.GetSelectedItemCount() == 0:
-            message = _(u'No media sources selected.')
-            dialog = wx.MessageDialog(self, message, _(u'ERROR'), 
+            message = _('No media sources selected.')
+            dialog = wx.MessageDialog(self, message, _('ERROR'), 
                 style=wx.OK|wx.ICON_ERROR)
             dialog.ShowModal()
             return
@@ -407,8 +407,8 @@ class FilesPanel(wx.Panel):
             self.busy = wx.BusyCursor()
             # Allow only one file
             if self.listCtrl1.GetSelectedItemCount() != 1:
-                message = _(u'Select one media source.')
-                dialog = wx.MessageDialog(self, message, _(u'ERROR'), 
+                message = _('Select one media source.')
+                dialog = wx.MessageDialog(self, message, _('ERROR'), 
                     style=wx.OK|wx.ICON_ERROR)
                 dialog.ShowModal()
                 return
@@ -419,16 +419,16 @@ class FilesPanel(wx.Panel):
             if self.busy:
                 del self.busy
         # On error, warn the user
-        except Exception, e:
+        except Exception as e:
             # Sets the normal cursor again
             if self.busy:
                 del self.busy
-            message = unicode(e.args[0])
-            Globals.debug(_(u'ERROR') + ': ' + message)
+            message = str(e.args[0])
+            Globals.debug(_('ERROR') + ': ' + message)
             # Show a dialog to the user
             #dialog = wx.MessageDialog(self, message, _(u'ERROR'), 
             #    style=wx.OK|wx.ICON_ERROR)
-            dialog = OutputTextDialog(self, message, _(u'ERROR'))
+            dialog = OutputTextDialog(self, message, _('ERROR'))
             dialog.ShowModal()
             
     def previewMedia(self, event):
@@ -441,8 +441,8 @@ class FilesPanel(wx.Panel):
             self.busy = wx.BusyCursor()
             # Allow only one file
             if self.listCtrl1.GetSelectedItemCount() != 1:
-                message = _(u'Select one media source.')
-                dialog = wx.MessageDialog(self, message, _(u'ERROR'), 
+                message = _('Select one media source.')
+                dialog = wx.MessageDialog(self, message, _('ERROR'), 
                     style=wx.OK|wx.ICON_ERROR)
                 dialog.ShowModal()
                 return
@@ -463,16 +463,16 @@ class FilesPanel(wx.Panel):
             if self.busy:
                 del self.busy      
         # On error, warn the user
-        except Exception, e:
+        except Exception as e:
             # Sets the normal cursor again
             if self.busy:
                 del self.busy
-            message = unicode(e.args[0])
-            Globals.debug(_(u'ERROR') + ': ' + message)
+            message = str(e.args[0])
+            Globals.debug(_('ERROR') + ': ' + message)
             # Show a dialog to the user
             #dialog = wx.MessageDialog(self, message, _(u'ERROR'), 
             #    style=wx.OK|wx.ICON_ERROR)
-            dialog = OutputTextDialog(self, message, _(u'ERROR'))
+            dialog = OutputTextDialog(self, message, _('ERROR'))
             dialog.ShowModal()
             
     def showMediaInfo(self, event):
@@ -483,8 +483,8 @@ class FilesPanel(wx.Panel):
         try:
             # Allow only one file
             if self.listCtrl1.GetSelectedItemCount() != 1:
-                message = _(u'Select one media source.')
-                dialog = wx.MessageDialog(self, message, _(u'ERROR'), 
+                message = _('Select one media source.')
+                dialog = wx.MessageDialog(self, message, _('ERROR'), 
                     style=wx.OK|wx.ICON_ERROR)
                 dialog.ShowModal()
                 return
@@ -492,13 +492,13 @@ class FilesPanel(wx.Panel):
             item = self.listCtrl1.GetItemText(self.listCtrl1.GetFirstSelected())
             Previewer.show_information(item, self)       
         # On error, warn the user
-        except Exception, e:
-            message = unicode(e.args[0])
-            Globals.debug(_(u'ERROR') + ': ' + message)
+        except Exception as e:
+            message = str(e.args[0])
+            Globals.debug(_('ERROR') + ': ' + message)
             # Show a dialog to the user
             #dialog = wx.MessageDialog(self, message, _(u'ERROR'), 
             #    style=wx.OK|wx.ICON_ERROR)
-            dialog = OutputTextDialog(self, message, _(u'ERROR'))
+            dialog = OutputTextDialog(self, message, _('ERROR'))
             dialog.ShowModal()
             
     def showMediaSettings(self, event):
@@ -509,8 +509,8 @@ class FilesPanel(wx.Panel):
         try:
             # Allow only one file
             if self.listCtrl1.GetSelectedItemCount() != 1:
-                message = _(u'Select one media source.')
-                dialog = wx.MessageDialog(self, message, _(u'ERROR'),
+                message = _('Select one media source.')
+                dialog = wx.MessageDialog(self, message, _('ERROR'),
                     style=wx.OK|wx.ICON_ERROR)
                 dialog.ShowModal()
                 return
@@ -532,11 +532,11 @@ class FilesPanel(wx.Panel):
             else:
                 self.listCtrl1.SetStringItem(item, 1, _("NO"))
         # On error, warn the user
-        except Exception, e:
-            message = unicode(e.args[0])
-            Globals.debug(_(u'ERROR') + ': ' + message)
+        except Exception as e:
+            message = str(e.args[0])
+            Globals.debug(_('ERROR') + ': ' + message)
             # Show a dialog to the user
-            dialog = wx.MessageDialog(self, message, _(u'ERROR'),
+            dialog = wx.MessageDialog(self, message, _('ERROR'),
                 style=wx.OK|wx.ICON_ERROR)
                 
     def deleteMediaSettings(self, event):
@@ -546,8 +546,8 @@ class FilesPanel(wx.Panel):
             event.StopPropagation()
         # Check if there are media sources selected
         if self.listCtrl1.GetSelectedItemCount() == 0:
-            message = _(u'No media sources selected.')
-            dialog = wx.MessageDialog(self, message, _(u'ERROR'), 
+            message = _('No media sources selected.')
+            dialog = wx.MessageDialog(self, message, _('ERROR'), 
                 style=wx.OK|wx.ICON_ERROR)
             dialog.ShowModal()
             return
@@ -585,7 +585,7 @@ class FilesPanel(wx.Panel):
         # OGG can be used only with DPG3 or better
         oldSelection = Globals.audioPanel.choice1.GetSelection()
         if version>2 and Globals.audioPanel.choice1.GetCount()<3:
-            Globals.audioPanel.choice1.Append(u'OGG','vorbis')
+            Globals.audioPanel.choice1.Append('OGG','vorbis')
         elif version<3 and Globals.audioPanel.choice1.GetCount()>2:
             Globals.audioPanel.choice1.Delete(2)
             if oldSelection < 2:
@@ -611,11 +611,11 @@ class FilesPanel(wx.Panel):
         autoFPS = Globals.videoPanel.checkBox2.IsChecked()
         if quality == 'doublepass':
             if (not autoFPS) and (currFPS < 24):
-                message = _(u'With extra high quality, the video FPS cannot ' \
-                    u'be lower than 24. Raising video FPS to 24.')
-                Globals.debug(_(u'WARNING') + ': ' + message)
+                message = _('With extra high quality, the video FPS cannot ' \
+                    'be lower than 24. Raising video FPS to 24.')
+                Globals.debug(_('WARNING') + ': ' + message)
                 # Show a dialog to the user
-                dialog = wx.MessageDialog(self, message, _(u'WARNING'), 
+                dialog = wx.MessageDialog(self, message, _('WARNING'), 
                     style=wx.ICON_EXCLAMATION)
                 dialog.ShowModal()
             # Set the min FPS to 24
@@ -646,14 +646,14 @@ class FilesPanel(wx.Panel):
                         files.append(file)
                     # If cannot be read, show error message and exit
                     else:
-                        raise Exception(_(u'Cannot read file %s.') % file)
+                        raise Exception(_('Cannot read file %s.') % file)
                 # Always append DVD and VCD
                 else:
                     files.append(file)
                 item = self.listCtrl1.GetNextItem(item)
             # Show a dialog to the user
             if len(files) < 1:
-                raise Exception(_(u'There are no media sources to process.'))
+                raise Exception(_('There are no media sources to process.'))
             # Get the options from the files panel
             Globals.dpg_version = self.choice2.GetClientData(
                 self.choice2.GetSelection())
@@ -671,13 +671,13 @@ class FilesPanel(wx.Panel):
             # Start encoding the files
             Encoder.gui_encode_files(files)
         # On error, warn the user
-        except Exception, e:
-            message = unicode(str(e))
-            Globals.debug(_(u'ENCODING ERROR') + ': ' + message)
+        except Exception as e:
+            message = str(str(e))
+            Globals.debug(_('ENCODING ERROR') + ': ' + message)
             # Show a dialog to the user
             #dialog = wx.MessageDialog(self, message, _(u'ERROR'), 
             #    style=wx.OK|wx.ICON_ERROR)
-            dialog = OutputTextDialog(self, message, _(u'ERROR'))
+            dialog = OutputTextDialog(self, message, _('ERROR'))
             dialog.ShowModal()
         
     def dropFiles(self, filenames):
