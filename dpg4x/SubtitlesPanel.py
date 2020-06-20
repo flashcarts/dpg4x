@@ -32,28 +32,28 @@ class SubtitlesPanel(wx.Panel):
     def _init_coll_gridBagSizer1_Items(self, parent):
         # generated method, don't edit
 
-        parent.AddSpacer(wx.Size(20, 20), (0, 0), border=0, flag=0, span=(1, 1))
-        parent.AddSpacer(wx.Size(100, 8), (0, 1), border=0, flag=0, span=(1, 2))
+        # d0malaga f32: parent.AddSpacer(wx.Size(20, 20), (0, 0), border=0, flag=0, span=(1, 1))
+        # d0malaga f32: parent.AddSpacer(wx.Size(100, 8), (0, 1), border=0, flag=0, span=(1, 2))
         #parent.AddSpacer(wx.Size(200, 8), (0, 3), border=0, flag=0, span=(1, 3))
-        parent.AddWindow(self.staticText5, (1, 1), border=0, 
+        parent.Add(self.staticText5, (1, 1), border=0,
               flag=wx.ALIGN_RIGHT | wx.ALIGN_CENTER_VERTICAL, span=(1, 2))
-        parent.AddWindow(self.choice2, (1, 3), border=0, flag=0, span=(1, 4))
-        parent.AddWindow(self.staticText1, (3, 1), border=0, 
+        parent.Add(self.choice2, (1, 3), border=0, flag=0, span=(1, 4))
+        parent.Add(self.staticText1, (3, 1), border=0,
               flag=wx.ALIGN_RIGHT | wx.ALIGN_CENTER_VERTICAL, span=(1, 2))
-        parent.AddWindow(self.spinCtrl1, (3, 3), border=0, flag=0, span=(1, 1))
-        parent.AddWindow(self.staticText2, (5, 1), border=0, 
+        parent.Add(self.spinCtrl1, (3, 3), border=0, flag=0, span=(1, 1))
+        parent.Add(self.staticText2, (5, 1), border=0,
               flag=wx.ALIGN_RIGHT | wx.ALIGN_CENTER_VERTICAL, span=(1,2))
-        parent.AddWindow(self.textCtrl1, (5, 3), border=0, flag=wx.EXPAND,
+        parent.Add(self.textCtrl1, (5, 3), border=0, flag=wx.EXPAND,
               span=(1, 3))
-        parent.AddWindow(self.button1, (5, 6), border=0, flag=0, span=(1, 1))
-        parent.AddWindow(self.staticText3, (8, 1), border=0, 
+        parent.Add(self.button1, (5, 6), border=0, flag=0, span=(1, 1))
+        parent.Add(self.staticText3, (8, 1), border=0,
               flag=wx.ALIGN_RIGHT | wx.ALIGN_CENTER_VERTICAL, span=(1,2))
-        parent.AddWindow(self.textCtrl2, (8, 3), border=0, flag=wx.EXPAND,
+        parent.Add(self.textCtrl2, (8, 3), border=0, flag=wx.EXPAND,
               span=(1, 3))
-        parent.AddWindow(self.button2, (8, 6), border=0, flag=0, span=(1, 1))
-        parent.AddWindow(self.staticText4, (10, 1), border=0, 
+        parent.Add(self.button2, (8, 6), border=0, flag=0, span=(1, 1))
+        parent.Add(self.staticText4, (10, 1), border=0,
               flag=wx.ALIGN_RIGHT | wx.ALIGN_CENTER_VERTICAL, span=(1, 2))
-        parent.AddWindow(self.choice1, (10, 3), border=0, flag=0, span=(1, 3))
+        parent.Add(self.choice1, (10, 3), border=0, flag=0, span=(1, 3))
 
     def _init_sizers(self):
         # generated method, don't edit
@@ -107,7 +107,7 @@ class SubtitlesPanel(wx.Panel):
               label=_('Encoding')+' ', name='staticText4', parent=self, style=0)
 
         # Custom TreeCtrlComboPopup
-        self.choice1 = wx.combo.ComboCtrl(self, size=(280,-1), 
+        self.choice1 = wx.ComboCtrl(self, size=(280,-1), 
             style=wx.CB_READONLY, value=Globals.subtitles_encoding)
         self.treeCtrlCombo = TreeCtrlComboPopup.TreeCtrlComboPopup()
         self.choice1.SetPopupControl(self.treeCtrlCombo)
@@ -141,7 +141,7 @@ class SubtitlesPanel(wx.Panel):
                 # necessary to define stdin
                 stdin=subprocess.PIPE,shell=Globals.shell(),
                 stdout=subprocess.PIPE).communicate()[0]
-            iconvOut = iconvOut.replace('/','')
+            iconvOut = str(iconvOut).replace('/','')
             encodings = iconvOut.split('\n')
             encodings.sort()
             # Load the encodings in the tree
@@ -172,9 +172,9 @@ class SubtitlesPanel(wx.Panel):
                 'option disabled.'))
         
         # Events
-        wx.EVT_BUTTON(self.button1, wxID_PANEL1BUTTON1, self.selectSubsFile)
-        wx.EVT_BUTTON(self.button2, wxID_PANEL1BUTTON2, self.selectSubsFont)
-        wx.EVT_CHOICE(self.choice2, wxID_PANEL1CHOICE2, self.changeSubsSource)
+        self.button1.Bind(wx.EVT_BUTTON, self.selectSubsFile)
+        self.button2.Bind(wx.EVT_BUTTON, self.selectSubsFont)
+        self.choice2.Bind(wx.EVT_CHOICE, self.changeSubsSource)
         
     def changeSubsSource(self, event):
         "Change the source for the subtitles"

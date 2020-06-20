@@ -81,7 +81,7 @@ class AddVcdDialog(wx.Dialog):
         self._init_ctrls(parent)
         
         # Events
-        wx.EVT_BUTTON(self.button1, wx.ID_OK, self.OnOK)
+        self.button1.Bind(wx.EVT_BUTTON, self.OnOK)
         
         # Set the window size
         width = self.GetBestSize().x

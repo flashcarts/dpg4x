@@ -43,17 +43,17 @@ class CustomFontSelector(wx.Dialog):
 
         # Sizers
         self.gridBagSizer1 = wx.GridBagSizer(hgap=0, vgap=0)
-        self.gridBagSizer1.AddSpacer(wx.Size(20, 20), (0, 0), 
-              border=0, flag=0, span=(1, 1))
-        self.gridBagSizer1.AddSpacer(wx.Size(280, 20), (0, 2), 
-              border=0, flag=0, span=(1, 3))
-        self.gridBagSizer1.AddWindow(self.listBox1, (1, 1), border=0, 
+        #self.gridBagSizer1.AddSpacer(wx.Size(20, 20), (0, 0), 
+        #      border=0, flag=0, span=(1, 1))
+        #self.gridBagSizer1.AddSpacer(wx.Size(280, 20), (0, 2), 
+        #      border=0, flag=0, span=(1, 3))
+        self.gridBagSizer1.Add(self.listBox1, (1, 1), border=0, 
               flag=0, span=(3, 1))
-        self.gridBagSizer1.AddWindow(self.staticText1, (2, 2), border=5, 
+        self.gridBagSizer1.Add(self.staticText1, (2, 2), border=5, 
               flag=wx.ALL, span=(3, 1))
-        self.gridBagSizer1.AddWindow(self.button1, (3, 3), border=0, 
+        self.gridBagSizer1.Add(self.button1, (3, 3), border=0, 
               flag=wx.ALIGN_CENTER_HORIZONTAL | wx.ALIGN_BOTTOM, span=(1, 1))
-        self.gridBagSizer1.AddWindow(self.button2, (3, 4), border=0, 
+        self.gridBagSizer1.Add(self.button2, (3, 4), border=0, 
               flag=wx.ALIGN_CENTER_HORIZONTAL | wx.ALIGN_BOTTOM, span=(1, 1))
         self.SetSizer(self.gridBagSizer1)
         self.Layout()

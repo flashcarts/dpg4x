@@ -31,21 +31,14 @@ def create(parent, icon_dir):
 
 class Frame1(wx.Frame):
     def _init_sizers(self):
-        # generated method, don't edit
         self.boxSizer1 = wx.BoxSizer(orient=wx.VERTICAL)
-
         self._init_coll_boxSizer1_Items(self.boxSizer1)
-
         self.SetSizer(self.boxSizer1)
 
-
     def _init_coll_boxSizer1_Items(self, parent):
-        # generated method, don't edit
-
-        parent.AddWindow(self.notebook1, 1, border=0, flag=wx.EXPAND)
+        parent.Add(self.notebook1, 1, border=0, flag=wx.EXPAND)
 
     def _init_ctrls(self, prnt):
-        # generated method, don't edit
         wx.Frame.__init__(self, id=wxID_FRAME1, name='', parent=prnt,
               style=wx.MINIMIZE_BOX | wx.SYSTEM_MENU | wx.CAPTION | 
                     wx.CLOSE_BOX | wx.CLIP_CHILDREN,
@@ -61,31 +54,31 @@ class Frame1(wx.Frame):
         
         # Set the icons for the main window
         bundle = wx.IconBundle()
-        bundle.AddIconFromFile(icon_dir+'/dpg4x_64.png',
+        bundle.AddIcon(icon_dir+'/dpg4x_64.png',
             wx.BITMAP_TYPE_PNG)
-        bundle.AddIconFromFile(icon_dir+'/dpg4x_48.png',
+        bundle.AddIcon(icon_dir+'/dpg4x_48.png',
             wx.BITMAP_TYPE_PNG)
-        bundle.AddIconFromFile(icon_dir+'/dpg4x_32.png',
+        bundle.AddIcon(icon_dir+'/dpg4x_32.png',
             wx.BITMAP_TYPE_PNG)
-        bundle.AddIconFromFile(icon_dir+'/dpg4x_22.png',
+        bundle.AddIcon(icon_dir+'/dpg4x_22.png',
             wx.BITMAP_TYPE_PNG)
-        bundle.AddIconFromFile(icon_dir+'/dpg4x_16.png',
+        bundle.AddIcon(icon_dir+'/dpg4x_16.png',
             wx.BITMAP_TYPE_PNG)
         self.SetIcons(bundle)
         
         # Set the icons for the menu
         imageList = wx.ImageList(32, 32)
-        imageList.AddIcon(wx.Icon(icon_dir+'/files.png',
+        imageList.Add(wx.Icon(icon_dir+'/files.png',
             wx.BITMAP_TYPE_PNG))
-        imageList.AddIcon(wx.Icon(icon_dir+'/video.png',
+        imageList.Add(wx.Icon(icon_dir+'/video.png',
             wx.BITMAP_TYPE_PNG))
-        imageList.AddIcon(wx.Icon(icon_dir+'/audio.png',
+        imageList.Add(wx.Icon(icon_dir+'/audio.png',
             wx.BITMAP_TYPE_PNG))
-        imageList.AddIcon(wx.Icon(icon_dir+'/subtitles.png',
+        imageList.Add(wx.Icon(icon_dir+'/subtitles.png',
             wx.BITMAP_TYPE_PNG))
-        imageList.AddIcon(wx.Icon(icon_dir+'/other.png',
+        imageList.Add(wx.Icon(icon_dir+'/other.png',
             wx.BITMAP_TYPE_PNG))
-        imageList.AddIcon(wx.Icon(icon_dir+'/help.png',
+        imageList.Add(wx.Icon(icon_dir+'/help.png',
             wx.BITMAP_TYPE_PNG))
         self.notebook1.AssignImageList(imageList)
         
@@ -133,7 +126,7 @@ class Frame1(wx.Frame):
         self.SetClientSize(wx.Size(width, height))
         
         # Events
-        wx.EVT_TOOLBOOK_PAGE_CHANGED(self.notebook1, wxID_FRAME1NOTEBOOK1, self.PageChanged)
+        self.notebook1.Bind(wx.EVT_TOOLBOOK_PAGE_CHANGED, self.PageChanged)
         
     def PageChanged(self, event):
         "A page changes in the notebook, used to open the user guide"

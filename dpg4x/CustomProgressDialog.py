@@ -41,7 +41,7 @@ class TextProgress():
             self.currProgress -= self.totalProgress
             self.remainFiles -= 1
         sys.stderr.write(".")
-        # print message
+        print(message)
         return False
     
     def getCurrentProgress(self):
@@ -53,17 +53,17 @@ class CustomProgressDialog(wx.Dialog):
     def _init_coll_gridBagSizer1_Items(self, parent):
         # generated method, don't edit
 
-        parent.AddSpacer(wx.Size(20, 20), (0, 0), border=0, flag=0, span=(1,1))
-        parent.AddSpacer(wx.Size(500, 20), (0, 1), border=0, flag=0, span=(1,7))
-        parent.AddWindow(self.staticText1, (1, 1), border=0, flag=wx.EXPAND,
+        #parent.AddSpacer(wx.Size(20, 20), (0, 0), border=0, flag=0, span=(1,1))
+        #parent.AddSpacer(wx.Size(500, 20), (0, 1), border=0, flag=0, span=(1,7))
+        parent.Add(self.staticText1, (1, 1), border=0, flag=wx.EXPAND,
               span=(1, 7))
-        parent.AddWindow(self.gauge1, (2, 1), border=0, flag=wx.EXPAND, span=(1,
+        parent.Add(self.gauge1, (2, 1), border=0, flag=wx.EXPAND, span=(1,
               7))
-        parent.AddWindow(self.staticText2, (4, 1), border=0, flag=wx.EXPAND,
+        parent.Add(self.staticText2, (4, 1), border=0, flag=wx.EXPAND,
               span=(1, 7))
-        parent.AddWindow(self.gauge2, (5, 1), border=0, flag=wx.EXPAND, span=(1,
+        parent.Add(self.gauge2, (5, 1), border=0, flag=wx.EXPAND, span=(1,
               7))
-        parent.AddWindow(self.button1, (7, 4), border=0,
+        parent.Add(self.button1, (7, 4), border=0,
               flag=wx.EXPAND | wx.ALIGN_CENTER, span=(1, 1))
 
     def _init_sizers(self):
@@ -124,7 +124,7 @@ class CustomProgressDialog(wx.Dialog):
             str(self.remainFiles))
             
         # Events
-        wx.EVT_BUTTON(self.button1, wxID_DIALOG1BUTTON1, self.abort)
+        self.button1.Bind(wx.EVT_BUTTON, self.abort)
         
         # Set the window size
         width = self.GetBestSize().x + 20
@@ -150,8 +150,11 @@ class CustomProgressDialog(wx.Dialog):
             self.currProgress -= self.totalProgress
             self.remainFiles -= 1
         # Update the gauges
+        print("self.gauge1.SetValue %i, %i" % (self.currProgress, 100))
         self.gauge1.SetValue(self.currProgress)
-        self.gauge2.SetValue(self.currProgOverall)
+        print("self.gauge2.SetValue %i, %i" % (self.currProgOverall, 100))
+        if self.currProgOverall < 101:
+            self.gauge2.SetValue(self.currProgOverall)
         # Update the text messages
         self.staticText1.SetLabel(message)
         self.staticText2.SetLabel(_('Overall progress - %s files remain') %

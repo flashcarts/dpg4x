@@ -170,6 +170,9 @@ def debug(message):
 def Encode(text):
     """TBD: verify how much this neeeded in Python 3:
     Encode text to be system-encoding compatible"""
+    if isinstance(text, str):
+        return text
+
     return text.encode(sys.getfilesystemencoding(),'replace')
 
 def Decode(text):

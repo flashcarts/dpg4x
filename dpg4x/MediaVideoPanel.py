@@ -29,34 +29,34 @@ class MediaVideoPanel(wx.Panel):
     def _init_coll_gridBagSizer1_Items(self, parent):
         # generated method, don't edit
 
-        parent.AddSpacer(wx.Size(20, 20), (0, 0), border=0, flag=0, span=(1, 1))
-        parent.AddSpacer(wx.Size(150, 20), (0, 1), border=0, flag=0, span=(1, 2))
-        parent.AddSpacer(wx.Size(40, 20), (0, 4), border=0, flag=0, span=(1, 1))
+        #parent.AddSpacer(wx.Size(20, 20), (0, 0), border=0, flag=0, span=(1, 1))
+        #parent.AddSpacer(wx.Size(150, 20), (0, 1), border=0, flag=0, span=(1, 2))
+        #parent.AddSpacer(wx.Size(40, 20), (0, 4), border=0, flag=0, span=(1, 1))
 
-        parent.AddWindow(self.staticText1, (1, 1), border=0,
+        parent.Add(self.staticText1, (1, 1), border=0,
               flag=wx.ALIGN_RIGHT | wx.ALIGN_CENTER_VERTICAL, span=(1, 2))
-        parent.AddWindow(self.spinCtrl1, (1, 3), border=0, flag=0, span=(1, 1))
-        parent.AddWindow(self.staticText2, (3, 1), border=0,
+        parent.Add(self.spinCtrl1, (1, 3), border=0, flag=0, span=(1, 1))
+        parent.Add(self.staticText2, (3, 1), border=0,
               flag=wx.ALIGN_RIGHT | wx.ALIGN_CENTER_VERTICAL, span=(1, 2))
-        parent.AddWindow(self.spinCtrl2, (3, 3), border=0, flag=0, span=(1, 1))
-        parent.AddWindow(self.checkBox1, (3, 5), border=0, flag=0, span=(1, 1))
-        parent.AddWindow(self.staticText6, (6, 1), border=0,
+        parent.Add(self.spinCtrl2, (3, 3), border=0, flag=0, span=(1, 1))
+        parent.Add(self.checkBox1, (3, 5), border=0, flag=0, span=(1, 1))
+        parent.Add(self.staticText6, (6, 1), border=0,
               flag=wx.ALIGN_RIGHT | wx.ALIGN_CENTER_VERTICAL, span=(1, 2))
-        parent.AddWindow(self.spinCtrl4, (6, 3), border=0, flag=0, span=(1, 1))
-        parent.AddWindow(self.checkBox3, (6, 5), border=0, flag=0, span=(1, 1))
-        parent.AddWindow(self.staticText3, (9, 1), border=0,
+        parent.Add(self.spinCtrl4, (6, 3), border=0, flag=0, span=(1, 1))
+        parent.Add(self.checkBox3, (6, 5), border=0, flag=0, span=(1, 1))
+        parent.Add(self.staticText3, (9, 1), border=0,
               flag=wx.ALIGN_RIGHT | wx.ALIGN_CENTER_VERTICAL, span=(1, 2))
-        parent.AddWindow(self.spinCtrl3, (11, 3), border=0, flag=0, span=(1, 1))
-        parent.AddWindow(self.staticText4, (11, 1), border=0,
+        parent.Add(self.spinCtrl3, (11, 3), border=0, flag=0, span=(1, 1))
+        parent.Add(self.staticText4, (11, 1), border=0,
               flag=wx.ALIGN_RIGHT | wx.ALIGN_CENTER_VERTICAL, span=(1, 2))
-        parent.AddWindow(self.choice1, (9, 3), border=0, flag=0, span=(1, 1))
-        parent.AddWindow(self.checkBox2, (11, 5), border=0, flag=0, span=(1, 1))
-        parent.AddWindow(self.panel2, (13, 1), border=0, flag=0, span=(1, 4))
+        parent.Add(self.choice1, (9, 3), border=0, flag=0, span=(1, 1))
+        parent.Add(self.checkBox2, (11, 5), border=0, flag=0, span=(1, 1))
+        parent.Add(self.panel2, (13, 1), border=0, flag=0, span=(1, 4))
 
         # Too many objects here, pixel format hidden
-        #parent.AddWindow(self.staticText5, (11, 1), border=0,
+        #parent.Add(self.staticText5, (11, 1), border=0,
         #      flag=wx.ALIGN_RIGHT | wx.ALIGN_CENTER_VERTICAL, span=(1, 2))
-        #parent.AddWindow(self.choice2, (11, 3), border=0, flag=0, span=(1, 1))
+        #parent.Add(self.choice2, (11, 3), border=0, flag=0, span=(1, 1))
         
     def _init_coll_boxSizer1_Items(self, parent):
         # generated method, don't edit
@@ -212,13 +212,13 @@ class MediaVideoPanel(wx.Panel):
         self.aux_flag_text = 0
 
         # Events
-        wx.EVT_CHECKBOX(self.checkBox1, wxID_PANEL1CHECKBOX1, self.switchSize)
-        wx.EVT_CHECKBOX(self.checkBox2, wxID_PANEL1CHECKBOX2, self.switchAutoFPS)
-        wx.EVT_CHECKBOX(self.checkBox3, wxID_PANEL1CHECKBOX3, self.switchAutoTrack)
-        wx.EVT_SPINCTRL(self.spinCtrl2, wxID_PANEL1SPINCTRL2, self.spinHeight)
-        #wx.EVT_TEXT(self.spinCtrl2, wxID_PANEL1SPINCTRL2, self.spinHeightText)
+        self.checkBox1.Bind(wx.EVT_CHECKBOX, self.switchSize)
+        self.checkBox2.Bind(wx.EVT_CHECKBOX, self.switchAutoFPS)
+        self.checkBox3.Bind(wx.EVT_CHECKBOX, self.switchAutoTrack)
+        self.spinCtrl2.Bind(wx.EVT_SPINCTRL, self.spinHeight)
+        #self.spinCtrl2.Bind(wx.EVT_TEXT, self.spinHeightText)
 
-        wx.EVT_BUTTON(self.button7, wx.ID_SAVE, self.saveAndCloseFrame)
+        self.button7.Bind(wx.EVT_BUTTON, self.saveAndCloseFrame)
 
     def switchAutoTrack(self, event):
         "Enable or disable the track selector"

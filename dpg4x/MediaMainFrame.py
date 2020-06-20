@@ -50,7 +50,7 @@ class MediaMain(wx.Dialog):
     def _init_coll_boxSizer1_Items(self, parent):
         # generated method, don't edit
 
-        parent.AddWindow(self.notebook1, 1, border=0, flag=wx.EXPAND)
+        parent.Add(self.notebook1, 1, border=0, flag=wx.EXPAND)
 
     def _init_ctrls(self, prnt):
         # generated method, don't edit
@@ -81,29 +81,29 @@ class MediaMain(wx.Dialog):
         # Set the icons for the main window
         bundle = wx.IconBundle()
         icon_dir = Globals.getIconDir()
-        bundle.AddIconFromFile(icon_dir+'/dpg4x_64.png',
+        bundle.AddIcon(icon_dir+'/dpg4x_64.png',
             wx.BITMAP_TYPE_PNG)
-        bundle.AddIconFromFile(icon_dir+'/dpg4x_48.png',
+        bundle.AddIcon(icon_dir+'/dpg4x_48.png',
             wx.BITMAP_TYPE_PNG)
-        bundle.AddIconFromFile(icon_dir+'/dpg4x_32.png',
+        bundle.AddIcon(icon_dir+'/dpg4x_32.png',
             wx.BITMAP_TYPE_PNG)
-        bundle.AddIconFromFile(icon_dir+'/dpg4x_22.png',
+        bundle.AddIcon(icon_dir+'/dpg4x_22.png',
             wx.BITMAP_TYPE_PNG)
-        bundle.AddIconFromFile(icon_dir+'/dpg4x_16.png',
+        bundle.AddIcon(icon_dir+'/dpg4x_16.png',
             wx.BITMAP_TYPE_PNG)
         self.SetIcons(bundle)
 
         # Set the icons for the menu
         imageList = wx.ImageList(32, 32)
-        imageList.AddIcon(wx.Icon(icon_dir+'/files.png',
+        imageList.Add(wx.Icon(icon_dir+'/files.png',
             wx.BITMAP_TYPE_PNG))
-        imageList.AddIcon(wx.Icon(icon_dir+'/video.png',
+        imageList.Add(wx.Icon(icon_dir+'/video.png',
             wx.BITMAP_TYPE_PNG))
-        imageList.AddIcon(wx.Icon(icon_dir+'/audio.png',
+        imageList.Add(wx.Icon(icon_dir+'/audio.png',
             wx.BITMAP_TYPE_PNG))
-        imageList.AddIcon(wx.Icon(icon_dir+'/subtitles.png',
+        imageList.Add(wx.Icon(icon_dir+'/subtitles.png',
             wx.BITMAP_TYPE_PNG))
-        imageList.AddIcon(wx.Icon(icon_dir+'/other.png',
+        imageList.Add(wx.Icon(icon_dir+'/other.png',
             wx.BITMAP_TYPE_PNG))
         self.notebook1.AssignImageList(imageList)
 

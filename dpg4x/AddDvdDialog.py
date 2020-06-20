@@ -25,28 +25,26 @@ import wx
 
 class AddDvdDialog(wx.Dialog):
     def _init_coll_gridBagSizer1_Items(self, parent):
-        # generated method, don't edit
-
-        parent.AddSpacer(wx.Size(1, 20), (0, 0), border=0, flag=0, span=(1, 1))
-        parent.AddSpacer(wx.Size(100, 10), (0, 1), border=0, flag=0, span=(1, 2))
-        parent.AddSpacer(wx.Size(110, 10), (0, 4), border=0, flag=0, span=(1, 2))
-        parent.AddWindow(self.staticText1, (1, 1), border=0, 
+        #parent.AddSpacer(wx.Size(1, 20), (0, 0), border=0, flag=0, span=(1, 1))
+        #parent.AddSpacer(wx.Size(100, 10), (0, 1), border=0, flag=0, span=(1, 2))
+        #parent.AddSpacer(wx.Size(110, 10), (0, 4), border=0, flag=0, span=(1, 2))
+        parent.Add(self.staticText1, (1, 1), border=0, 
             flag=wx.ALIGN_RIGHT | wx.ALIGN_CENTER_VERTICAL, span=(1, 2))
-        parent.AddWindow(self.textCtrl1, (1, 4), border=0, flag=wx.EXPAND, 
+        parent.Add(self.textCtrl1, (1, 4), border=0, flag=wx.EXPAND, 
             span=(1, 2))
-        parent.AddWindow(self.staticText2, (3, 1), border=0, 
+        parent.Add(self.staticText2, (3, 1), border=0, 
             flag=wx.ALIGN_RIGHT | wx.ALIGN_CENTER_VERTICAL, span=(1, 2))
-        parent.AddWindow(self.spinCtrl1, (3, 4), border=0, flag=0, span=(1, 2))
-        parent.AddWindow(self.checkBox1, (5, 2), border=0, 
+        parent.Add(self.spinCtrl1, (3, 4), border=0, flag=0, span=(1, 2))
+        parent.Add(self.checkBox1, (5, 2), border=0, 
             flag=wx.ALIGN_LEFT | wx.ALIGN_CENTER_VERTICAL, span=(1, 4))
-        parent.AddWindow(self.staticText3, (6, 2), border=0, 
+        parent.Add(self.staticText3, (6, 2), border=0, 
             flag=wx.ALIGN_CENTER | wx.ALIGN_CENTER_VERTICAL, span=(1, 1))
-        parent.AddWindow(self.spinCtrl2, (7, 1), border=0, flag=wx.ALIGN_RIGHT, span=(1, 2))
-        parent.AddWindow(self.staticText4, (6, 4), border=0, 
+        parent.Add(self.spinCtrl2, (7, 1), border=0, flag=wx.ALIGN_RIGHT, span=(1, 2))
+        parent.Add(self.staticText4, (6, 4), border=0, 
             flag=wx.ALIGN_CENTER | wx.ALIGN_CENTER_VERTICAL, span=(1, 1))
-        parent.AddWindow(self.spinCtrl3, (7, 4), border=0, flag=wx.ALIGN_LEFT, span=(1, 2))
-        parent.AddWindow(self.button1, (9, 2), border=0, flag=0, span=(1, 1))
-        parent.AddWindow(self.button2, (9, 4), border=0, flag=0, span=(1, 1))
+        parent.Add(self.spinCtrl3, (7, 4), border=0, flag=wx.ALIGN_LEFT, span=(1, 2))
+        parent.Add(self.button1, (9, 2), border=0, flag=0, span=(1, 1))
+        parent.Add(self.button2, (9, 4), border=0, flag=0, span=(1, 1))
 
     def _init_sizers(self):
         # generated method, don't edit
@@ -105,8 +103,8 @@ class AddDvdDialog(wx.Dialog):
         self.spinCtrl3.Enable(False)
         
         # Events
-        wx.EVT_BUTTON(self.button1, wx.ID_OK, self.OnOK)
-        wx.EVT_CHECKBOX(self.checkBox1, wxID_PANEL1CHECKBOX1, self.switchChapters)
+        self.button1.Bind(wx.EVT_BUTTON, self.OnOK)
+        self.checkBox1.Bind(wx.EVT_CHECKBOX, self.switchChapters)
         
         # Set the window size
         width = self.GetBestSize().x + 20

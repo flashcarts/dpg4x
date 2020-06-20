@@ -13,9 +13,8 @@
 #----------------------------------------------------------------------------
 
 import wx
-import wx.combo
 
-class TreeCtrlComboPopup(wx.combo.ComboPopup):
+class TreeCtrlComboPopup(wx.ComboPopup):
     "Popup control containing a TreeCtrl"
 
     # Overridden ComboPopup methods
@@ -30,8 +29,8 @@ class TreeCtrlComboPopup(wx.combo.ComboPopup):
         self.tree = wx.TreeCtrl(parent, style=wx.TR_HIDE_ROOT
                                 |wx.TR_HAS_BUTTONS
                                 |wx.TR_SINGLE
-                                |wx.TR_LINES_AT_ROOT
-                                |wx.SIMPLE_BORDER)
+                                |wx.TR_LINES_AT_ROOT)
+        # f32: not in list of supported options |wx.SIMPLE_BORDER)
         # Events
         self.tree.Bind(wx.EVT_MOTION, self.OnMotion)
         self.tree.Bind(wx.EVT_LEFT_DOWN, self.OnLeftDown)

@@ -47,35 +47,35 @@ class FilesPanel(wx.Panel):
     def _init_coll_gridBagSizer1_Items(self, parent):
         # generated method, don't edit
 
-        parent.AddSpacer(wx.Size(20, 1), (0, 0), border=0, flag=0, span=(1, 1))
-        parent.AddWindow(self.listCtrl1, (1, 1), border=0, flag=wx.EXPAND,
+        # d0malaga f32: parent.AddSpacer(wx.Size(20, 1), (0, 0), border=0, flag=0, span=(1, 1))
+        parent.Add(self.listCtrl1, (1, 1), border=0, flag=wx.EXPAND,
               span=(6, 6))
-        parent.AddWindow(self.panel2, (0, 8), border=0, flag=wx.EXPAND, 
+        parent.Add(self.panel2, (0, 8), border=0, flag=wx.EXPAND,
               span=(11, 1))
-        parent.AddWindow(self.staticText1, (8, 4), border=0, 
+        parent.Add(self.staticText1, (8, 4), border=0,
               flag=wx.ALIGN_RIGHT | wx.ALIGN_CENTER_VERTICAL, span=(1, 1))
-        parent.AddWindow(self.staticText2, (8, 1), border=0, 
+        parent.Add(self.staticText2, (8, 1), border=0,
               flag=wx.ALIGN_RIGHT | wx.ALIGN_CENTER_VERTICAL, span=(1, 1))
-        parent.AddWindow(self.button3, (10, 1), border=0, flag=0,
+        parent.Add(self.button3, (10, 1), border=0, flag=0,
               span=(1, 6))
-        parent.AddWindow(self.choice1, (8, 5), border=0, flag=0, span=(1, 1))
-        parent.AddWindow(self.choice2, (8, 2), border=0, flag=0, span=(1, 1))
+        parent.Add(self.choice1, (8, 5), border=0, flag=0, span=(1, 1))
+        parent.Add(self.choice2, (8, 2), border=0, flag=0, span=(1, 1))
         
     def _init_coll_gridBagSizer2_Items(self, parent):
         # generated method, don't edit
         
-        parent.AddWindow(self.button1, (1, 1), border=0, flag=wx.EXPAND, span=(1, 1))
-        parent.AddWindow(self.button2, (2, 1), border=0, flag=wx.EXPAND, span=(1, 1))
-        parent.AddWindow(self.button10, (3, 1), border=0, flag=wx.EXPAND, span=(1, 1))
+        parent.Add(self.button1, (1, 1), border=0, flag=wx.EXPAND, span=(1, 1))
+        parent.Add(self.button2, (2, 1), border=0, flag=wx.EXPAND, span=(1, 1))
+        parent.Add(self.button10, (3, 1), border=0, flag=wx.EXPAND, span=(1, 1))
         
-        parent.AddWindow(self.button8, (5, 1), border=0, flag=wx.EXPAND, span=(1, 1))
-        parent.AddWindow(self.button4, (6, 1), border=0, flag=wx.EXPAND, span=(1, 1))
+        parent.Add(self.button8, (5, 1), border=0, flag=wx.EXPAND, span=(1, 1))
+        parent.Add(self.button4, (6, 1), border=0, flag=wx.EXPAND, span=(1, 1))
         
-        parent.AddWindow(self.staticText3, (8, 1), border=0, 
+        parent.Add(self.staticText3, (8, 1), border=0,
               flag=wx.ALIGN_CENTER, span=(1, 1))
-        parent.AddSpacer(wx.Size(5, 5), (9, 1), border=0, flag=0, span=(1, 1))
-        parent.AddWindow(self.button11, (10, 1), border=0, flag=wx.EXPAND, span=(1, 1))
-        parent.AddWindow(self.button12, (11, 1), border=0, flag=wx.EXPAND, span=(1, 1))
+        # d0malaga f32: parent.AddSpacer(wx.Size(5, 5), (9, 1), border=0, flag=0, span=(1, 1))
+        parent.Add(self.button11, (10, 1), border=0, flag=wx.EXPAND, span=(1, 1))
+        parent.Add(self.button12, (11, 1), border=0, flag=wx.EXPAND, span=(1, 1))
         
 
     def _init_sizers(self):
@@ -204,20 +204,20 @@ class FilesPanel(wx.Panel):
         self.button9.Show(False)
         
         # Events
-        wx.EVT_BUTTON(self.button1, wxID_PANEL1BUTTON1, self.addMedia)
-        wx.EVT_BUTTON(self.button2, wxID_PANEL1BUTTON2, self.deleteMedia)
-        wx.EVT_BUTTON(self.button4, wxID_PANEL1BUTTON4, self.previewMedia)
-        wx.EVT_BUTTON(self.button3, wxID_PANEL1BUTTON3, self.startEncoding)
-        wx.EVT_CHOICE(self.choice2, wxID_PANEL1CHOICE2, self.changeDPGLevel)
-        wx.EVT_CHOICE(self.choice1, wxID_PANEL1CHOICE1, self.changeQuality)
-        wx.EVT_BUTTON(self.button5, wxID_PANEL1BUTTON5, self.addFile)
-        wx.EVT_BUTTON(self.button6, wxID_PANEL1BUTTON6, self.addDvd)
-        wx.EVT_BUTTON(self.button7, wxID_PANEL1BUTTON7, self.addVcd)
-        wx.EVT_BUTTON(self.button8, wxID_PANEL1BUTTON8, self.playMedia)
-        wx.EVT_BUTTON(self.button9, wxID_PANEL1BUTTON9, self.restoreMenu)
-        wx.EVT_BUTTON(self.button10, wxID_PANEL1BUTTON10, self.showMediaInfo)
-        wx.EVT_BUTTON(self.button11, wxID_PANEL1BUTTON11, self.showMediaSettings)
-        wx.EVT_BUTTON(self.button12, wxID_PANEL1BUTTON12, self.deleteMediaSettings)
+        self.button1.Bind(wx.EVT_BUTTON, self.addMedia)
+        self.button2.Bind(wx.EVT_BUTTON, self.deleteMedia)
+        self.button3.Bind(wx.EVT_BUTTON, self.startEncoding)
+        self.button4.Bind(wx.EVT_BUTTON, self.previewMedia)
+        self.choice1.Bind(wx.EVT_CHOICE, self.changeQuality)
+        self.choice2.Bind(wx.EVT_CHOICE, self.changeDPGLevel)
+        self.button5.Bind(wx.EVT_BUTTON, self.addFile)
+        self.button6.Bind(wx.EVT_BUTTON, self.addDvd)
+        self.button7.Bind(wx.EVT_BUTTON, self.addVcd)
+        self.button8.Bind(wx.EVT_BUTTON, self.playMedia)
+        self.button9.Bind(wx.EVT_BUTTON, self.restoreMenu)
+        self.button10.Bind(wx.EVT_BUTTON, self.showMediaInfo)
+        self.button11.Bind(wx.EVT_BUTTON, self.showMediaSettings)
+        self.button12.Bind(wx.EVT_BUTTON, self.deleteMediaSettings)
         
         # Drop files
         class FileDropTarget(wx.FileDropTarget):
@@ -299,17 +299,17 @@ class FilesPanel(wx.Panel):
                 # Avoid duplicated items
                 if self.listCtrl1.FindItem(-1, file) == -1:
                     index = self.listCtrl1.GetItemCount()
-                    self.listCtrl1.InsertStringItem(index, file)
+                    self.listCtrl1.InsertItem(index, file)
                     # Check if a media configuration exists for the file
                     configfile = ConfigurationManager.getMediaConfiguration(file)
                     # Tomas: new check to indicate DPG files
                     v = DpgHeader.getDpgVersion(file)
                     if v:
-                        self.listCtrl1.SetStringItem(index, 1, _("DPG%d" % v))                        
+                        self.listCtrl1.SetItem(index, 1, _("DPG%d" % v))
                     elif os.path.isfile(configfile):
-                        self.listCtrl1.SetStringItem(index, 1, _("YES"))
+                        self.listCtrl1.SetItem(index, 1, _("YES"))
                     else:
-                        self.listCtrl1.SetStringItem(index, 1, _("NO"))
+                        self.listCtrl1.SetItem(index, 1, _("NO"))
                 # Remember the last path
                 self.lastFilePath = os.path.dirname(file)
         fileDialog.Destroy()
@@ -336,7 +336,7 @@ class FilesPanel(wx.Panel):
             # Avoid duplicated items
             if self.listCtrl1.FindItem(-1, url) == -1:
                 index = self.listCtrl1.GetItemCount()
-                self.listCtrl1.InsertStringItem(index, url)
+                self.listCtrl1.InsertItem(index, url)
                 # Check if a media configuration exists for the file
                 configfile = ConfigurationManager.getMediaConfiguration(url)
                 if os.path.isfile(configfile):
@@ -363,7 +363,7 @@ class FilesPanel(wx.Panel):
             # Avoid duplicated items
             if self.listCtrl1.FindItem(-1, url) == -1:
                 index = self.listCtrl1.GetItemCount()
-                self.listCtrl1.InsertStringItem(index, url)
+                self.listCtrl1.InsertItem(index, url)
                 # Check if a media configuration exists for the file
                 configfile = ConfigurationManager.getMediaConfiguration(url)
                 if os.path.isfile(configfile):
@@ -523,8 +523,9 @@ class FilesPanel(wx.Panel):
             if v:
                 # Tomas: maybe a better error message here
                 return        
-            
+
             MediaMainFrame.show_settings(name, self)
+
             # Check if a media configuration exists for the file
             configfile = ConfigurationManager.getMediaConfiguration(name)
             if os.path.isfile(configfile):
@@ -667,9 +668,10 @@ class FilesPanel(wx.Panel):
             
             # Save the options to the config file
             ConfigurationManager.saveConfiguration()
-            
+
             # Start encoding the files
             Encoder.gui_encode_files(files)
+
         # On error, warn the user
         except Exception as e:
             message = str(str(e))
@@ -686,7 +688,7 @@ class FilesPanel(wx.Panel):
             # Avoid duplicated items
             if self.listCtrl1.FindItem(-1, file) == -1:
                 index = self.listCtrl1.GetItemCount()
-                self.listCtrl1.InsertStringItem(index, file)
+                self.listCtrl1.InsertItem(index, file)
                 # Check if a media configuration exists for the file
                 configfile = ConfigurationManager.getMediaConfiguration(file)
                 if os.path.isfile(configfile):

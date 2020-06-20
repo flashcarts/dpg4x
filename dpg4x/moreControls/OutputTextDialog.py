@@ -23,8 +23,8 @@ class OutputTextDialog(wx.Dialog):
     def _init_coll_boxSizer1_Items(self, parent):
         # generated method, don't edit
 
-        parent.AddWindow(self.textCtrl1, 1, border=0, flag=wx.EXPAND)
-        parent.AddWindow(self.button1, 0, border=0, flag=wx.CENTER)
+        parent.Add(self.textCtrl1, 1, border=0, flag=wx.EXPAND)
+        parent.Add(self.button1, 0, border=0, flag=wx.CENTER)
 
     def _init_sizers(self):
         # generated method, don't edit
@@ -59,7 +59,8 @@ class OutputTextDialog(wx.Dialog):
         self.textCtrl1.AppendText(text)
         self.textCtrl1.ShowPosition(0)
         # Events
-        wx.EVT_BUTTON(self.button1, wx.ID_CLOSE, self.OnClose)
+        self.button1.Bind(wx.EVT_BUTTON, self.OnClose)
+        #wx.EVT_BUTTON(self.button1, wx.ID_CLOSE, self.OnClose)
         
     def OnClose(self, event):
         "Close the dialog"

@@ -28,27 +28,27 @@ class MediaAudioPanel(wx.Panel):
     def _init_coll_gridBagSizer1_Items(self, parent):
         # generated method, don't edit
 
-        parent.AddSpacer(wx.Size(20, 40), (0, 0), border=0, flag=0, span=(1, 1))
-        parent.AddSpacer(wx.Size(150, 20), (0, 1), border=0, flag=0, span=(1,2))
-        parent.AddSpacer(wx.Size(40, 20), (0, 4), border=0, flag=0, span=(1, 1))
-        parent.AddWindow(self.staticText1, (1, 1), border=0,
+        #parent.AddSpacer(wx.Size(20, 40), (0, 0), border=0, flag=0, span=(1, 1))
+        #parent.AddSpacer(wx.Size(150, 20), (0, 1), border=0, flag=0, span=(1,2))
+        #parent.AddSpacer(wx.Size(40, 20), (0, 4), border=0, flag=0, span=(1, 1))
+        parent.Add(self.staticText1, (1, 1), border=0,
               flag=wx.ALIGN_RIGHT | wx.ALIGN_CENTER_VERTICAL, span=(1,2))
-        parent.AddWindow(self.choice1, (1, 3), border=0, flag=0, span=(1, 1))
-        parent.AddWindow(self.staticText2, (4, 1), border=0,
+        parent.Add(self.choice1, (1, 3), border=0, flag=0, span=(1, 1))
+        parent.Add(self.staticText2, (4, 1), border=0,
               flag=wx.ALIGN_RIGHT | wx.ALIGN_CENTER_VERTICAL, span=(1,2))
-        parent.AddWindow(self.spinCtrl1, (4, 3), border=0, flag=0, span=(1, 1))
-        parent.AddWindow(self.checkBox3, (4, 5), border=0, flag=0, span=(1, 1))
-        parent.AddWindow(self.checkBox1, (7, 5), border=0, flag=0, span=(1, 1))
-        parent.AddWindow(self.staticText3, (7, 1), border=0,
+        parent.Add(self.spinCtrl1, (4, 3), border=0, flag=0, span=(1, 1))
+        parent.Add(self.checkBox3, (4, 5), border=0, flag=0, span=(1, 1))
+        parent.Add(self.checkBox1, (7, 5), border=0, flag=0, span=(1, 1))
+        parent.Add(self.staticText3, (7, 1), border=0,
               flag=wx.ALIGN_RIGHT | wx.ALIGN_CENTER_VERTICAL, span=(1,
               2))
-        parent.AddWindow(self.choice2, (7, 3), border=0, flag=0, span=(1, 1))
-        parent.AddWindow(self.staticText4, (9, 1), border=0,
+        parent.Add(self.choice2, (7, 3), border=0, flag=0, span=(1, 1))
+        parent.Add(self.staticText4, (9, 1), border=0,
               flag=wx.ALIGN_RIGHT | wx.ALIGN_CENTER_VERTICAL, span=(1,
               2))
-        parent.AddWindow(self.choice3, (9, 3), border=0, flag=0, span=(1, 1))
-        parent.AddWindow(self.checkBox2, (9, 5), border=0, flag=0, span=(1, 1))
-        parent.AddWindow(self.panel2, (11, 1), border=0, flag=0, span=(1, 4))
+        parent.Add(self.choice3, (9, 3), border=0, flag=0, span=(1, 1))
+        parent.Add(self.checkBox2, (9, 5), border=0, flag=0, span=(1, 1))
+        parent.Add(self.panel2, (11, 1), border=0, flag=0, span=(1, 4))
         
     def _init_coll_boxSizer1_Items(self, parent):
         # generated method, don't edit
@@ -179,10 +179,9 @@ class MediaAudioPanel(wx.Panel):
             self.checkBox2.Enable(False)
 
         # Events
-        wx.EVT_CHECKBOX(self.checkBox3, wxID_PANEL1CHECKBOX3, self.switchAutoTrack)
-        wx.EVT_CHOICE(self.choice1, wxID_PANEL1CHOICE1, self.changeAudioCodec)
-
-        wx.EVT_BUTTON(self.button7, wx.ID_SAVE, self.saveAndCloseFrame)
+        self.checkBox3.Bind(wx.EVT_CHECKBOX, self.switchAutoTrack)
+        self.choice1.Bind(wx.EVT_CHOICE, self.changeAudioCodec)
+        self.button7.Bind(wx.EVT_BUTTON, self.saveAndCloseFrame)
 
     def switchAutoTrack(self, event):
         "Enable or disable the track selector"

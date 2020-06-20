@@ -32,39 +32,39 @@ class MediaOtherPanel(wx.Panel):
     def _init_coll_gridBagSizer1_Items(self, parent):
         # generated method, don't edit
 
-        parent.AddSpacer(wx.Size(20, 20), (0, 0), border=0, flag=0, span=(1, 1))
-        parent.AddSpacer(wx.Size(100, 8), (0, 1), border=0, flag=0, span=(1, 2))
-        parent.AddSpacer(wx.Size(280, 8), (0, 3), border=0, flag=0, span=(1, 3))
-        parent.AddWindow(self.staticText7, (1, 4), border=0,
+        #parent.AddSpacer(wx.Size(20, 20), (0, 0), border=0, flag=0, span=(1, 1))
+        #parent.AddSpacer(wx.Size(100, 8), (0, 1), border=0, flag=0, span=(1, 2))
+        #parent.AddSpacer(wx.Size(280, 8), (0, 3), border=0, flag=0, span=(1, 3))
+        parent.Add(self.staticText7, (1, 4), border=0,
               flag=wx.ALIGN_RIGHT | wx.ALIGN_CENTER_VERTICAL, span=(1, 1))
-        parent.AddWindow(self.staticText8, (1, 2), border=0,
+        parent.Add(self.staticText8, (1, 2), border=0,
               flag=wx.ALIGN_RIGHT | wx.ALIGN_CENTER_VERTICAL, span=(1, 1))
-        parent.AddWindow(self.choice1, (1, 5), border=0, flag=0, span=(1, 1))
-        parent.AddWindow(self.choice2, (1, 3), border=0, flag=0, span=(1, 1)) 
-        parent.AddWindow(self.staticText1, (3, 1), border=0,
+        parent.Add(self.choice1, (1, 5), border=0, flag=0, span=(1, 1))
+        parent.Add(self.choice2, (1, 3), border=0, flag=0, span=(1, 1)) 
+        parent.Add(self.staticText1, (3, 1), border=0,
               flag=wx.ALIGN_RIGHT | wx.ALIGN_CENTER_VERTICAL, span=(1, 2))
-        parent.AddWindow(self.textCtrl1, (3, 3), border=0, flag=wx.EXPAND,
+        parent.Add(self.textCtrl1, (3, 3), border=0, flag=wx.EXPAND,
               span=(1, 3))
-        parent.AddWindow(self.button1, (3, 6), border=0, flag=0, span=(1, 1))
-        parent.AddWindow(self.staticText4, (4, 1), border=0,
+        parent.Add(self.button1, (3, 6), border=0, flag=0, span=(1, 1))
+        parent.Add(self.staticText4, (4, 1), border=0,
               flag=wx.ALIGN_CENTER, span=(1,7))
-        parent.AddWindow(self.staticText2, (6, 1), border=0,
+        parent.Add(self.staticText2, (6, 1), border=0,
               flag=wx.ALIGN_RIGHT | wx.ALIGN_CENTER_VERTICAL, span=(1,2))
-        parent.AddWindow(self.textCtrl2, (6, 3), border=0, flag=wx.EXPAND,
+        parent.Add(self.textCtrl2, (6, 3), border=0, flag=wx.EXPAND,
               span=(1, 3))
-        parent.AddWindow(self.button2, (6, 6), border=0, flag=0, span=(1, 1))
-        parent.AddWindow(self.staticText3, (8, 1), border=0,
+        parent.Add(self.button2, (6, 6), border=0, flag=0, span=(1, 1))
+        parent.Add(self.staticText3, (8, 1), border=0,
               flag=wx.ALIGN_RIGHT | wx.ALIGN_CENTER_VERTICAL, span=(1, 2))
-        parent.AddWindow(self.textCtrl3, (8, 3), border=0, flag=wx.EXPAND,
+        parent.Add(self.textCtrl3, (8, 3), border=0, flag=wx.EXPAND,
               span=(1, 3))
-        parent.AddWindow(self.button3, (8, 6), border=0, flag=0, span=(1, 1))
-        parent.AddWindow(self.staticText5, (9, 1), border=0,
+        parent.Add(self.button3, (8, 6), border=0, flag=0, span=(1, 1))
+        parent.Add(self.staticText5, (9, 1), border=0,
               flag=wx.ALIGN_CENTER, span=(1,7))
-        parent.AddWindow(self.staticText6, (11, 1), border=0,
+        parent.Add(self.staticText6, (11, 1), border=0,
               flag=wx.ALIGN_RIGHT | wx.ALIGN_CENTER_VERTICAL, span=(1, 3))
-        parent.AddWindow(self.spinCtrl1, (11, 4), border=0, flag=0,
+        parent.Add(self.spinCtrl1, (11, 4), border=0, flag=0,
               span=(1, 1))   
-        parent.AddWindow(self.panel2, (13, 1), border=0, flag=0, span=(1, 4))
+        parent.Add(self.panel2, (13, 1), border=0, flag=0, span=(1, 4))
         
     def _init_coll_boxSizer1_Items(self, parent):
         # generated method, don't edit
@@ -188,14 +188,14 @@ class MediaOtherPanel(wx.Panel):
             self.button3.Enable(False)
 
         # Events
-        wx.EVT_BUTTON(self.button1, wxID_PANEL1BUTTON1, self.selectOuputDir)
-        wx.EVT_BUTTON(self.button2, wxID_PANEL1BUTTON2, self.selectTemporaryDir)
-        wx.EVT_BUTTON(self.button3, wxID_PANEL1BUTTON3, self.selectThumbnail)
+        self.button1.Bind(wx.EVT_BUTTON, self.selectOuputDir)
+        self.button2.Bind(wx.EVT_BUTTON, self.selectTemporaryDir)
+        self.button3.Bind(wx.EVT_BUTTON, self.selectThumbnail)
 
-        wx.EVT_CHOICE(self.choice2, wxID_PANEL1CHOICE2, self.changeDPGLevel)
-        wx.EVT_CHOICE(self.choice1, wxID_PANEL1CHOICE1, self.changeQuality)
+        self.choice2.Bind(wx.EVT_CHOICE, self.changeDPGLevel)
+        self.choice1.Bind(wx.EVT_CHOICE, self.changeQuality)
 
-        wx.EVT_BUTTON(self.button7, wx.ID_SAVE, self.saveAndCloseFrame)
+        self.button7.Bind(wx.EVT_BUTTON, self.saveAndCloseFrame)
 
     def selectOuputDir(self, event):
         "Dialog to select the output folder"
