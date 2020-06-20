@@ -23,6 +23,14 @@ python-wxgtk (2.8)
 mplayer (1:1.0)
 mencoder (1:1.0)
 
+Fedora 32:
+python (3.8)
+No longer used  - python-wxversion (2.8)
+python3-wxpython4 (4.0.7)
+python3-pillow (7.0.0)
+mplayer (1.4-10)
+mencoder (1.4-10)
+
 Versions in brackets include those that dpg4x has been tested with, but others 
 may work too.
 

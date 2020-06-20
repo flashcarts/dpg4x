@@ -200,7 +200,7 @@ class DpgHeader():
         fd = open(filename, 'wb')
 
         # The header starts with 4 bytes with DPGX, being X the version
-        fd.write(struct.pack ( "4s" , "DPG" + str(self.version)))
+        fd.write(struct.pack ( "4s" , b"DPG" + bytes(ord('0') + self.version)))
         # The initial header part is the same in all versions
         fd.write(struct.pack ( "<l" , self.frames))
         fd.write(struct.pack ( "<b" , 0))
@@ -225,5 +225,5 @@ class DpgHeader():
             fd.write(struct.pack ( "<l" , self.pixelFormat))
         # Thumbnail header for DPG4
         if self.version == 4:
-            fd.write(struct.pack ( "4s" , "THM0"))
+            fd.write(struct.pack ( "4s" , b"THM0"))
         fd.close()

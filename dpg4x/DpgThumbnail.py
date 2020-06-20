@@ -16,13 +16,7 @@ import os
 import struct
 import shutil
 import DpgHeader
-
-# Try to load the Python Image Library, if available
-pilAvailable = True
-try:
-    from PIL import Image
-except Exception:
-    pilAvailable = False
+from PIL import Image
 
 def DpgInject(inputN, imageN, outputN):
     # Variables used on error handling, they need to be declared
@@ -102,7 +96,7 @@ class DpgThumbnail(object):
         
         To create a file readable by an image viewer:
         tga16_file = open('thumb.tga', 'wb')
-        tga_header='\x00\x00\x02\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x01\xC0\x00\x10\x00'
+        tga_header=b'\x00\x00\x02\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x01\xC0\x00\x10\x00'
         tga16_file.write(tga_header)
         tga16_file.write(thumb_data) 
         tga16_file.close()
@@ -129,12 +123,12 @@ class DpgThumbnail(object):
             data.append(row)
         # Join all the data with the desired format
         row_fmt=('H'*dest_w)
-        return ''.join(struct.pack(row_fmt, *row) for row in data)
+        return b''.join(struct.pack(row_fmt, *row) for row in data)
        
     def fromFile(self, filename):
         """ Reads a thumbnail from a DPG or image file"""
         dpgVersion = DpgHeader.getDpgVersion(filename)
-        if dpgVersion:
+        if dpgVersion is not None:
             # Use a specific message if DPG version < 4
             if dpgVersion < 4:
                 raise Exception(_('%(file)s is a DPG version %(version)s ' \
@@ -181,23 +175,15 @@ class DpgThumbnail(object):
         dest_w, dest_h = self.size
 
         # PIL supports an high-quality antialiased downsampling function.
-        # This is the preferred method if available
-        if pilAvailable:
-            # Hard to predict when PIL closes a file
-            # pilImage = Image.open(thumbfile), causes problems on Windows       
-            fp = open(imgFile, "rb")
-            pilImage = Image.open(fp) # open from file object
-            pilImage.load() # make sure PIL has read the data
-            fp.close()
-            width, height = pilImage.size
-        # wxWidgets bicubic and box averaging resampling methods give good
-        # results, but antialias is better. Only used if PIL is not available
-        else:
-            image = wx.Image(imgFile)
-            width = image.GetWidth()
-            height = image.GetHeight()     
-
+        # Hard to predict when PIL closes a file
+        # pilImage = Image.open(thumbfile), causes problems on Windows
+        fp = open(imgFile, "rb")
+        pilImage = Image.open(fp) # open from file object
+        pilImage.load() # make sure PIL has read the data
+        fp.close()
+        width, height = pilImage.size
         self.src = imgFile
+
         # Test to see if the image needs to be resized
         if (width == dest_w and height == dest_h):
             self.img = wx.Image(imgFile)
@@ -216,17 +202,12 @@ class DpgThumbnail(object):
                 nypos = 0
 
             # First, Rescale/Resize the thumbnail keeping the original aspect ratio
-            if pilAvailable:
-                pilImage = pilImage.resize((nwidth, nheight),Image.ANTIALIAS)
-                # Convert a PIL (the Python Image Library format) object to a wxPython
-                # Image (or Bitmap) while keeping the alpha transparency layer.
-                image = wx.EmptyImage(pilImage.size[0],pilImage.size[1])
-                image.SetData(pilImage.convert("RGB").tostring())
-                image.SetAlphaData(pilImage.convert("RGBA").tostring()[3::4])
-            else:
-                image.Rescale(nwidth, nheight, wx.IMAGE_QUALITY_HIGH)
+            pilImage = pilImage.resize((nwidth, nheight),Image.ANTIALIAS)
+            # Convert a PIL (the Python Image Library format) object to a wxPython
+            # Image (or Bitmap) while keeping the alpha transparency layer.
+            image = wx.EmptyImage(pilImage.size[0],pilImage.size[1])
+            image.SetData(pilImage.convert("RGB").tostring())
+            image.SetAlphaData(pilImage.convert("RGBA").tostring()[3::4])
 
             # Second, Resize to the default screen size adding borders as necessary
             self.img = image.Resize(self.size, wx.Point(nxpos,nypos))
-
-

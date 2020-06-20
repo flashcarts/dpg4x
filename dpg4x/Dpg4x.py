@@ -22,11 +22,15 @@ import importlib
 # In particuliar OutputTextDialog() is unreadable and unusable. You can only
 # see the first couple of letters of the text and the close button is missing.
 
+# d0malaga f32:
+# https://wxpython.org/Phoenix/docs/html/MigrationGuide.html: wxversion is gone
+'''
 # wxPython running from py2exe fails with wxversion.select()
 # See: http://www.wxpython.org/docs/api/wxversion-module.html
 if not hasattr(sys, 'frozen'):
     import wxversion
     wxversion.select(['2.8','2.9'])
+'''
 import wx
 
 
@@ -164,8 +168,8 @@ Options:
 if __name__ == '__main__':
     Globals.SetupTranslation()
     checkDependencies()
-    firstExec = checkArgs() 
     application = wx.App(redirect=False,clearSigInt=False)
+    firstExec = checkArgs()
     while firstExec or Globals.restart:
         # Reload the Globals module on restart
         if Globals.restart:

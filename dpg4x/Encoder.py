@@ -151,7 +151,7 @@ def encode_video(file, filename, preview=False):
         v_pixelformat + ',' \
         'scale='+str(Globals.video_width)+':'+str(Globals.video_height)+':::3,harddup',
         '-nosound','-ovc','lavc','-lavcopts',
-        'vcodec=mpeg1video:vstrict=-2:mbd=2:trell:mv0:vmax_b_frames=2:' \
+        'vcodec=mpeg1video:vstrict=-2:mbd=2:trell:o=mpv_flags=+mv0:vmax_b_frames=2:' \
         'cmp='+defcmp+':subcmp='+defcmp+':precmp='+defcmp+':dia=4:predia=4:bidir_refine=4:' \
         'mv0_threshold=0:last_pred=3:vbitrate='+str(Globals.video_bitrate),
         '-o',Globals.TMP_VIDEO,'-of','rawvideo']
@@ -175,7 +175,7 @@ def encode_video(file, filename, preview=False):
         v_pixelformat + ',' \
         'scale='+str(Globals.video_width)+':'+str(Globals.video_height)+':::3,harddup',
         '-nosound','-ovc','lavc','-lavcopts',
-        'vcodec=mpeg1video:vstrict=-2:mbd=2:trell:mv0:keyint=15:cmp='+defcmp+':subcmp='+defcmp+':' \
+        'vcodec=mpeg1video:vstrict=-2:mbd=2:trell:o=mpv_flags=+mv0:keyint=15:cmp='+defcmp+':subcmp='+defcmp+':' \
         'precmp='+defcmp+':dia=3:predia=3:last_pred=3:vbitrate='+str(Globals.video_bitrate),
         '-o',Globals.TMP_VIDEO,'-of','rawvideo']
     # Options to process with low quality
@@ -194,7 +194,7 @@ def encode_video(file, filename, preview=False):
         v_pixelformat + ',' \
         'scale='+str(Globals.video_width)+':'+str(Globals.video_height)+':::3,harddup',
         '-nosound','-ovc','lavc','-lavcopts',
-        'vcodec=mpeg1video:vstrict=-2:mbd=2:trell:mv0:keyint=15:cmp='+defcmp+':subcmp='+defcmp+':' \
+        'vcodec=mpeg1video:vstrict=-2:mbd=2:trell:o=mpv_flags=+mv0:keyint=15:cmp='+defcmp+':subcmp='+defcmp+':' \
         'precmp='+defcmp+':vbitrate='+str(Globals.video_bitrate),'-o',Globals.TMP_VIDEO,
         '-of','rawvideo']
 
@@ -331,41 +331,42 @@ def encode_Dpg2Avi(inputN, progress = None, outputN = None, overWrite = False):
         
         try:
             # Read the DPG version
-            versionStr = fdInput.read(4)
-            if versionStr[:3] != 'DPG':
-                raise Exception()
-            version = int(versionStr[3])
+            versionHdr = fdInput.read(4)
+            if not versionHdr.startswith(b'DPG'):
+                raise Exception("No DPG header, starts with %s" % versionHdr)
+            version = versionHdr[3] - ord('0')
         
             # Read where the audio file starts
             fdInput.seek(20, os.SEEK_SET)
             audioStart = struct.unpack("<l", fdInput.read(4))[0]
-            # Read the lenght of the audio file
-            audioLenght = struct.unpack("<l", fdInput.read(4))[0]
+            # Read the length of the audio file
+            audioLength = struct.unpack("<l", fdInput.read(4))[0]
             # Read where the video file starts
             videoStart = struct.unpack("<l", fdInput.read(4))[0]
-            # Read the lenght of the video file
-            videoLenght = struct.unpack("<l", fdInput.read(4))[0]
-            
+            # Read the length of the video file
+            videoLength = struct.unpack("<l", fdInput.read(4))[0]
+
         # An exception in this code means the file is not DPG
         except Exception as e:
-            # print(unicode(e.args[0]))
             isDPGFile = False
-            raise Exception(_('%s is not a valid DPG file') % inputN)
-                
+            raise Exception(_('%s is not a valid DPG file:\n%s') % (inputN,e.args[0]))
+
+        Globals.debug('  DPG version {0}\n  audio start: {1} length: {2}\n  video start: {3} length: {4}'.format(version,audioStart,audioLength,videoStart,videoLength))
+
         # Extract the audio data
         fdAudio = tempfile.NamedTemporaryFile(prefix='.dpg2avi', dir=outPath, delete=False)
         fdInput.seek(audioStart, os.SEEK_SET)
         v_read = 0
-        while v_read < audioLenght:
-            # Max buffer lenght
-            bufferLenght = 1024
-            remain = audioLenght - v_read
-            # Adjut the buffer lenght
-            if bufferLenght > remain:
-                bufferLenght = remain
-            buffer = fdInput.read(bufferLenght)
+        while v_read < audioLength:
+            # Max buffer length
+            bufferLength = 1024
+            remain = audioLength - v_read
+            # Adjut the buffer length
+            if bufferLength > remain:
+                bufferLength = remain
+            buffer = fdInput.read(bufferLength)
             fdAudio.write(buffer)
-            v_read += bufferLenght
+            v_read += bufferLength
         fdAudio.flush()
         # Windows won't let mencoder open the file twice -> close it
         fdAudio_name = fdAudio.name
@@ -383,16 +384,16 @@ def encode_Dpg2Avi(inputN, progress = None, outputN = None, overWrite = False):
         fdVideo = tempfile.NamedTemporaryFile(prefix='.dpg2avi', dir=outPath, delete=False)
         fdInput.seek(videoStart, os.SEEK_SET)
         v_read = 0
-        while v_read < videoLenght:
-            # Max buffer lenght
-            bufferLenght = 1024
-            remain = videoLenght - v_read
-            # Adjut the buffer lenght
-            if bufferLenght > remain:
-                bufferLenght = remain
-            buffer = fdInput.read(bufferLenght)
+        while v_read < videoLength:
+            # Max buffer length
+            bufferLength = 1024
+            remain = videoLength - v_read
+            # Adjut the buffer length
+            if bufferLength > remain:
+                bufferLength = remain
+            buffer = fdInput.read(bufferLength)
             fdVideo.write(buffer)
-            v_read += bufferLenght
+            v_read += bufferLength
         fdVideo.flush()
         # Windows won't let mencoder open the file twice -> close it
         fdVideo_name = fdVideo.name
@@ -411,6 +412,7 @@ def encode_Dpg2Avi(inputN, progress = None, outputN = None, overWrite = False):
         # Do not show debug output when running from commandline
         if progress:
             Globals.debug('DPG2AVI: ' + repr(' '.join(v_cmd)))
+        Globals.debug('DPG2AVI: ' + repr(' '.join(v_cmd)))
         proc = subprocess.Popen(
             Globals.ListUnicodeEncode(v_cmd), stdout=subprocess.PIPE,
             # On Windows when running under py2exe it is
@@ -447,21 +449,25 @@ def mencoder_progress(proc, filename = '', progress = None, doublepass = 0):
         Also used when just waiting for mencoder and wanting to include
         output in case of exceptions 
     """
+
     # Show progress
     progRE = re.compile ("f \((.*)%\)")
     mencoder_output = ''
     localProgress = 1
     for line in proc.stdout:
         mencoder_output += line
-        percent = progRE.search( line )
+        #print("mencode progress: %s" % line)
+
+        percent = progRE.search(str(line))
         # If preview we only want to collect error messages
         # to show if we get mencoder problems, no progress bar
-        if percent and progress > 0:
+        if percent and progress is not None:
             # The size of the video progress will be 1X
             shownProgress = int(percent.group(1))
-            diffProgress = int(percent.group(1)) - localProgress
-            localProgress = int(percent.group(1))
+            diffProgress = shownProgress - localProgress
+            localProgress = shownProgress
             userProgress = str(shownProgress)
+
             if doublepass == 1:
                 # If we are in doublepass mode step 1, we have encoded only the half
                 userProgress = str(shownProgress/2)
@@ -588,7 +594,6 @@ class EncodeAudioThread(threading.Thread):
             if Globals.audio_normalize:
                 normalize = ',volnorm'
                 s_cmd = s_cmd + ['--norm']
-
             # Get the number of audio channels for video source
             mplayer_proc = subprocess.Popen(
                 Globals.ListUnicodeEncode(['mplayer','-frames','0','-vo','null','-ao','null','-identify']+mpFile),
@@ -601,7 +606,7 @@ class EncodeAudioThread(threading.Thread):
                 raise Exception(_('ERROR ON MPLAYER')+'\n\n'+mplayer_output)
             # Identify the info by searchinb the ID_AUDIO_NCH tag
             nchanRE = re.compile ("\nID_AUDIO_NCH=([0-9]*)\n")
-            nchanSE = nchanRE.search(mplayer_output)
+            nchanSE = nchanRE.search(str(mplayer_output))
             if nchanSE:
                 nchan = nchanSE.group(1)
 
@@ -609,7 +614,7 @@ class EncodeAudioThread(threading.Thread):
                 # But do not use more than 2 channels
                 # DPGV0 only supports mono audio
                 if (not Globals.audio_mono) and (Globals.dpg_version > 0):
-                    if nchan > 2:
+                    if int(nchan) > 2:
                         a_cmd = a_cmd + ['-srate',str(Globals.audio_frequency),'-af',
                             'channels=2,lavcresample='+str(Globals.audio_frequency)+normalize]
                         s_cmd = s_cmd + ['-c','2','-r',str(Globals.audio_frequency)]
@@ -722,6 +727,7 @@ class EncodeAudioThread(threading.Thread):
         # Manage posible exceptions on the thread
         except Exception as e:
             self.errorMessage = str(e.args[0])
+            print("Audio exception: %s" % self.errorMessage)
             # Stop the sox thread
             if sox_thread:
                 sox_thread.stopThread()
@@ -729,6 +735,7 @@ class EncodeAudioThread(threading.Thread):
 def mpeg_stat(filename):
     "Generate file with GOP offsets and calculate frames"
 
+    #print("Frame0: %s", filename)
     # Increase progress
     global progress
     abort = progress.doProgress(1,
@@ -750,6 +757,7 @@ def mpeg_stat(filename):
     if stat_proc.wait() != 0:
         raise Exception(_('ERROR ON MPEG_STAT')+'\n\n'+stat_output)
     # Gather the frames information
+    #print("Frame1: %s", stat_output)
     info = framesRE.search(stat_output)
     if info:
         frames = info.group(1)
@@ -778,6 +786,21 @@ def mpeg_stat(filename):
         raise Exception(_('ERROR ON MPEG_STAT')+'\n\n'+stat_output)
     return (int(frames), gopSize*8)
 
+from pathlib import Path
+from functools import partial
+from io import DEFAULT_BUFFER_SIZE
+
+def file_byte_iterator(path):
+    """given a path, return an iterator over the file
+    that lazily loads the file
+    """
+    path = Path(path)
+    with path.open('rb') as file:
+        reader = partial(file.read1, DEFAULT_BUFFER_SIZE)
+        file_iterator = iter(reader, bytes())
+        for chunk in file_iterator:
+            yield from chunk
+
 def alternative_mpeg_stat(filename):
     "Alternate way to generate file with GOP offsets and calculate frames"
     # The mpeg_stat method has been more tested and is faster
@@ -791,8 +814,57 @@ def alternative_mpeg_stat(filename):
         raise Exception(_('Process aborted by user.'))
 
     # These are the start codes used in the mpeg format
-    PICTURE_START_CODE = array.array('c','\x00\x00\x01\x00')
-    SEQ_START_CODE = array.array('c','\x00\x00\x01\xb3')
+    # http://dvd.sourceforge.net/dvdinfo/mpeghdrs.html
+    PICTURE_START_CODE = b'\x00\x00\x01\x00'
+    SEQ_START_CODE = b'\x00\x00\x01\xb3'
+
+    l = bytearray(file_byte_iterator(Globals.TMP_VIDEO))
+    gopSize = 0
+    offset = 0
+    numFrames = 0
+    p_offset = offset
+
+    # Only needed if dpg version >= 2
+    if Globals.dpg_version >= 2:
+        gopFile = open(Globals.TMP_GOP, 'wb')
+
+    while (p := l.find(SEQ_START_CODE, offset)) > -1:
+        #print("nr new PICTURE_START_CODE: %i" % l.count(PICTURE_START_CODE, p_offset, p))
+        numFrames += l.count(PICTURE_START_CODE, p_offset+4, p)
+        print("SEQ_START_CODE at %i, numframes %i" % (p, numFrames))
+        p_offset = offset
+        # This is only needed for dpg version >= 2
+        if Globals.dpg_version >= 2:
+            gopSize += 1
+            gopFile.write (struct.pack ( "<l" , numFrames))
+            gopFile.write (struct.pack ( "<l" , p))
+        offset = p+4
+
+    # Close files and exit... verify if needed
+    # mpgFile.close()
+    if Globals.dpg_version >= 2:
+        gopFile.close()
+    print('len: %i' % len(l))
+    print('PICTURE_START_CODE: %i' % l.count(PICTURE_START_CODE))
+    print('SEQ_START_CODE: %i' % l.count(SEQ_START_CODE))
+    return ((numFrames-1), (gopSize*8))
+
+def old_alternative_mpeg_stat(filename):
+    "Alternate way to generate file with GOP offsets and calculate frames"
+    # The mpeg_stat method has been more tested and is faster
+
+    print("alt Frame0: %s", filename)
+    # Increase progress
+    global progress
+    abort = progress.doProgress(1,
+        filename + ' - ' + _('Generating GOP offsets'))
+    # Abort the process if the user requests it
+    if abort:
+        raise Exception(_('Process aborted by user.'))
+
+    # These are the start codes used in the mpeg format
+    PICTURE_START_CODE = bytearray(b'\x00\x00\x01\x00')
+    SEQ_START_CODE = bytearray(b'\x00\x00\x01\xb3')
     # Open the files
     mpgFile = open(Globals.TMP_VIDEO, 'rb')
     # Only needed if dpg version >= 2
@@ -801,19 +873,19 @@ def alternative_mpeg_stat(filename):
     # Init variables
     numFrames = 0
     gopSize = 0
-    tmpBytes = array.array('c')
+    tmpBytes = bytearray()
 
     try:
         # Get the first 4 bytes
-        tmpBytes.fromfile(mpgFile, 4)
+        #tmpBytes.fromfile(mpgFile, 4)
+        tmpBytes = mpgFile.read(4)
         # Process the file until EOF reached
         while True:
             # If picture start found, increase the number of frames
             if tmpBytes == PICTURE_START_CODE:
                 numFrames += 1
                 # Get the next 4 bytes and continue
-                tmpBytes = array.array('c')
-                tmpBytes.fromfile(mpgFile, 4)
+                tmpBytes = mpgFile.read(4)
             # If sequence start found, write to the GOP file
             elif tmpBytes == SEQ_START_CODE:
                 # This is only needed for dpg version >= 2
@@ -823,12 +895,12 @@ def alternative_mpeg_stat(filename):
                     gopFile.write (struct.pack ( "<l" , numFrames))
                     gopFile.write (struct.pack ( "<l" , offset))
                 # Get the next 4 bytes and continue
-                tmpBytes = array.array('c')
-                tmpBytes.fromfile(mpgFile, 4)
+                tmpBytes = mpgFile.read(4)
             # If nothing found, get another byte and continue
             else:
-                tmpBytes.pop(0)
-                tmpBytes.fromfile(mpgFile, 1)
+                tmpBytes = mpgFile.read(4)
+                #tmpBytes.pop(0)
+                #tmpBytes.fromfile(mpgFile, 1)
     # No problem, we just found the EOF
     except EOFError:
         pass
@@ -901,7 +973,6 @@ def conv_thumb(filename, frames, updateprogress=True):
     else:
         thumbfile = Globals.other_thumbnail
 
-    # Tomas 20120917: moved code below to DpgThumbnail class
     thumbnail = DpgThumbnail.DpgThumbnail(thumbfile)
     thumb_data = thumbnail.getThumbData()
 

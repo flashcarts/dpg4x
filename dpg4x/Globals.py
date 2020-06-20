@@ -143,13 +143,17 @@ def SetupTranslation():
                 'please help us to translate it.')
         gettext.install('dpg4x', i18n_dir, str=True)
     else:
-        gettext.translation('dpg4x', i18n_dir).install(str=True)
+        # d0malaga f32:
+        #        gettext.translation('dpg4x', i18n_dir).install(str=True)
+        gettext.translation('dpg4x', i18n_dir).install()
 
 
 def debug(message):
     "Shows a message in the error output"
     if not hasattr(sys, 'frozen'):
-        sys.stderr.write((message+"\n").encode(sys.getfilesystemencoding(),'replace'))
+        # d0malaga f32:
+        # sys.stderr.write((message+"\n").encode(sys.getfilesystemencoding(),'replace'))
+        sys.stderr.write(message+"\n")
     # Exe file to be run from a DOS prompt 
     elif sys.frozen == "console_exe":
         sys.stderr.write((message+"\n").encode(sys.getfilesystemencoding(),'replace'))
@@ -164,12 +168,22 @@ def debug(message):
         sys.stderr.write((message+"\n").encode(sys.getfilesystemencoding(),'replace'), fname = f)
 
 def Encode(text):
-    "Encode text to be system-encoding compatible"
+    """TBD: verify how much this neeeded in Python 3:
+    Encode text to be system-encoding compatible"""
     return text.encode(sys.getfilesystemencoding(),'replace')
 
 def Decode(text):
-    "Decode text to be system-encoding compatible"
-    return text.decode(sys.getfilesystemencoding(),'replace')
+    """TBD: verify how much this neeeded in Python 3:
+      Decode text to be system-encoding compatible"""
+    if isinstance(text, str):
+        return text
+
+    print("Decoding: %s" % text)
+    e = sys.getfilesystemencoding() or 'utf-8'
+    print("Using system encoding: %s" % e)
+    r = text.decode(e,'replace')
+    print("result: %s" % r1)
+    return r
 
 # Note: subprocess.Popen doesn't support unicode options arguments
 # (http://bugs.python.org/issue1759845) so we have to encode them.
@@ -230,8 +244,9 @@ def which (filename):
 
     # Oddly enough this was the one line that made Pexpect
     # incompatible with Python 1.5.2.
-    #pathlist = p.split (os.pathsep)
-    pathlist = string.split (p, os.pathsep)
+    # d0malaga f32:
+    # pathlist = string.split (p, os.pathsep)
+    pathlist = p.split (os.pathsep)
 
     for path in pathlist:
         f = os.path.join(path, filename)
