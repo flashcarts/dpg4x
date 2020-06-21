@@ -1,6 +1,6 @@
 Name: dpg4x
-Version: 2.3
-Release: 3%{?dist}
+Version: 3.0
+Release: alpha1%{?dist}
 License: GPLv3
 Summary: GUI to encode files into the DPG video format
 Url: http://sourceforge.net/projects/dpg4x
@@ -13,15 +13,12 @@ BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-buildroot
 Prefix: %{_prefix}
 BuildArch: noarch
 BuildRequires: desktop-file-utils
-# python-devel is more compatible with older distros like SLES10
-BuildRequires: python-devel >= 2.4
-Requires: python >= 2.4
-Requires: wxPython >= 2.8
-Requires: mplayer >= 1.0 
-Requires: mencoder >= 1.0 
-# Python Imaging Library (PIL) is better when creating DPG thumbnails
-# not a mandatory dependency
-Requires: python-imaging >= 1.0
+BuildRequires: python-devel >= 3.8
+Requires: python >= 3.8
+Requires: python3-wxpython4 >= 4.0
+Requires: mplayer >= 1.4 
+Requires: mencoder >= 1.4 
+Requires: python3-pillow >= 7.0
 
 %description
 DPG for X allows the easy creation of DPG video files. A DPG video is
@@ -130,6 +127,8 @@ rm -rf %{buildroot}
 %{_mandir}/man1/*
 
 %changelog 
+* Sun Jun 21 2020 Tomas Aronsson <d0malaga@users.sourceforge.net> - 3.0-alpha1
+— Initial migration to Fedora 32
 * Tue Aug 20 2013 Tomas Aronsson <d0malaga@users.sourceforge.net> - 2.3-3
 — Updates for newer mplayer versions
 * Thu Jul 25 2013 Tomas Aronsson <d0malaga@users.sourceforge.net> - 2.3-2
