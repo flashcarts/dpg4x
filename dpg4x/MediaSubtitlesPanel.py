@@ -159,13 +159,14 @@ class MediaSubtitlesPanel(wx.Panel):
                 # necessary to define stdin
                 stdin=subprocess.PIPE,shell=Globals.shell(),
                 ).communicate()[0]
-            iconvOut = iconvOut.replace('/','')
-            encodings = iconvOut.split('\n')
+            iconvOut = iconvOut.replace(b'/',b'')
+            encodings = iconvOut.split(b'\n')
             encodings.sort()
             # Load the encodings in the tree
             currentLetter = chr(0)
             currentNode = None
-            for encode in encodings:
+            for e in encodings:
+                encode = e.decode()
                 # Careful with empty strings
                 if len(encode) > 1:
                     firstLetter = encode[0].upper()
@@ -278,8 +279,8 @@ class MediaSubtitlesPanel(wx.Panel):
         
     def getPanelButtonsHeigh(self):
         "Return the current buttons position"
-        x, y = self.panel2.GetPositionTuple()
-        return y
+        p = self.panel2.GetPosition()
+        return p.y
         
     def setPanelButtonsHeigh(self, height):
         "Set the height for the save and close buttons"
@@ -289,5 +290,4 @@ class MediaSubtitlesPanel(wx.Panel):
         # Add the current empty space
         difference += self.gridBagSizer1.GetEmptyCellSize().GetHeight()
         # Resize the space up to the buttons
-        self.gridBagSizer1.AddSpacer(wx.Size(1, difference), (11, 0), border=0, 
-            flag=0, span=(1, 1))
+        #self.gridBagSizer1.AddSpacer(wx.Size(1, difference), (11, 0), border=0,            flag=0, span=(1, 1))

@@ -10,11 +10,11 @@ import struct
 def getDpgVersion(file):
     fd = open(file, 'rb')
     # Read the DPG version
-    versionStr = fd.read(4)
+    versionHdr = fd.read(4)
     fd.close()
-    if versionStr[:3] != 'DPG':
+    if versionHdr[:3] != b'DPG':
         return None
-    version = int(versionStr[3])
+    version = versionHdr[3] - ord('0')
     return version
 
 """
@@ -82,7 +82,7 @@ class DpgHeader():
         if filename:
             self.fromFile(filename)
         
-    def __unicode__(self):
+    def __str__(self):
         s = _('DPG Version') + ': %d\n' % self.version
         s += _('Video Codec') + ': mpg1\n'
         s += _('Frames Per Second') + ': %d\n' % self.fps
@@ -169,9 +169,9 @@ class DpgHeader():
     def fromFile(self, filename):
         fd = open(filename, 'rb')
         versionStr = fd.read(4)
-        if versionStr[:3] != 'DPG':
+        if versionStr[:3] != b'DPG':
             raise Exception(_('%s is not a valid DPG file') % file)
-        self.version = int(versionStr[3])
+        self.version = versionStr[3] - ord('0')
         self.frames = struct.unpack("<l", fd.read(4))[0]
         # FPS only using one byte
         fd.read(1)
@@ -200,7 +200,7 @@ class DpgHeader():
         fd = open(filename, 'wb')
 
         # The header starts with 4 bytes with DPGX, being X the version
-        fd.write(struct.pack ( "4s" , b"DPG" + bytes(ord('0') + self.version)))
+        fd.write(struct.pack ( "4s" , b"DPG%i" % self.version))
         # The initial header part is the same in all versions
         fd.write(struct.pack ( "<l" , self.frames))
         fd.write(struct.pack ( "<b" , 0))

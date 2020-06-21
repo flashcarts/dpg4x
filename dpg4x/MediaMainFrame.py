@@ -26,6 +26,7 @@ import os
 def show_settings(file, parent):
     "Allows individual media settings which override global defaults"
     mediaMainFrame = MediaMain(file, parent)
+
     Globals.mediaMainPanel = mediaMainFrame
     try:
         Globals.mainPanel.Enable(False)

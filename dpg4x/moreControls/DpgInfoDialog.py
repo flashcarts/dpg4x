@@ -53,7 +53,7 @@ class DpgInfoDialog(wx.Dialog):
         self.dpg_panel = wx.Panel(id=wxID_DIALOG1PANEL1, name='panel1',
               parent=self.main_panel, style=wx.TAB_TRAVERSAL)
 
-        self.bmp = wx.StaticBitmap(self.dpg_panel, wx.ID_ANY, wx.EmptyBitmap(256, 192))
+        self.bmp = wx.StaticBitmap(self.dpg_panel, wx.ID_ANY, wx.Bitmap(256, 192))
 
         self.textCtrl1 = wx.TextCtrl(id=wxID_DIALOG1TEXTCTRL1, name='textCtrl1',
               parent=self.dpg_panel,
@@ -92,10 +92,10 @@ class DpgInfoDialog(wx.Dialog):
         self.textCtrl2.AppendText(text)
         self.textCtrl2.ShowPosition(0)
         # Events
-        wx.EVT_BUTTON(self.button1, wx.ID_CLOSE, self.OnClose)
+        self.button1.Bind(wx.EVT_BUTTON, self.OnClose)
         # Only allow to replace thumbnail if DPG 4
         if dpg.version > 3:
-            wx.EVT_BUTTON(self.button2, wx.ID_OPEN, self.OnReplaceThumb)
+            self.button2.Bind(wx.EVT_BUTTON, self.OnReplaceThumb)
         else:
             self.button2.Disable()
         
@@ -106,7 +106,7 @@ class DpgInfoDialog(wx.Dialog):
     def OnReplaceThumb(self, event):
         "Replace thumbnail"
         image_file = None
-        dialog = wx.FileDialog(self, _('Select a thumbnail file'), style=wx.OPEN,
+        dialog = wx.FileDialog(self, _('Select a thumbnail file'), style=wx.FD_OPEN,
             defaultDir=os.path.dirname(self.filename))
         if dialog.ShowModal() == wx.ID_OK:
             image_file = dialog.GetPath()
@@ -122,4 +122,3 @@ class DpgInfoDialog(wx.Dialog):
                 dialog = wx.MessageDialog(self, message, _('ERROR'), 
                                           style=wx.OK|wx.ICON_ERROR)
                 dialog.ShowModal()
-                            

@@ -26,20 +26,20 @@ class AddVcdDialog(wx.Dialog):
     def _init_coll_gridBagSizer1_Items(self, parent):
         # generated method, don't edit
 
-        parent.AddSpacer(wx.Size(1, 20), (0, 0), border=0, flag=0, span=(1, 1))
-        parent.AddSpacer(wx.Size(100, 10), (0, 1), border=0, flag=0, span=(1, 2))
-        parent.AddSpacer(wx.Size(110, 10), (0, 4), border=0, flag=0, span=(1, 2))
-        parent.AddWindow(self.staticText1, (1, 1), border=0, 
+        #parent.AddSpacer(wx.Size(1, 20), (0, 0), border=0, flag=0, span=(1, 1))
+        #parent.AddSpacer(wx.Size(100, 10), (0, 1), border=0, flag=0, span=(1, 2))
+        #parent.AddSpacer(wx.Size(110, 10), (0, 4), border=0, flag=0, span=(1, 2))
+        parent.Add(self.staticText1, (1, 1), border=0, 
             flag=wx.ALIGN_RIGHT | wx.ALIGN_CENTER_VERTICAL, span=(1, 2))
-        parent.AddWindow(self.textCtrl1, (1, 4), border=0, flag=wx.EXPAND, 
+        parent.Add(self.textCtrl1, (1, 4), border=0, flag=wx.EXPAND, 
             span=(1, 2))
-        parent.AddWindow(self.staticText2, (3, 1), border=0, 
+        parent.Add(self.staticText2, (3, 1), border=0, 
             flag=wx.ALIGN_RIGHT | wx.ALIGN_CENTER_VERTICAL, span=(1, 2))
-        parent.AddWindow(self.spinCtrl1, (3, 4), border=0, flag=0, span=(1, 2))
-        parent.AddWindow(self.staticText3, (4, 0), border=0, 
+        parent.Add(self.spinCtrl1, (3, 4), border=0, flag=0, span=(1, 2))
+        parent.Add(self.staticText3, (4, 0), border=0, 
             flag=wx.ALIGN_CENTER | wx.ALIGN_CENTER_VERTICAL, span=(1, 8))
-        parent.AddWindow(self.button1, (6, 2), border=0, flag=0, span=(1, 1))
-        parent.AddWindow(self.button2, (6, 4), border=0, flag=0, span=(1, 1))
+        parent.Add(self.button1, (6, 2), border=0, flag=0, span=(1, 1))
+        parent.Add(self.button2, (6, 4), border=0, flag=0, span=(1, 1))
 
     def _init_sizers(self):
         # generated method, don't edit

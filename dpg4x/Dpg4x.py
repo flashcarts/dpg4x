@@ -146,30 +146,30 @@ Options:
                     a = Globals.Decode(a)
                     Globals.debug(a)
                     DpgThumbnail.DpgInject(a,options_image,a)
-                return False
+                return False,[]
             elif options_avi:
                 for a in args:
                     a = Globals.Decode(a)
                     Globals.debug(a)
                     Encoder.encode_Dpg2Avi(a)
-                    return False
+                    return False,[]
             elif options_dpg:
                 for a in args:
                     a = Globals.Decode(a)
                     Globals.debug(a)
                     Encoder.encode_files([a])
-                return False
+                return False,[]
         except Exception as e:
             Globals.debug(_('ERROR') + ': ' + str(e.args[0]))
-            return False
-    return True
+            return False,[]
+    return True, args
 
 # Main function
 if __name__ == '__main__':
     Globals.SetupTranslation()
     checkDependencies()
     application = wx.App(redirect=False,clearSigInt=False)
-    firstExec = checkArgs()
+    firstExec,filesToLoad = checkArgs()
     while firstExec or Globals.restart:
         # Reload the Globals module on restart
         if Globals.restart:
@@ -178,6 +178,8 @@ if __name__ == '__main__':
         mainFrame = MainFrame.create(None, Globals.getIconDir())
         mainFrame.Show()
         Globals.mainPanel = mainFrame
+        if filesToLoad:
+            Globals.filesPanel.addFilesFromList(filesToLoad)
         application.SetTopWindow(mainFrame)
         application.MainLoop()
     sys.exit(0)

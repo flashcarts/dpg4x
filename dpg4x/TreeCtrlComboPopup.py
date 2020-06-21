@@ -29,10 +29,12 @@ class TreeCtrlComboPopup(wx.ComboPopup):
         self.tree = wx.TreeCtrl(parent, style=wx.TR_HIDE_ROOT
                                 |wx.TR_HAS_BUTTONS
                                 |wx.TR_SINGLE
-                                |wx.TR_LINES_AT_ROOT)
+                                |wx.TR_LINES_AT_ROOT
+                                |wx.SIMPLE_BORDER)
         # f32: not in list of supported options |wx.SIMPLE_BORDER)
         # Events
-        self.tree.Bind(wx.EVT_MOTION, self.OnMotion)
+        # f32: how did this work? Does it still?
+        # self.tree.Bind(wx.EVT_MOTION, self.OnMotion)
         self.tree.Bind(wx.EVT_LEFT_DOWN, self.OnLeftDown)
         
     def GetControl(self):
@@ -59,6 +61,8 @@ class TreeCtrlComboPopup(wx.ComboPopup):
         root = self.tree.GetRootItem()
         if not root:
             return
+        else:
+            return
         found = self.FindItem(root, value)
         if found:
             self.value = found
@@ -72,7 +76,8 @@ class TreeCtrlComboPopup(wx.ComboPopup):
     # Auxiliar methods
     
     def FindItem(self, parentItem, text):
-        "Search for a text item on the tree"     
+        "Search for a text item on the tree"
+        '''
         item, cookie = self.tree.GetFirstChild(parentItem)
         while item:
             if self.tree.GetItemText(item) == text:
@@ -81,6 +86,8 @@ class TreeCtrlComboPopup(wx.ComboPopup):
                 item = self.FindItem(item, text)
             item, cookie = self.tree.GetNextChild(parentItem, cookie)
         return wx.TreeItemId();
+        '''
+        return True
 
     def AddItem(self, value, parent=None):
         "Add an item to the tree"

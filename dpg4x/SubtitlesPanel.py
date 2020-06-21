@@ -141,13 +141,14 @@ class SubtitlesPanel(wx.Panel):
                 # necessary to define stdin
                 stdin=subprocess.PIPE,shell=Globals.shell(),
                 stdout=subprocess.PIPE).communicate()[0]
-            iconvOut = str(iconvOut).replace('/','')
-            encodings = iconvOut.split('\n')
+            iconvOut = iconvOut.replace(b'/',b'')
+            encodings = iconvOut.split(b'\n')
             encodings.sort()
             # Load the encodings in the tree
             currentLetter = chr(0)
             currentNode = None               
-            for encode in encodings:
+            for e in encodings:
+                encode = e.decode()
                 # Careful with empty strings
                 if len(encode) > 1:
                     firstLetter = encode[0].upper()

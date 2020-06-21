@@ -147,15 +147,14 @@ class DpgThumbnail(object):
         fd.seek(48, os.SEEK_SET)
         thumbStr = fd.read(4)
         # Can ver4 exist without this? Or would it be a corrupt file?
-        if thumbStr != 'THM0':
-            raise Exception(_('%s is not a valid DPG file') % filename)            
-
+        if thumbStr != b'THM0':
+            raise Exception(_('%s is not a valid DPG file') % filename)
         dest_w, dest_h = self.size
 
         d = fd.read(98304)
         # debug code to verify that thumbnails can be packed and unpacked
         # d = self.getThumbData()
-        self.img = wx.EmptyImage(dest_w, dest_h)
+        self.img = wx.Image(dest_w, dest_h)
         for i in range(dest_h):
             for j in range(dest_w):
                 p = (i * dest_w + j) * 2
@@ -205,9 +204,9 @@ class DpgThumbnail(object):
             pilImage = pilImage.resize((nwidth, nheight),Image.ANTIALIAS)
             # Convert a PIL (the Python Image Library format) object to a wxPython
             # Image (or Bitmap) while keeping the alpha transparency layer.
-            image = wx.EmptyImage(pilImage.size[0],pilImage.size[1])
-            image.SetData(pilImage.convert("RGB").tostring())
-            image.SetAlphaData(pilImage.convert("RGBA").tostring()[3::4])
+            image = wx.Image(pilImage.size[0],pilImage.size[1])
+            image.SetData(pilImage.convert("RGB").tobytes())
+            image.SetAlpha(pilImage.convert("RGBA").tobytes()[3::4])
 
             # Second, Resize to the default screen size adding borders as necessary
             self.img = image.Resize(self.size, wx.Point(nxpos,nypos))

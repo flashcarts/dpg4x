@@ -282,6 +282,26 @@ class FilesPanel(wx.Panel):
         self.gridBagSizer2.Replace(self.button9, self.button8)
         self.Layout()
 
+    def addFilesFromList(self, files):
+        "Add a file (or more) to the input media list"
+        for file in files:
+            # Avoid duplicated items
+            if os.path.exists(file) and self.listCtrl1.FindItem(-1, file) == -1:
+                index = self.listCtrl1.GetItemCount()
+                self.listCtrl1.InsertItem(index, file)
+                # Check if a media configuration exists for the file
+                configfile = ConfigurationManager.getMediaConfiguration(file)
+                # Tomas: new check to indicate DPG files
+                v = DpgHeader.getDpgVersion(file)
+                if v:
+                    self.listCtrl1.SetItem(index, 1, _("DPG%i" % v))
+                elif os.path.isfile(configfile):
+                    self.listCtrl1.SetItem(index, 1, _("YES"))
+                else:
+                    self.listCtrl1.SetItem(index, 1, _("NO"))
+                    # Remember the last path
+            self.lastFilePath = os.path.dirname(file)
+
     def addFile(self, event):
         "Add a file (or more) to the input media list"
         # If None event we called it
@@ -294,24 +314,7 @@ class FilesPanel(wx.Panel):
                   wx.FD_MULTIPLE | wx.FD_PREVIEW)
         if fileDialog.ShowModal() == wx.ID_OK:
             # Add the selected files to the list
-            files = fileDialog.GetPaths()
-            for file in files:
-                # Avoid duplicated items
-                if self.listCtrl1.FindItem(-1, file) == -1:
-                    index = self.listCtrl1.GetItemCount()
-                    self.listCtrl1.InsertItem(index, file)
-                    # Check if a media configuration exists for the file
-                    configfile = ConfigurationManager.getMediaConfiguration(file)
-                    # Tomas: new check to indicate DPG files
-                    v = DpgHeader.getDpgVersion(file)
-                    if v:
-                        self.listCtrl1.SetItem(index, 1, _("DPG%d" % v))
-                    elif os.path.isfile(configfile):
-                        self.listCtrl1.SetItem(index, 1, _("YES"))
-                    else:
-                        self.listCtrl1.SetItem(index, 1, _("NO"))
-                # Remember the last path
-                self.lastFilePath = os.path.dirname(file)
+            self.addFilesFromList(fileDialog.GetPaths())
         fileDialog.Destroy()
         # Restore the menu
         self.restoreMenu(None)
@@ -340,9 +343,9 @@ class FilesPanel(wx.Panel):
                 # Check if a media configuration exists for the file
                 configfile = ConfigurationManager.getMediaConfiguration(url)
                 if os.path.isfile(configfile):
-                    self.listCtrl1.SetStringItem(index, 1, _("YES"))
+                    self.listCtrl1.SetItem(index, 1, _("YES"))
                 else:
-                    self.listCtrl1.SetStringItem(index, 1, _("NO"))
+                    self.listCtrl1.SetItem(index, 1, _("NO"))
         dialog.Destroy()
         # Restore the menu
         self.restoreMenu(None)
@@ -367,9 +370,9 @@ class FilesPanel(wx.Panel):
                 # Check if a media configuration exists for the file
                 configfile = ConfigurationManager.getMediaConfiguration(url)
                 if os.path.isfile(configfile):
-                    self.listCtrl1.SetStringItem(index, 1, _("YES"))
+                    self.listCtrl1.SetItem(index, 1, _("YES"))
                 else:
-                    self.listCtrl1.SetStringItem(index, 1, _("NO"))
+                    self.listCtrl1.SetItem(index, 1, _("NO"))
         dialog.Destroy()
         # Restore the menu
         self.restoreMenu(None)
@@ -529,9 +532,9 @@ class FilesPanel(wx.Panel):
             # Check if a media configuration exists for the file
             configfile = ConfigurationManager.getMediaConfiguration(name)
             if os.path.isfile(configfile):
-                self.listCtrl1.SetStringItem(item, 1, _("YES"))
+                self.listCtrl1.SetItem(item, 1, _("YES"))
             else:
-                self.listCtrl1.SetStringItem(item, 1, _("NO"))
+                self.listCtrl1.SetItem(item, 1, _("NO"))
         # On error, warn the user
         except Exception as e:
             message = str(e.args[0])
@@ -565,7 +568,7 @@ class FilesPanel(wx.Panel):
             v = DpgHeader.getDpgVersion(filename)
             if not v:
                 ConfigurationManager.deleteConfiguration(filename)
-                self.listCtrl1.SetStringItem(item, 1, _("NO"))
+                self.listCtrl1.SetItem(item, 1, _("NO"))
             
         
     def changeDPGLevel(self, event):
@@ -692,6 +695,6 @@ class FilesPanel(wx.Panel):
                 # Check if a media configuration exists for the file
                 configfile = ConfigurationManager.getMediaConfiguration(file)
                 if os.path.isfile(configfile):
-                    self.listCtrl1.SetStringItem(index, 1, _("YES"))
+                    self.listCtrl1.SetItem(index, 1, _("YES"))
                 else:
-                    self.listCtrl1.SetStringItem(index, 1, _("NO"))
+                    self.listCtrl1.SetItem(index, 1, _("NO"))

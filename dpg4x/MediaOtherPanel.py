@@ -348,8 +348,8 @@ class MediaOtherPanel(wx.Panel):
         
     def getPanelButtonsHeigh(self):
         "Return the current buttons position"
-        x, y = self.panel2.GetPositionTuple()
-        return y
+        p = self.panel2.GetPosition()
+        return p.y
         
     def setPanelButtonsHeigh(self, height):
         "Set the height for the save and close buttons"
@@ -359,5 +359,5 @@ class MediaOtherPanel(wx.Panel):
         # Add the current empty space
         difference += self.gridBagSizer1.GetEmptyCellSize().GetHeight()
         # Resize the space up to the buttons
-        self.gridBagSizer1.AddSpacer(wx.Size(1, difference), (12, 0), border=0, 
-            flag=0, span=(1, 1))
+        #self.gridBagSizer1.AddSpacer(wx.Size(1, difference), (12, 0), border=0, 
+        #    flag=0, span=(1, 1))
