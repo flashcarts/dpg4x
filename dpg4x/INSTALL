@@ -39,6 +39,16 @@ Still Todo:
 * More complete testing
 ** Ideally with some basic automation....
 
+2020 - Ubuntu 20
+
+tomasa@ubuntu20:~/src/dpg4x-git$ apt list mencoder mplayer python3-wxgtk4.0 python3-pil
+Listing... Done
+mencoder/focal,now 2:1.3.0-8build5 amd64 [installed]
+mplayer/focal,now 2:1.3.0-8build5 amd64 [installed]
+python3-pil/focal,now 7.0.0-4build1 amd64 [installed]
+python3-wxgtk4.0/focal,now 4.0.7+dfsg-2build1 amd64 [installed]
+
+
 Versions in brackets include those that dpg4x has been tested with, but others 
 may work too.
 

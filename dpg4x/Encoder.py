@@ -925,19 +925,17 @@ def conv_thumb(filename, frames, updateprogress=True):
         if abort:
             raise Exception(_('Process aborted by user.'))
 
-    # Takes a PNG screenshot if no file given.
+    # Takes a screenshot if no file given.
     if not Globals.other_thumbnail:
-        # png:outdir= is pretty new, the latest Windows (1.0rc2-4.2.1) and
-        # Mac Fink (1.0rc2-4.2.1) binaries do not include this option.
-        # While Fedora 13 (SVN-r32421-snapshot-4.4.4) does. Best to avoid it
-        # for now.
-        current_path = os.getcwd()
-        os.chdir(Globals.TMP_SHOT)
 
-        # The 00000001.png is choosed by mplayer
-        shot_file = os.path.join(Globals.TMP_SHOT ,'00000001.png')
+        # The 00000001.png/jpg is decided by mplayer
+        # png output works in fedora 32, mplayer 1.4.0
+        # but seems broken in Ubuntu 20 mplayer 1.3.0... use jpeg
+        shot_format = 'jpeg'
+        shot_file = os.path.join(Globals.TMP_SHOT ,'00000001.jpg')
         s_cmd = ['mplayer',Globals.TMP_VIDEO,'-nosound','-vo',
-            'png','-frames','1','-ss',
+                  '%s:outdir=%s' % (shot_format, Globals.TMP_SHOT),
+                  '-frames','1','-ss',
             # Skip 10% of the frames
             str(int((int(frames)/Globals.video_fps)/10))]
         # Execute mplayer to generate the shot
@@ -947,6 +945,7 @@ def conv_thumb(filename, frames, updateprogress=True):
           stdin=subprocess.PIPE,shell=Globals.shell(),
           stderr=subprocess.STDOUT, universal_newlines=True)
         mplayer_output = mplayer_proc.communicate()[0]
+
         # Check the return process
         if mplayer_proc.wait() != 0:
             raise Exception(_('ERROR ON MPLAYER')+'\n\n'+mplayer_output)
@@ -955,7 +954,8 @@ def conv_thumb(filename, frames, updateprogress=True):
         if not os.path.isfile(shot_file):
             # Try again without ss
             s_cmd = ['mplayer',Globals.TMP_VIDEO,'-nosound','-vo',
-            'png','-frames','1']
+                     '%s:outdir=%s' % (shot_format, Globals.TMP_SHOT),
+                     '-frames','1']
             # Execute mplayer
             if progress:
               Globals.debug('Extract thumb (again): ' + repr(' '.join(s_cmd)))
@@ -968,7 +968,6 @@ def conv_thumb(filename, frames, updateprogress=True):
                 raise Exception(_('ERROR ON MPLAYER')+'\n\n'+mplayer_output)
 
         thumbfile = shot_file
-        os.chdir(current_path)
     # If a file given, use it
     else:
         thumbfile = Globals.other_thumbnail
