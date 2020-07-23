@@ -1,3 +1,9 @@
+dpg4x (3.0.1-1) focal; urgency=low
+
+  * Changes Initial migration to ubuntu20
+
+ -- Tomas Aronsson <d0malaga@users.sourceforge.net>  Sat,  27 Jun 2020 21:25:00 +0100
+
 dpg4x (2.3-1) unstable; urgency=low
 
   * Removed Dpg2Avi and DpgImginjector scripts, now included in dpg4x

@@ -164,8 +164,7 @@ Options:
             return False,[]
     return True, args
 
-# Main function
-if __name__ == '__main__':
+def main():
     Globals.SetupTranslation()
     checkDependencies()
     application = wx.App(redirect=False,clearSigInt=False)
@@ -183,3 +182,7 @@ if __name__ == '__main__':
         application.SetTopWindow(mainFrame)
         application.MainLoop()
     sys.exit(0)
+
+# Main function
+if __name__ == '__main__':
+    main()

@@ -1,2 +1,10 @@
 *~
-__pychache__
+build
+*.log
+dist/debian/dpg4x*
+dist/debian/files
+__pycache__
+dist/dpg4x*
+dist/debian/debhelper*
+dist/debian/.debhelper
+MANIFEST

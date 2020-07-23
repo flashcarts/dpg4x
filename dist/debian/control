@@ -1,16 +1,17 @@
 Source: dpg4x
 Section: graphics
 Priority: optional
-Maintainer: Félix Medrano <xukosky@yahoo.es>
-Build-Depends: debhelper (>= 7.0.50), python-support (>= 0.90.0)
-XS-Python-Version: >= 2.4
-Standards-Version: 3.8.4
+Maintainer:  Félix Medrano <xukosky@users.sourceforge.net>
+Uploaders: Tomas Aronsson <d0malaga@users.sourceforge.net>
+#Build-Depends: debhelper (>= 9.0.0), python-support (>= 0.90.0)
+Build-Depends: debhelper (>= 9.0.0), python-dev, dh-python (>=4.0)
+XS-Python-Version: >= 3.8
+Standards-Version: 4.5.0.2
 
 Package: dpg4x
 Architecture: all
 Homepage: http://sourceforge.net/projects/dpg4x/
-Depends: ${misc:Depends}, ${python:Depends}, python-wxgtk2.8, mplayer (>= 1.0), mencoder (>= 1.0)
-Recommends: python-imaging (>= 1.1)
+Depends: ${misc:Depends}, ${python3:Depends}, python3-pil, python3-wxgtk4.0, mplayer (>= 1.3), mencoder (>= 1.3)
 Suggests: 
 Description: GUI to encode files into the DPG video format
  DPG for X allows the easy creation of DPG video files. A DPG video is

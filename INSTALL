@@ -48,6 +48,9 @@ mplayer/focal,now 2:1.3.0-8build5 amd64 [installed]
 python3-pil/focal,now 7.0.0-4build1 amd64 [installed]
 python3-wxgtk4.0/focal,now 4.0.7+dfsg-2build1 amd64 [installed]
 
+Build deb package by typing:
+debuild -i -us -uc -b 
+
 
 Versions in brackets include those that dpg4x has been tested with, but others 
 may work too.
