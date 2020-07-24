@@ -19,7 +19,16 @@ from the SourceForge download pages. In addition to the dpg4x files the installe
 This information below is relevant if you want to work with the source code on Windows 
 or run the program directly as a Python file. 
 
-Dependencies to run Dpg4x on Windows:
+Updates for Python 3.8 on Windows 10:
+1. Clone git repo
+2. Install:
+* Python 3.8 using the Microsoft store
+* pip install -U pywin32 -> pywin32 228
+* pip install -U wxPython -> wxPython 4.1.0, Pillow 7.2.0
+* MPlayer-corei7-r38188+g6e1903938b.7z from sourceforge and add it to $PATH
+3. start a shell in the dpg4x directory and type 'python .\Dpg4x.py'
+
+Dependencies to run Dpg4x on Windows 7 (around 2011...):
 ========
 * Python 2.7: Tested with ActivePython-2.7.1.3-win32-x86.msi
   http://www.activestate.com/activepython/downloads

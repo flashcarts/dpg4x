@@ -29,8 +29,12 @@ class DpgInfoDialog(wx.Dialog):
         self.dpg_panel.SetSizer(self.boxSizer1)
 
         self.boxSizer2 = wx.BoxSizer(orient=wx.HORIZONTAL)
-        self.boxSizer2.Add(self.button1, 0, border=0, flag=wx.ALIGN_RIGHT)
-        self.boxSizer2.Add(self.button2, 0, border=0, flag=wx.ALIGN_RIGHT)
+        # wxPython 4.1.0 on Windows 10:
+        #  C++ assertion "!(flags & wxALIGN_RIGHT)" failed at ..\..\src\common\sizer.cpp(2098) in wxBoxSizer::DoInsert(): Horizontal alignment flags are ignored in horizontal sizers
+        #self.boxSizer2.Add(self.button1, 0, border=0, flag=wx.ALIGN_RIGHT)
+        #self.boxSizer2.Add(self.button2, 0, border=0, flag=wx.ALIGN_RIGHT)
+        self.boxSizer2.Add(self.button1, 0, border=0, flag=wx.EXPAND)
+        self.boxSizer2.Add(self.button2, 0, border=0, flag=wx.EXPAND)
         self.panelb.SetSizer(self.boxSizer2)
 
         self.boxSizer3 = wx.BoxSizer(orient=wx.VERTICAL)

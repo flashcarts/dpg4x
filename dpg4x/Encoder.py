@@ -931,10 +931,16 @@ def conv_thumb(filename, frames, updateprogress=True):
         # The 00000001.png/jpg is decided by mplayer
         # png output works in fedora 32, mplayer 1.4.0
         # but seems broken in Ubuntu 20 mplayer 1.3.0... use jpeg
+        # png:outdir= or jpeg:outidr= does not work well on Windows (MPlayer-corei7-r38188+g6e1903938b.7z)
+        # -> Fallback to old behaviour with output in current directory
+
         shot_format = 'jpeg'
         shot_file = os.path.join(Globals.TMP_SHOT ,'00000001.jpg')
+        current_path = os.getcwd()
+        os.chdir(Globals.TMP_SHOT)
         s_cmd = ['mplayer',Globals.TMP_VIDEO,'-nosound','-vo',
-                  '%s:outdir=%s' % (shot_format, Globals.TMP_SHOT),
+                  # '%s:outdir=%s' % (shot_format, Globals.TMP_SHOT),
+                  '%s' % (shot_format),
                   '-frames','1','-ss',
             # Skip 10% of the frames
             str(int((int(frames)/Globals.video_fps)/10))]
@@ -948,6 +954,7 @@ def conv_thumb(filename, frames, updateprogress=True):
 
         # Check the return process
         if mplayer_proc.wait() != 0:
+            os.chdir(current_path)
             raise Exception(_('ERROR ON MPLAYER')+'\n\n'+mplayer_output)
 
         # Some low quality encoded videos, have problems with the 10% skip
@@ -965,9 +972,11 @@ def conv_thumb(filename, frames, updateprogress=True):
             mplayer_output = mplayer_proc.communicate()[0]
             # Check the return process
             if mplayer_proc.wait() != 0:
+                os.chdir(current_path)
                 raise Exception(_('ERROR ON MPLAYER')+'\n\n'+mplayer_output)
 
         thumbfile = shot_file
+        os.chdir(current_path)
     # If a file given, use it
     else:
         thumbfile = Globals.other_thumbnail
