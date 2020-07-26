@@ -15,24 +15,25 @@
 # The following code is based on the dpgconv script.
 # Thank you for all it's creators! See the README file for more details.
 
-import Globals
-import ConfigurationManager
-import CustomProgressDialog
-import DpgHeader
-import DpgThumbnail
-
 import re
 import os
 import stat
 import subprocess
 import struct
-import wx
 import shutil
 import array
 import signal
 import sys
 import tempfile
 import threading
+
+import wx
+
+import dpg4x.Globals as Globals
+import dpg4x.ConfigurationManager
+import dpg4x.CustomProgressDialog
+from dpg4x.DpgHeader import DpgHeader
+from dpg4x.DpgThumbnail import DpgThumbnail
 
 # Try to load the Python Image Library, if available
 pilAvailable = True
@@ -931,7 +932,7 @@ def conv_thumb(filename, frames, updateprogress=True):
         # The 00000001.png/jpg is decided by mplayer
         # png output works in fedora 32, mplayer 1.4.0
         # but seems broken in Ubuntu 20 mplayer 1.3.0... use jpeg
-        # png:outdir= or jpeg:outidr= does not work well on Windows (MPlayer-corei7-r38188+g6e1903938b.7z)
+        # png:outdir= or jpeg:outdir= does not work well on Windows (MPlayer-corei7-r38188+g6e1903938b.7z)
         # -> Fallback to old behaviour with output in current directory
 
         shot_format = 'jpeg'
@@ -981,7 +982,7 @@ def conv_thumb(filename, frames, updateprogress=True):
     else:
         thumbfile = Globals.other_thumbnail
 
-    thumbnail = DpgThumbnail.DpgThumbnail(thumbfile)
+    thumbnail = DpgThumbnail(thumbfile)
     thumb_data = thumbnail.getThumbData()
 
     # Write the data to a temporary file
@@ -1004,8 +1005,7 @@ def write_header(filename, frames):
     if abort:
         raise Exception(_('Process aborted by user.'))
 
-    # Tomas 20120909: moved code below to DpgHeader class
-    dpg = DpgHeader.DpgHeader()
+    dpg = DpgHeader()
     dpg.setAudio(Globals.audio_codec, Globals.audio_frequency)
     dpg.setVideo(frames, Globals.video_fps, Globals.video_pixel)
     dpg.setSizes(Globals.dpg_version, 
@@ -1020,7 +1020,7 @@ def gui_encode_files(files):
     "Handle GUI logic with progress window"
     # Init the progress dialog
     busy = None
-    progress = CustomProgressDialog.CustomProgressDialog(
+    progress = dpg4x.CustomProgressDialog.CustomProgressDialog(
         Globals.mainPanel, len(files), total_progress())
     progress.Show()
     # Disable the events on main frame
@@ -1060,7 +1060,7 @@ def encode_files(files, iprogress = None):
     if iprogress: 
         progress = iprogress
     else:
-        progress = CustomProgressDialog.TextProgress(None, len(files), total_progress())
+        progress = dpg4x.CustomProgressDialog.TextProgress(None, len(files), total_progress())
 
     # Create the temporary files
     Globals.createTemporary()
@@ -1075,7 +1075,7 @@ def encode_files(files, iprogress = None):
                 filename = os.path.basename(file)
 
             # Tomas: If it's a DPG file, just run dpg2avi
-            v = DpgHeader.getDpgVersion(file)
+            v = DpgHeader.getVersionFromFile(file)
             if v:
                 encode_Dpg2Avi(file, progress)
 
@@ -1086,7 +1086,7 @@ def encode_files(files, iprogress = None):
                 continue
             
             # Read options from the media specific config file (if one exists)
-            ConfigurationManager.loadConfiguration(file)
+            dpg4x.ConfigurationManager.loadConfiguration(file)
 
             # Start the audio encoding thread
             encode_audio = EncodeAudioThread(file, filename)

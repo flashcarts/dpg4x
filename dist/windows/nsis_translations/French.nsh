@@ -4,7 +4,7 @@
 #Save file as UTF-8 w/ BOM
 #
 
-!insertmacro LANGFILE "French" "français"
+!insertmacro LANGFILE "French" = "français" =
 
 # Update checks
 ${LangFileString} ALREADY_INSTALLED "${Name} est déjà installé"

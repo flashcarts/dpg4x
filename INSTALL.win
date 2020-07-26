@@ -28,6 +28,25 @@ Updates for Python 3.8 on Windows 10:
 * MPlayer-corei7-r38188+g6e1903938b.7z from sourceforge and add it to $PATH
 3. start a shell in the dpg4x directory and type 'python .\Dpg4x.py'
 
+Packaging:
+* Trying py2exe, pip install -U py2exe -> does not work with Python 3.8, no longer maintained
+* Trying pyinstaller, pip install -U pyinstaller -> Issues... not officially supports for 3.8
+Try using a virtual python env:
+  python -m venv dpg4x-python
+  Set-ExecutionPolicy -ExecutionPolicy Unrestricted -Scope CurrentUser
+  .\dpg4x-python\Scripts\Activate.ps1
+  pip install wxPython pywin32 pyinstaller
+  .\dpg4x-python\Scripts\pyinstaller -F --clean --paths C:\Users\Tomas_2\AppData\Local\Programs\Python\Python38 .\dpg4x\Dpg4x.py
+
+Issues to run, https://stackoverflow.com/questions/61574984/no-module-named-pkg-resources-py2-warn-pyinstaller
+  pip install --upgrade 'setuptools<45.0.0'
+
+Python3 does not seem to recommend relative imports -> make dpg4x a package, now pyinstaller works better
+  .\dpg4x-python\Scripts\pyinstaller --onefile --clean --paths C:\Users\Tomas_2\AppData\Local\Programs\Python\Python38  --add-data ".\dpg4x\icons;dpg4x\icons" --add-data ".\dpg4x\i18n;dpg4x\i18n"  .\dpg4x_main.py
+
+* Trying NSIS 3.0.5, https://sourceforge.net/projects/nsis/files/latest/download
+
+
 Dependencies to run Dpg4x on Windows 7 (around 2011...):
 ========
 * Python 2.7: Tested with ActivePython-2.7.1.3-win32-x86.msi

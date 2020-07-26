@@ -15,11 +15,12 @@
 
 # NOTE: "OTHER" is not longer used, now we call it "MISC".
 
-import Globals
-import ConfigurationManager
+import os
 
 import wx
-import os
+
+import dpg4x.Globals as Globals
+import dpg4x.ConfigurationManager as ConfigurationManager
 
 [wxID_PANEL1, wxID_PANEL1BUTTON1, wxID_PANEL1BUTTON2, wxID_PANEL1BUTTON3, 
  wxID_PANEL1STATICTEXT1, wxID_PANEL1STATICTEXT2, wxID_PANEL1STATICTEXT3, 

@@ -12,19 +12,38 @@
 # Licence:      GPL v3
 #----------------------------------------------------------------------------
 
-import ConfigurationManager
-
 import os
+import glob
 import stat
 import sys
 import string
 import tempfile
 import shutil
-import wx
 import importlib
+
+import wx
+
+import dpg4x.ConfigurationManager
 
 if sys.platform == 'win32':
     import win32api
+
+# Path to data files when packed in pyinstaller
+# https://pyinstaller.readthedocs.io/en/stable/runtime-information.html
+# https://stackoverflow.com/questions/404744/determining-application-path-in-a-python-exe-generated-by-pyinstaller/404750#404750
+if getattr(sys, 'frozen', False):
+    application_path = getattr(sys, '_MEIPASS', os.path.dirname(sys.executable))
+else:
+    application_path = os.path.dirname(sys.argv[0])
+
+# Debug printouts to verify that files are included in exe file
+# print('application_path:', application_path)
+
+#icon_files=[(os.path.join(application_path, 'dpg4x', 'icons'), glob.glob(os.path.join(application_path, 'dpg4x', 'icons', '*.png')))]
+#print("icon_files:", icon_files)
+
+#i18n_files=[(os.path.join(application_path, 'dpg4x', 'i18n'), glob.glob(os.path.join(application_path, 'dpg4x', 'i18n', '*', '*')))]
+#print("i18n_files:", i18n_files)
 
 ###############
 ## VARIABLES ##
@@ -128,7 +147,7 @@ def SetupTranslation():
     # If no env variable defined, assume that i18n files are located below the top directory
     i18n_dir = os.getenv('DPG4X_I18N')
     if not(i18n_dir):
-        i18n_dir = os.path.join(os.path.dirname(sys.argv[0]), "i18n")
+        i18n_dir = os.path.join(application_path, "dpg4x", "i18n")
         # gettext will search in default directories if no other path given
     if not os.path.isdir(i18n_dir):
         i18n_dir = None
@@ -139,9 +158,9 @@ def SetupTranslation():
         # locale.getdefaultlocale() returns ('en_US', 'cp1252') could be useful.
         os.environ['LANG']=locale.getdefaultlocale()[0]
     if not gettext.find('dpg4x', i18n_dir):
-        debug('WARNING: dpg4x is not available in your language, ' \
-                'please help us to translate it.')
-        gettext.install('dpg4x', i18n_dir, str=True)
+        debug('WARNING: dpg4x is not available in your language (%s), ' \
+                'please help us to translate it.' % os.environ['LANG'])
+        gettext.install('dpg4x', i18n_dir)
     else:
         # d0malaga f32:
         #        gettext.translation('dpg4x', i18n_dir).install(str=True)
@@ -156,7 +175,7 @@ def debug(message):
         sys.stderr.write(message+"\n")
     # Exe file to be run from a DOS prompt 
     elif sys.frozen == "console_exe":
-        sys.stderr.write((message+"\n").encode(sys.getfilesystemencoding(),'replace'))
+        sys.stderr.write(message+"\n")
     else:
         # sys.frozen == "windows_exe":
         # py2exe programs without a console writes stderr to a log file in the installation
@@ -165,7 +184,9 @@ def debug(message):
         # see also: http://www.py2exe.org/index.cgi/StderrLog
         global other_temporary
         f = os.path.join(other_temporary, 'dpg4x.log')
-        sys.stderr.write((message+"\n").encode(sys.getfilesystemencoding(),'replace'), fname = f)
+        fd = open(f,"a")
+        fd.write(message+"\n")
+        fd.close()
 
 def Encode(text):
     """TBD: verify how much this neeeded in Python 3:
@@ -207,7 +228,7 @@ def getIconDir():
     icon_dir = os.getenv('DPG4X_ICONS')
     # If no env variable defined, assume that icons are located below the top directory
     if not(icon_dir):
-        icon_dir = os.path.join(os.path.dirname(sys.argv[0]), "icons")
+        icon_dir = os.path.join(application_path,  "dpg4x", "icons")
     return icon_dir
 
 def CreateFolder(dir):
@@ -418,5 +439,5 @@ def clearTemporary():
             
             
 # Load the configuration file
-importlib.reload(ConfigurationManager)
-ConfigurationManager.loadConfiguration()
+importlib.reload(dpg4x.ConfigurationManager)
+dpg4x.ConfigurationManager.loadConfiguration()

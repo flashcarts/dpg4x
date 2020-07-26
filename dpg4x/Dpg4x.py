@@ -33,11 +33,10 @@ if not hasattr(sys, 'frozen'):
 '''
 import wx
 
-
-import MainFrame
-import Globals
-import DpgThumbnail
-import Encoder
+import dpg4x.Globals as Globals
+import dpg4x.MainFrame
+from dpg4x.DpgThumbnail import DpgThumbnail
+import dpg4x.Encoder
 
 modules ={'AddDvdDialog': [0,
                    'A dialog to add Dvd media sources.',
@@ -142,22 +141,23 @@ Options:
     if len(args)>0:
         try:
             if options_image:
+                thumb = DpgThumbnail(options_image)
                 for a in args:
                     a = Globals.Decode(a)
                     Globals.debug(a)
-                    DpgThumbnail.DpgInject(a,options_image,a)
+                    thumb.inject(a)
                 return False,[]
             elif options_avi:
                 for a in args:
                     a = Globals.Decode(a)
                     Globals.debug(a)
-                    Encoder.encode_Dpg2Avi(a)
+                    dpg4x.Encoder.encode_Dpg2Avi(a)
                     return False,[]
             elif options_dpg:
                 for a in args:
                     a = Globals.Decode(a)
                     Globals.debug(a)
-                    Encoder.encode_files([a])
+                    dpg4x.Encoder.encode_files([a])
                 return False,[]
         except Exception as e:
             Globals.debug(_('ERROR') + ': ' + str(e.args[0]))
@@ -174,7 +174,7 @@ def main():
         if Globals.restart:
             importlib.reload(Globals)
         firstExec = False
-        mainFrame = MainFrame.create(None, Globals.getIconDir())
+        mainFrame = dpg4x.MainFrame.create(None, Globals.getIconDir())
         mainFrame.Show()
         Globals.mainPanel = mainFrame
         if filesToLoad:

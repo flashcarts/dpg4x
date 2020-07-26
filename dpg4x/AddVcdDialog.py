@@ -13,9 +13,9 @@
 # Licence:      GPL v3
 #----------------------------------------------------------------------------
 
-import Globals
-
 import wx
+
+import dpg4x.Globals as Globals
 
 [wxID_DIALOG1,
  wxID_DIALOG1SPINCTRL1, wxID_DIALOG1STATICTEXT1, wxID_DIALOG1STATICTEXT2, 

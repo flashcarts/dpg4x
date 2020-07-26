@@ -13,15 +13,16 @@
 # Licence:      GPL v3
 #----------------------------------------------------------------------------
 
-import Globals
-import ConfigurationManager
-import MediaVideoPanel
-import MediaAudioPanel
-import MediaSubtitlesPanel
-import MediaOtherPanel
+import os
 
 import wx
-import os
+
+import dpg4x.Globals as Globals
+import dpg4x.ConfigurationManager as ConfigurationManager
+from dpg4x.MediaVideoPanel import MediaVideoPanel
+from dpg4x.MediaAudioPanel import MediaAudioPanel
+from dpg4x.MediaSubtitlesPanel import MediaSubtitlesPanel
+from dpg4x.MediaOtherPanel import MediaOtherPanel
 
 def show_settings(file, parent):
     "Allows individual media settings which override global defaults"
@@ -109,25 +110,25 @@ class MediaMain(wx.Dialog):
         self.notebook1.AssignImageList(imageList)
 
         # Panel with media video options
-        mediaVideoPanel = MediaVideoPanel.MediaVideoPanel(self.notebook1)
+        mediaVideoPanel = MediaVideoPanel(self.notebook1)
         self.notebook1.AddPage(mediaVideoPanel,
             Globals.fillString(_('VIDEO'),10),imageId=1)
         Globals.mediaVideoPanel = mediaVideoPanel
 
         # Panel with media audio options
-        mediaAudioPanel = MediaAudioPanel.MediaAudioPanel(self.notebook1)
+        mediaAudioPanel = MediaAudioPanel(self.notebook1)
         self.notebook1.AddPage(mediaAudioPanel,
             Globals.fillString(_('AUDIO'),10),imageId=2)
         Globals.mediaAudioPanel = mediaAudioPanel
 
         # Panel with media subtitle options
-        mediaSubtitlesPanel = MediaSubtitlesPanel.MediaSubtitlesPanel(self.notebook1)
+        mediaSubtitlesPanel = MediaSubtitlesPanel(self.notebook1)
         self.notebook1.AddPage(mediaSubtitlesPanel,
             Globals.fillString(_('SUBTITLES'),10),imageId=3)
         Globals.mediaSubtitlesPanel = mediaSubtitlesPanel
 
         # Panel with aditional media options
-        mediaOtherPanel = MediaOtherPanel.MediaOtherPanel(self.notebook1)
+        mediaOtherPanel = MediaOtherPanel(self.notebook1)
         self.notebook1.AddPage(mediaOtherPanel,
             Globals.fillString(_('MISC'),10),imageId=4)
         Globals.mediaOtherPanel = mediaOtherPanel

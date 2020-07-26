@@ -11,10 +11,12 @@
 # Licence:      GPL v3
 #----------------------------------------------------------------------------
 
-import wx
 import os
-import DpgHeader
-import DpgThumbnail
+
+import wx
+
+from dpg4x.DpgHeader import DpgHeader
+from dpg4x.DpgThumbnail import DpgThumbnail
 
 [wxID_DIALOG1, wxID_DIALOG1PANEL1, wxID_DIALOG1TEXTCTRL1,
  wxID_DIALOG1TIMER1
@@ -29,10 +31,6 @@ class DpgInfoDialog(wx.Dialog):
         self.dpg_panel.SetSizer(self.boxSizer1)
 
         self.boxSizer2 = wx.BoxSizer(orient=wx.HORIZONTAL)
-        # wxPython 4.1.0 on Windows 10:
-        #  C++ assertion "!(flags & wxALIGN_RIGHT)" failed at ..\..\src\common\sizer.cpp(2098) in wxBoxSizer::DoInsert(): Horizontal alignment flags are ignored in horizontal sizers
-        #self.boxSizer2.Add(self.button1, 0, border=0, flag=wx.ALIGN_RIGHT)
-        #self.boxSizer2.Add(self.button2, 0, border=0, flag=wx.ALIGN_RIGHT)
         self.boxSizer2.Add(self.button1, 0, border=0, flag=wx.EXPAND)
         self.boxSizer2.Add(self.button2, 0, border=0, flag=wx.EXPAND)
         self.panelb.SetSizer(self.boxSizer2)
@@ -84,9 +82,9 @@ class DpgInfoDialog(wx.Dialog):
         self.filename = filename
         self._init_ctrls(parent, title)
         # Show the text
-        dpg = DpgHeader.DpgHeader(filename)
+        dpg = DpgHeader(filename)
         if dpg.version > 3:
-            thumb = DpgThumbnail.DpgThumbnail(filename)
+            thumb = DpgThumbnail(filename)
             self.textCtrl1.AppendText(str(dpg))
             self.textCtrl1.ShowPosition(0)
             self.bmp.SetBitmap(thumb.getImage().ConvertToBitmap())
@@ -118,8 +116,8 @@ class DpgInfoDialog(wx.Dialog):
 
         if image_file is not None: 
             try:       
-                DpgThumbnail.DpgInject(self.filename,image_file,self.filename)
-                thumb = DpgThumbnail.DpgThumbnail(image_file)
+                thumb = DpgThumbnail(image_file)
+                thumb.inject(self.filename)
                 self.bmp.SetBitmap(thumb.getImage().ConvertToBitmap())
             except Exception as e:
                 message = str(e.args[0])

@@ -15,10 +15,11 @@
 
 # NOTE: "OTHER" is not longer used, now we call it "MISC".
 
-import Globals
+import os
 
 import wx
-import os
+
+import dpg4x.Globals as Globals
 
 [wxID_PANEL1, wxID_PANEL1BUTTON1, wxID_PANEL1BUTTON2, wxID_PANEL1BUTTON3,
  wxID_PANEL1STATICTEXT1, wxID_PANEL1STATICTEXT2, wxID_PANEL1STATICTEXT3,
@@ -226,7 +227,7 @@ class MediaOtherPanel(wx.Panel):
         # If None event we called it
         if (event is not None):
             event.StopPropagation()
-        dialog = wx.FileDialog(self, _('Select a thumbnail file'), style=wx.OPEN,
+        dialog = wx.FileDialog(self, _('Select a thumbnail file'), style=wx.FD_OPEN,
             defaultDir=os.path.dirname(self.textCtrl3.GetValue()))
         if dialog.ShowModal() == wx.ID_OK:
             self.textCtrl3.SetValue(dialog.GetPath())

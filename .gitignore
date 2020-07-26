@@ -1,6 +1,9 @@
 *~
-build
+build/
+dpg4x-python/
+.vs/
 *.log
+*.spec
 dist/debian/dpg4x*
 dist/debian/files
 __pycache__

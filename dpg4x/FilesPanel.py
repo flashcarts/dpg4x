@@ -13,20 +13,20 @@
 # Licence:      GPL v3
 #----------------------------------------------------------------------------
 
-import Globals
-import Encoder
-import DpgHeader
-
-import ConfigurationManager
-import Previewer
-import MediaMainFrame
-import AddVcdDialog
-import AddDvdDialog
-from moreControls.OutputTextDialog import OutputTextDialog
+import os
 
 import wx
 from wx.lib.mixins.listctrl import ListCtrlAutoWidthMixin
-import os
+
+import dpg4x.Globals as Globals
+import dpg4x.Encoder
+import dpg4x.ConfigurationManager as ConfigurationManager
+import dpg4x.Previewer as Previewer
+from dpg4x.MediaMainFrame import show_settings
+from dpg4x.DpgHeader import DpgHeader
+from dpg4x.AddVcdDialog import AddVcdDialog
+from dpg4x.AddDvdDialog import AddDvdDialog
+from dpg4x.moreControls.OutputTextDialog import OutputTextDialog
 
 [wxID_PANEL1, wxID_PANEL1BUTTON1, wxID_PANEL1BUTTON2, wxID_PANEL1BUTTON3, 
  wxID_PANEL1CHOICE1, wxID_PANEL1LISTCTRL1, wxID_PANEL1STATICTEXT1, 
@@ -292,7 +292,7 @@ class FilesPanel(wx.Panel):
                 # Check if a media configuration exists for the file
                 configfile = ConfigurationManager.getMediaConfiguration(file)
                 # Tomas: new check to indicate DPG files
-                v = DpgHeader.getDpgVersion(file)
+                v = DpgHeader.getVersionFromFile(file)
                 if v:
                     self.listCtrl1.SetItem(index, 1, _("DPG%i" % v))
                 elif os.path.isfile(configfile):
@@ -325,7 +325,7 @@ class FilesPanel(wx.Panel):
         if (event is not None):
             event.StopPropagation()
         # Show the Vcd Dialog
-        dialog = AddDvdDialog.AddDvdDialog(self)
+        dialog = AddDvdDialog(self)
         value = dialog.ShowModal()
         if value == wx.ID_OK:
             device = dialog.getDevice()
@@ -356,7 +356,7 @@ class FilesPanel(wx.Panel):
         if (event is not None):
             event.StopPropagation()
         # Show the Vcd Dialog
-        dialog = AddVcdDialog.AddVcdDialog(self)
+        dialog = AddVcdDialog(self)
         value = dialog.ShowModal()
         if value == wx.ID_OK:
             device = dialog.getDevice()
@@ -522,12 +522,12 @@ class FilesPanel(wx.Panel):
             name = self.listCtrl1.GetItemText(item)
 
             # Do not allow own configuration for DPG files
-            v = DpgHeader.getDpgVersion(name)
+            v = DpgHeader.getVersionFromFile(name)
             if v:
                 # Tomas: maybe a better error message here
                 return        
 
-            MediaMainFrame.show_settings(name, self)
+            show_settings(name, self)
 
             # Check if a media configuration exists for the file
             configfile = ConfigurationManager.getMediaConfiguration(name)
@@ -565,7 +565,7 @@ class FilesPanel(wx.Panel):
         for item in selItems:
             filename = self.listCtrl1.GetItemText(item)
             # Do not allow own configuration for DPG files
-            v = DpgHeader.getDpgVersion(filename)
+            v = DpgHeader.getVersionFromFile(filename)
             if not v:
                 ConfigurationManager.deleteConfiguration(filename)
                 self.listCtrl1.SetItem(item, 1, _("NO"))
@@ -673,7 +673,7 @@ class FilesPanel(wx.Panel):
             ConfigurationManager.saveConfiguration()
 
             # Start encoding the files
-            Encoder.gui_encode_files(files)
+            dpg4x.Encoder.gui_encode_files(files)
 
         # On error, warn the user
         except Exception as e:

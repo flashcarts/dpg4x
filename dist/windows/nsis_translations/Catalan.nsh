@@ -4,7 +4,7 @@
 #Save file as UTF-8 w/ BOM
 #
 
-!insertmacro LANGFILE "Catalan" "català"
+!insertmacro LANGFILE "Catalan" = "català" =
 
 # Update checks
 ${LangFileString} ALREADY_INSTALLED "${Name} ja està instal · lat"

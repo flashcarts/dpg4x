@@ -13,15 +13,16 @@
 # Licence:      GPL v3
 #----------------------------------------------------------------------------
 
-import Globals
-import FilesPanel
-import VideoPanel
-import AudioPanel
-import SubtitlesPanel
-import OtherPanel
+import os
 
 import wx
-import os
+
+import dpg4x.Globals as Globals
+from dpg4x.FilesPanel import FilesPanel
+from dpg4x.VideoPanel import VideoPanel
+from dpg4x.AudioPanel import AudioPanel
+from dpg4x.SubtitlesPanel import SubtitlesPanel
+from dpg4x.OtherPanel import OtherPanel
 
 def create(parent, icon_dir):
     return Frame1(parent, icon_dir)
@@ -83,7 +84,7 @@ class Frame1(wx.Frame):
         self.notebook1.AssignImageList(imageList)
         
         # Panel with files to be processed
-        filesPanel = FilesPanel.FilesPanel(self.notebook1)
+        filesPanel = FilesPanel(self.notebook1)
         # wx.Toolbook is buggy on MacOSX. wxPython 2.8 and 2.9 will not display
         # the AddPage() caption text and icons disappear after being clicked
         # with 2.9. Problem is evident in the wxPython demo as well as dpg4x.
@@ -92,25 +93,25 @@ class Frame1(wx.Frame):
         Globals.filesPanel = filesPanel
         
         # Panel with video options
-        videoPanel = VideoPanel.VideoPanel(self.notebook1)
+        videoPanel = VideoPanel(self.notebook1)
         self.notebook1.AddPage(videoPanel,
             Globals.fillString(_('VIDEO'),10),imageId=1)
         Globals.videoPanel = videoPanel
         
         # Panel with audio options
-        audioPanel = AudioPanel.AudioPanel(self.notebook1)
+        audioPanel = AudioPanel(self.notebook1)
         self.notebook1.AddPage(audioPanel,
             Globals.fillString(_('AUDIO'),10),imageId=2)
         Globals.audioPanel = audioPanel
         
         # Panel with subtitle options
-        subtitlesPanel = SubtitlesPanel.SubtitlesPanel(self.notebook1)
+        subtitlesPanel = SubtitlesPanel(self.notebook1)
         self.notebook1.AddPage(subtitlesPanel,
             Globals.fillString(_('SUBTITLES'),10),imageId=3)
         Globals.subtitlesPanel = subtitlesPanel
         
         # Panel with aditional options
-        otherPanel = OtherPanel.OtherPanel(self.notebook1)
+        otherPanel = OtherPanel(self.notebook1)
         self.notebook1.AddPage(otherPanel,
             Globals.fillString(_('MISC'),10),imageId=4)
         Globals.otherPanel = otherPanel

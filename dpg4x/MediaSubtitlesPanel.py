@@ -13,13 +13,14 @@
 # Licence:      GPL v3
 #----------------------------------------------------------------------------
 
-import Globals
-import TreeCtrlComboPopup
-import CustomFontSelector
-
-import wx
 import subprocess
 import os
+
+import wx
+
+import dpg4x.Globals as Globals
+from dpg4x.TreeCtrlComboPopup import TreeCtrlComboPopup
+from dpg4x.CustomFontSelector import CustomFontSelector
 
 [wxID_PANEL1, wxID_PANEL1BUTTON1, wxID_PANEL1BUTTON2,
  wxID_PANEL1TREECTRLCOMBO1, wxID_PANEL1SPINCTRL1, wxID_PANEL1STATICTEXT1,
@@ -121,7 +122,7 @@ class MediaSubtitlesPanel(wx.Panel):
         # Custom TreeCtrlComboPopup
         self.choice1 = wx.ComboCtrl(self, size=(280,-1),
             style=wx.CB_READONLY, value=Globals.subtitles_encoding)
-        self.treeCtrlCombo = TreeCtrlComboPopup.TreeCtrlComboPopup()
+        self.treeCtrlCombo = TreeCtrlComboPopup()
         self.choice1.SetPopupControl(self.treeCtrlCombo)
 
         self.button7 = wx.Button(id=wx.ID_SAVE,
@@ -248,7 +249,7 @@ class MediaSubtitlesPanel(wx.Panel):
         # If None event we called it
         if (event is not None):
             event.StopPropagation()
-        dialog = CustomFontSelector.CustomFontSelector(
+        dialog = CustomFontSelector(
             self, _('Select the subtitles font'),
             self.textCtrl2.GetValue())
         if dialog.ShowModal() == wx.ID_OK:

@@ -13,9 +13,9 @@
 # Licence:      GPL v3
 #----------------------------------------------------------------------------
 
-import Globals
-
 import wx
+
+import dpg4x.Globals as Globals
 
 [wxID_PANEL1, wxID_PANEL1CHECKBOX1, wxID_PANEL1CHECKBOX2, wxID_PANEL1CHOICE1,
  wxID_PANEL1CHOICE2, wxID_PANEL1SPINCTRL1, wxID_PANEL1SPINCTRL2,

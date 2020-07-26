@@ -12,16 +12,16 @@
 # Licence:      GPL v3
 #----------------------------------------------------------------------------
 
-import Globals
-import Encoder
-import DpgHeader
-
-from moreControls.OutputTextDialog import OutputTextDialog
-from moreControls.DpgInfoDialog import DpgInfoDialog
-
 import subprocess
 import os
+
 import wx
+
+import dpg4x.Globals as Globals
+import dpg4x.Encoder
+from dpg4x.DpgHeader import DpgHeader
+from dpg4x.moreControls.OutputTextDialog import OutputTextDialog
+from dpg4x.moreControls.DpgInfoDialog import DpgInfoDialog
 
 def preview_files(file):
     "Encode a small chunk of the selected file and play it"
@@ -29,7 +29,7 @@ def preview_files(file):
 
     # Tomas: might be better to disable button if a DPG file is selected
     # not same as viewing the file
-    dpgVersion = DpgHeader.getDpgVersion(file)
+    dpgVersion = DpgHeader.getVersionFromFile(file)
     if dpgVersion:
         play_files(file)
         return
@@ -48,10 +48,10 @@ def preview_files(file):
             Globals.audio_bitrate_mp2 = 256
         
         # Start the audio encoding thread
-        encode_audio = Encoder.EncodeAudioThread(file, file, preview=True)
+        encode_audio = dpg4x.Encoder.EncodeAudioThread(file, file, preview=True)
         encode_audio.start()
         # Encode video
-        Encoder.encode_video(file, file, preview=True)
+        dpg4x.Encoder.encode_video(file, file, preview=True)
         # Check the status of the thread
         encode_audio.join()
         # Restore the audio bitrate (previous patch)
@@ -120,10 +120,10 @@ def play_files(file):
         if (file[:6] == 'vcd://') or (file[:6] == 'dvd://'):
             mpFile = file.split()
         else:
-            dpgVersion = DpgHeader.getDpgVersion(file)
+            dpgVersion = DpgHeader.getVersionFromFile(file)
             # Mplayer cannot read DPG directly, needs to know where video/audio start
             if dpgVersion:
-                h = DpgHeader.DpgHeader(file)
+                h = DpgHeader(file)
                 mpFile = ['-sb', '%d' % h.videoStart, '-audiofile', file, file]
             else:
                 mpFile = [ file ]
@@ -157,7 +157,7 @@ def show_information(file, parent):
     if (file[:6] == 'vcd://') or (file[:6] == 'dvd://'):
         mpFile = file.split()
     else:
-        dpgVersion = DpgHeader.getDpgVersion(file)
+        dpgVersion = DpgHeader.getVersionFromFile(file)
         # Mplayer cannot read DPG directly
         if dpgVersion:
             # Even if not changing streams it takes time to convert a long movie to AVI
@@ -172,7 +172,7 @@ def show_information(file, parent):
             # mpFile = [ tmpname ]
 
             # Mplayer can handle DPG files if told where video/audio start
-            h = DpgHeader.DpgHeader(file)
+            h = DpgHeader(file)
             mpFile = ['-sb', '%d' % h.videoStart, '-audiofile', file, file]
         else:
             mpFile = [ file ]

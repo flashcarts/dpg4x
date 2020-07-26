@@ -11,64 +11,14 @@ Class to handle DPG thumbnails:
  - Reformat into a DPG thumbnail that can be included in a DPG4 file
 '''
 
-import wx
 import os
 import struct
 import shutil
-import DpgHeader
+
 from PIL import Image
+import wx
 
-def DpgInject(inputN, imageN, outputN):
-    # Variables used on error handling, they need to be declared
-    fdOutput = None
-
-    try:
-        if not (os.path.isfile(inputN) and (os.access(inputN, os.R_OK))):
-            raise Exception(_('ERROR: The file %s cannot be read') % inputN)
-
-        if not (os.path.isfile(imageN) and (os.access(imageN, os.R_OK))):
-            raise Exception(_('ERROR: The file %s cannot be read') % imageN)
-
-        outPath = os.path.dirname(outputN)
-        outPath = os.path.abspath(outPath)
-        if (os.path.isfile(outputN) and (not os.access(outputN, os.W_OK))):
-            raise Exception(_('ERROR: The file %s cannot be written') % outputN)
-        if not os.access(outPath, os.W_OK):
-            raise Exception(_('ERROR: The folder %s cannot be written') % outPath)
-
-        dpgVersion = DpgHeader.getDpgVersion(inputN)
-        if dpgVersion:
-            # Use a specific message if DPG version < 4
-            # Todo: it could be possible to upgrade to DPG4 but
-            # leads to more complicated code because header size grows
-            if dpgVersion < 4:
-                raise Exception(_('%(file)s is a DPG version %(version)s ' \
-                                  'file, but version 4 or better is required') % 
-                                {"file": inputN, "version": dpgVersion})
-        else:
-            raise Exception(_('%s is not a valid DPG file') % inputN)
-
-        thumbnail = DpgThumbnail()
-        thumbnail.fromFile(imageN)
-        thumbdata = thumbnail.getThumbData()
-
-        # Copy file if not modifying input
-        if (outputN != inputN):
-            shutil.copyfile(inputN, outputN)
-
-        fdOutput = open(outputN, 'r+b')
-        # DPG0-3 Header size 36
-        # DPG4 Header size 36 + 4 (THM0) = 40
-        # DPG2-4 GOP Header +12 = 48 (DPG2-3) or 52 (DPG4)
-        # Image Size is 98304
-        # Audio start 52 + 98304 = 98356
-
-        fdOutput.seek(52, os.SEEK_SET)
-        fdOutput.write(thumbdata)
-    finally:
-        if fdOutput:
-            fdOutput.close()
-
+from dpg4x.DpgHeader import DpgHeader
 
 class DpgThumbnail(object):
     '''
@@ -124,10 +74,56 @@ class DpgThumbnail(object):
         # Join all the data with the desired format
         row_fmt=('H'*dest_w)
         return b''.join(struct.pack(row_fmt, *row) for row in data)
+
+    def inject(self, inputN, outputN = None):
+        # Variables used on error handling, they need to be declared
+        fdOutput = None
+
+        try:
+            if not (os.path.isfile(inputN) and (os.access(inputN, os.R_OK))):
+                raise Exception(_('ERROR: The file %s cannot be read') % inputN)
+
+            if outputN is None:
+                outputN = inputN
+            outPath = os.path.dirname(outputN)
+            outPath = os.path.abspath(outPath)
+            if (os.path.isfile(outputN) and (not os.access(outputN, os.W_OK))):
+                raise Exception(_('ERROR: The file %s cannot be written') % outputN)
+            if not os.access(outPath, os.W_OK):
+                raise Exception(_('ERROR: The folder %s cannot be written') % outPath)
+
+            dpgVersion = DpgHeader.getVersionFromFile(inputN)
+            if dpgVersion:
+                # Use a specific message if DPG version < 4
+                # Todo: it could be possible to upgrade to DPG4 but
+                # leads to more complicated code because header size grows
+                if dpgVersion < 4:
+                    raise Exception(_('%(file)s is a DPG version %(version)s ' \
+                                      'file, but version 4 or better is required') % 
+                                    {"file": inputN, "version": dpgVersion})
+            else:
+                raise Exception(_('%s is not a valid DPG file') % inputN)
+
+            # Copy file if not modifying input
+            if (outputN != inputN):
+                shutil.copyfile(inputN, outputN)
+
+            fdOutput = open(outputN, 'r+b')
+            # DPG0-3 Header size 36
+            # DPG4 Header size 36 + 4 (THM0) = 40
+            # DPG2-4 GOP Header +12 = 48 (DPG2-3) or 52 (DPG4)
+            # Image Size is 98304
+            # Audio start 52 + 98304 = 98356
+
+            fdOutput.seek(52, os.SEEK_SET)
+            fdOutput.write(self.getThumbData())
+        finally:
+            if fdOutput:
+                fdOutput.close()
        
     def fromFile(self, filename):
         """ Reads a thumbnail from a DPG or image file"""
-        dpgVersion = DpgHeader.getDpgVersion(filename)
+        dpgVersion = DpgHeader.getVersionFromFile(filename)
         if dpgVersion is not None:
             # Use a specific message if DPG version < 4
             if dpgVersion < 4:

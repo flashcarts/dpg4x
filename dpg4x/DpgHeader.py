@@ -7,16 +7,6 @@ Created on 9 sep 2012
 '''
 import struct
 
-def getDpgVersion(file):
-    fd = open(file, 'rb')
-    # Read the DPG version
-    versionHdr = fd.read(4)
-    fd.close()
-    if versionHdr[:3] != b'DPG':
-        return None
-    version = versionHdr[3] - ord('0')
-    return version
-
 """
  DPG Header
 
@@ -123,6 +113,18 @@ class DpgHeader():
         if self.hasThumb:
             s += '\n' + _('Embedded Thumbnail')
         return s
+
+    @staticmethod
+    def getVersionFromFile(file):
+        fd = open(file, 'rb')
+        # Read the DPG version
+        versionHdr = fd.read(4)
+        fd.close()
+        if versionHdr[:3] != b'DPG':
+            return None
+        version = versionHdr[3] - ord('0')
+        return version
+
 
     def setSizes(self, version, vSize, aSize, gSize = 0):
         """Sets version and sizes, start positions will be recalculated"""

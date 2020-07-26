@@ -12,12 +12,13 @@
 # Licence:      GPL v3
 #----------------------------------------------------------------------------
 
-import Globals
-
 import configparser
 import re
 import os
 import shutil
+
+import dpg4x.Globals as Globals
+
 
 # Private configuration manager
 __cp = configparser.SafeConfigParser()
