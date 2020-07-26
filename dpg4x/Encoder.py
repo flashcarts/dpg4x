@@ -942,9 +942,9 @@ def conv_thumb(filename, frames, updateprogress=True):
         s_cmd = ['mplayer',Globals.TMP_VIDEO,'-nosound','-vo',
                   # '%s:outdir=%s' % (shot_format, Globals.TMP_SHOT),
                   '%s' % (shot_format),
-                  '-frames','1','-ss',
+                  '-frames','1',
             # Skip 10% of the frames
-            str(int((int(frames)/Globals.video_fps)/10))]
+            '-ss', str(int((int(frames)/Globals.video_fps)/10))]
         # Execute mplayer to generate the shot
         if progress:
             Globals.debug('Extract thumb: ' + repr(' '.join(s_cmd)))
@@ -962,7 +962,7 @@ def conv_thumb(filename, frames, updateprogress=True):
         if not os.path.isfile(shot_file):
             # Try again without ss
             s_cmd = ['mplayer',Globals.TMP_VIDEO,'-nosound','-vo',
-                     '%s:outdir=%s' % (shot_format, Globals.TMP_SHOT),
+                    '%s' % (shot_format),
                      '-frames','1']
             # Execute mplayer
             if progress:
