@@ -1,6 +1,7 @@
-dpg4x/*.py					/usr/share/dpg4x/
-dpg4x/icons					/usr/share/dpg4x/
-dpg4x/moreControls				/usr/share/dpg4x/
+dpg4x_main.py				        /usr/share/dpg4x/
+dpg4x/*.py					/usr/share/dpg4x/dpg4x/
+dpg4x/icons					/usr/share/dpg4x/dpg4x/
+dpg4x/moreControls				/usr/share/dpg4x/dpg4x/
 dpg4x/i18n/ca/LC_MESSAGES/dpg4x.mo		/usr/share/locale/ca/LC_MESSAGES
 dpg4x/i18n/en/LC_MESSAGES/dpg4x.mo		/usr/share/locale/en/LC_MESSAGES
 dpg4x/i18n/es/LC_MESSAGES/dpg4x.mo		/usr/share/locale/es/LC_MESSAGES
