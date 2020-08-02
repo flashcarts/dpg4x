@@ -1,4 +1,5 @@
 import glob,os
+from setuptools import setup, find_packages
 
 top_directory = "dpg4x"
 icon_files=[(os.path.join(top_directory, 'icons'), glob.glob(os.path.join(top_directory, 'icons', '*.png')))]
@@ -11,8 +12,13 @@ setup(name='dpg4x',
       license='GPLv3',
       url='http://sourceforge.net/projects/dpg4x',
       description='GUI to encode files into the DPG video format',
-      py_modules=[f.replace(".py","") for f in glob.glob("*.py")],
+      author='d0malaga, mpdavig, xukosky @sourceforge',
+      maintainer='Tomas Aronsson ',
+      maintainer_email='<d0malaga@users.sourceforge.net>',
+      py_modules=['dpg4x_main.py'],
+      # py_modules=[f.replace(".py","") for f in glob.glob("*.py")],
       packages=['dpg4x','dpg4x.moreControls'],
+      # packages=find_packages()
       data_files= icon_files + i18n_files + doc_files,
       entry_points={
           "console_scripts": [
@@ -21,5 +27,8 @@ setup(name='dpg4x',
           "gui_scripts": [
               "dpg4x = dpg4x.Dpg4x:main"
           ]
-      }
+      },
+      # TBD: different for Ubuntu, Fedora, Windows... and some non python deps too
+      install_requires=["wxPython > 4.0",
+                        "pywin32 >= 1.0;platform_system=='Windows'"]
 )

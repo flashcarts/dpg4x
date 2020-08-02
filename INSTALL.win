@@ -42,10 +42,16 @@ Issues to run, https://stackoverflow.com/questions/61574984/no-module-named-pkg-
   pip install --upgrade 'setuptools<45.0.0'
 
 Python3 does not seem to recommend relative imports -> make dpg4x a package, now pyinstaller works better
-  .\dpg4x-python\Scripts\pyinstaller --onefile --clean --paths C:\Users\Tomas_2\AppData\Local\Programs\Python\Python38  --add-data ".\dpg4x\icons;dpg4x\icons" --add-data ".\dpg4x\i18n;dpg4x\i18n"  .\dpg4x_main.py
+  .\dpg4x-python\Scripts\pyinstaller --onefile -w --icon .\dist\windows\dpg4x.ico --clean --paths C:\Users\Tomas_2\AppData\Local\Programs\Python\Python38  --add-data ".\dpg4x\icons;dpg4x\icons" --add-data ".\dpg4x\i18n;dpg4x\i18n"  .\dpg4x_main.py
 
-* Trying NSIS 3.0.5, https://sourceforge.net/projects/nsis/files/latest/download
+* Trying NSIS 3.0.5, https://sourceforge.net/projects/nsis/files/latest/download with plugins: 
+** https://nsis.sourceforge.io/Inetc_plug-in
+** https://nsis.sourceforge.io/mediawiki/images/6/69/Nsis7z_19.00.7z
 
+-> Use a newer NSIS UI instead
+http://ultramodernui.sourceforge.net/
+
+& "C:\ProgramData\NSIS\makensis.exe" /V4  .\dist\windows\dpg4x.nsi 
 
 Dependencies to run Dpg4x on Windows 7 (around 2011...):
 ========
