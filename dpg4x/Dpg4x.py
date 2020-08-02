@@ -1,7 +1,3 @@
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
-#Boa:App:BoaApp
-
 #----------------------------------------------------------------------------
 # Name:         Dpg4x.py
 # Purpose:      A dpg encoder for Linux (and maybe others).
@@ -130,11 +126,11 @@ Options:
             options_image = arg.split('=')[1]
         elif arg == '-h' or arg == '--help':
             Globals.debug(usage)
-            return False
+            return False,[]
         elif arg.startswith('-'):
             Globals.debug(_('Non supported option: %s') % arg)
             Globals.debug(usage)
-            return False                
+            return False,[]
         else:
             args += [arg]
 

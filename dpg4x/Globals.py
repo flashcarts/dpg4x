@@ -35,9 +35,12 @@ if getattr(sys, 'frozen', False):
     application_path = getattr(sys, '_MEIPASS', os.path.dirname(sys.executable))
 else:
     application_path = os.path.dirname(sys.argv[0])
+    # An rpm/deb installation has the data files in /usr/share
+    if (application_path == '/usr/bin'):
+        application_path = '/usr/share'
 
 # Debug printouts to verify that files are included in exe file
-# print('application_path:', application_path)
+#print('application_path:', application_path)
 
 #icon_files=[(os.path.join(application_path, 'dpg4x', 'icons'), glob.glob(os.path.join(application_path, 'dpg4x', 'icons', '*.png')))]
 #print("icon_files:", icon_files)
@@ -202,11 +205,11 @@ def Decode(text):
     if isinstance(text, str):
         return text
 
-    print("Decoding: %s" % text)
+    #print("Decoding: %s" % text)
     e = sys.getfilesystemencoding() or 'utf-8'
-    print("Using system encoding: %s" % e)
+    #print("Using system encoding: %s" % e)
     r = text.decode(e,'replace')
-    print("result: %s" % r1)
+    #print("result: %s" % r1)
     return r
 
 # Note: subprocess.Popen doesn't support unicode options arguments

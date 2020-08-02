@@ -150,9 +150,9 @@ class CustomProgressDialog(wx.Dialog):
             self.currProgress -= self.totalProgress
             self.remainFiles -= 1
         # Update the gauges
-        print("self.gauge1.SetValue %i, %i" % (self.currProgress, 100))
+        #print("self.gauge1.SetValue %i, %i" % (self.currProgress, 100))
         self.gauge1.SetValue(self.currProgress)
-        print("self.gauge2.SetValue %i, %i" % (self.currProgOverall, 100))
+        #print("self.gauge2.SetValue %i, %i" % (self.currProgOverall, 100))
         if self.currProgOverall < 101:
             self.gauge2.SetValue(self.currProgOverall)
         # Update the text messages

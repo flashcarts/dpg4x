@@ -32,12 +32,14 @@ mplayer (1.4-10)
 mencoder (1.4-10)
 Still Todo:
 * Fix AddSpacer
-* Verify translations
-* rpm/dev packaging
-* Windows packaging
-** No longer used  - python-wxversion (2.8)
+* Installers
+** Improve Ubuntu deb packaging
+** Windows packaging
 * More complete testing
 ** Ideally with some basic automation....
+
+Build rpm:
+dist/rpm/build_fedora.sh
 
 2020 - Ubuntu 20
 
@@ -50,7 +52,6 @@ python3-wxgtk4.0/focal,now 4.0.7+dfsg-2build1 amd64 [installed]
 
 Build deb package by typing:
 debuild -i -us -uc -b 
-
 
 Versions in brackets include those that dpg4x has been tested with, but others 
 may work too.

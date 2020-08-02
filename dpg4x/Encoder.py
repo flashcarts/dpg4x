@@ -832,7 +832,7 @@ def alternative_mpeg_stat(filename):
     while (p := l.find(SEQ_START_CODE, offset)) > -1:
         #print("nr new PICTURE_START_CODE: %i" % l.count(PICTURE_START_CODE, p_offset, p))
         numFrames += l.count(PICTURE_START_CODE, p_offset+4, p)
-        print("SEQ_START_CODE at %i, numframes %i" % (p, numFrames))
+        #print("SEQ_START_CODE at %i, numframes %i" % (p, numFrames))
         p_offset = offset
         # This is only needed for dpg version >= 2
         if Globals.dpg_version >= 2:
@@ -845,16 +845,16 @@ def alternative_mpeg_stat(filename):
     # mpgFile.close()
     if Globals.dpg_version >= 2:
         gopFile.close()
-    print('len: %i' % len(l))
-    print('PICTURE_START_CODE: %i' % l.count(PICTURE_START_CODE))
-    print('SEQ_START_CODE: %i' % l.count(SEQ_START_CODE))
+    #print('len: %i' % len(l))
+    #print('PICTURE_START_CODE: %i' % l.count(PICTURE_START_CODE))
+    #print('SEQ_START_CODE: %i' % l.count(SEQ_START_CODE))
     return ((numFrames-1), (gopSize*8))
 
 def old_alternative_mpeg_stat(filename):
     "Alternate way to generate file with GOP offsets and calculate frames"
     # The mpeg_stat method has been more tested and is faster
 
-    print("alt Frame0: %s", filename)
+    #print("alt Frame0: %s", filename)
     # Increase progress
     global progress
     abort = progress.doProgress(1,

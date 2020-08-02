@@ -1,13 +1,14 @@
 Name: dpg4x
-Version: 3.0
-Release: alpha1%{?dist}
+Version: 3.0a1
+Release: 1%{?dist}
 License: GPLv3
 Summary: GUI to encode files into the DPG video format
 Url: http://sourceforge.net/projects/dpg4x
 Group: Applications/Multimedia
 
-# Original SourceForge tar file
-Source0: %{url}/files/%{name}_%{version}.tar.bz2
+# Create this by setuptools:
+# python setup.py sdist --formats=bztar
+Source0: %{url}/files/%{name}-%{version}.tar.bz2
 
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-buildroot
 Prefix: %{_prefix}
@@ -40,39 +41,41 @@ Features:
  - Multiplatform.
  - Multilanguage.
  
-# The sourceForge tar files has '_' instead of '-', require -n tag
 %prep
-%setup -q -n %{name}_%{version}
-# distutils needs config file at top directory
-cp pkg_common/setup.cfg .
+%setup -q -n %{name}-%{version}
 
 %build
-python pkg_common/setup.py build
+python3 setup.py build
 
 %install
 rm -rf %{buildroot}
-# --prefix prevents SLES10 from placing files in /usr/local
-python pkg_common/setup.py install -O1 --root=%{buildroot} --prefix=%{_prefix}
+python3 setup.py install --single-version-externally-managed -O1 --root=%{buildroot} --record=INSTALLED_FILES
+
+#mkdir -p %{buildroot}/usr/bin
+#cp dist/pkg_common/dpg4x %{buildroot}/usr/bin
+#mkdir -p %{buildroot}/usr/share/dpg4x/dpg4x
+#cp dpg4x_main.py %{buildroot}/usr/share/dpg4x
+#cp -r dpg4x %{buildroot}/usr/share/dpg4x
 
 # man pages
 mkdir -p %{buildroot}%{_mandir}/man1
-cp -p pkg_common/dpg4x.1 %{buildroot}%{_mandir}/man1
+cp -p dist/pkg_common/dpg4x.1 %{buildroot}%{_mandir}/man1
 
 # translations
 mkdir -p %{buildroot}/usr/share/locale/es/LC_MESSAGES
-cp -p i18n/es/LC_MESSAGES/dpg4x.mo %{buildroot}/usr/share/locale/es/LC_MESSAGES
+cp -p dpg4x/i18n/es/LC_MESSAGES/dpg4x.mo %{buildroot}/usr/share/locale/es/LC_MESSAGES
 
 mkdir -p %{buildroot}/usr/share/locale/ca/LC_MESSAGES
-cp -p i18n/ca/LC_MESSAGES/dpg4x.mo %{buildroot}/usr/share/locale/ca/LC_MESSAGES
+cp -p dpg4x/i18n/ca/LC_MESSAGES/dpg4x.mo %{buildroot}/usr/share/locale/ca/LC_MESSAGES
 
 mkdir -p %{buildroot}/usr/share/locale/en/LC_MESSAGES
-cp -p i18n/en/LC_MESSAGES/dpg4x.mo %{buildroot}/usr/share/locale/en/LC_MESSAGES
+cp -p dpg4x/i18n/en/LC_MESSAGES/dpg4x.mo %{buildroot}/usr/share/locale/en/LC_MESSAGES
 
 mkdir -p %{buildroot}/usr/share/locale/sv/LC_MESSAGES
-cp -p i18n/sv/LC_MESSAGES/dpg4x.mo %{buildroot}/usr/share/locale/sv/LC_MESSAGES
+cp -p dpg4x/i18n/sv/LC_MESSAGES/dpg4x.mo %{buildroot}/usr/share/locale/sv/LC_MESSAGES
 
 mkdir -p %{buildroot}/usr/share/locale/fr/LC_MESSAGES
-cp -p i18n/fr/LC_MESSAGES/dpg4x.mo %{buildroot}/usr/share/locale/fr/LC_MESSAGES
+cp -p dpg4x/i18n/fr/LC_MESSAGES/dpg4x.mo %{buildroot}/usr/share/locale/fr/LC_MESSAGES
 
 %find_lang %{name}
 
@@ -80,7 +83,7 @@ cp -p i18n/fr/LC_MESSAGES/dpg4x.mo %{buildroot}/usr/share/locale/fr/LC_MESSAGES
 desktop-file-install                                \
 --vendor=%{name}                                    \
 --dir=%{buildroot}/%{_datadir}/applications         \
-pkg_common/%{name}.desktop
+dist/pkg_common/%{name}.desktop
 
 mkdir -p %{buildroot}/usr/share/icons/hicolor/16x16/apps
 ln -s  /usr/share/%{name}/icons/%{name}_16.png %{buildroot}/usr/share/icons/hicolor/16x16/apps/%{name}.png
@@ -95,10 +98,7 @@ ln -s  /usr/share/%{name}/icons/%{name}_64.png %{buildroot}/usr/share/icons/hico
 
 mkdir -p %{buildroot}/usr/share/pixmaps
 ln -s  /usr/share/%{name}/icons/%{name}_32.png %{buildroot}/usr/share/pixmaps/%{name}.png
-cp -a pkg_common/%{name}.xpm %{buildroot}/usr/share/pixmaps
-
-# Set exec flag on files that can be run directly (those with shebangs)
-chmod 755  %{buildroot}/usr/share/dpg4x/Dpg4x.py
+cp -a dist/pkg_common/%{name}.xpm %{buildroot}/usr/share/pixmaps
 
 # Make sure the icon cache is up to date
 %post
@@ -116,18 +116,21 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 %clean
 rm -rf %{buildroot}
 
-%files -f %{name}.lang
+#%files -f %{name}.lang
+%files -f INSTALLED_FILES -f %{name}.lang
 %defattr(-,root,root)
-%doc COPYING CREDITS INSTALL README ChangeLog
-%{_bindir}/*
-/usr/share/dpg4x/*
+%doc LICENSE CREDITS INSTALL README ChangeLog
+#%{_bindir}/*
+#/usr/share/dpg4x/*
 /usr/share/applications/*
 /usr/share/icons/hicolor/*
 /usr/share/pixmaps/*
 %{_mandir}/man1/*
 
 %changelog 
-* Sun Jun 21 2020 Tomas Aronsson <d0malaga@users.sourceforge.net> - 3.0-alpha1
+* Sun Aug 02 2020 Tomas Aronsson <d0malaga@users.sourceforge.net> - 3.0a1
+— Rpm packaging using setuptools
+* Sun Jun 21 2020 Tomas Aronsson <d0malaga@users.sourceforge.net> - 3.0a0
 — Initial migration to Fedora 32
 * Tue Aug 20 2013 Tomas Aronsson <d0malaga@users.sourceforge.net> - 2.3-3
 — Updates for newer mplayer versions
