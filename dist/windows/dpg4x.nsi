@@ -40,14 +40,8 @@ ManifestSupportedOS "Win10"
 !define MPLAYER_target MPlayer-x86_64-${MPLAYER_FILE_REV}
 !define MPLAYER7Z dependencies\${MPLAYER_target}.7z
 # Latest July 2020: http://downloads.sourceforge.net/project/mplayer-win32/MPlayer%20and%20MEncoder/r38188%2Bg6e1903938b/MPlayer-x86_64-r38188%2Bg6e1903938b.7z
-# https://sourceforge.net/projects/mplayer-win32/files/MPlayer%20and%20MEncoder/r38188%2Bg6e1903938b/MPlayer-x86_64-r38188%2Bg6e1903938b.7z/download
-!define MPLAYER_URL http://sourceforge.net/projects/mplayer-win32/files/MPlayer%20and%20MEncoder/r38188%2Bg6e1903938b/MPlayer-x86_64-r38188%2Bg6e1903938b.7z/download
-#!define MPLAYER_URL http://192.168.1.3/dpg4x/MPlayer-x86_64-r38188%2Bg6e1903938b.7z
-
-# !define MPLAYER_URL "http://downloads.sourceforge.net/projects/mplayer-win32/files/MPlayer%20and%20MEncoder/${MPLAYER_URL_REV}/${MPLAYER_SRC}.7z/download?use_mirror=autoselect"
-# !define MPLAYER_URL "http://downloads.sourceforge.net/project/mplayer-win32/MPlayer%20and%20MEncoder/${MPLAYER_URL_REV}/${MPLAYER_SRC}.7z"
-# !define MPLAYER_URL "http://downloads.sourceforge.net/project/mplayer-win32/MPlayer%20and%20MEncoder/old/revision%20${MPLAYER_REV}/${MPLAYER}.7z"
-
+# http://sourceforge.net/projects/mplayer-win32/files/MPlayer%20and%20MEncoder/r38188%2Bg6e1903938b/MPlayer-x86_64-r38188%2Bg6e1903938b.7z/download
+!define MPLAYER_URL "http://sourceforge.net/projects/mplayer-win32/files/MPlayer%20and%20MEncoder/r38188%2Bg6e1903938b/MPlayer-x86_64-r38188%2Bg6e1903938b.7z/download?use_mirror=autoselect"
 
 # Installer attributes
 Unicode True
@@ -265,8 +259,26 @@ Section "Dpg4x core (required)" SECDpg4x
     SetOutPath $INSTDIR\dependencies
     File /r ${DLLMSVC}
     File /r dependencies\README.txt
+	File /r dependencies\download_mplayer.ps1
 SectionEnd
-        
+
+!macro PowerShellExecFileMacro PSFile Arg0 Arg1
+  !define PSExecID ${__LINE__}
+  Push $R0
+ 
+  nsExec::ExecToStack 'powershell -inputformat none -ExecutionPolicy RemoteSigned -File "${PSFile}" "${Arg0}" "${Arg1}"'
+ 
+  Pop $R0 ;return value is first on stack
+  ;script output is second on stack, leave on top of it
+  IntCmp $R0 0 finish_${PSExecID}
+  SetErrorLevel 2
+ 
+finish_${PSExecID}:
+  Exch ;now $R0 on top of stack, followed by script output
+  Pop $R0
+  !undef PSExecID
+!macroend
+
 Section "Download and install mplayer" SECMplayer
 	SectionIn 1
 
@@ -277,25 +289,27 @@ Section "Download and install mplayer" SECMplayer
 
     DetailPrint $(MPLAYER_IS_DOWNLOADING)
 	DetailPrint ${MPLAYER_URL}
-	#!define DOWNLOAD_CMD '/timeout 30000 /resume "" /MODERNPOPUP SourceForge \
-	#          /caption $(MPLAYER_IS_DOWNLOADING) /banner ${MPLAYER7Z} \
-	#          ${MPLAYER_URL}  \
-    #		  $INSTDIR\${MPLAYER7Z} /end'
-	# inetc::get ${DOWNLOAD_CMD}
-	NSISdl::download http://ladybug/dpg4x/MPlayer.7z   $INSTDIR\${MPLAYER7Z}
+
+	#NSISdl::download http://ladybug/dpg4x/MPlayer.7z   $INSTDIR\${MPLAYER7Z}
 	#NSISdl::download ${MPLAYER_URL} $INSTDIR\${MPLAYER7Z}
-    Pop $R0
-    StrCmp $R0 success 0 check_mplayer
 
-    DetailPrint "Extracting files..."
-    SetOutPath $INSTDIR
-    Nsis7z::Extract $INSTDIR/${MPLAYER7Z}
+	# sourceforge download works from a ps1 prompt:
+	# $client = new-object System.Net.WebClient
+    # $client.DownloadFile("http://sourceforge.net/projects/mplayer-win32/files/MPlayer%20and%20MEncoder/r38188%2Bg6e..., target)
+    !insertmacro PowerShellExecFileMacro $INSTDIR\dependencies\download_mplayer.ps1 ${MPLAYER_URL} $INSTDIR\${MPLAYER7Z}
+    #!insertmacro PowerShellExecFileMacro $INSTDIR\dependencies\download_mplayer.ps1 http://ladybug/dpg4x/MPlayer.7z $INSTDIR\${MPLAYER7Z}
+	Pop $R0
 
-    check_mplayer:
-    ;This label does not necessarily mean there was a download error, so check first
-    ${If} $R0 != "success"
-      DetailPrint $(MPLAYER_DL_FAILED)
-    ${EndIf}
+    IfFileExists "$INSTDIR\${MPLAYER7Z}" mplayerDlSuccess
+    DetailPrint $(MPLAYER_DL_FAILED)
+	Goto checkInst
+
+    mplayerDlSuccess:
+      # DetailPrint "Extracting files..."
+      SetOutPath $INSTDIR
+      Nsis7z::Extract $INSTDIR/${MPLAYER7Z}
+
+    checkInst:
 	DetailPrint "$INSTDIR\${MPLAYER_target}\mplayer.exe"
     IfFileExists "$INSTDIR\${MPLAYER_target}\mplayer.exe" mplayerInstSuccess mplayerInstFailed
       mplayerInstSuccess:
