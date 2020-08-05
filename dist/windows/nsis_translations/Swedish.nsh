@@ -4,7 +4,7 @@
 #Save file as UTF-8 w/ BOM
 #
 
-!insertmacro LANGFILE "Swedish" = "svenska" =
+!insertmacro LANGFILE_EXT "Swedish"
 
 # Update checks
 ${LangFileString} ALREADY_INSTALLED "${Name} är redan installerad"

@@ -1,12 +1,11 @@
 # NSIS definitions for dpg4
-
 !define VERSION "3.0"
 !define UMUI_VERSION "${VERSION}"
 !define /date NOW "%Y-%m-%d"
 !define UMUI_VERBUILD "3.0_${NOW}"
 
 # Must contain four parts, used for internal comparisons of patch levels
-!define  VIProduct_Ver "${VERSION}.1.0"
+!define  VIProduct_Ver "${VERSION}.0.0"
 
 Name dpg4x
 # Needed because $(^Name) sometimes does not seem to expand correctly
@@ -22,10 +21,6 @@ ManifestSupportedOS "Win10"
 !define COMPANY "Dpg4x Sourceforge project"
 !define URL http://sourceforge.net/projects/dpg4x/
 
-# Dependencies are not installed when updating
-Var /GLOBAL Updating
-Var /GLOBAL InstalledVersion
-
 # Dependencies: Visual C libraries are installed
 #!define DLLMSVC dependencies\vc_redist.x86.exe
 #!define DLLMSVC dependencies\vc_redist.x64.exe
@@ -36,24 +31,27 @@ Var /GLOBAL InstalledVersion
 # and/or C:\Program Files (x86)\Windows Kits\10\Redist\10.0.19041.0\ucrt\DLLs\x64 (or maybe arm...)
 
 # Dependencies: mplayer and encoder are installed by downloading from the SourceForge
-# project: MPlayer for Win32
-#!define MPLAYER_REV 34401
-#!define MPLAYER MPlayer-p3-svn-${MPLAYER_REV}
-#!define MPLAYER7Z dependencies\${MPLAYER}.7z
-#!define MPLAYER_URL "http://downloads.sourceforge.net/project/mplayer-win32/MPlayer%20and%20MEncoder/old/revision%20${MPLAYER_REV}/${MPLAYER}.7z"
-
-# Dependencies: mplayer and encoder are installed by downloading from the SourceForge
 # project: MPlayer for Win32 / Win64
-!define MPLAYER_REV r38188%2Bg6e1903938b
-!define MPLAYER MPlayer-x86_64-${MPLAYER_REV}
-!define MPLAYER7Z dependencies\${MPLAYER}.7z
+!define MPLAYER_URL_REV r38188%2Bg6e1903938b
+!define MPLAYER_FILE_REV r38188+g6e1903938b
+!define MPLAYER_SRC MPlayer-x86_64-${MPLAYER_URL_REV}
+# '+' encoded as %2B in url and saved download, but unpacks as '+'
+!define MPLAYER_URLREV r38188+g6e1903938b
+!define MPLAYER_target MPlayer-x86_64-${MPLAYER_FILE_REV}
+!define MPLAYER7Z dependencies\${MPLAYER_target}.7z
 # Latest July 2020: http://downloads.sourceforge.net/project/mplayer-win32/MPlayer%20and%20MEncoder/r38188%2Bg6e1903938b/MPlayer-x86_64-r38188%2Bg6e1903938b.7z
-#!define MPLAYER_URL "http://downloads.sourceforge.net/projects/mplayer-win32/files/MPlayer%20and%20MEncoder/${MPLAYER_REV}/${MPLAYER}.7z/download?use_mirror=autoselect"
-  !define MPLAYER_URL "http://downloads.sourceforge.net/project/mplayer-win32/MPlayer%20and%20MEncoder/${MPLAYER_REV}/${MPLAYER}.7z"
+# https://sourceforge.net/projects/mplayer-win32/files/MPlayer%20and%20MEncoder/r38188%2Bg6e1903938b/MPlayer-x86_64-r38188%2Bg6e1903938b.7z/download
+!define MPLAYER_URL http://sourceforge.net/projects/mplayer-win32/files/MPlayer%20and%20MEncoder/r38188%2Bg6e1903938b/MPlayer-x86_64-r38188%2Bg6e1903938b.7z/download
+#!define MPLAYER_URL http://192.168.1.3/dpg4x/MPlayer-x86_64-r38188%2Bg6e1903938b.7z
+
+# !define MPLAYER_URL "http://downloads.sourceforge.net/projects/mplayer-win32/files/MPlayer%20and%20MEncoder/${MPLAYER_URL_REV}/${MPLAYER_SRC}.7z/download?use_mirror=autoselect"
+# !define MPLAYER_URL "http://downloads.sourceforge.net/project/mplayer-win32/MPlayer%20and%20MEncoder/${MPLAYER_URL_REV}/${MPLAYER_SRC}.7z"
 # !define MPLAYER_URL "http://downloads.sourceforge.net/project/mplayer-win32/MPlayer%20and%20MEncoder/old/revision%20${MPLAYER_REV}/${MPLAYER}.7z"
 
+
 # Installer attributes
-OutFile "..\${NAME}-${VIProduct_Ver}_setup.exe"
+Unicode True
+OutFile "..\${NAME}-${VERSION}_setup.exe"
 Caption "${NAME} ${VIProduct_Ver}"
 InstallDir $PROGRAMFILES\${NAME}
 CRCCheck on
@@ -104,7 +102,8 @@ RequestExecutionLevel admin
 ;Included files
 !include Sections.nsh
 !include UMUI.nsh
-!include LangFile.nsh
+# LangFile.sh already included in UMUI file
+#!include LangFile.nsh
 !include WordFunc.nsh
 !include FileFunc.nsh
 
@@ -204,7 +203,6 @@ Var StartMenuGroup
 
   !insertmacro MUI_PAGE_INSTFILES
 
-    !define MUI_FINISHPAGE_SHOWREADME "..\..\README"
     !define MUI_FINISHPAGE_LINK "DPG4x Home Page"
     !define MUI_FINISHPAGE_LINK_LOCATION "${URL}"
   !insertmacro MUI_PAGE_FINISH
@@ -238,18 +236,7 @@ Var StartMenuGroup
 
 ;--------------------------------
 ;Languages
-
-; first language is the default language if the system language is not in this list
-  !insertmacro MUI_LANGUAGE "English"
-
-  #!insertmacro LANGFILE_INCLUDE "EnglishExtra.nsh"  "nsis_translations\English.nsh"
-
-  #!insertmacro MUI_LANGUAGE "Spanish"
-  #!insertmacro MUI_LANGUAGE "Swedish"
-
-#!include nsis_translations\translations.nsh
-#!insertmacro LANGFILE_INCLUDE "nsis_translations\English.nsh" "nsis_translations\English.nsh"
-#!insertmacro LANGFILE_INCLUDE_WITHDEFAULT "SwedishExtra.nsh" "nsis_translations\EnglishExtra.nsh" "nsis_translations\EnglishExtra.nsh" "nsis_translations\EnglishExtra.nsh"
+!include nsis_translations\translations.nsh
 
 ;--------------------------------
 ;Installer Types
@@ -276,7 +263,6 @@ Section "Dpg4x core (required)" SECDpg4x
 	#File /r ..\dist\i18n
     #File /r ..\dist\icons
     SetOutPath $INSTDIR\dependencies
-    File /r ${MPLAYER7Z}
     File /r ${DLLMSVC}
     File /r dependencies\README.txt
 SectionEnd
@@ -291,36 +277,30 @@ Section "Download and install mplayer" SECMplayer
 
     DetailPrint $(MPLAYER_IS_DOWNLOADING)
 	DetailPrint ${MPLAYER_URL}
-    DetailPrint '/timeout 30000 /resume "" /MODERNPOPUP SourceForge \
-	          /caption $(MPLAYER_IS_DOWNLOADING) /banner ${MPLAYER7Z} \
-	          ${MPLAYER_URL}  \
-			  $INSTDIR\${MPLAYER7Z} /end'
-    inetc::get /timeout 30000 /resume "" \
-	          /caption $(MPLAYER_IS_DOWNLOADING) /banner "${MPLAYER7Z}" \
-	          ${MPLAYER_URL}  \
-			  $INSTDIR\${MPLAYER7Z} /end
-
+	#!define DOWNLOAD_CMD '/timeout 30000 /resume "" /MODERNPOPUP SourceForge \
+	#          /caption $(MPLAYER_IS_DOWNLOADING) /banner ${MPLAYER7Z} \
+	#          ${MPLAYER_URL}  \
+    #		  $INSTDIR\${MPLAYER7Z} /end'
+	# inetc::get ${DOWNLOAD_CMD}
+	NSISdl::download http://ladybug/dpg4x/MPlayer.7z   $INSTDIR\${MPLAYER7Z}
+	#NSISdl::download ${MPLAYER_URL} $INSTDIR\${MPLAYER7Z}
     Pop $R0
-    StrCmp $R0 OK 0 check_mplayer
+    StrCmp $R0 success 0 check_mplayer
 
     DetailPrint "Extracting files..."
-
     SetOutPath $INSTDIR
-    # the File command expects the file to be there when building the installer.
-    # Solved by including an empty file that is replaced by the download above
-    File "${MPLAYER7Z}"
-    Nsis7z::Extract ${MPLAYER7Z}
-    # Delete ${MPLAYER7Z}
+    Nsis7z::Extract $INSTDIR/${MPLAYER7Z}
 
     check_mplayer:
     ;This label does not necessarily mean there was a download error, so check first
-    ${If} $R0 != "OK"
+    ${If} $R0 != "success"
       DetailPrint $(MPLAYER_DL_FAILED)
     ${EndIf}
-
-    IfFileExists "$INSTDIR\${MPLAYER}\mplayer.exe" mplayerInstSuccess mplayerInstFailed
+	DetailPrint "$INSTDIR\${MPLAYER_target}\mplayer.exe"
+    IfFileExists "$INSTDIR\${MPLAYER_target}\mplayer.exe" mplayerInstSuccess mplayerInstFailed
       mplayerInstSuccess:
         WriteRegDWORD SHCTX "${REGKEY}" Installed_MPlayer 0x1
+		DetailPrint "Mplayer Installation OK"
         Goto done
       mplayerInstFailed:
         MessageBox MB_RETRYCANCEL|MB_ICONEXCLAMATION $(MPLAYER_DL_RETRY) /SD IDCANCEL IDRETRY retry_mplayer
@@ -366,8 +346,6 @@ Section -post SEC0001
     !insertmacro MUI_STARTMENU_WRITE_BEGIN Application
     SetOutPath $SMPROGRAMS\$StartMenuGroup
     CreateShortCut "$SMPROGRAMS\$StartMenuGroup\${Name} ${VERSION}.lnk" "$INSTDIR\${PROGRAM_FILE}" "" "$INSTDIR\${PROGRAM_FILE}"
-    StrCmp "$Updating" "Yes" 0 +2
-      Delete /REBOOTOK "$SMPROGRAMS\$StartMenuGroup\${Name} $InstalledVersion.lnk"
     WriteINIStr    "$SMPROGRAMS\$StartMenuGroup\$(WebLink).url" "InternetShortcut" "URL" "${URL}"
     !insertmacro MUI_STARTMENU_WRITE_END
 
@@ -407,19 +385,10 @@ done${UNSECTION_ID}:
 Section /o -un.Main UNSEC0000
     # Delete directories recursively except for main directory
     # Do not recursively delete $INSTDIR
-    # RmDir /r /REBOOTOK $INSTDIR\doc
-    # RmDir /r /REBOOTOK $INSTDIR\i18n
-    # RmDir /r /REBOOTOK $INSTDIR\icons
     RmDir /r /REBOOTOK $INSTDIR\dependencies    
-    Delete /REBOOTOK $INSTDIR\*.dll
-    Delete /REBOOTOK $INSTDIR\library.zip
+    RmDir /r /REBOOTOK $INSTDIR\${MPLAYER_target}
     Delete /REBOOTOK $INSTDIR\*.exe
-    Delete /REBOOTOK $INSTDIR\*.pyd
-    Delete /REBOOTOK $INSTDIR\*.7z
     Delete /REBOOTOK $INSTDIR\*.log    
-
-    RmDir /r /REBOOTOK $INSTDIR\${MPLAYER}
-
     RmDir /REBOOTOK $INSTDIR
     DeleteRegValue SHCTX "${REGKEY}\Components" Main
 SectionEnd

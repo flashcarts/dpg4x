@@ -1,6 +1,7 @@
 *~
 build/
 dpg4x-python/
+dpg4x.egg-info/
 .vs/
 *.log
 *.spec
