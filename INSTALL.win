@@ -26,7 +26,7 @@ Updates for Python 3.8 on Windows 10:
 * pip install -U pywin32 -> pywin32 228
 * pip install -U wxPython -> wxPython 4.1.0, Pillow 7.2.0
 * MPlayer-corei7-r38188+g6e1903938b.7z from sourceforge and add it to $PATH
-3. start a shell in the dpg4x directory and type 'python .\Dpg4x.py'
+3. start a shell './run_dpg4x'
 
 Packaging:
 * Trying py2exe, pip install -U py2exe -> does not work with Python 3.8, no longer maintained

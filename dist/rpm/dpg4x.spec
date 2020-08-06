@@ -1,5 +1,5 @@
 Name: dpg4x
-Version: 3.0a1
+Version: 3.0
 Release: 1%{?dist}
 License: GPLv3
 Summary: GUI to encode files into the DPG video format

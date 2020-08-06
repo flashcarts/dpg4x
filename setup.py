@@ -10,7 +10,7 @@ dist_files = [(os.path.join(target_directory, 'dist', 'pkg_common'), glob.glob(o
 
 from distutils.core import setup
 setup(name='dpg4x',
-      version='3.0a1',
+      version='3.0',
       license='GPLv3',
       url='http://sourceforge.net/projects/dpg4x',
       description='GUI to encode files into the DPG video format',

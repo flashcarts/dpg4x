@@ -10,10 +10,10 @@
 2020-08-06 dpg4x 3.0
     * Migration to newer frameworks (Python3, wxpython4, mplayer/mencoder 1.4)
     * Tested platforms
-	** Windows 10
+	** Windows 10 (and also tested on Windows XP, no longer supported)
 	** Fedora 32
 	** Ubunutu 20.04
-	** Windows XP deprecated
+	** DPG videos verified on a Nintendo DS with Moonshell 2.10
 
 2012-10-14 dpg4x 2.3
     * New language available: French.

@@ -8,9 +8,9 @@
  #####   #        ####       #   #    #
 
 
-NOTE: This file only includes information that is specific for OS X, please
-refer to the INSTALL file for general information about installing dpg4x.
-
+NOTE: This file is outdated and only includes information that was specific
+for OS X around 2011, please refer to the INSTALL file for general information
+about installing dpg4x.
 
 To get dpg4x up and running on MacOSX you will need to install the
 following dependencies:

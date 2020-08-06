@@ -2,7 +2,7 @@
 !define VERSION "3.0"
 !define UMUI_VERSION "${VERSION}"
 !define /date NOW "%Y-%m-%d"
-!define UMUI_VERBUILD "3.0_${NOW}"
+!define UMUI_VERBUILD "1.0_${NOW}"
 
 # Must contain four parts, used for internal comparisons of patch levels
 !define  VIProduct_Ver "${VERSION}.0.0"
