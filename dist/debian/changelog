@@ -1,8 +1,8 @@
-dpg4x (3.0a1) focal; urgency=low
+dpg4x (3.0-1) focal; urgency=low
 
-  * Changes Initial migration to ubuntu20
+  * Changes Migration to Ubuntu20, Python3, wxpython4, mplayer/mencoder 1.3)
 
- -- Tomas Aronsson <d0malaga@users.sourceforge.net>  Sat,  27 Jun 2020 21:25:00 +0100
+ -- Tomas Aronsson <d0malaga@users.sourceforge.net>  Thu,  06 Aug 2020 21:25:00 +0100
 
 dpg4x (2.3-1) unstable; urgency=low
 
