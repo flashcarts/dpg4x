@@ -1,11 +1,12 @@
 # NSIS definitions for dpg4
 !define VERSION "3.0"
+!define RELEASE "1"
 !define UMUI_VERSION "${VERSION}"
 !define /date NOW "%Y-%m-%d"
 !define UMUI_VERBUILD "1.0_${NOW}"
 
 # Must contain four parts, used for internal comparisons of patch levels
-!define  VIProduct_Ver "${VERSION}.0.0"
+!define  VIProduct_Ver "${VERSION}.${RELEASE}.0"
 
 Name dpg4x
 # Needed because $(^Name) sometimes does not seem to expand correctly
@@ -45,7 +46,7 @@ ManifestSupportedOS "Win10"
 
 # Installer attributes
 Unicode True
-OutFile "..\${NAME}-${VERSION}_setup.exe"
+OutFile "..\${NAME}-${VERSION}-${RELEASE}_setup.exe"
 Caption "${NAME} ${VIProduct_Ver}"
 InstallDir $PROGRAMFILES\${NAME}
 CRCCheck on
@@ -382,50 +383,49 @@ Section -post SEC0001
 
 SectionEnd
 
-# Macro for selecting uninstaller sections
-!macro SELECT_UNSECTION SECTION_NAME UNSECTION_ID
-    Push $R0
-    ReadRegStr $R0 SHCTX "${REGKEY}\Components" "${SECTION_NAME}"
-    StrCmp $R0 1 0 next${UNSECTION_ID}
-    !insertmacro SelectSection "${UNSECTION_ID}"
-    GoTo done${UNSECTION_ID}
-next${UNSECTION_ID}:
-    !insertmacro UnselectSection "${UNSECTION_ID}"
-done${UNSECTION_ID}:
-    Pop $R0
-!macroend
-
 # Uninstaller sections
-Section /o -un.Main UNSEC0000
+
+!macro removeDpg4Xfiles
     # Delete directories recursively except for main directory
     # Do not recursively delete $INSTDIR
-    RmDir /r /REBOOTOK $INSTDIR\dependencies    
-    RmDir /r /REBOOTOK $INSTDIR\${MPLAYER_target}
-    Delete /REBOOTOK $INSTDIR\*.exe
-    Delete /REBOOTOK $INSTDIR\*.log    
-    RmDir /REBOOTOK $INSTDIR
-    DeleteRegValue SHCTX "${REGKEY}\Components" Main
-SectionEnd
+    RmDir /r $INSTDIR\dependencies    
+    RmDir /r $INSTDIR\${MPLAYER_target}
+    Delete $INSTDIR\*.exe
+    Delete $INSTDIR\*.log    
+    RmDir $INSTDIR
+!macroend
 
-Section -un.post UNSEC0001
-    DeleteRegKey SHCTX "SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\${Name}"
-    Delete /REBOOTOK "$SMPROGRAMS\$StartMenuGroup\${Name} ${VERSION}.lnk"
-    Delete /REBOOTOK "$SMPROGRAMS\$StartMenuGroup\$(WebLink).url" 
-    Delete /REBOOTOK $INSTDIR\uninstall.exe
+!macro removeDpg4Xregistry
+    DeleteRegValue SHCTX "${REGKEY}\Components" Main
+
     DeleteRegValue SHCTX "${REGKEY}" StartMenuGroup
     DeleteRegKey /IfEmpty SHCTX "${REGKEY}\Components"
     DeleteRegKey /IfEmpty SHCTX "${REGKEY}"
     DeleteRegValue SHCTX "Software\RegisteredApplications" "${Name}"
     DeleteRegKey SHCTX "${REGKEY}"
     DeleteRegKey SHCTX "${CLIENT_REGKEY}"
-    Delete "$DESKTOP\${Name}.lnk"
-    RmDir /REBOOTOK $SMPROGRAMS\$StartMenuGroup
-    RmDir /REBOOTOK $INSTDIR
+
+	Delete "$DESKTOP\${Name}.lnk"
+
+    DeleteRegKey SHCTX "SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\${Name}"
+    Delete $INSTDIR\uninstall.exe
+
+    Delete "$SMPROGRAMS\$StartMenuGroup\${Name} ${VERSION}.lnk"
+    Delete "$SMPROGRAMS\$StartMenuGroup\$(WebLink).url" 
+    RmDir $SMPROGRAMS\$StartMenuGroup
+    RmDir $INSTDIR
     Push $R0
     StrCpy $R0 $StartMenuGroup 1
     StrCmp $R0 ">" no_smgroup
 no_smgroup:
     Pop $R0
+!macroend
+
+Section Uninstall
+
+    !insertmacro removeDpg4Xfiles
+    !insertmacro removeDpg4Xregistry
+
 SectionEnd
 
 !insertmacro UMUI_DECLARECOMPONENTS_BEGIN
@@ -446,10 +446,8 @@ Function .onGUIEnd
 FunctionEnd
 
 Function .onInit
-    InitPluginsDir
-    #!insertmacro MUI_LANGDLL_DISPLAY
+    # InitPluginsDir
 	!insertmacro UMUI_MULTILANG_GET
-    #!insertmacro MULTIUSER_INIT  
 	; Change default InstallDir to C:\ProgramData on Windows Vista and more
 	ClearErrors
     IfFileExists $INSTDIR endCheckVersion 0
@@ -465,9 +463,8 @@ FunctionEnd
 # Uninstaller functions
 Function un.onInit
 	!insertmacro UMUI_MULTILANG_GET
-	!insertmacro MUI_STARTMENU_GETFOLDER Application $StartMenuGroup
-    # !insertmacro MULTIUSER_UNINIT
-    !insertmacro SELECT_UNSECTION Main ${UNSEC0000}
+	SetShellVarContext all
+	# !insertmacro MUI_STARTMENU_GETFOLDER Application $StartMenuGroup
 FunctionEnd
 
 ;--------------------------------
@@ -566,8 +563,11 @@ FunctionEnd
 Function preuninstall_function
 
   IfFileExists $INSTDIR\${PROGRAM_FILE} dpg4x_installed
-    MessageBox MB_YESNO "It does not appear that NSIS is installed in the directory '$INSTDIR'.$\r$\nContinue anyway (not recommended)?" IDYES dpg4x_installed
+    MessageBox MB_YESNO "It does not appear that DPG4X is installed in the directory '$INSTDIR'.$\r$\nContinue anyway (not recommended)?" IDYES dpg4x_installed
     Abort "Install aborted by user"
   dpg4x_installed:
+
   # consider adding more here...
+  !insertmacro removeDpg4Xfiles
+  !insertmacro removeDpg4Xregistry
 FunctionEnd
