@@ -452,7 +452,7 @@ def mencoder_progress(proc, filename = '', progress = None, doublepass = 0):
     """
 
     # Show progress
-    progRE = re.compile ("f \((.*)%\)")
+    progRE = re.compile (r"f \((.*)%\)")
     mencoder_output = ''
     localProgress = 1
     for line in proc.stdout:
@@ -581,8 +581,8 @@ class EncodeAudioThread(threading.Thread):
             # When mp2 audio codec is selected, we use mencoder to perform
             # all the process
             a_cmd = ['mencoder']+mpFile+['-v','-of','rawaudio','-oac',
-                'lavc','-ovc','copy','-lavcopts',
-                'acodec=mp2:abitrate='+str(Globals.audio_bitrate_mp2),
+                'twolame','-ovc','copy','-twolameopts',
+                'br='+str(Globals.audio_bitrate_mp2),
                 '-o',Globals.TMP_AUDIO]
 
             # When gms or ogg is selected, we use mplayer+sox
@@ -617,11 +617,11 @@ class EncodeAudioThread(threading.Thread):
                 if (not Globals.audio_mono) and (Globals.dpg_version > 0):
                     if int(nchan) > 2:
                         a_cmd = a_cmd + ['-srate',str(Globals.audio_frequency),'-af',
-                            'channels=2,lavcresample='+str(Globals.audio_frequency)+normalize]
+                            'channels=2,resample='+str(Globals.audio_frequency)+normalize]
                         s_cmd = s_cmd + ['-c','2','-r',str(Globals.audio_frequency)]
                     else:
                         a_cmd = a_cmd + ['-srate',str(Globals.audio_frequency),'-af',
-                            'lavcresample='+str(Globals.audio_frequency)+normalize]
+                            'resample='+str(Globals.audio_frequency)+normalize]
                         s_cmd = s_cmd + ['-r',str(Globals.audio_frequency)]
                     # Update the audio_mono variable for the header process
                     if nchan == 1:
@@ -629,7 +629,7 @@ class EncodeAudioThread(threading.Thread):
                 # If the force mono option is set (or DPG0), use only one
                 else:
                     a_cmd = a_cmd + ['-srate',str(Globals.audio_frequency),'-af',
-                        'channels=1,lavcresample='+str(Globals.audio_frequency)+normalize]
+                        'channels=1,resample='+str(Globals.audio_frequency)+normalize]
                     s_cmd = s_cmd + ['-c','1','-r',str(Globals.audio_frequency)]
 
             # When error, include the output in the exception
@@ -746,7 +746,7 @@ def mpeg_stat(filename):
         raise Exception(_('Process aborted by user.'))
 
     # RE to obtain the number of frames
-    framesRE = re.compile ("frames: ([0-9]*)\.")
+    framesRE = re.compile (r"frames: ([0-9]*)\.")
     # Execute the mpeg_stat process
     stat_proc = subprocess.Popen(
         Globals.ListUnicodeEncode(['mpeg_stat','-offset',Globals.TMP_STAT,Globals.TMP_VIDEO]),

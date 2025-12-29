@@ -21,7 +21,7 @@ import dpg4x.Globals as Globals
 
 
 # Private configuration manager
-__cp = configparser.SafeConfigParser()
+__cp = configparser.ConfigParser()
 
 ###############
 ## FUNCTIONS ##
