@@ -26,16 +26,20 @@ class TreeCtrlComboPopup(wx.ComboPopup):
 
     def Create(self, parent):
         "Must be implemented to create the popup control"
-        self.tree = wx.TreeCtrl(parent, style=wx.TR_HIDE_ROOT
-                                |wx.TR_HAS_BUTTONS
-                                |wx.TR_SINGLE
-                                |wx.TR_LINES_AT_ROOT
-                                |wx.SIMPLE_BORDER)
-        # f32: not in list of supported options |wx.SIMPLE_BORDER)
-        # Events
-        # f32: how did this work? Does it still?
-        # self.tree.Bind(wx.EVT_MOTION, self.OnMotion)
-        self.tree.Bind(wx.EVT_LEFT_DOWN, self.OnLeftDown)
+        try:
+            self.tree = wx.TreeCtrl(parent, style=wx.TR_HIDE_ROOT
+                                    |wx.TR_HAS_BUTTONS
+                                    |wx.TR_SINGLE
+                                    |wx.TR_LINES_AT_ROOT
+                                    |wx.SIMPLE_BORDER)
+            # f32: not in list of supported options |wx.SIMPLE_BORDER)
+            # Events
+            # f32: how did this work? Does it still?
+            # self.tree.Bind(wx.EVT_MOTION, self.OnMotion)
+            self.tree.Bind(wx.EVT_LEFT_DOWN, self.OnLeftDown)
+        except:
+            return False
+        return True
         
     def GetControl(self):
         "Return pointer to the associated control created in Create"
