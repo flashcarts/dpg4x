@@ -180,7 +180,7 @@ class OtherPanel(wx.Panel):
         # If None event we called it
         if (event is not None):
             event.StopPropagation()
-        dialog = wx.FileDialog(self, _('Select a thumbnail file'), style=wx.OPEN, 
+        dialog = wx.FileDialog(self, _('Select a thumbnail file'), style=wx.FD_OPEN,
             defaultDir=os.path.dirname(self.textCtrl3.GetValue()))
         if dialog.ShowModal() == wx.ID_OK:
             self.textCtrl3.SetValue(dialog.GetPath())

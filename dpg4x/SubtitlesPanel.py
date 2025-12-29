@@ -218,7 +218,7 @@ class SubtitlesPanel(wx.Panel):
         # If None event we called it
         if (event is not None):
             event.StopPropagation()
-        dialog = wx.FileDialog(self, _('Select a subtitles file'), style=wx.OPEN, 
+        dialog = wx.FileDialog(self, _('Select a subtitles file'), style=wx.FD_OPEN,
             defaultDir=os.path.dirname(self.textCtrl1.GetValue()))
         if dialog.ShowModal() == wx.ID_OK:
             self.textCtrl1.SetValue(dialog.GetPath())
